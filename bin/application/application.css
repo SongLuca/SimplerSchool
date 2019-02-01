@@ -1,1 +1,13 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+#hamMenu StackPane {
+	-fx-background-color: white;
+}
+
+#menuPane{
+	-fx-background-color:  #28C8AC;
+}
+
+#topPane{
+	-fx-background-color:  #FFC950;
+}

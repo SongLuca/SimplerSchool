@@ -9,7 +9,7 @@
       <Pane id="topPane" layoutX="70.0" minHeight="120.0" prefHeight="120.0" prefWidth="1200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane id="menuPane" fx:id="menuPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXHamburger id="hambMenu" fx:id="hamMenu" layoutX="20.0" layoutY="27.0" onMouseClicked="#hamclicked" />
+            <JFXHamburger id="hamMenu" fx:id="hamMenu" layoutX="20.0" layoutY="27.0" onMouseClicked="#hamclicked" />
          </children>
       </Pane>
    </children>
