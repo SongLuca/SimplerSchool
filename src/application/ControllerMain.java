@@ -23,11 +23,11 @@ public class ControllerMain {
 
     @FXML
     public void hamclicked(MouseEvent event) {
-    	//menuPane.resize(menuPane.getWidth() + 100, menuPane.getHeight());
-    	if(menuPane.getPrefWidth() == 400)
-    		changeSize(menuPane, menuPane.getPrefWidth()-330, menuPane.getPrefHeight());
+    	
+    	if(menuPane.getPrefWidth() == 300)
+    		changeSize(menuPane, menuPane.getPrefWidth()-230, menuPane.getPrefHeight());
     	else if(menuPane.getPrefWidth() == 70)
-    		changeSize(menuPane, menuPane.getPrefWidth()+330, menuPane.getPrefHeight());
+    		changeSize(menuPane, menuPane.getPrefWidth()+230, menuPane.getPrefHeight());
     }
     
     public void initialize() {
