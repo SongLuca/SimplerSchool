@@ -1,21 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXHamburger?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.Pane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.ControllerMain">
    <children>
-      <Pane layoutX="100.0" minHeight="150.0" prefHeight="150.0" prefWidth="1100.0" style="-fx-background-color: #FFC950;" />
-      <AnchorPane prefHeight="700.0" prefWidth="100.0" style="-fx-background-color: #28C8AC;">
+      <Pane layoutX="70.0" minHeight="120.0" prefHeight="120.0" prefWidth="1200.0" style="-fx-background-color: #FFC950;" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      <Pane fx:id="menuPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="70.0" style="-fx-background-color: #28C8AC;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton prefHeight="100.0" prefWidth="100.0" />
-            <JFXButton layoutY="100.0" prefHeight="100.0" prefWidth="100.0" />
-            <JFXButton layoutY="200.0" prefHeight="100.0" prefWidth="100.0" />
-         </children></AnchorPane>
-      <AnchorPane layoutX="100.0" layoutY="150.0" prefHeight="550.0" prefWidth="1100.0">
-         <children>
-            <Pane prefHeight="550.0" prefWidth="1100.0" />
-         </children></AnchorPane>
+            <JFXHamburger fx:id="hamMenu" layoutX="20.0" layoutY="27.0" onMouseClicked="#hamclicked" />
+         </children>
+      </Pane>
    </children>
 </AnchorPane>
