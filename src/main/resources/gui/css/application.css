@@ -11,3 +11,18 @@
 #topPane{
 	-fx-background-color:  #FFC950;
 }
+
+.weekday-header {
+    -fx-font: bold 17px "System";
+    -fx-font-style: normal;
+    -fx-background-color:  #4163ad;
+    -fx-border-style: solid;
+    -fx-border-insets: 1;
+    -fx-border-width: .2;
+    -fx-border-color: white;
+}
+
+.calendarPane {
+	
+	
+}
