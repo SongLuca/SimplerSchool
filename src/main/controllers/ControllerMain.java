@@ -1,4 +1,4 @@
-package application;
+package main.controllers;
 
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -13,7 +13,6 @@ import javafx.scene.layout.Pane;
 import javafx.util.Duration;
 
 public class ControllerMain {
-	private boolean hamMenuIsOpen = false;
 
     @FXML
     private Pane menuPane;
@@ -23,11 +22,10 @@ public class ControllerMain {
 
     @FXML
     public void hamclicked(MouseEvent event) {
-    	
     	if(menuPane.getPrefWidth() == 300)
-    		changeSize(menuPane, menuPane.getPrefWidth()-230, menuPane.getPrefHeight());
+    		hamMenuAnimation(menuPane, menuPane.getPrefWidth()-230, menuPane.getPrefHeight());
     	else if(menuPane.getPrefWidth() == 70)
-    		changeSize(menuPane, menuPane.getPrefWidth()+230, menuPane.getPrefHeight());
+    		hamMenuAnimation(menuPane, menuPane.getPrefWidth()+230, menuPane.getPrefHeight());
     }
     
     public void initialize() {
@@ -45,7 +43,7 @@ public class ControllerMain {
     	p.setPrefHeight(h);
     }
     
-    public void changeSize(final Pane pane, double width, double height) {
+    public void hamMenuAnimation(final Pane pane, double width, double height) {
         hamMenu.setDisable(true);
     	Duration cycleDuration = Duration.millis(330);
         Timeline timeline = new Timeline(
@@ -54,7 +52,6 @@ public class ControllerMain {
                 new KeyFrame(cycleDuration,
                         new KeyValue(pane.prefHeightProperty(),height,Interpolator.EASE_BOTH))
                 );
-
         timeline.play();
         timeline.setOnFinished(event->{
         	hamMenu.setDisable(false);
