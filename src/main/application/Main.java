@@ -11,7 +11,7 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 
 public class Main extends Application {
-	private Properties prop;
+	public static Properties prop;
 	
 	public static void main(String[] args) {
 		launch(args);

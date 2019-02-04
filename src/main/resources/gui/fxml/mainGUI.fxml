@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.text.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.control.*?>
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import java.net.*?>
-<?import javafx.scene.layout.*?>
+<?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXHamburger?>
+<?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
@@ -36,7 +35,7 @@
                               <VBox>
                                  <children>
                                     <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
-                                    <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" VBox.vgrow="ALWAYS">
+                                    <GridPane fx:id="calendarGrid" prefHeight="495.0" prefWidth="888.0" VBox.vgrow="ALWAYS">
                                       <columnConstraints>
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
                                           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -70,33 +69,23 @@
             </AnchorPane>
          </center>
       </BorderPane>
-      <Pane id="menuPane" fx:id="menuPane" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
+            <VBox layoutY="560.0" prefHeight="140.0" prefWidth="70.0">
+               <children>
+                  <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXButton>
+                  <JFXButton id="menuSettingsButton" fx:id="settingsButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="">
+                     <font>
+                        <Font size="24.0" />
+                     </font>
+                  </JFXButton>
+               </children>
+            </VBox>
             <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" />
-            <JFXButton fx:id="profileButton" layoutY="560.0" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="">
-               <graphic>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/user.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </JFXButton>
-            <JFXButton fx:id="settingsButton" layoutY="630.0" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="">
-               <graphic>
-                  <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/settings.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-               <font>
-                  <Font size="24.0" />
-               </font>
-            </JFXButton>
          </children>
       </Pane>
    </children>

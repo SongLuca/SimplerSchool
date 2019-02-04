@@ -10,8 +10,22 @@
 	-fx-background-color: -fx-shadow-highlight-color;
 }
 .menuButton{
-	-fx-text-alignment: left  ;
+	-fx-background-position: left;
+	-fx-background-position: 10px 50%;
+	-fx-background-size: 50px;
+	-fx-background-repeat: no-repeat;
+	-fx-text-alignment: right;
 }
+#menuUserButton{
+	-fx-background-image: url('../../images/user.png');
+	
+}
+
+#menuSettingsButton{
+	-fx-background-image: url('../../images/settings.png');
+	
+}
+
 #menuPane{
 	-fx-background-color:  #28C8AC;
 }

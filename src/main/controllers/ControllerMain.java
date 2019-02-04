@@ -10,10 +10,12 @@ import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -21,7 +23,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
+import main.application.Main;
 
 public class ControllerMain {
 	private final int HAMMENUSIZE = 230;
@@ -60,16 +64,18 @@ public class ControllerMain {
 			hamMenu.setPrefSize(hamMenu.getPrefWidth()+HAMMENUSIZE, hamMenu.getPrefHeight());
 			hamMenu.setPadding(new Insets(0,HAMMENUSIZE,0,0));
 			settingsButton.setPrefSize(settingsButton.getPrefWidth()+HAMMENUSIZE, settingsButton.getPrefHeight());
-			settingsButton.setPadding(new Insets(0,104,0,0));
-			settingsButton.setText("    Settings");
+			settingsButton.setPadding(new Insets(0,0,0,0));
+			settingsButton.setText("Settings");
+			settingsButton.setTextAlignment(TextAlignment.LEFT);
 			profileButton.setPrefSize(profileButton.getPrefWidth()+HAMMENUSIZE, profileButton.getPrefHeight());
-			profileButton.setPadding(new Insets(0,124,0,0));
-			profileButton.setText("    Profile");
+			profileButton.setPadding(new Insets(0,0,0,0));
+			profileButton.setText("Profile");
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE, menuPane.getPrefHeight());
 		}
 	}
 
 	public void initialize() {
+		System.out.println("init menu gui");
 		initHamMenu();
 		initCalendarWeekDayHeader();
 		initCalendarGrid();
@@ -82,6 +88,8 @@ public class ControllerMain {
 			transition.setRate(transition.getRate() * -1);
 			transition.play();
 		});
+	//	settingsButton.setStyle(Main.prop.getProperty("settingsIconPath"));
+	//	settingsButton.setStyle("-fx-background-image: url('../../images/settings.png')");
 	}
 	
 	public void resizePane(Pane p, double w, double h) {
@@ -99,6 +107,7 @@ public class ControllerMain {
 		timeline.setOnFinished(event -> {
 			hamMenu.setDisable(false);
 		});
+		
 	}
 
 	public void initCalendarWeekDayHeader() {
