@@ -4,6 +4,8 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+
+import animatefx.animation.*;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -21,6 +23,8 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.ImagePattern;
+import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 
 public class ControllerMain {
@@ -40,53 +44,58 @@ public class ControllerMain {
 	@FXML
 	private GridPane calendarGrid;
 	@FXML
-    private JFXTabPane tabPane;
+	private ImageView profilePaneAvatar;
 	@FXML
-    private JFXButton settingsButton;
+	private Circle cccc;
 	@FXML
-    private JFXButton profileButton;
+	private JFXTabPane tabPane;
 	@FXML
-    private JFXButton closeButton;
+	private JFXButton settingsButton;
 	@FXML
-    private ImageView image;
+	private JFXButton profileButton;
+	@FXML
+	private JFXButton closeButton;
+	@FXML
+	private ImageView image;
+
 	@FXML
 	public void hamclicked(MouseEvent event) {
 		if (menuPane.getPrefWidth() == 300) {
-			hamMenu.setPrefSize(hamMenu.getPrefWidth()-HAMMENUSIZE, hamMenu.getPrefHeight());
-			hamMenu.setPadding(new Insets(0,0,0,0));
-			
-			menuVBox.setPrefSize(menuVBox.getPrefWidth()-HAMMENUSIZE, menuVBox.getPrefHeight());
-			
-			settingsButton.setPrefSize(settingsButton.getPrefWidth()-HAMMENUSIZE, settingsButton.getPrefHeight());
+			hamMenu.setPrefSize(hamMenu.getPrefWidth() - HAMMENUSIZE, hamMenu.getPrefHeight());
+			hamMenu.setPadding(new Insets(0, 0, 0, 0));
+
+			menuVBox.setPrefSize(menuVBox.getPrefWidth() - HAMMENUSIZE, menuVBox.getPrefHeight());
+
+			settingsButton.setPrefSize(settingsButton.getPrefWidth() - HAMMENUSIZE, settingsButton.getPrefHeight());
 			settingsButton.setText("");
-			
-			profileButton.setPrefSize(profileButton.getPrefWidth()-HAMMENUSIZE, profileButton.getPrefHeight());
+
+			profileButton.setPrefSize(profileButton.getPrefWidth() - HAMMENUSIZE, profileButton.getPrefHeight());
 			profileButton.setText("");
-			
-			closeButton.setPrefSize(closeButton.getPrefWidth()-HAMMENUSIZE, closeButton.getPrefHeight());
+
+			closeButton.setPrefSize(closeButton.getPrefWidth() - HAMMENUSIZE, closeButton.getPrefHeight());
 			closeButton.setText("");
-			
+
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() - HAMMENUSIZE);
-		}
-		else if (menuPane.getPrefWidth() == 70) {
-			hamMenu.setPrefSize(hamMenu.getPrefWidth()+HAMMENUSIZE, hamMenu.getPrefHeight());
-			hamMenu.setPadding(new Insets(0,HAMMENUSIZE,0,0));
-			
-			menuVBox.setPrefSize(menuVBox.getPrefWidth()+HAMMENUSIZE, menuVBox.getPrefHeight());
-			
-			settingsButton.setPrefSize(settingsButton.getPrefWidth()+HAMMENUSIZE, settingsButton.getPrefHeight());
+		} else if (menuPane.getPrefWidth() == 70) {
+			hamMenu.setPrefSize(hamMenu.getPrefWidth() + HAMMENUSIZE, hamMenu.getPrefHeight());
+			hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
+
+			menuVBox.setPrefSize(menuVBox.getPrefWidth() + HAMMENUSIZE, menuVBox.getPrefHeight());
+
+			settingsButton.setPrefSize(settingsButton.getPrefWidth() + HAMMENUSIZE, settingsButton.getPrefHeight());
 			settingsButton.setText("Settings");
-			
-			profileButton.setPrefSize(profileButton.getPrefWidth()+HAMMENUSIZE, profileButton.getPrefHeight());
+
+			profileButton.setPrefSize(profileButton.getPrefWidth() + HAMMENUSIZE, profileButton.getPrefHeight());
 			profileButton.setText("Profile");
-			
-			closeButton.setPrefSize(closeButton.getPrefWidth()+HAMMENUSIZE, closeButton.getPrefHeight());
+
+			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
 			closeButton.setText("Exit");
-			
+
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
 		}
+		new Wobble(cccc).play();
 	}
 
 	public void initialize() {
@@ -94,6 +103,11 @@ public class ControllerMain {
 		initHamMenu();
 		initCalendarWeekDayHeader();
 		initCalendarGrid();
+		initProfilePane();
+	}
+
+	public void initProfilePane() {
+		cccc.setFill(new ImagePattern(profilePaneAvatar.getImage()));
 	}
 	
 	public void initHamMenu() {
@@ -105,26 +119,26 @@ public class ControllerMain {
 		});
 		VBox.setVgrow(menuPane, Priority.ALWAYS);
 	}
-	
+
 	public void initTabPane() {
-		
+
 	}
 
 	public void hamMenuAnimation(Pane pane, double width) {
 		hamMenu.setDisable(true);
-		Timeline timeline = new Timeline();	
-		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200), 
+		Timeline timeline = new Timeline();
+		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200),
 				new KeyValue(pane.prefWidthProperty(), width, Interpolator.EASE_BOTH)));
 		timeline.play();
 		timeline.setOnFinished(event -> {
 			hamMenu.setDisable(false);
 		});
-		
+
 	}
 
 	public void initCalendarWeekDayHeader() {
 		int weekdays = 7;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun" };
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 		for (int i = 0; i < weekdays; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");

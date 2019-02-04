@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.shape.*?>
 <?import javafx.scene.effect.*?>
 <?import javafx.scene.image.*?>
 <?import com.jfoenix.controls.*?>
@@ -10,6 +11,11 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
+      <ImageView fx:id="profilePaneAvatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../images/defaultAvatar.jpg" />
+         </image>
+      </ImageView>
       <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <top>
             <AnchorPane>
@@ -56,18 +62,7 @@
                   </JFXTabPane>
                   <Pane id="topPane" layoutX="972.0" minHeight="120.0" prefHeight="120.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                      <children>
-                        <ImageView fitHeight="80.0" fitWidth="80.0" layoutX="134.0" layoutY="14.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/defaultAvatar.png" />
-                           </image>
-                        </ImageView>
-                        <VBox alignment="CENTER" prefHeight="120.0" prefWidth="130.0">
-                           <children>
-                              <Label prefHeight="40.0" prefWidth="110.0" styleClass="menuProfileLabel" text="Nome Cognome" />
-                              <Label prefHeight="40.0" prefWidth="110.0" styleClass="menuProfileLabel" text="Scuola" />
-                              <Label prefHeight="40.0" prefWidth="110.0" styleClass="menuProfileLabel" text="bho" />
-                           </children>
-                        </VBox>
+                        <Circle fx:id="cccc" fill="DODGERBLUE" layoutX="108.0" layoutY="60.0" radius="58.0" stroke="BLACK" strokeType="INSIDE" />
                      </children>
                   </Pane>
                </children>
