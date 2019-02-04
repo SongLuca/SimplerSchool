@@ -44,7 +44,13 @@
     -fx-border-color: white;
 }
 
-.calendarPane {
-	
-	
+.calendar_pane {
+    -fx-border-color: black;
+    -fx-background-color: #c1c1c1;
+    -fx-background-image: url('../../images/plus.png');
+    -fx-background-size: 32px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+	-fx-border-width: .2;
+	-fx-border-color: grey;
 }
