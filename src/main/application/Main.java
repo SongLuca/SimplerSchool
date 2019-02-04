@@ -24,7 +24,7 @@ public class Main extends Application {
 	        Scene scene = new Scene(root);
 	    
 	        stage.setTitle("Simpler School");
-	        stage.getIcons().add(new Image(new File(prop.getProperty("iconPath")).toURI().toString()));
+	        stage.getIcons().add(new Image(new File(prop.getProperty("appIconPath")).toURI().toString()));
 	        stage.setMinHeight(Integer.parseInt(prop.getProperty("minHeight")));
 	        stage.setMinWidth(Integer.parseInt(prop.getProperty("minWidth")));
 	        scene.getStylesheets().add(new File(prop.getProperty("fileCss")).toURI().toURL().toExternalForm());
