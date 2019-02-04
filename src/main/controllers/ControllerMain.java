@@ -3,19 +3,17 @@ package main.controllers;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -25,7 +23,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import main.application.Main;
 
 public class ControllerMain {
 	private final int HAMMENUSIZE = 230;
@@ -88,8 +85,6 @@ public class ControllerMain {
 			transition.setRate(transition.getRate() * -1);
 			transition.play();
 		});
-	//	settingsButton.setStyle(Main.prop.getProperty("settingsIconPath"));
-	//	settingsButton.setStyle("-fx-background-image: url('../../images/settings.png')");
 	}
 	
 	public void resizePane(Pane p, double w, double h) {
