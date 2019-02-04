@@ -2,17 +2,15 @@ package main.controllers;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.animation.TranslateTransition;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -23,16 +21,18 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
-import main.application.Main;
 
 public class ControllerMain {
 	private final int HAMMENUSIZE = 230;
 	@FXML
-	private Pane menuPane;
+	private AnchorPane menuPane;
 	@FXML
-	private Pane hiddenMenu;
+	private Pane menuShadowPane;
+	@FXML
+	private Pane gridShadowPane;
+	@FXML
+	private VBox menuVBox;
 	@FXML
 	private JFXHamburger hamMenu;
 	@FXML
@@ -40,11 +40,13 @@ public class ControllerMain {
 	@FXML
 	private GridPane calendarGrid;
 	@FXML
-    private ScrollPane scrollCalendarPane;
+    private JFXTabPane tabPane;
 	@FXML
     private JFXButton settingsButton;
 	@FXML
     private JFXButton profileButton;
+	@FXML
+    private JFXButton closeButton;
 	@FXML
     private ImageView image;
 	@FXML
@@ -52,25 +54,38 @@ public class ControllerMain {
 		if (menuPane.getPrefWidth() == 300) {
 			hamMenu.setPrefSize(hamMenu.getPrefWidth()-HAMMENUSIZE, hamMenu.getPrefHeight());
 			hamMenu.setPadding(new Insets(0,0,0,0));
+			
+			menuVBox.setPrefSize(menuVBox.getPrefWidth()-HAMMENUSIZE, menuVBox.getPrefHeight());
+			
 			settingsButton.setPrefSize(settingsButton.getPrefWidth()-HAMMENUSIZE, settingsButton.getPrefHeight());
-			settingsButton.setPadding(new Insets(0,0,0,0));
 			settingsButton.setText("");
+			
 			profileButton.setPrefSize(profileButton.getPrefWidth()-HAMMENUSIZE, profileButton.getPrefHeight());
-			profileButton.setPadding(new Insets(0,0,0,0));
 			profileButton.setText("");
-			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE, menuPane.getPrefHeight());
+			
+			closeButton.setPrefSize(closeButton.getPrefWidth()-HAMMENUSIZE, closeButton.getPrefHeight());
+			closeButton.setText("");
+			
+			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE);
+			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() - HAMMENUSIZE);
 		}
 		else if (menuPane.getPrefWidth() == 70) {
 			hamMenu.setPrefSize(hamMenu.getPrefWidth()+HAMMENUSIZE, hamMenu.getPrefHeight());
 			hamMenu.setPadding(new Insets(0,HAMMENUSIZE,0,0));
+			
+			menuVBox.setPrefSize(menuVBox.getPrefWidth()+HAMMENUSIZE, menuVBox.getPrefHeight());
+			
 			settingsButton.setPrefSize(settingsButton.getPrefWidth()+HAMMENUSIZE, settingsButton.getPrefHeight());
-			settingsButton.setPadding(new Insets(0,0,0,0));
 			settingsButton.setText("Settings");
-			settingsButton.setTextAlignment(TextAlignment.LEFT);
+			
 			profileButton.setPrefSize(profileButton.getPrefWidth()+HAMMENUSIZE, profileButton.getPrefHeight());
-			profileButton.setPadding(new Insets(0,0,0,0));
 			profileButton.setText("Profile");
-			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE, menuPane.getPrefHeight());
+			
+			closeButton.setPrefSize(closeButton.getPrefWidth()+HAMMENUSIZE, closeButton.getPrefHeight());
+			closeButton.setText("Exit");
+			
+			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
+			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
 		}
 	}
 
@@ -88,21 +103,18 @@ public class ControllerMain {
 			transition.setRate(transition.getRate() * -1);
 			transition.play();
 		});
-	//	settingsButton.setStyle(Main.prop.getProperty("settingsIconPath"));
-	//	settingsButton.setStyle("-fx-background-image: url('../../images/settings.png')");
+		VBox.setVgrow(menuPane, Priority.ALWAYS);
 	}
 	
-	public void resizePane(Pane p, double w, double h) {
-		p.setPrefWidth(w);
-		p.setPrefHeight(h);
+	public void initTabPane() {
+		
 	}
 
-	public void hamMenuAnimation(final Pane pane, double width, double height) {
+	public void hamMenuAnimation(Pane pane, double width) {
 		hamMenu.setDisable(true);
-		Duration cycleDuration = Duration.millis(200);
-		Timeline timeline = new Timeline(
-				new KeyFrame(cycleDuration, new KeyValue(pane.prefWidthProperty(), width, Interpolator.EASE_BOTH)),
-				new KeyFrame(cycleDuration, new KeyValue(pane.prefHeightProperty(), height, Interpolator.EASE_BOTH)));
+		Timeline timeline = new Timeline();	
+		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200), 
+				new KeyValue(pane.prefWidthProperty(), width, Interpolator.EASE_BOTH)));
 		timeline.play();
 		timeline.setOnFinished(event -> {
 			hamMenu.setDisable(false);
@@ -141,7 +153,6 @@ public class ControllerMain {
 		}
 		for (int i = 0; i < 7; i++) {
 			RowConstraints row = new RowConstraints();
-			row.setMinHeight(scrollCalendarPane.getHeight() / 7);
 			calendarGrid.getRowConstraints().add(row);
 		}
 	}

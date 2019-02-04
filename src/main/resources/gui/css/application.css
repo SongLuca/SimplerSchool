@@ -17,15 +17,23 @@
 	-fx-text-alignment: right;
 }
 #menuUserButton{
-	-fx-background-image: url('../../images/user.png');
-	
+	-fx-background-image: url('../../images/maleUser.png');
 }
-
+#menuUserButton:hover{
+	-fx-background-image: url('../../images/maleUserHover.png');
+}
 #menuSettingsButton{
 	-fx-background-image: url('../../images/settings.png');
-	
 }
-
+#menuSettingsButton:hover{
+	-fx-background-image: url('../../images/settingsHover.png');
+}
+#menuCloseButton{
+	-fx-background-image: url('../../images/close.png');
+}
+#menuCloseButton:hover{
+	-fx-background-image: url('../../images/closeHover.png');
+}
 #menuPane{
 	-fx-background-color:  #28C8AC;
 }
@@ -44,7 +52,19 @@
     -fx-border-color: white;
 }
 
-.calendarPane {
+.shadowPane{
+	-fx-background-color:  black;
+}
+.calendarPane{
+	-fx-background-color: white;
+}
+.menuProfileLabel{
 	
+	
+	
+	
+	
+}
+.menuProfilePane{
 	
 }

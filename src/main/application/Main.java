@@ -27,7 +27,7 @@ public class Main extends Application {
 	        stage.getIcons().add(new Image(new File(prop.getProperty("appIconPath")).toURI().toString()));
 	        stage.setMinHeight(Integer.parseInt(prop.getProperty("minHeight")));
 	        stage.setMinWidth(Integer.parseInt(prop.getProperty("minWidth")));
-	        scene.getStylesheets().add(new File(prop.getProperty("fileCss")).toURI().toURL().toExternalForm());
+	        //scene.getStylesheets().add(new File(prop.getProperty("fileCss")).toURI().toURL().toExternalForm());
 	        stage.setScene(scene);
 	        stage.show();
 	}
