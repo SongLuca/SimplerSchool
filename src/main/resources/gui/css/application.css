@@ -52,6 +52,7 @@
     -fx-border-color: white;
 }
 
+<<<<<<< HEAD
 .shadowPane{
 	-fx-background-color:  black;
 }
@@ -67,4 +68,15 @@
 }
 .menuProfilePane{
 	
+=======
+.calendar_pane {
+    -fx-border-color: black;
+    -fx-background-color: #c1c1c1;
+    -fx-background-image: url('../../images/plus.png');
+    -fx-background-size: 32px;
+	-fx-background-repeat: no-repeat;
+	-fx-background-position: center;
+	-fx-border-width: .2;
+	-fx-border-color: grey;
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 }

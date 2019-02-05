@@ -90,6 +90,7 @@
                   </Pane>
                   <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
+<<<<<<< HEAD
                         <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
                         <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
                           <columnConstraints>
@@ -115,6 +116,40 @@
                               <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                           </rowConstraints>
                         </GridPane>
+=======
+                        <ScrollPane fx:id="scrollCalendarPane" fitToHeight="true" fitToWidth="true" hbarPolicy="NEVER" prefHeight="550.0" prefWidth="903.0" vbarPolicy="ALWAYS" VBox.vgrow="ALWAYS">
+                           <content>
+                              <VBox>
+                                 <children>
+                                    <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
+                                    <GridPane fx:id="calendarGrid" prefHeight="495.0" prefWidth="888.0" VBox.vgrow="ALWAYS">
+                                      <columnConstraints>
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                      </columnConstraints>
+                                      <rowConstraints>
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                    </GridPane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
                      </children>
                   </VBox>
                </children>

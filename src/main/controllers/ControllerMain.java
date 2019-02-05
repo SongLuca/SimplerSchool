@@ -1,21 +1,32 @@
 package main.controllers;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 
+<<<<<<< HEAD
 import animatefx.animation.*;
+=======
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+<<<<<<< HEAD
 import javafx.scene.control.Label;
+=======
+import javafx.scene.control.DialogPane;
+import javafx.scene.control.Label;
+import javafx.scene.control.ScrollPane;
+import javafx.scene.control.TextInputDialog;
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
+
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -23,8 +34,13 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+<<<<<<< HEAD
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+=======
+
+import javafx.scene.text.TextAlignment;
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 import javafx.util.Duration;
 
 public class ControllerMain {
@@ -58,6 +74,8 @@ public class ControllerMain {
 	@FXML
 	private ImageView image;
 
+	@FXML
+	private TextInputDialog inputSubject;
 	@FXML
 	public void hamclicked(MouseEvent event) {
 		if (menuPane.getPrefWidth() == 300) {
@@ -117,7 +135,10 @@ public class ControllerMain {
 			transition.setRate(transition.getRate() * -1);
 			transition.play();
 		});
+<<<<<<< HEAD
 		VBox.setVgrow(menuPane, Priority.ALWAYS);
+=======
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 	}
 
 	public void initTabPane() {
@@ -137,8 +158,13 @@ public class ControllerMain {
 	}
 
 	public void initCalendarWeekDayHeader() {
+<<<<<<< HEAD
 		int weekdays = 7;
 		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+=======
+		int weekdays = 6;
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 		for (int i = 0; i < weekdays; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");
@@ -152,22 +178,39 @@ public class ControllerMain {
 
 	public void initCalendarGrid() {
 		int rows = 11;
-		int cols = 7;
+		int cols = 6;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				VBox vPane = new VBox();
 				vPane.getStyleClass().add("calendar_pane");
-				vPane.setMinWidth(weekdayHeader.getPrefWidth() / 7);
+				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-					System.out.println("click");
+					inputSubject = new TextInputDialog();
+					inputSubject.setContentText("Insert the subject");
+					inputSubject.setTitle(null);
+					inputSubject.setHeaderText(null);
+					inputSubject.setGraphic(null);
+					DialogPane dialogPane = inputSubject.getDialogPane();
+					dialogPane.getStylesheets().add(
+							getClass().getResource("../resources/gui/css/dialog.css").toExternalForm());
+					dialogPane.getStyleClass().add("myDialog");
+
+
+					inputSubject.show();
 				});
 				GridPane.setVgrow(vPane, Priority.ALWAYS);
 				calendarGrid.add(vPane, j, i);
+
 			}
 		}
-		for (int i = 0; i < 7; i++) {
+		for (int i = 0; i < cols; i++) {
 			RowConstraints row = new RowConstraints();
+<<<<<<< HEAD
+=======
+			row.setMinHeight(scrollCalendarPane.getHeight() / cols);
+>>>>>>> 18e48a9b74f75379c293a7424e5240191080a624
 			calendarGrid.getRowConstraints().add(row);
 		}
 	}
+
 }
