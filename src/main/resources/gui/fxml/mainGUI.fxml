@@ -136,7 +136,7 @@
                         <Font size="24.0" />
                      </font>
                   </JFXButton>
-                  <JFXButton id="menuSettingsButton" fx:id="settingsButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                  <JFXButton id="menuSettingsButton" fx:id="settingsButton" onMouseClicked="#openSettingsWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                      <font>
                         <Font size="24.0" />
                      </font>

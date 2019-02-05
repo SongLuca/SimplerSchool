@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: #28C8AC;" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8" fx:controller="main.controllers.ControllerSettings">
+   <children>
+      <VBox alignment="CENTER" prefHeight="130.0" prefWidth="700.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label fx:id="title" prefHeight="70.0" prefWidth="200.0" text="Settings">
+               <font>
+                  <Font size="50.0" />
+               </font>
+            </Label>
+         </children>
+      </VBox>
+      <JFXMasonryPane layoutY="130.0" prefHeight="470.0" prefWidth="700.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="130.0">
+         <children>
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+            <HBox prefHeight="100.0" prefWidth="200.0" />
+         </children>
+      </JFXMasonryPane>
+      <Pane fx:id="pop" layoutX="-164.0" layoutY="608.0" prefHeight="600.0" prefWidth="700.0" style="-fx-background-color: gray;" AnchorPane.bottomAnchor="-608.0" AnchorPane.leftAnchor="-164.0" AnchorPane.rightAnchor="164.0" AnchorPane.topAnchor="608.0">
+         <children>
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="275.0" layoutY="225.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/settingsIcon.png" />
+               </image>
+            </ImageView>
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>
