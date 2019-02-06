@@ -14,7 +14,6 @@ import javafx.scene.paint.Color;
 
 public class Main extends Application {
 	public static Properties prop;
-	public static Stage primaryStage;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -22,16 +21,15 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage stage) throws IOException{
-			Main.primaryStage = stage;
 			readProperties();
 			Parent root = FXMLLoader.load(new File(prop.getProperty("mainFXML")).toURI().toURL());
-			primaryStage.setTitle("Simpler School");
-			primaryStage.getIcons().add(new Image(new File(prop.getProperty("appIconPath")).toURI().toString()));
-			primaryStage.setMinHeight(Integer.parseInt(prop.getProperty("minHeightMain")));
-			primaryStage.setMinWidth(Integer.parseInt(prop.getProperty("minWidthMain")));
+			stage.setTitle("Simpler School");
+			stage.getIcons().add(new Image(new File(prop.getProperty("appIconPath")).toURI().toString()));
+			stage.setMinHeight(Integer.parseInt(prop.getProperty("minHeightMain")));
+			stage.setMinWidth(Integer.parseInt(prop.getProperty("minWidthMain")));
 	        //scene.getStylesheets().add(new File(prop.getProperty("fileCss")).toURI().toURL().toExternalForm());
-			primaryStage.setScene(new Scene(root));
-			primaryStage.show();
+			stage.setScene(new Scene(root));
+			stage.show();
 	}
 	
 	public void readProperties() {

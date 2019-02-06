@@ -16,6 +16,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.DialogPane;
@@ -37,6 +38,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import main.application.Main;
+import main.utils.FXResizeHelper;
 import main.utils.SimplerSchoolUtil;
 
 public class ControllerMain {
@@ -199,8 +201,12 @@ public class ControllerMain {
 	}
 	
 	@FXML
-	public void openSettingsWindow() {
-		System.out.println("Open settings window");
-		SimplerSchoolUtil.loadWindow("settingsFXML", "settingsIconPath","Settings");
+	public void openSettingsWindow(MouseEvent event) {
+		System.out.println("Opening settings window");
+		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML", "settingsIconPath","Settings",
+				(Stage)((Node)event.getSource()).getScene().getWindow());
+		settings.setMinHeight(Integer.parseInt(Main.prop.getProperty("minHeightSettings")));
+		settings.setMinWidth(Integer.parseInt(Main.prop.getProperty("minWidthSettings")));
+		new FXResizeHelper(settings,5,5);
 	}
 }

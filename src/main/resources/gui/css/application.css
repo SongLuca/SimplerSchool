@@ -77,3 +77,9 @@
 	-fx-border-width: .2;
 	-fx-border-color: grey;
 }
+#titleClose:hover{
+	-fx-background-color:red;
+}
+.animationPane{
+	-fx-background-color :  gray;
+}
