@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane fx:id="anchorPane" prefHeight="630.0" prefWidth="765.0" style="-fx-background-color: #28C8AC;" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerSettings">
+<AnchorPane fx:id="mainPane" prefHeight="630.0" prefWidth="765.0" styleClass="settingsPane" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerSettings">
    <children>
       <Pane fx:id="pop" layoutX="-164.0" layoutY="608.0" prefHeight="600.0" prefWidth="810.0" styleClass="animationPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -20,12 +20,19 @@
             </ImageView>
          </children>
       </Pane>
-      <HBox fx:id="titleHBox" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="600.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="4.0">
+      <HBox fx:id="titleHBox" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="600.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
          <children>
             <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                <children>
-                  <JFXButton fx:id="backButton" focusTraversable="false" minWidth="10.0" prefHeight="30.0" prefWidth="0.0" />
-                  <Label prefHeight="30.0" prefWidth="200.0" text="Settings">
+                  <JFXButton id="titleBack" fx:id="backButton" focusTraversable="false" minWidth="0.0" onMouseClicked="#backToSettings" prefHeight="30.0" prefWidth="0.0">
+                     <graphic>
+                        <ImageView fx:id="backImage" fitHeight="15.0" fitWidth="111.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/back.png" />
+                           </image>
+                        </ImageView>
+                     </graphic></JFXButton>
+                  <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Settings">
                      <font>
                         <Font name="System Italic" size="16.0" />
                      </font>
@@ -60,87 +67,92 @@
             </HBox>
          </children>
       </HBox>
-      <VBox alignment="CENTER" layoutY="30.0" prefHeight="100.0" prefWidth="765.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+      <AnchorPane fx:id="contentPane" layoutY="30.0" prefHeight="600.0" prefWidth="765.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
          <children>
-            <Label fx:id="title" prefHeight="70.0" prefWidth="200.0" text="Settings">
-               <font>
-                  <Font size="50.0" />
-               </font>
-            </Label>
+            <AnchorPane prefHeight="601.0" prefWidth="765.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+            <VBox alignment="CENTER" prefHeight="100.0" prefWidth="765.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+               <children>
+                  <Label prefHeight="70.0" prefWidth="200.0" text="Settings">
+                     <font>
+                        <Font size="50.0" />
+                     </font>
+                  </Label>
+               </children>
+            </VBox>
+            <JFXMasonryPane HSpacing="1.0" VSpacing="1.0" cellHeight="100.0" cellWidth="75.0" prefHeight="201.0" prefWidth="642.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="130.0">
+               <children>
+                  <JFXButton onMouseClicked="#openOrarioSettimanale" prefHeight="70.0" prefWidth="200.0">
+                     <graphic>
+                        <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
+                           <children>
+                              <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/orario.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox alignment="CENTER" prefHeight="75.0" prefWidth="150.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="150.0" text=" Orario scolastico" wrapText="true">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="45.0" prefWidth="139.0" text="Aggiungere, modificare e rimuovere orari settimanali" textAlignment="CENTER" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="70.0" prefWidth="200.0">
+                     <graphic>
+                        <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
+                           <children>
+                              <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/profile.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="70.0" prefWidth="200.0">
+                     <graphic>
+                        <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
+                           <children>
+                              <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/profile.png" />
+                                 </image>
+                              </ImageView>
+                              <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
+                                       <font>
+                                          <Font size="16.0" />
+                                       </font>
+                                    </Label>
+                                    <Label prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
+                                 </children>
+                              </VBox>
+                           </children>
+                        </HBox>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </JFXMasonryPane>
          </children>
-      </VBox>
-      <JFXMasonryPane HSpacing="1.0" VSpacing="1.0" cellHeight="100.0" cellWidth="75.0" layoutY="130.0" prefHeight="201.0" prefWidth="642.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="28.0" AnchorPane.topAnchor="130.0">
-         <children>
-            <JFXButton prefHeight="70.0" prefWidth="200.0">
-               <graphic>
-                  <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
-                     <children>
-                        <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/orario.png" />
-                           </image>
-                        </ImageView>
-                        <VBox alignment="CENTER" prefHeight="75.0" prefWidth="150.0">
-                           <children>
-                              <Label prefHeight="30.0" prefWidth="150.0" text=" Orario scolastico" wrapText="true">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="45.0" prefWidth="139.0" text="Aggiungere, modificare e rimuovere orari settimanali" textAlignment="CENTER" wrapText="true" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </graphic>
-            </JFXButton>
-            <JFXButton prefHeight="70.0" prefWidth="200.0">
-               <graphic>
-                  <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
-                     <children>
-                        <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/profile.png" />
-                           </image>
-                        </ImageView>
-                        <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
-                           <children>
-                              <Label prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </graphic>
-            </JFXButton>
-            <JFXButton prefHeight="70.0" prefWidth="200.0">
-               <graphic>
-                  <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
-                     <children>
-                        <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/profile.png" />
-                           </image>
-                        </ImageView>
-                        <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
-                           <children>
-                              <Label prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
-                                 <font>
-                                    <Font size="16.0" />
-                                 </font>
-                              </Label>
-                              <Label prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
-                           </children>
-                        </VBox>
-                     </children>
-                  </HBox>
-               </graphic>
-            </JFXButton>
-         </children>
-      </JFXMasonryPane>
+      </AnchorPane>
    </children>
 </AnchorPane>
