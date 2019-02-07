@@ -1,5 +1,19 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+/*ThemeColors: Verde Scuro: #2d3e50    | 	Verde Acqua: #19bd9a;
+ * 
+ * Giallo: #FFC950     |  	 Verde Acqua old: #28C8AC
+ * 
+ * 
+ * 
+ * 
+ * 
+ * */
+
+
+
+
+
 .hamMenu StackPane{
 	-fx-background-color: white;
 }
@@ -41,6 +55,7 @@
 #topPane{
 	-fx-background-color:  #FFC950;
 }
+
 
 .weekday-header {
     -fx-font: bold 17px "System";
