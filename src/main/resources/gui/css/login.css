@@ -1,0 +1,43 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+.backgroundPane{
+	-fx-background-color:  #19bd9a;	
+}
+
+.innerBackground{
+	-fx-background-color: rgb(45, 62, 80, 0.8);
+	-fx-background-radius: 3%;
+	-fx-border-radius: 3%;
+}
+
+.textField{
+	-fx-prompt-text-fill:  #8a8a8a;
+	-fx-text-fill:  #19bd9a;
+}
+
+.actionButton{
+	-fx-background-color: #19bd9a;
+	-fx-background-radius: 50;
+	-fx-text-fill: white;
+}
+
+.text{
+	-fx-text-fill: #8a8a8a;
+}
+
+.backgroundShadow{
+	-fx-background-color: rgb(0, 0, 0, 0.6);
+	-fx-background-radius: 3%;
+	-fx-border-radius: 3%;
+}
+
+#backButton{
+	-fx-background-image: url('../../images/back.png');
+	-fx-background-position: center;
+	-fx-background-position: 100%;
+	-fx-background-size: 30px;
+	-fx-background-radius:50%;
+	-fx-border-radius: 50%;
+	-fx-background-color: #19bd9a;
+	-fx-background-repeat: no-repeat;
+}

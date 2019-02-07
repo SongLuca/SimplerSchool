@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
+<?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.effect.Shadow?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
+   <children>
+      <Pane fx:id="innerBackgroundShadow" layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="350.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <effect>
+            <Shadow />
+         </effect>
+      </Pane>
+      <AnchorPane fx:id="innerBackground" prefHeight="500.0" prefWidth="350.0" styleClass="innerBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <ImageView fitHeight="125.0" fitWidth="125.0" layoutX="110.0" layoutY="43.0">
+               <image>
+                  <Image url="@../../../images/icon.png" />
+               </image>
+            </ImageView>
+            <VBox layoutX="75.0" layoutY="193.0" prefHeight="260.0" prefWidth="200.0" spacing="15.0">
+               <children>
+                  <JFXTextField focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXTextField>
+                  <JFXPasswordField focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
+                     <font>
+                        <Font size="18.0" />
+                     </font>
+                  </JFXPasswordField>
+                  <HBox prefHeight="100.0" prefWidth="200.0">
+                     <children>
+                        <JFXCheckBox checkedColor="#19bd9a" prefHeight="18.0" prefWidth="122.0" styleClass="text" text="Remeber me" unCheckedColor="#8a8a8a" />
+                        <Label onMouseClicked="#openRecover" prefHeight="17.0" prefWidth="113.0" styleClass="text" text="Forgot password?" underline="true" />
+                     </children>
+                  </HBox>
+                  <JFXButton minHeight="50.0" minWidth="180.0" prefHeight="50.0" prefWidth="200.0" styleClass="actionButton" text="Login">
+                     <VBox.margin>
+                        <Insets top="5.0" />
+                     </VBox.margin>
+                  </JFXButton>
+                  <HBox prefHeight="24.0" prefWidth="180.0">
+                     <children>
+                        <Label prefHeight="20.0" prefWidth="189.0" styleClass="text" text="Not Registered?     Sign up">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label fx:id="registerLabel" onMouseClicked="#openRegister" prefHeight="20.0" prefWidth="53.0" styleClass="text" text="Here" underline="true">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                     </children>
+                  </HBox>
+               </children>
+            </VBox>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>

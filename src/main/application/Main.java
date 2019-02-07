@@ -20,12 +20,12 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage) throws IOException{
 			readProperties();
-			Parent root = FXMLLoader.load(new File(prop.getProperty("mainFXML")).toURI().toURL());
+			Parent root = FXMLLoader.load(new File(prop.getProperty("backgroundLoginFXML")).toURI().toURL());
 			stage.setTitle("Simpler School");
 			stage.getIcons().add(new Image(new File(prop.getProperty("appIconPath")).toURI().toString()));
-			stage.setMinHeight(Integer.parseInt(prop.getProperty("minHeightMain")));
-			stage.setMinWidth(Integer.parseInt(prop.getProperty("minWidthMain")));
-	        //scene.getStylesheets().add(new File(prop.getProperty("fileCss")).toURI().toURL().toExternalForm());
+			//stage.setMinHeight(Integer.parseInt(prop.getProperty("minHeightMain")));
+			//stage.setMinWidth(Integer.parseInt(prop.getProperty("minWidthMain")));
+			//scene.getStylesheets().add(new File(prop.getProperty("fileCss")).toURI().toURL().toExternalForm());
 			stage.setScene(new Scene(root));
 			stage.show();
 	}
