@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import main.application.Main;
 import main.utils.WindowStyle;
 
@@ -24,7 +25,7 @@ public class ControllerRegCompleted {
 			AnchorPane login = FXMLLoader.load(new File(Main.prop.getProperty("loginFXML")).toURI().toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
-			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#root");
+			StackPane backgroundLogin = (StackPane) ((Node) e1.getSource()).getScene().lookup("#root");
 			backgroundLogin.getChildren().add(login);
 
 			ZoomOut fadeOutLeft = new ZoomOut(regCompletedPane);

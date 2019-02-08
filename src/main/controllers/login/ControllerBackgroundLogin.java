@@ -15,13 +15,14 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.Main;
 import main.utils.WindowStyle;
 
 public class ControllerBackgroundLogin {
 	@FXML
-	private AnchorPane root;
+	private StackPane root;
 
 	void openLogin() {
 		try {

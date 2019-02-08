@@ -1,8 +1,11 @@
 package main.application;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
 import java.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import main.utils.PasswordHash;
 import main.utils.SimplerSchoolUtil;
 
 public class Main extends Application {
@@ -13,11 +16,12 @@ public class Main extends Application {
 	}
 	
 	@Override
-	public void start(Stage stage) throws SQLException{
+	public void start(Stage stage) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException{
 			prop = SimplerSchoolUtil.readProperties("src/main/resources/config/config.properties");
 		//	SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
 			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", stage, false, "appIconPath", "appName");
-			
+			System.out.println(PasswordHash.createHash("cazzo"));
+			System.out.println(PasswordHash.createHash("cazzo"));
 	}
 
 }

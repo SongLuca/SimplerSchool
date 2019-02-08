@@ -87,6 +87,7 @@ public class WindowStyle {
 	}
 	
 	public static void setAnchorPaneConstraints(AnchorPane pane, double top, double bottom, double left, double right) {
+		System.out.println(pane.getId());
 		AnchorPane.setBottomAnchor(pane, bottom);
 		AnchorPane.setTopAnchor(pane, top);
 		AnchorPane.setRightAnchor(pane, right);

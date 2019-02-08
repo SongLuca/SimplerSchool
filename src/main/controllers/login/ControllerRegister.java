@@ -15,6 +15,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import main.application.Main;
@@ -49,7 +50,7 @@ public class ControllerRegister {
 			AnchorPane login = FXMLLoader.load(new File(Main.prop.getProperty("loginFXML")).toURI().toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
-			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#root");
+			StackPane backgroundLogin = (StackPane) ((Node) e1.getSource()).getScene().lookup("#root");
 			backgroundLogin.getChildren().add(login);
 
 			FadeOutRight fadeOutLeft = new FadeOutRight(registerPane);
@@ -70,32 +71,33 @@ public class ControllerRegister {
 	
 	@FXML
 	public boolean register(ActionEvent event) {
+		StackPane root = (StackPane) ((Node) event.getSource()).getScene().lookup("#root");
 		String username = usernameField.getText();
 		char[] password = passField.getText().toCharArray(),
 				   confirmpw = confirmPassField.getText().toCharArray();
 		if(username.trim().length() < 5) {
-			SimplerSchoolUtil.errorMsg("Username atleast 5 chars!");
+			SimplerSchoolUtil.popUpDialog(root,"Error","Username atleast 5 chars!");
 			return false;
 		}
 		if(!SimplerSchoolUtil.isAlpha(username)) {
-			SimplerSchoolUtil.errorMsg("Username is not valid!");
+			SimplerSchoolUtil.popUpDialog(root,"Error","Username is not valid!");
 			return false;
 		}
 		if(SimplerSchoolUtil.charArrayContains(confirmpw, ' ')) {
-			SimplerSchoolUtil.errorMsg("Password contains space!");
+			SimplerSchoolUtil.popUpDialog(root,"Error","Password contains space!");
 			return false;
 		}
 		if(confirmpw.length < 5) {
-			SimplerSchoolUtil.errorMsg("Password atleast 5 chars!");
+			SimplerSchoolUtil.popUpDialog(root,"Error","Password atleast 5 chars!");
 			return false;
 		}
 		if(!Arrays.equals(password, confirmpw)) {
-			SimplerSchoolUtil.errorMsg("Password not match!");
+			SimplerSchoolUtil.popUpDialog(root,"Error","Password not match!");
 			return false;
 		}	
 		
 		if(!DataBaseHandler.getInstance().runRegisterValidateQuery(username)) {
-			SimplerSchoolUtil.errorMsg("Username already taken!");
+			SimplerSchoolUtil.popUpDialog(root,"Error","Username already taken!");
 			return false;
 		}
 		
@@ -109,7 +111,7 @@ public class ControllerRegister {
 		try {
 			AnchorPane regCompleted = FXMLLoader.load(new File(Main.prop.getProperty("regCompletedFXML")).toURI().toURL());
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
-			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#root");
+			StackPane backgroundLogin = (StackPane) ((Node) e1.getSource()).getScene().lookup("#root");
 			backgroundLogin.getChildren().add(regCompleted);
 			registerPane.setVisible(false);
 			new ZoomIn(regCompleted).play();

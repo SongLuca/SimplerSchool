@@ -37,7 +37,8 @@ public class DataBaseHandler {
 			stmt.setString(1, username);
 			System.out.println(stmt);
 			rs = stmt.executeQuery();
-			if(toStringResultSet(rs).equals("")) {
+			String s = toStringResultSet(rs);
+			if(s.equals("")) {
 				System.out.println("result is empty");
 				return true;
 			}
@@ -53,6 +54,47 @@ public class DataBaseHandler {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return false;
+	}
+	
+	public boolean runValidateUserQuery(String username, char[] pass) {
+		System.out.println("Validating login");
+		String query = "SELECT UTENTE.PASS_HASH FROM UTENTE WHERE UTENTE.USERNAME = ?";
+		Connection conn;
+		ResultSet rs = null;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(Main.prop.getProperty("databasehost"),
+					Main.prop.getProperty("usernamesql"), Main.prop.getProperty("passwordsql"));
+			PreparedStatement  stmt = conn.prepareStatement(query);
+			stmt.setString(1, username);
+			System.out.println(stmt);
+			rs = stmt.executeQuery();
+			String s = toStringResultSet(rs);
+			if(s.equals("")) {
+				System.out.println("result is empty");
+				return false;
+			}
+			else {
+				try {
+					if(PasswordHash.validatePassword(pass,s))
+						return true;
+				} catch (NoSuchAlgorithmException e) {
+					e.printStackTrace();
+				} catch (InvalidKeySpecException e) {
+					e.printStackTrace();
+				}
+				System.out.println(s);
+				return false;
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
 		return false;
 	}
 	
@@ -98,7 +140,7 @@ public class DataBaseHandler {
 			while (rs.next()) {
 				for (int i = 1; i <= columnsNumber; i++) {
 					if (i > 1)
-						toString+=" | ";
+						toString+="|";
 					toString+=rs.getString(i);
 				}
 				toString+="";

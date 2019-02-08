@@ -6,6 +6,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
 
+import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDialog;
+import com.jfoenix.controls.JFXDialogLayout;
+
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -20,6 +26,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -65,6 +72,7 @@ public class SimplerSchoolUtil {
 				stage.setTitle(Main.prop.getProperty(title));
 			stage.show();
 			root.requestFocus();
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -140,6 +148,22 @@ public class SimplerSchoolUtil {
    //     alert.setHeaderText(headerMessage);
         alert.setContentText(msg);
         alert.showAndWait();
+	}
+	
+	public static void popUpDialog(StackPane root, String header, String body) {
+		JFXDialogLayout content = new JFXDialogLayout();
+		content.setHeading(new Text(header));
+		content.setBody(new Text(body));
+		JFXDialog dialog = new JFXDialog(root, content, JFXDialog.DialogTransition.CENTER,true);
+		JFXButton button = new JFXButton("Close");
+		button.setOnAction(new EventHandler<ActionEvent>() {
+			@Override
+			public void handle(ActionEvent event) {
+				dialog.close();
+			}
+		});
+		content.setActions(button);
+	    dialog.show();
 	}
 	
 	
