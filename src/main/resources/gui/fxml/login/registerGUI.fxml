@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -13,7 +22,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="registerPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegister">
+<AnchorPane fx:id="registerPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegister">
    <children>
       <Pane prefHeight="500.0" prefWidth="650.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
@@ -23,32 +32,40 @@
       <AnchorPane prefHeight="500.0" prefWidth="650.0" styleClass="innerBackground" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <Circle fx:id="profileImage" fill="DODGERBLUE" layoutX="175.0" layoutY="82.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
-            <JFXButton layoutX="129.0" layoutY="155.0" prefHeight="27.0" prefWidth="92.0" styleClass="actionButton" text="Select Image" />
-            <VBox layoutX="75.0" layoutY="209.0" prefHeight="277.0" prefWidth="200.0" spacing="15.0">
+            <JFXButton layoutX="129.0" layoutY="155.0" onAction="#selectAvatar" prefHeight="27.0" prefWidth="92.0" styleClass="actionButton" text="Select Image" />
+            <VBox layoutX="75.0" layoutY="209.0" prefHeight="277.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="209.0">
                <children>
-                  <JFXTextField focusColor="#19bd9a" prefHeight="40.0" prefWidth="200.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
+                  <JFXTextField fx:id="usernameField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="200.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
+                  <JFXPasswordField fx:id="passField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXPasswordField focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Confirm Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
+                  <JFXPasswordField fx:id="confirmPassField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Confirm Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXButton minHeight="50.0" minWidth="180.0" prefHeight="50.0" prefWidth="200.0" styleClass="actionButton" text="Sign Up">
+                  <JFXButton minHeight="50.0" minWidth="180.0" onAction="#register" prefHeight="50.0" prefWidth="244.0" styleClass="actionButton" text="Sign Up">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <ripplerFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#4fc8d3" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </ripplerFill>
                   </JFXButton>
                   <HBox prefHeight="24.0" prefWidth="180.0">
                      <children>
-                        <Label prefHeight="20.0" prefWidth="189.0" styleClass="text" text="Already Signed Up?  Login">
+                        <Label prefHeight="20.0" prefWidth="189.0" styleClass="text" text="Already Signed Up? Login ">
                            <font>
                               <Font size="14.0" />
                            </font>

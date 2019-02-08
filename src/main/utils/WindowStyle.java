@@ -73,6 +73,19 @@ public class WindowStyle {
 		return styleSheet;
 	}
 
+	public static void hidde(Stage stage) {
+		stage.setIconified(true);
+	}
+	
+	public static void MaxMinScreen(Stage stage) {
+		if(!WindowStyle.isFullScreen(stage)) {
+			WindowStyle.fullScreen(stage);
+		}
+		else {
+			WindowStyle.restoreScreen(stage);
+		}
+	}
+	
 	public static void setAnchorPaneConstraints(AnchorPane pane, double top, double bottom, double left, double right) {
 		AnchorPane.setBottomAnchor(pane, bottom);
 		AnchorPane.setTopAnchor(pane, top);

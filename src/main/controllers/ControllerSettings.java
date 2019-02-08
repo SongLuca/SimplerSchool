@@ -53,7 +53,7 @@ public class ControllerSettings {
 		new ZoomOut(pop).play();
 	}
 	@FXML
-	public void backToSettings() {
+	public void backToSettings() { 
 		try {
 			Parent fxml = FXMLLoader.load(new File(Main.prop.getProperty("settingsFXML")).toURI().toURL());
 			Stage currentStage = (Stage)pop.getScene().getWindow();
@@ -89,7 +89,9 @@ public class ControllerSettings {
 			stage.setMinWidth(Double.parseDouble(Main.prop.getProperty("prefWidthOS")));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
-			
+			new FadeInUp(contentPane).setOnFinished(e->{
+				
+			});
 			mainPane.requestFocus();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -137,25 +139,15 @@ public class ControllerSettings {
 			WindowStyle.close((Stage) pop.getScene().getWindow());
 		});
 		titleMaxmizeButton.setOnMouseClicked(e ->{
-			 MaxMinScreen();
+			WindowStyle. MaxMinScreen((Stage) pop.getScene().getWindow());
 		});
 		titleHBox.setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
-					 MaxMinScreen();
+					WindowStyle. MaxMinScreen((Stage) pop.getScene().getWindow());
 				}
 			}
 		});
-	}
-	
-	public void MaxMinScreen() {
-		Stage stage = (Stage) pop.getScene().getWindow();
-		if(!WindowStyle.isFullScreen(stage)) {
-			WindowStyle.fullScreen(stage);
-		}
-		else {
-			WindowStyle.restoreScreen(stage);
-		}
 	}
 	/***********************************************/
 }

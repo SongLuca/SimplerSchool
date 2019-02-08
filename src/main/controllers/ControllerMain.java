@@ -1,5 +1,7 @@
 package main.controllers;
 
+import java.io.File;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
@@ -12,8 +14,11 @@ import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.scene.Node;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
@@ -27,6 +32,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.application.Main;
 import main.utils.SimplerSchoolUtil;
+import main.utils.WindowStyle;
 
 public class ControllerMain {
 	private final int HAMMENUSIZE = 230;
@@ -76,6 +82,8 @@ public class ControllerMain {
 	@FXML
 	private TextInputDialog inputSubject;
 	
+	private double prefHeight = 700, prefWidth = 1200;
+	
 	@FXML
 	public void hamclicked(MouseEvent event) {
 		if (menuPane.getPrefWidth() == 300) {
@@ -118,6 +126,7 @@ public class ControllerMain {
 
 	public void initialize() {
 		System.out.println("init menu gui");
+		initTitleBox();
 		initHamMenu();
 		SimplerSchoolUtil.initCalendarWeekDayHeader(weekdayHeader);
 		SimplerSchoolUtil.initCalendarGrid(weekdayHeader,calendarGrid);
@@ -157,9 +166,80 @@ public class ControllerMain {
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
 		System.out.println("Opening settings window");
-		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML", "settingsIconPath","Settings",
-				(Stage)((Node)event.getSource()).getScene().getWindow());
+		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
+				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Integer.parseInt(Main.prop.getProperty("minHeightSettings")));
 		settings.setMinWidth(Integer.parseInt(Main.prop.getProperty("minWidthSettings")));
 	}
+	
+	/*********** Custom Window title bar ************/
+	@FXML
+	private HBox titleHBox;
+	
+	@FXML
+	private Label title;
+	
+	@FXML
+	private JFXButton titleCloseButton;
+	
+	@FXML
+	private JFXButton titleMaxmizeButton;
+	
+	@FXML
+	private JFXButton titleHideButton;
+	
+	@FXML
+	private ImageView titleCloseImage;
+	
+	@FXML
+	private ImageView titleMaxmizeImage;
+	
+	@FXML
+	private ImageView titleHideImage;
+	
+	public void initTitleBox() {
+		WindowStyle.stageDimension(prefWidth, prefHeight);
+		titleCloseButton.setOnMouseEntered(e -> {
+			String img = new File(Main.prop.getProperty("titleCloseHoverImagePath")).toURI().toString();
+			titleCloseImage.setImage(new Image(img));
+		});
+		titleCloseButton.setOnMouseExited(e -> {
+			String img = new File(Main.prop.getProperty("titleCloseImagePath")).toURI().toString();
+			titleCloseImage.setImage(new Image(img));
+		});
+		titleMaxmizeButton.setOnMouseEntered(e1 -> {
+			String img = new File(Main.prop.getProperty("titleMaxmizeHoverImagePath")).toURI().toString();
+			titleMaxmizeImage.setImage(new Image(img));
+		});
+		titleMaxmizeButton.setOnMouseExited(e1 -> {
+			String img = new File(Main.prop.getProperty("titleMaxmizeImagePath")).toURI().toString();
+			titleMaxmizeImage.setImage(new Image(img));
+		});
+		titleHideButton.setOnMouseEntered(e1 -> {
+			String img = new File(Main.prop.getProperty("titleHideHoverImagePath")).toURI().toString();
+			titleHideImage.setImage(new Image(img));
+		});
+		titleHideButton.setOnMouseExited(e1 -> {
+			String img = new File(Main.prop.getProperty("titleHideImagePath")).toURI().toString();
+			titleHideImage.setImage(new Image(img));
+		});
+		titleHideButton.setOnMouseClicked(e -> {
+			WindowStyle.hidde((Stage) tabPane.getScene().getWindow());
+		});
+		titleMaxmizeButton.setOnMouseClicked(e ->{
+			WindowStyle. MaxMinScreen((Stage) tabPane.getScene().getWindow());
+		});
+		titleCloseButton.setOnMouseClicked(e -> {
+			WindowStyle.close((Stage) tabPane.getScene().getWindow());
+		});
+		titleHBox.setOnMouseClicked(e -> {
+			if (e.getButton().equals(MouseButton.PRIMARY)) {
+				if (e.getClickCount() == 2) {
+					WindowStyle. MaxMinScreen((Stage) tabPane.getScene().getWindow());
+				}
+			}
+		});
+	}
+	
+	/***********************************************/
 }

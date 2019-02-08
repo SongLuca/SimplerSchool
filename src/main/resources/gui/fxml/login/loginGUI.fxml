@@ -1,5 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.paint.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
@@ -15,7 +24,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
    <children>
       <Pane fx:id="innerBackgroundShadow" layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="350.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
@@ -29,7 +38,7 @@
                   <Image url="@../../../images/icon.png" />
                </image>
             </ImageView>
-            <VBox layoutX="75.0" layoutY="193.0" prefHeight="260.0" prefWidth="200.0" spacing="15.0">
+            <VBox layoutX="75.0" layoutY="193.0" prefHeight="260.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="193.0">
                <children>
                   <JFXTextField focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
@@ -47,14 +56,22 @@
                         <Label onMouseClicked="#openRecover" prefHeight="17.0" prefWidth="113.0" styleClass="text" text="Forgot password?" underline="true" />
                      </children>
                   </HBox>
-                  <JFXButton minHeight="50.0" minWidth="180.0" prefHeight="50.0" prefWidth="200.0" styleClass="actionButton" text="Login">
+                  <JFXButton minHeight="50.0" minWidth="180.0" prefHeight="50.0" prefWidth="229.0" styleClass="actionButton" text="Login">
                      <VBox.margin>
                         <Insets top="5.0" />
                      </VBox.margin>
+                     <ripplerFill>
+                        <LinearGradient endX="1.0" endY="1.0">
+                           <stops>
+                              <Stop color="#2acacd" />
+                              <Stop color="WHITE" offset="1.0" />
+                           </stops>
+                        </LinearGradient>
+                     </ripplerFill>
                   </JFXButton>
                   <HBox prefHeight="24.0" prefWidth="180.0">
                      <children>
-                        <Label prefHeight="20.0" prefWidth="189.0" styleClass="text" text="Not Registered?     Sign up">
+                        <Label prefHeight="20.0" prefWidth="189.0" styleClass="text" text="Not Registered?  Sign up">
                            <font>
                               <Font size="14.0" />
                            </font>

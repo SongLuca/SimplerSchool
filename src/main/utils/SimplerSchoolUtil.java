@@ -1,12 +1,16 @@
 package main.utils;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
+import java.util.Properties;
 
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
@@ -22,24 +26,43 @@ import javafx.stage.StageStyle;
 import main.application.Main;
 
 public class SimplerSchoolUtil {
-
-	public static Stage loadWindow(String fxmlProp, String iconProp, String title, Stage primaryStage) {
+	
+	public static Properties readProperties(String propFileName) {
+		Properties prop = new Properties();
+		FileInputStream fit = null ;
+		try{
+			fit = new FileInputStream(propFileName);
+			prop.load(fit);
+		}
+		catch (Exception e) {
+			System.out.println("Exception: " + e);
+		} 
+		try {
+			fit.close();
+		} catch (IOException e) {
+			System.out.println("exception caught while closing config.properties stream");
+		}
+		System.out.println("config.properties loaded");
+		return prop;
+	}
+	public static Stage loadWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
 		Stage stage = null;
 		try {
 			URL fxmlURL = new File(Main.prop.getProperty(fxmlProp)).toURI().toURL();
-			String iconURI = new File(Main.prop.getProperty(iconProp)).toURI().toString();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = (Parent) fxmlLoader.load();	
 			stage = new Stage();
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initStyle(StageStyle.UNDECORATED);
-			stage.initOwner(primaryStage);
-			stage.setTitle(title);
 			stage.setScene(new Scene(root));
-			stage.getIcons().add(new Image(iconURI));
 			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");
 			WindowStyle.allowDrag(titleBox, stage);
-			new FXResizeHelper(stage,5,5);
+			if(resizable)
+				new FXResizeHelper(stage,5,5);
+			if(appIconPath != null)
+				stage.getIcons().add(new Image(new File(Main.prop.getProperty("appIconPath")).toURI().toString()));
+			if(title != null)
+				stage.setTitle(Main.prop.getProperty(title));
 			stage.show();
 			root.requestFocus();
 		} catch (IOException e) {
@@ -91,5 +114,41 @@ public class SimplerSchoolUtil {
 			RowConstraints row = new RowConstraints();
 			calendarGrid.getRowConstraints().add(row);
 		}
+	}
+	
+	public static boolean isAlpha(String name) {
+	    char[] chars = name.toCharArray();
+	    for (char c : chars) {
+	        if(!Character.isLetter(c)) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
+	public static void errorMsg(String msg) {
+		Alert alert = new Alert(AlertType.ERROR);
+    //    alert.setTitle(titleBar);
+   //     alert.setHeaderText(headerMessage);
+        alert.setContentText(msg);
+        alert.showAndWait();
+	}
+	
+	public static void confirmMsg(String msg) {
+		Alert alert = new Alert(AlertType.NONE);
+    //    alert.setTitle(titleBar);
+   //     alert.setHeaderText(headerMessage);
+        alert.setContentText(msg);
+        alert.showAndWait();
+	}
+	
+	
+	public static boolean charArrayContains(char[] chars, char letter) {
+		for (char x : chars) {
+	        if (x == letter) {
+	            return true;
+	        }
+	    }
+		return false;
 	}
 }

@@ -77,7 +77,6 @@ public class ControllerLogin {
 	}
 
 	public void initialize() {
-
 	}
 
 	/***********************************************/

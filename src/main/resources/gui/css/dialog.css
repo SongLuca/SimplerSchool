@@ -13,7 +13,7 @@
 .myDialog:header *.header-panel *.label{
     -fx-font-size: 18px;
     -fx-font-style: italic;
-    -fx-fill: #28C8AC;
+  
 }
 
 
