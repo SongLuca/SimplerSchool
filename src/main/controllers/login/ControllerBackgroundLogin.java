@@ -3,10 +3,7 @@ package main.controllers.login;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.concurrent.TimeUnit;
-
 import com.jfoenix.controls.JFXButton;
-
 import animatefx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -22,13 +19,15 @@ import main.utils.WindowStyle;
 
 public class ControllerBackgroundLogin {
 	@FXML
-	private StackPane root;
-
+	private StackPane rootStack;
+	@FXML
+	private AnchorPane rootPane;
+	
 	void openLogin() {
 		try {
 			AnchorPane loginPane = FXMLLoader.load(new File(Main.prop.getProperty("loginFXML")).toURI().toURL());
 			WindowStyle.setAnchorPaneConstraints(loginPane, 50, 50, 275, 275);
-			root.getChildren().add(loginPane);
+			rootPane.getChildren().add(loginPane);
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -39,7 +38,7 @@ public class ControllerBackgroundLogin {
 	}
 
 	public void initialize() {
-		new ZoomIn(root).play();
+		new ZoomIn(rootPane).play();
 		initTitleBox();
 		openLogin();
 	}
@@ -67,7 +66,7 @@ public class ControllerBackgroundLogin {
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) root.getScene().getWindow());
+			WindowStyle.close((Stage) rootStack.getScene().getWindow());
 		});
 	}
 	

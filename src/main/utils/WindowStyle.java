@@ -67,7 +67,11 @@ public class WindowStyle {
 	public static void close(Stage stage) {
 		stage.close();
 	}
-
+	
+	public static void closeByRoot(Parent root) {
+		((Stage)root.getScene().getWindow()).close();
+	}
+	
 	public static String addStyleSheet(String css) {
 		new WindowStyle(css);
 		return styleSheet;

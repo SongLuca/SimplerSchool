@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.effect.*?>
 <?import com.jfoenix.controls.*?>
 <?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
@@ -11,33 +12,37 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<StackPane fx:id="root" maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="800.0" styleClass="backgroundPane" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerBackgroundLogin">
+<StackPane fx:id="rootStack" maxHeight="600.0" maxWidth="1000.0" minHeight="600.0" minWidth="900.0" prefHeight="600.0" prefWidth="800.0" styleClass="backgroundPane" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerBackgroundLogin">
    <children>
       <ImageView fitHeight="600.0" fitWidth="900.0" opacity="0.2">
          <image>
             <Image url="@../../../images/pattern%20random.png" />
          </image>
       </ImageView>
-      <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="567.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+      <AnchorPane fx:id="rootPane" prefHeight="200.0" prefWidth="200.0">
          <children>
-            <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS" />
-            <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
+            <HBox fx:id="titleHBox" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="567.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <children>
-                  <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="60.0" text="">
-                     <graphic>
-                        <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../../images/titleClose.png" />
-                           </image>
-                           <viewport>
-                              <Rectangle2D />
-                           </viewport>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
+                  <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS" />
+                  <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="60.0" text="">
+                           <graphic>
+                              <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../../images/titleClose.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
                </children>
             </HBox>
          </children>
-      </HBox>
+      </AnchorPane>
    </children>
 </StackPane>

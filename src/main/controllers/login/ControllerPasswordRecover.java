@@ -3,7 +3,6 @@ package main.controllers.login;
 import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
-
 import animatefx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,7 +10,6 @@ import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.StackPane;
 import main.application.Main;
 import main.utils.WindowStyle;
 
@@ -27,7 +25,7 @@ public class ControllerPasswordRecover {
 			AnchorPane login = FXMLLoader.load(new File(Main.prop.getProperty("loginFXML")).toURI().toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
-			StackPane backgroundLogin = (StackPane) ((Node) e1.getSource()).getScene().lookup("#root");
+			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			backgroundLogin.getChildren().add(login);
 
 			FadeOutLeft fadeOutLeft = new FadeOutLeft(recoverPane);

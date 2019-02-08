@@ -18,8 +18,10 @@ import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Label;
+import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Priority;
@@ -52,7 +54,37 @@ public class SimplerSchoolUtil {
 		System.out.println("config.properties loaded");
 		return prop;
 	}
+	
 	public static Stage loadWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
+		Stage stage = null;
+		try {
+			URL fxmlURL = new File(Main.prop.getProperty(fxmlProp)).toURI().toURL();
+			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+			Parent root = (Parent) fxmlLoader.load();	
+			stage = new Stage();
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.setScene(new Scene(root));
+			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");
+			WindowStyle.allowDrag(titleBox, stage);
+			if(primaryStage != null)
+				stage.initOwner(primaryStage);
+			if(resizable)
+				new FXResizeHelper(stage,5,5);
+			if(appIconPath != null)
+				stage.getIcons().add(new Image(new File(Main.prop.getProperty("appIconPath")).toURI().toString()));
+			if(title != null)
+				stage.setTitle(Main.prop.getProperty(title));
+			stage.show();
+			root.requestFocus();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stage;
+	}
+	
+	public static Stage newWindow(String fxmlProp, boolean resizable, String appIconPath, String title) {
 		Stage stage = null;
 		try {
 			URL fxmlURL = new File(Main.prop.getProperty(fxmlProp)).toURI().toURL();
@@ -150,11 +182,12 @@ public class SimplerSchoolUtil {
         alert.showAndWait();
 	}
 	
-	public static void popUpDialog(StackPane root, String header, String body) {
+	public static void popUpDialog(StackPane root, AnchorPane pane, String header, String body) {
+		BoxBlur bb = new BoxBlur(3,3,3);
 		JFXDialogLayout content = new JFXDialogLayout();
 		content.setHeading(new Text(header));
 		content.setBody(new Text(body));
-		JFXDialog dialog = new JFXDialog(root, content, JFXDialog.DialogTransition.CENTER,true);
+		JFXDialog dialog = new JFXDialog(root, content, JFXDialog.DialogTransition.TOP);
 		JFXButton button = new JFXButton("Close");
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
@@ -162,8 +195,12 @@ public class SimplerSchoolUtil {
 				dialog.close();
 			}
 		});
+		dialog.setOnDialogClosed(e->{
+			pane.setEffect(null);
+		});
 		content.setActions(button);
 	    dialog.show();
+	    pane.setEffect(bb);
 	}
 	
 	
