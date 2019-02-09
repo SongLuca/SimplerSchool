@@ -18,8 +18,6 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.application.Main;
 import main.database.DataBaseHandler;
@@ -112,7 +110,7 @@ public class ControllerLogin {
 			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 			return false;
 		}
-		
+		System.out.println(Main.utente.toString());
 		endAnimation(e,root);
 		return true;
 	}

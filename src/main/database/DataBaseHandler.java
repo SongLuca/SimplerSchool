@@ -12,6 +12,7 @@ import com.mysql.jdbc.Blob;
 
 import java.sql.PreparedStatement;
 import main.application.Main;
+import main.application.models.Utente;
 import main.utils.PasswordHash;
 import main.utils.SimplerSchoolUtil;
 
@@ -26,6 +27,7 @@ import main.utils.SimplerSchoolUtil;
 public class DataBaseHandler {
 	private static DataBaseHandler DataBaseHandler = null;
 	private String msg;
+	private String passHash;
 	
 	private DataBaseHandler() {
 		
@@ -86,7 +88,7 @@ public class DataBaseHandler {
 	
 	public boolean runValidateUserQuery(String username, char[] pass) {
 		System.out.println("validating login");
-		String query = "SELECT UTENTE.PASS_HASH FROM UTENTE WHERE UTENTE.USERNAME = ?";
+		String query = "SELECT * FROM UTENTE WHERE UTENTE.USERNAME = ?";
 		Connection conn;
 		ResultSet rs = null;
 		try {
@@ -97,15 +99,15 @@ public class DataBaseHandler {
 			stmt.setString(1, username);
 			System.out.println(stmt);
 			rs = stmt.executeQuery();
-			String s = toStringResultSet(rs);
-			if(s.equals("")) {
+			Utente utente = this.RsToUtente(rs);
+			if(utente.getUsername().equals("")) {
 				this.setMsg("Incorrect username or password");
 				return false;
 			}
 			else {
 				try {
-					if(PasswordHash.validatePassword(pass,s)) {
-						this.setMsg("Welcome");
+					if(PasswordHash.validatePassword(pass,getPassHash())) {
+						Main.utente = utente;
 						conn.close();
 						return true;
 					}
@@ -122,6 +124,7 @@ public class DataBaseHandler {
 		} catch (SQLException e) {
 			System.out.println("Can not connect to the SQL database!");
 			this.setMsg("Can not connect to the SQL database!");
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} 
@@ -144,6 +147,7 @@ public class DataBaseHandler {
 			stmt.setString(4, pash_hash);   // pass_hash
 			stmt.setString(5, null); 		// scuola
 			stmt.setBlob(6, (Blob) null);
+			
 			stmt.execute();
 			System.out.println(stmt);
 		} catch (SQLException e) {
@@ -155,6 +159,22 @@ public class DataBaseHandler {
 		} catch (InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Utente RsToUtente(ResultSet rs) {
+		Utente utente = new Utente();
+		try {
+			while (rs.next()) {
+				utente.setUsername(rs.getString("username"));
+				utente.setNome(rs.getString("nome"));
+				utente.setCognome(rs.getString("cognome"));
+				utente.setScuola(rs.getString("scuola"));
+				this.savePassHash(rs.getString("pass_hash"));
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return utente;
 	}
 	
 	public String toStringResultSet(ResultSet rs) {
@@ -176,4 +196,15 @@ public class DataBaseHandler {
 		}
 		return toString;
 	}
+	
+	public void savePassHash(String passHash) {
+		this.passHash = passHash;
+	}
+	
+	public String getPassHash() {
+		String pass = this.passHash;
+		this.passHash = "";
+		return pass;
+	}
+	
 }

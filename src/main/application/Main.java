@@ -5,10 +5,12 @@ import java.sql.SQLException;
 import java.util.Properties;
 import javafx.application.Application;
 import javafx.stage.Stage;
+import main.application.models.Utente;
 import main.utils.SimplerSchoolUtil;
 
 public class Main extends Application {
 	public static Properties prop;
+	public static Utente utente;
 	
 	public static void main(String[] args) {
 		launch(args);
