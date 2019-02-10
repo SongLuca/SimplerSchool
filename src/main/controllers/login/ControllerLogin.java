@@ -1,8 +1,8 @@
 package main.controllers.login;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
@@ -21,7 +21,6 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
-import main.application.Main;
 import main.database.DataBaseHandler;
 import main.utils.Effect;
 import main.utils.SimplerSchoolUtil;
@@ -38,6 +37,8 @@ public class ControllerLogin {
 	private JFXPasswordField passField;
 	@FXML
 	private JFXSpinner loading;
+	@FXML
+	private JFXCheckBox rememberMe;
 	
 	@FXML
 	void animation(MouseEvent event) {
@@ -47,7 +48,7 @@ public class ControllerLogin {
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
-			AnchorPane register = FXMLLoader.load(new File(Main.prop.getProperty("registerFXML")).toURI().toURL());
+			AnchorPane register = FXMLLoader.load(SimplerSchoolUtil.getFileURI("registerFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(register, 50, 50, 275, 275);
 			register.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -72,8 +73,7 @@ public class ControllerLogin {
 	@FXML
 	void openRecover(MouseEvent e1) {
 		try {
-			AnchorPane recover = FXMLLoader
-					.load(new File(Main.prop.getProperty("passwordRecoverFXML")).toURI().toURL());
+			AnchorPane recover = FXMLLoader.load(SimplerSchoolUtil.getFileURI("passwordRecoverFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(recover, 50, 50, 275, 275);
 			recover.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -94,21 +94,21 @@ public class ControllerLogin {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	public boolean login(ActionEvent e) {
 		loginPane.setDisable(true);
 		StackPane root = (StackPane) ((Node) e.getSource()).getScene().lookup("#rootStack");
-		AnchorPane rootPane = (AnchorPane) ((Node) e.getSource()).getScene().lookup("#rootPane"); 
+		AnchorPane rootPane = (AnchorPane) ((Node) e.getSource()).getScene().lookup("#rootPane");
 		String username = usernameField.getText();
 		char[] password = passField.getText().toCharArray();
-		
-		if(username.trim().length() < 5) {
+
+		if (username.trim().length() < 5) {
 			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Username is too short!");
 			loginPane.setDisable(false);
 			return false;
 		}
-		if(password.length < 5) {
+		if (password.length < 5) {
 			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Password can not be empty!");
 			loginPane.setDisable(false);
 			return false;
@@ -118,44 +118,42 @@ public class ControllerLogin {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				loginPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().runValidateUserQuery(username,password);
+				return DataBaseHandler.getInstance().runValidateUserQuery(username, password);
 			}
 		};
-		
-		loginValidateTask.setOnFailed( event ->{
+
+		loginValidateTask.setOnFailed(event -> {
 			loading.setVisible(false);
 			loginPane.setDisable(false);
 			loginValidateTask.getException().printStackTrace();
 		});
-		
-		loginValidateTask.setOnSucceeded( event ->{
+
+		loginValidateTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
 			loginPane.setEffect(null);
-			if(loginValidateTask.getValue()) {
-				endAnimation(e,root);
-			}
-			else {
+			if (loginValidateTask.getValue()) {
+				endAnimation(e, root);
+			} else {
 				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loginPane.setDisable(false);
 			}
 		});
 		new Thread(loginValidateTask).start();
-		
+
 		return false;
 	}
-	
-	public void endAnimation(ActionEvent e,Parent root) {
-		 Timeline timeline = new Timeline();
-         KeyFrame key = new KeyFrame(Duration.millis(1500),
-                        new KeyValue (loginPane.opacityProperty(), 0)); 
-         timeline.getKeyFrames().add(key);   
-         timeline.setOnFinished((ae) -> {
-        	 WindowStyle.closeByRoot(root);
-        	 SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School");
-         }); 
-         timeline.play();
+
+	public void endAnimation(ActionEvent e, Parent root) {
+		Timeline timeline = new Timeline();
+		KeyFrame key = new KeyFrame(Duration.millis(1500), new KeyValue(loginPane.opacityProperty(), 0));
+		timeline.getKeyFrames().add(key);
+		timeline.setOnFinished((ae) -> {
+			WindowStyle.closeByRoot(root);
+			SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School");
+		});
+		timeline.play();
 	}
-	
+
 	public void initialize() {
 		loading.setVisible(false);
 		usernameField.setText("matteo");

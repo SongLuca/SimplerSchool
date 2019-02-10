@@ -3,6 +3,7 @@ package main.utils;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
 import java.util.Properties;
 import com.jfoenix.controls.JFXButton;
@@ -204,7 +205,6 @@ public class SimplerSchoolUtil {
 	    pane.setEffect(bb);
 	}
 	
-	
 	public static boolean charArrayContains(char[] chars, char letter) {
 		for (char x : chars) {
 	        if (x == letter) {
@@ -212,5 +212,9 @@ public class SimplerSchoolUtil {
 	        }
 	    }
 		return false;
+	}
+	
+	public static URI getFileURI(String path) {
+		return new File(PropertyParse.getString(path)).toURI();
 	}
 }

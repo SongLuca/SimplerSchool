@@ -1,6 +1,7 @@
 package main.application.models;
 
 public class Utente {
+	private int userid;
 	private String username;
 	private String nome;
 	private String cognome;
@@ -21,6 +22,14 @@ public class Utente {
 		this.scuola = scuola;
 	}
 	
+	public int getUserid() {
+		return userid;
+	}
+
+	public void setUserid(int userid) {
+		this.userid = userid;
+	}
+
 	public String getUsername() {
 		return username;
 	}
@@ -52,9 +61,12 @@ public class Utente {
 	public void setScuola(String scuola) {
 		this.scuola = scuola;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "Utente [username=" + username + ", nome=" + nome + ", cognome=" + cognome + ", scuola=" + scuola + "]";
+		return "Utente [userid=" + userid + ", username=" + username + ", nome=" + nome + ", cognome=" + cognome
+				+ ", scuola=" + scuola + "]";
 	}
+	
+	
 }

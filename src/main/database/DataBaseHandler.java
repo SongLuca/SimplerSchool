@@ -7,19 +7,14 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
-
-import com.mysql.jdbc.Blob;
-
 import java.sql.PreparedStatement;
 import main.application.Main;
 import main.application.models.Utente;
 import main.utils.PasswordHash;
-import main.utils.SimplerSchoolUtil;
+import main.utils.PropertyParse;
 
 /***********************************************
  * 	This is a Data Access Object
- * 
- * 
  * 
  * @author Administrator
  *
@@ -59,8 +54,8 @@ public class DataBaseHandler {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(Main.prop.getProperty("databasehost"),
-					Main.prop.getProperty("usernamesql"), Main.prop.getProperty("passwordsql"));
+			conn = DriverManager.getConnection(PropertyParse.getString("databasehost"),
+					PropertyParse.getString("usernamesql"), PropertyParse.getString("passwordsql"));
 			PreparedStatement  stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);
 			System.out.println(stmt);
@@ -93,8 +88,8 @@ public class DataBaseHandler {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(Main.prop.getProperty("databasehost"),
-					Main.prop.getProperty("usernamesql"), Main.prop.getProperty("passwordsql"));
+			conn = DriverManager.getConnection(PropertyParse.getString("databasehost"),
+					PropertyParse.getString("usernamesql"), PropertyParse.getString("passwordsql"));
 			PreparedStatement  stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);
 			System.out.println(stmt);
@@ -134,23 +129,25 @@ public class DataBaseHandler {
 	
 	public void updateUtenteTable(String username, char[] password, Connection conn) {
 		System.out.println("inserting user");
-		String query = "INSERT INTO UTENTE VALUES(?,?,?,?,?,?)";
+		String query = "INSERT INTO UTENTE(username,nome,cognome,pass_hash,scuola,avatar) "
+				+ "VALUES(?,?,?,?,?,?)";
 		try {
 			String pash_hash = PasswordHash.createHash(password);
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(Main.prop.getProperty("databasehost"),
-					Main.prop.getProperty("usernamesql"), Main.prop.getProperty("passwordsql"));
+			conn = DriverManager.getConnection(PropertyParse.getString("databasehost"),
+					PropertyParse.getString("usernamesql"), PropertyParse.getString("passwordsql"));
 			PreparedStatement  stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);	// username
 			stmt.setString(2, null); 		// nome
 			stmt.setString(3, null); 		// cognome
 			stmt.setString(4, pash_hash);   // pass_hash
 			stmt.setString(5, null); 		// scuola
-			stmt.setBlob(6, (Blob) null);
+			stmt.setString(6, null);		// avatar path
 			stmt.execute();
 			System.out.println(stmt);
 		} catch (SQLException e) {
-			SimplerSchoolUtil.errorMsg("Connection lost! Failed to update the user table!");
+		//	SimplerSchoolUtil.errorMsg("Connection lost! Failed to update the user table!");
+			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
@@ -164,6 +161,7 @@ public class DataBaseHandler {
 		Utente utente = new Utente();
 		try {
 			while (rs.next()) {
+				utente.setUserid(rs.getInt("user_id"));
 				utente.setUsername(rs.getString("username"));
 				utente.setNome(rs.getString("nome"));
 				utente.setCognome(rs.getString("cognome"));
