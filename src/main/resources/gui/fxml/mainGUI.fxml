@@ -11,7 +11,6 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-
 <StackPane fx:id="rootStack" prefHeight="700.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css">
@@ -200,7 +199,7 @@
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton id="menuCloseButton" fx:id="closeButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                        <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

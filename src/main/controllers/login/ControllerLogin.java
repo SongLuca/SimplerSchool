@@ -173,6 +173,7 @@ public class ControllerLogin {
 			rememberMe.setSelected(false);
 		}
 		loading.setVisible(false);
+		passField.setText("matteo123");
 	}
 
 	/***********************************************/

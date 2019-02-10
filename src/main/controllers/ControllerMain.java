@@ -178,10 +178,8 @@ public class ControllerMain {
 	@FXML
 	public void openCloseWindow(MouseEvent event) {
 		System.out.println("opening close window");
-		Stage close = SimplerSchoolUtil.loadWindow("closeFXML",
-				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
-		close.setMinHeight(Config.getDouble("config", "minHeightSettings"));
-		close.setMinWidth(Config.getDouble("config", "minWidthSettings"));
+		Stage close = SimplerSchoolUtil.loadNoTitleWindow("closeFXML",
+				(Stage)((Node)event.getSource()).getScene().getWindow(), false, null, null);
 	}
 	
 	/*********** Custom Window title bar ************/

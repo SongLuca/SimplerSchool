@@ -123,6 +123,34 @@ public class SimplerSchoolUtil {
 		return stage;
 	}
 	
+	public static Stage loadNoTitleWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
+		Stage stage = null;
+		try {
+			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
+			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+			Parent root = (Parent) fxmlLoader.load();	
+			stage = new Stage();
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initStyle(StageStyle.UNDECORATED);
+			stage.initOwner(primaryStage);
+			stage.setScene(new Scene(root));
+			if(primaryStage != null)
+				stage.initOwner(primaryStage);
+			if(resizable)
+				new FXResizeHelper(stage,5,5);
+			if(appIconPath != null)
+				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
+			if(title != null)
+				stage.setTitle(Config.getString("config", title));
+			stage.show();
+			root.requestFocus();
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return stage;
+	}
+	
 	public static Stage newWindow(String fxmlProp, boolean resizable, String appIconPath, String title) {
 		Stage stage = null;
 		try {

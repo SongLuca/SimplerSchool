@@ -1,8 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane xmlns:fx="http://javafx.com/fxml/1">
-	<!-- TODO Add Nodes -->
+<AnchorPane id="topPane" prefHeight="100.0" prefWidth="250.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Label prefHeight="45.0" prefWidth="175.0" text="Exit Simpler School ?" textAlignment="CENTER" wrapText="true" AnchorPane.leftAnchor="40.0" AnchorPane.topAnchor="10.0">
+               <font>
+                  <Font size="17.0" />
+               </font>
+            </Label>
+            <HBox alignment="CENTER" prefHeight="51.0" prefWidth="212.0" spacing="5.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+               <children>
+                  <JFXButton prefHeight="30.0" prefWidth="50.0" text="Yes" />
+                  <JFXButton prefHeight="30.0" prefWidth="70.0" text="Log out" />
+                  <JFXButton prefHeight="30.0" prefWidth="50.0" text="No" />
+               </children>
+            </HBox>
+         </children>
+      </AnchorPane>
+   </children>
 </AnchorPane>
-
