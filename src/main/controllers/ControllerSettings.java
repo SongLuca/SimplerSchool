@@ -15,8 +15,8 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
+import main.application.models.Config;
 import main.utils.FXResizeHelper;
-import main.utils.PropertyParse;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -42,11 +42,11 @@ public class ControllerSettings {
 		initTitleBox();
 		backButton.setVisible(false);
 		backButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURI("backHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "backHoverImagePath").toString();
 			backImage.setImage(new Image(img));
 		});
 		backButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURI("backImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "backImagePath").toString();
 			backImage.setImage(new Image(img));
 		});
 		new ZoomOut(pop).play();
@@ -54,7 +54,7 @@ public class ControllerSettings {
 	@FXML
 	public void backToSettings() { 
 		try {
-			Parent fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURI("settingsFXML").toURL());
+			Parent fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "settingsFXML").toURL());
 			Stage currentStage = (Stage)pop.getScene().getWindow();
 			currentStage.setScene(new Scene(fxml));
 			mainPane.setPrefHeight(currentStage.getHeight());
@@ -70,7 +70,7 @@ public class ControllerSettings {
 	@FXML
 	public void openOrarioSettimanale(){
 		try {
-			AnchorPane fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURI("orarioSettimanaleFXML").toURL());
+			AnchorPane fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "orarioSettimanaleFXML").toURL());
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(fxml);
 			title.setText("Orario Settimanale");
@@ -84,8 +84,8 @@ public class ControllerSettings {
 			AnchorPane.setRightAnchor(subcontentpane, 0.0);
 			
 			Stage stage = (Stage)pop.getScene().getWindow();
-			stage.setMinHeight(PropertyParse.getDouble("prefHeightOS"));
-			stage.setMinWidth(PropertyParse.getDouble("prefWidthOS"));
+			stage.setMinHeight(Config.getDouble("config", "prefHeightOS"));
+			stage.setMinWidth(Config.getDouble("config", "prefWidthOS"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			new FadeInUp(contentPane).setOnFinished(e->{
@@ -119,19 +119,19 @@ public class ControllerSettings {
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURI("titleCloseHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURI("titleCloseImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("titleMaxmizeHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("titleMaxmizeImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleMaxmizeImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

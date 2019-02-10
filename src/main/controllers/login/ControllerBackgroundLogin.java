@@ -24,7 +24,7 @@ public class ControllerBackgroundLogin {
 	
 	void openLogin() {
 		try {
-			AnchorPane loginPane = FXMLLoader.load(SimplerSchoolUtil.getFileURI("loginFXML").toURL());
+			AnchorPane loginPane = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(loginPane, 50, 50, 275, 275);
 			rootPane.getChildren().add(loginPane);
 		} catch (MalformedURLException e) {
@@ -57,11 +57,11 @@ public class ControllerBackgroundLogin {
 	
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURI("titleCloseHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURI("titleCloseImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

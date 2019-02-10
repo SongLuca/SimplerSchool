@@ -51,7 +51,7 @@ public class ControllerRegister {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURI("loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -138,7 +138,7 @@ public class ControllerRegister {
 	
 	public void openRegCompleted(ActionEvent e1) {
 		try {
-			AnchorPane regCompleted = FXMLLoader.load(SimplerSchoolUtil.getFileURI("regCompletedFXML").toURL());
+			AnchorPane regCompleted = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "regCompletedFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			backgroundLogin.getChildren().add(regCompleted);
@@ -160,7 +160,7 @@ public class ControllerRegister {
 	public void initialize() {
 		loading.setVisible(false);
 		profileImage.setFill(
-				new ImagePattern(new Image(SimplerSchoolUtil.getFileURI("defaultAvatar").toString())));
+				new ImagePattern(new Image(SimplerSchoolUtil.getFileURI("config", "defaultAvatar").toString())));
 	}
 
 	/***********************************************/

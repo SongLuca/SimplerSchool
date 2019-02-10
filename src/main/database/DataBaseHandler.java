@@ -9,9 +9,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
 import main.application.Main;
+import main.application.models.Config;
 import main.application.models.Utente;
 import main.utils.PasswordHash;
-import main.utils.PropertyParse;
 
 /***********************************************
  * 	This is a Data Access Object
@@ -54,8 +54,8 @@ public class DataBaseHandler {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(PropertyParse.getString("databasehost"),
-					PropertyParse.getString("usernamesql"), PropertyParse.getString("passwordsql"));
+			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
+					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement  stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);
 			System.out.println(stmt);
@@ -75,7 +75,6 @@ public class DataBaseHandler {
 		} catch (SQLException e) {
 			this.setMsg("Can not connect to the SQL database!");
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -88,8 +87,8 @@ public class DataBaseHandler {
 		ResultSet rs = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(PropertyParse.getString("databasehost"),
-					PropertyParse.getString("usernamesql"), PropertyParse.getString("passwordsql"));
+			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
+					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement  stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);
 			System.out.println(stmt);
@@ -120,7 +119,6 @@ public class DataBaseHandler {
 		} catch (SQLException e) {
 			System.out.println("Can not connect to the SQL database!");
 			this.setMsg("Can not connect to the SQL database!");
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} 
@@ -134,8 +132,8 @@ public class DataBaseHandler {
 		try {
 			String pash_hash = PasswordHash.createHash(password);
 			Class.forName("com.mysql.jdbc.Driver");
-			conn = DriverManager.getConnection(PropertyParse.getString("databasehost"),
-					PropertyParse.getString("usernamesql"), PropertyParse.getString("passwordsql"));
+			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
+					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement  stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);	// username
 			stmt.setString(2, null); 		// nome

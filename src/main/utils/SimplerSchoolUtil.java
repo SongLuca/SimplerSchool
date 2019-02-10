@@ -2,6 +2,8 @@ package main.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
@@ -31,33 +33,71 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.application.Main;
+import main.application.models.Config;
 
 public class SimplerSchoolUtil {
+	private static String config = "src/main/resources/config/config.properties";
+	private static String userConfig = "src/main/resources/config/userconfig.properties";
 	
-	public static Properties readProperties(String propFileName) {
+	public static Properties readProperties(String configName) {
 		Properties prop = new Properties();
-		FileInputStream fit = null ;
+		String configPath = "";
+		switch(configName) {
+			case "config":
+				configPath = config;
+				break;
+			case "userconfig":
+				configPath = userConfig;
+				break;
+			default:
+				System.out.println(configName+ " - no such properties file found");
+				break;
+		}
 		try{
-			fit = new FileInputStream(propFileName);
+			FileInputStream fit =new FileInputStream(configPath);
 			prop.load(fit);
+	        fit.close();
+	        System.out.println(configName + ".properties loaded");
 		}
 		catch (Exception e) {
 			System.out.println("Exception: " + e);
 		} 
-		try {
-			fit.close();
-		} catch (IOException e) {
-			System.out.println("exception caught while closing config.properties stream");
-		}
-		System.out.println("config.properties loaded");
 		return prop;
+	}
+	
+	public static void saveProperties(Properties p, String configName, boolean reload) {
+		FileOutputStream fos;
+		String configPath = "";
+		switch(configName) {
+			case "config":
+				configPath = config;
+				break;
+			case "userconfig":
+				configPath = userConfig;
+				break;
+			default:
+				System.out.println(configName+ " - no such properties file found");
+				break;
+		}
+		try {
+			fos = new FileOutputStream(configPath);
+			 p.store(fos, null);
+		     fos.close();
+		     System.out.println(configName+ " saved");
+		     if(reload) {
+		    	 readProperties(configName);
+		     }
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public static Stage loadWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Main.prop.getProperty(fxmlProp)).toURI().toURL();
+			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = (Parent) fxmlLoader.load();	
 			stage = new Stage();
@@ -71,9 +111,9 @@ public class SimplerSchoolUtil {
 			if(resizable)
 				new FXResizeHelper(stage,5,5);
 			if(appIconPath != null)
-				stage.getIcons().add(new Image(new File(Main.prop.getProperty("appIconPath")).toURI().toString()));
+				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
 			if(title != null)
-				stage.setTitle(Main.prop.getProperty(title));
+				stage.setTitle(Config.getString("config", title));
 			stage.show();
 			root.requestFocus();
 			
@@ -86,7 +126,7 @@ public class SimplerSchoolUtil {
 	public static Stage newWindow(String fxmlProp, boolean resizable, String appIconPath, String title) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Main.prop.getProperty(fxmlProp)).toURI().toURL();
+			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = (Parent) fxmlLoader.load();	
 			stage = new Stage();
@@ -98,9 +138,9 @@ public class SimplerSchoolUtil {
 			if(resizable)
 				new FXResizeHelper(stage,5,5);
 			if(appIconPath != null)
-				stage.getIcons().add(new Image(new File(Main.prop.getProperty("appIconPath")).toURI().toString()));
+				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
 			if(title != null)
-				stage.setTitle(Main.prop.getProperty(title));
+				stage.setTitle(Config.getString("config", title));
 			stage.show();
 			root.requestFocus();
 			
@@ -214,7 +254,7 @@ public class SimplerSchoolUtil {
 		return false;
 	}
 	
-	public static URI getFileURI(String path) {
-		return new File(PropertyParse.getString(path)).toURI();
+	public static URI getFileURI(String configName, String path) {
+		return new File(Config.getString(configName, path)).toURI();
 	}
 }

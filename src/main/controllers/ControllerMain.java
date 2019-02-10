@@ -28,7 +28,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import main.utils.PropertyParse;
+import main.application.models.Config;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -171,8 +171,8 @@ public class ControllerMain {
 		System.out.println("opening settings window");
 		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
 				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
-		settings.setMinHeight(PropertyParse.getInt("minHeightSettings"));
-		settings.setMinWidth(PropertyParse.getInt("minWidthSettings"));
+		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
+		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
 	}
 	
 	@FXML
@@ -180,8 +180,8 @@ public class ControllerMain {
 		System.out.println("opening close window");
 		Stage close = SimplerSchoolUtil.loadWindow("closeFXML",
 				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
-		close.setMinHeight(PropertyParse.getInt("minHeightSettings"));
-		close.setMinWidth(PropertyParse.getInt("minWidthSettings"));
+		close.setMinHeight(Config.getDouble("config", "minHeightSettings"));
+		close.setMinWidth(Config.getDouble("config", "minWidthSettings"));
 	}
 	
 	/*********** Custom Window title bar ************/
@@ -212,27 +212,27 @@ public class ControllerMain {
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURI("titleCloseHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURI("titleCloseImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("titleMaxmizeHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("titleMaxmizeImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleMaxmizeImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseEntered(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("titleHideHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleHideHoverImagePath").toString();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseExited(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("titleHideImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURI("config", "titleHideImagePath").toString();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseClicked(e -> {

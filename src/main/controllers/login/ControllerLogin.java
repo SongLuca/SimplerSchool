@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import main.application.models.Config;
 import main.database.DataBaseHandler;
 import main.utils.Effect;
 import main.utils.SimplerSchoolUtil;
@@ -48,7 +49,7 @@ public class ControllerLogin {
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
-			AnchorPane register = FXMLLoader.load(SimplerSchoolUtil.getFileURI("registerFXML").toURL());
+			AnchorPane register = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "registerFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(register, 50, 50, 275, 275);
 			register.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -73,7 +74,7 @@ public class ControllerLogin {
 	@FXML
 	void openRecover(MouseEvent e1) {
 		try {
-			AnchorPane recover = FXMLLoader.load(SimplerSchoolUtil.getFileURI("passwordRecoverFXML").toURL());
+			AnchorPane recover = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "passwordRecoverFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(recover, 50, 50, 275, 275);
 			recover.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -133,6 +134,15 @@ public class ControllerLogin {
 			loginPane.setEffect(null);
 			if (loginValidateTask.getValue()) {
 				endAnimation(e, root);
+				if(rememberMe.isSelected()) {
+					Config.userConfig.setProperty("rememberMe", "true");
+					Config.userConfig.setProperty("rememberedUser", username);
+				}
+				else{
+					Config.userConfig.setProperty("rememberMe", "false");
+					Config.userConfig.setProperty("rememberedUser", "");
+				}
+				SimplerSchoolUtil.saveProperties(Config.userConfig, "userconfig", true);
 			} else {
 				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loginPane.setDisable(false);
@@ -155,9 +165,14 @@ public class ControllerLogin {
 	}
 
 	public void initialize() {
+		if(Config.getBoolean("userconfig", "rememberMe")) {
+			rememberMe.setSelected(true);
+			usernameField.setText(Config.getString("userconfig", "rememberedUser"));
+		}
+		else {
+			rememberMe.setSelected(false);
+		}
 		loading.setVisible(false);
-		usernameField.setText("matteo");
-		passField.setText("matteo123");
 	}
 
 	/***********************************************/
