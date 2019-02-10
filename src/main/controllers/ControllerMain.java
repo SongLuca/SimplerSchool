@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
@@ -36,6 +37,11 @@ import main.utils.WindowStyle;
 
 public class ControllerMain {
 	private final int HAMMENUSIZE = 230;
+	@FXML
+	private StackPane rootStack;
+	
+	@FXML
+	private AnchorPane rootPane;
 	
 	@FXML
 	private AnchorPane menuPane;
@@ -116,7 +122,7 @@ public class ControllerMain {
 			profileButton.setText("Profile");
 
 			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
-			closeButton.setText("Exit");
+			closeButton.setText("Log out");
 
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
@@ -165,11 +171,20 @@ public class ControllerMain {
 	
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
-		System.out.println("Opening settings window");
+		System.out.println("opening settings window");
 		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
 				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Integer.parseInt(Main.prop.getProperty("minHeightSettings")));
 		settings.setMinWidth(Integer.parseInt(Main.prop.getProperty("minWidthSettings")));
+	}
+	
+	@FXML
+	public void openCloseWindow(MouseEvent event) {
+		System.out.println("opening close window");
+		Stage close = SimplerSchoolUtil.loadWindow("closeFXML",
+				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
+		close.setMinHeight(Integer.parseInt(Main.prop.getProperty("minHeightSettings")));
+		close.setMinWidth(Integer.parseInt(Main.prop.getProperty("minWidthSettings")));
 	}
 	
 	/*********** Custom Window title bar ************/

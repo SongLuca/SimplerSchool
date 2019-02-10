@@ -52,8 +52,8 @@ public class DataBaseHandler {
 		return msg;
 	}
 	
-	public boolean runRegisterValidateQuery(String username) {
-		System.out.println("Validating username");
+	public boolean runRegisterValidateQuery(String username, char[] password) {
+		System.out.println("validating username");
 		String query = "SELECT * FROM UTENTE WHERE UTENTE.USERNAME = ?";
 		Connection conn;
 		ResultSet rs = null;
@@ -68,11 +68,11 @@ public class DataBaseHandler {
 			String s = toStringResultSet(rs);
 			if(s.equals("")) {
 				System.out.println("the username is not used");
-				conn.close();
+				updateUtenteTable(username, password, conn);
 				return true;
 			}
 			else {
-				System.out.println("the username is already taken");
+				setMsg("the username is already taken");
 				conn.close();
 				return false;
 			}
@@ -100,7 +100,8 @@ public class DataBaseHandler {
 			System.out.println(stmt);
 			rs = stmt.executeQuery();
 			Utente utente = this.RsToUtente(rs);
-			if(utente.getUsername().equals("")) {
+			System.out.println(utente.toString());
+			if(utente.getUsername() == null) {
 				this.setMsg("Incorrect username or password");
 				return false;
 			}
@@ -131,10 +132,9 @@ public class DataBaseHandler {
 		return false;
 	}
 	
-	public void updateUtenteTable(String username, char[] password) {
+	public void updateUtenteTable(String username, char[] password, Connection conn) {
 		System.out.println("inserting user");
 		String query = "INSERT INTO UTENTE VALUES(?,?,?,?,?,?)";
-		Connection conn;
 		try {
 			String pash_hash = PasswordHash.createHash(password);
 			Class.forName("com.mysql.jdbc.Driver");
@@ -147,7 +147,6 @@ public class DataBaseHandler {
 			stmt.setString(4, pash_hash);   // pass_hash
 			stmt.setString(5, null); 		// scuola
 			stmt.setBlob(6, (Blob) null);
-			
 			stmt.execute();
 			System.out.println(stmt);
 		} catch (SQLException e) {

@@ -4,11 +4,13 @@ import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import animatefx.animation.*;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -21,6 +23,7 @@ import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
 import main.application.Main;
 import main.database.DataBaseHandler;
+import main.utils.Effect;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -33,7 +36,9 @@ public class ControllerLogin {
 	private JFXTextField usernameField;
 	@FXML
 	private JFXPasswordField passField;
-
+	@FXML
+	private JFXSpinner loading;
+	
 	@FXML
 	void animation(MouseEvent event) {
 		// new FadeOutRight(loginPane).play();
@@ -92,6 +97,7 @@ public class ControllerLogin {
 	
 	@FXML
 	public boolean login(ActionEvent e) {
+		loginPane.setDisable(true);
 		StackPane root = (StackPane) ((Node) e.getSource()).getScene().lookup("#rootStack");
 		AnchorPane rootPane = (AnchorPane) ((Node) e.getSource()).getScene().lookup("#rootPane"); 
 		String username = usernameField.getText();
@@ -99,20 +105,43 @@ public class ControllerLogin {
 		
 		if(username.trim().length() < 5) {
 			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Username is too short!");
+			loginPane.setDisable(false);
 			return false;
 		}
 		if(password.length < 5) {
 			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Password can not be empty!");
+			loginPane.setDisable(false);
 			return false;
 		}
+		Task<Boolean> loginValidateTask = new Task<Boolean>() {
+			@Override
+			protected Boolean call() throws Exception {
+				loading.setVisible(true);
+				loginPane.setEffect(Effect.blur());
+				return DataBaseHandler.getInstance().runValidateUserQuery(username,password);
+			}
+		};
 		
-		if(!DataBaseHandler.getInstance().runValidateUserQuery(username,password)) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
-			return false;
-		}
-		System.out.println(Main.utente.toString());
-		endAnimation(e,root);
-		return true;
+		loginValidateTask.setOnFailed( event ->{
+			loading.setVisible(false);
+			loginPane.setDisable(false);
+			loginValidateTask.getException().printStackTrace();
+		});
+		
+		loginValidateTask.setOnSucceeded( event ->{
+			loading.setVisible(false);
+			loginPane.setEffect(null);
+			if(loginValidateTask.getValue()) {
+				endAnimation(e,root);
+			}
+			else {
+				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				loginPane.setDisable(false);
+			}
+		});
+		new Thread(loginValidateTask).start();
+		
+		return false;
 	}
 	
 	public void endAnimation(ActionEvent e,Parent root) {
@@ -128,7 +157,9 @@ public class ControllerLogin {
 	}
 	
 	public void initialize() {
-		
+		loading.setVisible(false);
+		usernameField.setText("matteo");
+		passField.setText("matteo123");
 	}
 
 	/***********************************************/

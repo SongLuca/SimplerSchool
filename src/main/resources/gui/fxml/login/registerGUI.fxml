@@ -81,5 +81,6 @@
             </VBox>
          </children>
       </AnchorPane>
+      <JFXSpinner fx:id="loading" layoutX="135.0" layoutY="210.0" prefHeight="80.0" prefWidth="80.0" />
    </children>
 </AnchorPane>

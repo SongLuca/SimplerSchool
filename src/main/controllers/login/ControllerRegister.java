@@ -5,8 +5,10 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import animatefx.animation.*;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -20,6 +22,7 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import main.application.Main;
 import main.database.DataBaseHandler;
+import main.utils.Effect;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -38,6 +41,9 @@ public class ControllerRegister {
 	
 	@FXML
 	private JFXPasswordField passField, confirmPassField;
+	
+	@FXML
+	private JFXSpinner loading;
 	
 	@FXML
 	void animation(MouseEvent event) {
@@ -97,15 +103,35 @@ public class ControllerRegister {
 			return false;
 		}	
 		
-		if(!DataBaseHandler.getInstance().runRegisterValidateQuery(username)) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Username already taken!");
-			return false;
-		}
+		Task<Boolean> registerTask = new Task<Boolean>() {
+			@Override
+			protected Boolean call() throws Exception {
+				loading.setVisible(true);
+				registerPane.setEffect(Effect.blur());
+				return DataBaseHandler.getInstance().runRegisterValidateQuery(username,password);
+			}
+		};
 		
-		DataBaseHandler.getInstance().updateUtenteTable(username, password);
-		//SimplerSchoolUtil.confirmMsg("Registration completed");
-		openRegCompleted(event);
-		return true;
+		registerTask.setOnFailed( event1 ->{
+			loading.setVisible(false);
+			registerPane.setDisable(false);
+			registerTask.getException().printStackTrace();
+		});
+		
+		registerTask.setOnSucceeded( event1 ->{
+			loading.setVisible(false);
+			registerPane.setEffect(null);
+			if(registerTask.getValue()) {
+				openRegCompleted(event);
+			}
+			else {
+				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				registerPane.setDisable(false);
+			}
+		});
+		new Thread(registerTask).start();
+	
+		return false;
 	}
 	
 	public void openRegCompleted(ActionEvent e1) {
@@ -130,6 +156,7 @@ public class ControllerRegister {
 	}
 	
 	public void initialize() {
+		loading.setVisible(false);
 		profileImage.setFill(
 				new ImagePattern(new Image(new File(Main.prop.getProperty("defaultAvatar")).toURI().toString())));
 	}

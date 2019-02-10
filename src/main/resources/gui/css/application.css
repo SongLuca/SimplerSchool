@@ -56,7 +56,7 @@
 }
 
 #topPane{
-	-fx-background-color:  #FFC950;
+	-fx-background-color:  #28C8AC;
 }
 
 
@@ -84,6 +84,7 @@
 	
 }
 .menuProfilePane{
+	
 	}
 .calendar_pane {
     -fx-border-color: black;

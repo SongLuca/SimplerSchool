@@ -5,11 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.util.Properties;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -135,6 +133,9 @@ public class SimplerSchoolUtil {
 				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 					System.out.println("grid");
+					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
+					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane"); 
+					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
 				/*	inputSubject = new TextInputDialog();
 					inputSubject.setContentText("Insert the subject");
 					inputSubject.setTitle(null);

@@ -40,7 +40,7 @@
                   <Image url="@../../../images/icon.png" />
                </image>
             </ImageView>
-            <VBox layoutX="75.0" layoutY="193.0" prefHeight="260.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="47.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="193.0">
+            <VBox layoutX="65.0" layoutY="191.0" prefHeight="260.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="49.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="191.0">
                <children>
                   <JFXTextField fx:id="usernameField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
@@ -52,7 +52,7 @@
                         <Font size="18.0" />
                      </font>
                   </JFXPasswordField>
-                  <HBox prefHeight="100.0" prefWidth="200.0">
+                  <HBox prefHeight="48.0" prefWidth="220.0">
                      <children>
                         <JFXCheckBox checkedColor="#19bd9a" prefHeight="18.0" prefWidth="122.0" styleClass="text" text="Remeber me" unCheckedColor="#8a8a8a" />
                         <Label onMouseClicked="#openRecover" prefHeight="17.0" prefWidth="113.0" styleClass="text" text="Forgot password?" underline="true" />
@@ -71,14 +71,14 @@
                         </LinearGradient>
                      </ripplerFill>
                   </JFXButton>
-                  <HBox alignment="CENTER" prefHeight="24.0" prefWidth="180.0">
+                  <HBox alignment="CENTER" prefHeight="38.0" prefWidth="220.0">
                      <children>
-                        <Label prefHeight="19.0" prefWidth="123.0" styleClass="text" text="Not Registered?  ">
+                        <Label prefHeight="19.0" prefWidth="122.0" styleClass="text" text="Not Registered?  ">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="registerLabel" onMouseClicked="#openRegister" prefHeight="19.0" prefWidth="89.0" styleClass="text" text="Sign Up" underline="true">
+                        <Label fx:id="registerLabel" onMouseClicked="#openRegister" prefHeight="19.0" prefWidth="57.0" styleClass="text" text="Sign Up" underline="true">
                            <font>
                               <Font size="14.0" />
                            </font>
@@ -89,5 +89,6 @@
             </VBox>
          </children>
       </AnchorPane>
+      <JFXSpinner fx:id="loading" layoutX="135.0" layoutY="210.0" prefHeight="80.0" prefWidth="80.0" />
    </children>
 </AnchorPane>
