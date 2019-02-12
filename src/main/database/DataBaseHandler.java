@@ -12,6 +12,7 @@ import main.application.Main;
 import main.application.models.Config;
 import main.application.models.Utente;
 import main.utils.PasswordHash;
+import main.utils.SimplerSchoolUtil;
 
 /***********************************************
  * 	This is a Data Access Object
@@ -127,7 +128,7 @@ public class DataBaseHandler {
 	
 	public void updateUtenteTable(String username, char[] password, Connection conn) {
 		System.out.println("inserting user");
-		String query = "INSERT INTO UTENTE(username,nome,cognome,pass_hash,scuola,avatar) "
+		String query = "INSERT INTO UTENTE(username,nome,cognome,pass_hash,scuola,avatar_path) "
 				+ "VALUES(?,?,?,?,?,?)";
 		try {
 			String pash_hash = PasswordHash.createHash(password);

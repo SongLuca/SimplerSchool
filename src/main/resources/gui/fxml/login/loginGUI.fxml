@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.*?>
-<?import java.lang.*?>
-<?import javafx.geometry.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.effect.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.paint.*?>
-<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import java.lang.String?>
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.effect.Shadow?>
@@ -26,7 +19,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
    <children>
       <Pane fx:id="innerBackgroundShadow" layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="350.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
@@ -55,7 +48,11 @@
                   <HBox prefHeight="48.0" prefWidth="220.0">
                      <children>
                         <JFXCheckBox fx:id="rememberMe" checkedColor="#19bd9a" prefHeight="18.0" prefWidth="122.0" styleClass="text" text="Remeber me" unCheckedColor="#8a8a8a" />
-                        <Label onMouseClicked="#openRecover" prefHeight="17.0" prefWidth="113.0" styleClass="text" text="Forgot password?" underline="true" />
+                        <Label onMouseClicked="#openRecover" prefHeight="17.0" prefWidth="113.0" text="Forgot password?" underline="true">
+                           <styleClass>
+                              <String fx:value="text" />
+                              <String fx:value="loginTextHover" />
+                           </styleClass></Label>
                      </children>
                   </HBox>
                   <JFXButton minHeight="50.0" minWidth="180.0" onAction="#login" prefHeight="50.0" prefWidth="229.0" styleClass="actionButton" text="Login">
@@ -78,10 +75,14 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label fx:id="registerLabel" onMouseClicked="#openRegister" prefHeight="19.0" prefWidth="57.0" styleClass="text" text="Sign Up" underline="true">
+                        <Label fx:id="registerLabel" onMouseClicked="#openRegister" prefHeight="19.0" prefWidth="57.0" text="Sign Up" underline="true">
                            <font>
                               <Font size="14.0" />
                            </font>
+                           <styleClass>
+                              <String fx:value="loginTextHover" />
+                              <String fx:value="text" />
+                           </styleClass>
                         </Label>
                      </children>
                   </HBox>

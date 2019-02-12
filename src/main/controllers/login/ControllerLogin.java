@@ -159,7 +159,7 @@ public class ControllerLogin {
 		timeline.getKeyFrames().add(key);
 		timeline.setOnFinished((ae) -> {
 			WindowStyle.closeByRoot(root);
-			SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School");
+			SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School",1200,700);
 		});
 		timeline.play();
 	}
@@ -173,7 +173,7 @@ public class ControllerLogin {
 			rememberMe.setSelected(false);
 		}
 		loading.setVisible(false);
-		passField.setText("matteo123");
+		passField.setText("12345");
 	}
 
 	/***********************************************/

@@ -29,6 +29,7 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -99,11 +100,13 @@ public class SimplerSchoolUtil {
 		try {
 			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
-			Parent root = (Parent) fxmlLoader.load();	
+			Parent root = fxmlLoader.load();	
 			stage = new Stage();
 			stage.initModality(Modality.WINDOW_MODAL);
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setScene(new Scene(root));
+			stage.initStyle(StageStyle.TRANSPARENT);
+			Scene scene = new Scene(root);
+			scene.setFill(Color.TRANSPARENT);
+			stage.setScene(scene);
 			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");
 			WindowStyle.allowDrag(titleBox, stage);
 			if(primaryStage != null)
@@ -113,7 +116,7 @@ public class SimplerSchoolUtil {
 			if(appIconPath != null)
 				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
 			if(title != null)
-				stage.setTitle(Config.getString("config", title));
+				stage.setTitle(title);
 			stage.show();
 			root.requestFocus();
 			
@@ -128,7 +131,7 @@ public class SimplerSchoolUtil {
 		try {
 			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
-			Parent root = (Parent) fxmlLoader.load();	
+			Parent root = fxmlLoader.load();	
 			stage = new Stage();
 			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initStyle(StageStyle.UNDECORATED);
@@ -141,7 +144,7 @@ public class SimplerSchoolUtil {
 			if(appIconPath != null)
 				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
 			if(title != null)
-				stage.setTitle(Config.getString("config", title));
+				stage.setTitle(title);
 			stage.show();
 			root.requestFocus();
 			
@@ -151,16 +154,17 @@ public class SimplerSchoolUtil {
 		return stage;
 	}
 	
-	public static Stage newWindow(String fxmlProp, boolean resizable, String appIconPath, String title) {
+	public static Stage newWindow(String fxmlProp, boolean resizable, String appIconPath, String title, double minW, double minH) {
 		Stage stage = null;
 		try {
 			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
-			Parent root = (Parent) fxmlLoader.load();	
+			Parent root = fxmlLoader.load();	
 			stage = new Stage();
-			stage.initModality(Modality.WINDOW_MODAL);
 			stage.initStyle(StageStyle.UNDECORATED);
 			stage.setScene(new Scene(root));
+			stage.setMinWidth(minW);
+			stage.setMinHeight(minH);
 			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");
 			WindowStyle.allowDrag(titleBox, stage);
 			if(resizable)
@@ -168,7 +172,7 @@ public class SimplerSchoolUtil {
 			if(appIconPath != null)
 				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
 			if(title != null)
-				stage.setTitle(Config.getString("config", title));
+				stage.setTitle(title);
 			stage.show();
 			root.requestFocus();
 			

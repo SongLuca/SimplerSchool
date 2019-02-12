@@ -41,3 +41,7 @@
 	-fx-background-color: #19bd9a;
 	-fx-background-repeat: no-repeat;
 }
+
+.loginTextHover:hover{
+	-fx-text-fill: #19bd9a;
+}
