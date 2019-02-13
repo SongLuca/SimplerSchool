@@ -257,6 +257,7 @@ public class SimplerSchoolUtil {
 	}
 	
 	public static void popUpDialog(StackPane root, AnchorPane pane, String header, String body) {
+		root.setVisible(true);
 		BoxBlur bb = new BoxBlur(3,3,3);
 		JFXDialogLayout content = new JFXDialogLayout();
 		content.setHeading(new Text(header));
@@ -271,6 +272,7 @@ public class SimplerSchoolUtil {
 		});
 		dialog.setOnDialogClosed(e->{
 			pane.setEffect(null);
+			root.setVisible(false);
 		});
 		content.setActions(button);
 	    dialog.show();

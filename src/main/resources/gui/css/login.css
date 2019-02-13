@@ -1,5 +1,11 @@
 /* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
 
+/* Colore Scuro: #2d3e50;
+ * Verde Acqua: #19bd9a;
+ * Text Color: #8a8a8a;
+ * 
+ */
+
 .backgroundPane{
 	-fx-background-color:  #19bd9a;	
 }

@@ -26,210 +26,206 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
-      <StackPane fx:id="rootStack" layoutX="9.0" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" style="-fx-background-color: red;" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css">
+            <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="667.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <children>
-                  <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="667.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+                  <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Simpler School">
-                                 <font>
-                                    <Font name="System Italic" size="16.0" />
-                                 </font>
-                              </Label>
-                           </children>
-                        </HBox>
-                        <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
-                           <children>
-                              <JFXButton fx:id="titleHideButton" prefHeight="30.0" prefWidth="60.0" text="">
-                                 <graphic>
-                                    <ImageView fx:id="titleHideImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../images/titleHide.png" />
-                                       </image>
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton fx:id="titleMaxmizeButton" prefHeight="30.0" prefWidth="60.0" text="">
-                                 <graphic>
-                                    <ImageView fx:id="titleMaxmizeImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../images/titleMaxmize.png" />
-                                       </image>
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                              <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="60.0" text="">
-                                 <graphic>
-                                    <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../../images/titleClose.png" />
-                                       </image>
-                                       <viewport>
-                                          <Rectangle2D />
-                                       </viewport>
-                                    </ImageView>
-                                 </graphic>
-                              </JFXButton>
-                           </children>
-                        </HBox>
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Simpler School">
+                           <font>
+                              <Font name="System Italic" size="16.0" />
+                           </font>
+                        </Label>
                      </children>
                   </HBox>
-                  <ImageView fx:id="profilePaneAvatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
-                     <image>
-                        <Image url="@../../images/defaultAvatar.jpg" />
-                     </image>
-                  </ImageView>
-                  <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
-                     <top>
-                        <AnchorPane>
-                           <children>
-                              <JFXTabPane id="topPane" fx:id="tabPane" prefHeight="120.0" prefWidth="973.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="227.0" AnchorPane.topAnchor="0.0">
-                                 <tabs>
-                                    <Tab text="FunctionBar1">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <JFXButton layoutX="14.0" layoutY="14.0" ripplerFill="#e42626" />
-                                                <JFXButton layoutX="69.0" layoutY="14.0" ripplerFill="#a5c66f" />
-                                                <JFXRadioButton layoutX="124.0" layoutY="18.0" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </Tab>
-                                    <Tab text="FunctionBar2">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <JFXRadioButton layoutX="14.0" layoutY="14.0" />
-                                                <JFXToggleButton layoutX="125.0" layoutY="14.0" />
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </Tab>
-                                    <Tab text="FunctionBar3">
-                                      <content>
-                                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                             <children>
-                                                <ToggleButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="ToggleButton" />
-                                                <MenuButton layoutX="109.0" layoutY="14.0" mnemonicParsing="false" text="MenuButton">
-                                                  <items>
-                                                    <MenuItem mnemonicParsing="false" text="Action 1" />
-                                                    <MenuItem mnemonicParsing="false" text="Action 2" />
-                                                  </items>
-                                                </MenuButton>
-                                             </children>
-                                          </AnchorPane>
-                                      </content>
-                                    </Tab>
-                                 </tabs>
-                              </JFXTabPane>
-                              <Pane id="topPane" layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-                                 <children>
-                                    <Circle fx:id="cccc" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
-                                    <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
+                  <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
+                     <children>
+                        <JFXButton fx:id="titleHideButton" prefHeight="30.0" prefWidth="60.0" text="">
+                           <graphic>
+                              <ImageView fx:id="titleHideImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/titleHide.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton fx:id="titleMaxmizeButton" prefHeight="30.0" prefWidth="60.0" text="">
+                           <graphic>
+                              <ImageView fx:id="titleMaxmizeImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/titleMaxmize.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="60.0" text="">
+                           <graphic>
+                              <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/titleClose.png" />
+                                 </image>
+                                 <viewport>
+                                    <Rectangle2D />
+                                 </viewport>
+                              </ImageView>
+                           </graphic>
+                        </JFXButton>
+                     </children>
+                  </HBox>
+               </children>
+            </HBox>
+            <ImageView fx:id="profilePaneAvatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
+               <image>
+                  <Image url="@../../images/defaultAvatar.jpg" />
+               </image>
+            </ImageView>
+            <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
+               <top>
+                  <AnchorPane>
+                     <children>
+                        <JFXTabPane id="topPane" fx:id="tabPane" prefHeight="120.0" prefWidth="973.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="227.0" AnchorPane.topAnchor="0.0">
+                           <tabs>
+                              <Tab text="FunctionBar1">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
-                                          <Label prefHeight="30.0" prefWidth="120.0" text="Zheng" />
-                                          <Label prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                          <JFXButton layoutX="14.0" layoutY="14.0" ripplerFill="#e42626" />
+                                          <JFXButton layoutX="69.0" layoutY="14.0" ripplerFill="#a5c66f" />
+                                          <JFXRadioButton layoutX="124.0" layoutY="18.0" />
                                        </children>
-                                    </VBox>
-                                 </children>
-                              </Pane>
-                           </children>
-                        </AnchorPane>
-                     </top>
-                     <bottom>
-                        <Pane prefHeight="30.0" prefWidth="1130.0" style="-fx-background-color: gray;" />
-                     </bottom>
-                     <right>
-                        <Pane id="topPane" prefHeight="420.0" prefWidth="228.0" BorderPane.alignment="CENTER" />
-                     </right>
-                     <center>
-                        <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="FunctionBar2">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <JFXRadioButton layoutX="14.0" layoutY="14.0" />
+                                          <JFXToggleButton layoutX="125.0" layoutY="14.0" />
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                              <Tab text="FunctionBar3">
+                                <content>
+                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                                       <children>
+                                          <ToggleButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="ToggleButton" />
+                                          <MenuButton layoutX="109.0" layoutY="14.0" mnemonicParsing="false" text="MenuButton">
+                                            <items>
+                                              <MenuItem mnemonicParsing="false" text="Action 1" />
+                                              <MenuItem mnemonicParsing="false" text="Action 2" />
+                                            </items>
+                                          </MenuButton>
+                                       </children>
+                                    </AnchorPane>
+                                </content>
+                              </Tab>
+                           </tabs>
+                        </JFXTabPane>
+                        <Pane id="topPane" layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Pane prefHeight="550.0" prefWidth="903.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <effect>
-                                    <Shadow />
-                                 </effect>
-                              </Pane>
-                              <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                              <Circle fx:id="cccc" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
+                              <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
                                  <children>
-                                    <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
-                                    <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
-                                      <columnConstraints>
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                          <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                      </columnConstraints>
-                                      <rowConstraints>
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                          <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                      </rowConstraints>
-                                    </GridPane>
+                                    <Label prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
+                                    <Label prefHeight="30.0" prefWidth="120.0" text="Zheng" />
+                                    <Label prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                  </children>
                               </VBox>
                            </children>
-                        </AnchorPane>
-                     </center>
-                  </BorderPane>
-                  <Pane fx:id="menuShadowPane" prefHeight="700.0" prefWidth="70.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
-                     <effect>
-                        <Shadow />
-                     </effect>
-                  </Pane>
-                  <AnchorPane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="33.0">
+                        </Pane>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <bottom>
+                  <Pane prefHeight="30.0" prefWidth="1130.0" style="-fx-background-color: gray;" />
+               </bottom>
+               <right>
+                  <Pane id="topPane" prefHeight="420.0" prefWidth="228.0" BorderPane.alignment="CENTER" />
+               </right>
+               <center>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <VBox fx:id="menuVBox" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
+                        <Pane prefHeight="550.0" prefWidth="903.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <effect>
+                              <Shadow />
+                           </effect>
+                        </Pane>
+                        <VBox AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                            <children>
-                              <Label prefHeight="420.0" prefWidth="70.0" />
-                              <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton id="menuSettingsButton" fx:id="settingsButton" onMouseClicked="#openSettingsWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </JFXButton>
-                              <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
-                                 <font>
-                                    <Font size="24.0" />
-                                 </font>
-                              </JFXButton>
+                              <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
+                              <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
                            </children>
                         </VBox>
                      </children>
                   </AnchorPane>
-                  <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="33.0" />
+               </center>
+            </BorderPane>
+            <Pane fx:id="menuShadowPane" prefHeight="700.0" prefWidth="70.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
+               <effect>
+                  <Shadow />
+               </effect>
+            </Pane>
+            <AnchorPane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="33.0">
+               <children>
+                  <VBox fx:id="menuVBox" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
+                     <children>
+                        <Label prefHeight="420.0" prefWidth="70.0" />
+                        <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton id="menuSettingsButton" fx:id="settingsButton" onMouseClicked="#openSettingsWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </VBox>
                </children>
             </AnchorPane>
+            <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="33.0" />
          </children>
-      </StackPane>
+      </AnchorPane>
+      <StackPane fx:id="rootStack" prefHeight="700.0" prefWidth="1200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>
