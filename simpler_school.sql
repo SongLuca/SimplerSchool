@@ -7,5 +7,5 @@ CREATE TABLE utente (
   cognome varchar(50) DEFAULT NULL,
   pass_hash varchar(150) NOT NULL,
   scuola varchar(50) DEFAULT NULL,
-  avatar varchar(150) DEFAULT NULL
+  avatar_path varchar(150) DEFAULT NULL
 )AUTO_INCREMENT=10000

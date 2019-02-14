@@ -64,8 +64,10 @@ public class DataBaseHandler {
 			String s = toStringResultSet(rs);
 			if(s.equals("")) {
 				System.out.println("the username is not used");
-				updateUtenteTable(username, password, conn);
-				return true;
+				if(updateUtenteTable(username, password, conn))
+					return true;
+				else
+					return false;
 			}
 			else {
 				setMsg("the username is already taken");
@@ -126,7 +128,7 @@ public class DataBaseHandler {
 		return false;
 	}
 	
-	public void updateUtenteTable(String username, char[] password, Connection conn) {
+	public boolean updateUtenteTable(String username, char[] password, Connection conn) {
 		System.out.println("inserting user");
 		String query = "INSERT INTO UTENTE(username,nome,cognome,pass_hash,scuola,avatar_path) "
 				+ "VALUES(?,?,?,?,?,?)";
@@ -144,9 +146,11 @@ public class DataBaseHandler {
 			stmt.setString(6, null);		// avatar path
 			stmt.execute();
 			System.out.println(stmt);
+			return true;
 		} catch (SQLException e) {
-		//	SimplerSchoolUtil.errorMsg("Connection lost! Failed to update the user table!");
+			this.setMsg("Failed to update the user table! Check query and connection");
 			e.printStackTrace();
+			return false;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (NoSuchAlgorithmException e) {
@@ -154,6 +158,7 @@ public class DataBaseHandler {
 		} catch (InvalidKeySpecException e) {
 			e.printStackTrace();
 		}
+		return false;
 	}
 	
 	public Utente RsToUtente(ResultSet rs) {
