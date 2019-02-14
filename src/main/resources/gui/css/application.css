@@ -9,13 +9,22 @@
  * 
  * 
  * */
-
-
-.backgroundPane{
-	-fx-background-color:  #28C8AC;	
+*{
+	-custom-primary: white;
+	-custom-secondary: #8AAAE5;
+	-custom-hover-primary: white;
+	-custom-hover-secondary:white;
 }
 
+/*Background */
+.backgroundPane{
+	-fx-background-color: -custom-primary;	
+}
 
+/****************************************************************************************/
+
+
+/*************************************HamMenu*******************************************/
 
 .hamMenu StackPane{
 	-fx-background-color: white;
@@ -52,11 +61,13 @@
 	-fx-background-image: url('../../images/closeHover.png');
 }
 #menuPane{
-	-fx-background-color:  #28C8AC;
+	-fx-background-color: -custom-secondary;
 }
 
+/****************************************************************************************/
+
 #topPane{
-	-fx-background-color:  #28C8AC;
+	-fx-background-color: -custom-primary;
 }
 
 
@@ -76,13 +87,8 @@
 .calendarPane{
 	-fx-background-color: white;
 }
-.menuProfileLabel{
-	
-	
-	
-	
-	
-}
+
+
 .menuProfilePane{
 	
 	}
@@ -116,6 +122,10 @@
 .root {
     -fx-effect: dropshadow(gaussian, rgb(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0);
     -fx-background-color: transparent;
-    -fx-padding : 5px;
 }
+
+.tab-header-background{
+ 	 -fx-background-color: -custom-secondary;
+ }
+
 

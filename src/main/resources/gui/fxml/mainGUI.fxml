@@ -11,6 +11,7 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -26,15 +27,15 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
-      <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="667.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <children>
                   <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Simpler School">
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Simpler School" textFill="WHITE">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>
@@ -43,11 +44,11 @@
                   </HBox>
                   <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <JFXButton fx:id="titleHideButton" prefHeight="30.0" prefWidth="60.0" text="">
+                        <JFXButton fx:id="titleHideButton" prefHeight="30.0" prefWidth="60.0" text="" textFill="WHITE">
                            <graphic>
                               <ImageView fx:id="titleHideImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/titleHide.png" />
+                                    <Image url="@../../images/titleHideHover.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D />
@@ -59,7 +60,7 @@
                            <graphic>
                               <ImageView fx:id="titleMaxmizeImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/titleMaxmize.png" />
+                                    <Image url="@../../images/titleMaxmizeHover.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D />
@@ -71,7 +72,7 @@
                            <graphic>
                               <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../../images/titleClose.png" />
+                                    <Image url="@../../images/titleCloseHover.png" />
                                  </image>
                                  <viewport>
                                     <Rectangle2D />
@@ -92,7 +93,7 @@
                <top>
                   <AnchorPane>
                      <children>
-                        <JFXTabPane id="topPane" fx:id="tabPane" prefHeight="120.0" prefWidth="973.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="227.0" AnchorPane.topAnchor="0.0">
+                        <JFXTabPane fx:id="tabPane" prefHeight="120.0" prefWidth="973.0" styleClass="tabpane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="227.0" AnchorPane.topAnchor="0.0">
                            <tabs>
                               <Tab text="FunctionBar1">
                                 <content>
@@ -132,7 +133,7 @@
                               </Tab>
                            </tabs>
                         </JFXTabPane>
-                        <Pane id="topPane" layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
+                        <Pane layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                            <children>
                               <Circle fx:id="cccc" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
                               <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
@@ -148,10 +149,10 @@
                   </AnchorPane>
                </top>
                <bottom>
-                  <Pane prefHeight="30.0" prefWidth="1130.0" style="-fx-background-color: gray;" />
+                  <Pane prefHeight="30.0" prefWidth="1130.0" />
                </bottom>
                <right>
-                  <Pane id="topPane" prefHeight="420.0" prefWidth="228.0" BorderPane.alignment="CENTER" />
+                  <Pane prefHeight="420.0" prefWidth="228.0" BorderPane.alignment="CENTER" />
                </right>
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
@@ -194,9 +195,9 @@
                   </AnchorPane>
                </center>
             </BorderPane>
-            <Pane fx:id="menuShadowPane" prefHeight="700.0" prefWidth="70.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
+            <Pane fx:id="menuShadowPane" layoutX="10.0" layoutY="34.0" prefHeight="666.0" prefWidth="60.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="34.0">
                <effect>
-                  <Shadow />
+                  <Shadow blurType="GAUSSIAN" height="0.0" radius="4.75" />
                </effect>
             </Pane>
             <AnchorPane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="33.0">
@@ -225,6 +226,9 @@
             </AnchorPane>
             <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="33.0" />
          </children>
+         <effect>
+            <DropShadow />
+         </effect>
       </AnchorPane>
       <StackPane fx:id="rootStack" prefHeight="700.0" prefWidth="1200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>

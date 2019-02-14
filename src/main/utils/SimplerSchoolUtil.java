@@ -161,8 +161,10 @@ public class SimplerSchoolUtil {
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = fxmlLoader.load();	
 			stage = new Stage();
-			stage.initStyle(StageStyle.UNDECORATED);
-			stage.setScene(new Scene(root));
+			stage.initStyle(StageStyle.TRANSPARENT);
+			Scene scene = new Scene(root);
+			scene.setFill(Color.TRANSPARENT);
+			stage.setScene(scene);
 			stage.setMinWidth(minW);
 			stage.setMinHeight(minH);
 			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");

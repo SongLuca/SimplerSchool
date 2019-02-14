@@ -14,7 +14,7 @@
 
 <AnchorPane fx:id="mainPane" prefHeight="600.0" prefWidth="800.0" styleClass="root" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerSettings">
    <children>
-      <Pane fx:id="pop" layoutX="-164.0" layoutY="608.0" prefHeight="600.0" prefWidth="800.0" styleClass="animationPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <Pane fx:id="pop" layoutX="-164.0" layoutY="608.0" prefHeight="600.0" prefWidth="800.0" styleClass="animationPane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="308.0" layoutY="240.0" pickOnBounds="true" preserveRatio="true">
                <image>
@@ -23,7 +23,7 @@
             </ImageView>
          </children>
       </Pane>
-      <AnchorPane prefHeight="631.0" prefWidth="800.0" styleClass="settingsPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane prefHeight="631.0" prefWidth="800.0" styleClass="settingsPane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox fx:id="titleHBox" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="600.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
                <children>
