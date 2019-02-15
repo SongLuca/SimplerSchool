@@ -12,7 +12,6 @@ import main.application.Main;
 import main.application.models.Config;
 import main.application.models.Utente;
 import main.utils.PasswordHash;
-import main.utils.SimplerSchoolUtil;
 
 /***********************************************
  * 	This is a Data Access Object
