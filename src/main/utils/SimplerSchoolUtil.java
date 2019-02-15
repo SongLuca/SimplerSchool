@@ -133,9 +133,8 @@ public class SimplerSchoolUtil {
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = fxmlLoader.load();	
 			stage = new Stage();
-			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initModality(Modality.APPLICATION_MODAL);
 			stage.initStyle(StageStyle.UNDECORATED);
-			stage.initOwner(primaryStage);
 			stage.setScene(new Scene(root));
 			if(primaryStage != null)
 				stage.initOwner(primaryStage);
@@ -199,6 +198,54 @@ public class SimplerSchoolUtil {
 	}
 	
 	public static void initCalendarGrid(HBox weekdayHeader, GridPane calendarGrid) {
+		int rows = 11;
+		int cols = 7;
+		for (int i = 0; i < rows; i++) {
+			for (int j = 0; j < cols; j++) {
+				VBox vPane = new VBox();
+				vPane.getStyleClass().add("calendar_pane");
+				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
+				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+					System.out.println("grid");
+					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
+					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane"); 
+					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
+				/*	inputSubject = new TextInputDialog();
+					inputSubject.setContentText("Insert the subject");
+					inputSubject.setTitle(null);
+					inputSubject.setHeaderText(null);
+					inputSubject.setGraphic(null);
+					DialogPane dialogPane = inputSubject.getDialogPane();
+					dialogPane.getStylesheets().add(
+							getClass().getResource("../resources/gui/css/dialog.css").toExternalForm());
+					dialogPane.getStyleClass().add("myDialog");
+					inputSubject.show();*/
+				});
+				GridPane.setVgrow(vPane, Priority.ALWAYS);
+				calendarGrid.add(vPane, j, i);
+			}
+		}
+		for (int i = 0; i < cols; i++) {
+			RowConstraints row = new RowConstraints();
+			calendarGrid.getRowConstraints().add(row);
+		}
+	}
+	
+	public static void initOSCalendarWeekDayHeader(HBox weekdayHeader) {
+		int weekdays = 7;
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun"};
+		for (int i = 0; i < weekdays; i++) {
+			StackPane pane = new StackPane();
+			pane.getStyleClass().add("weekday-header");
+			HBox.setHgrow(pane, Priority.ALWAYS);
+			pane.setMaxWidth(Double.MAX_VALUE);
+			pane.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
+			weekdayHeader.getChildren().add(pane);
+			pane.getChildren().add(new Label(weekDays[i]));
+		}
+	}
+	
+	public static void initOSCalendarGrid(HBox weekdayHeader, GridPane calendarGrid) {
 		int rows = 11;
 		int cols = 7;
 		for (int i = 0; i < rows; i++) {

@@ -16,4 +16,15 @@
   
 }
 
+.dialog {
+	
+	 -fx-background-color: #2d3e50;
+}
 
+.label{
+	-fx-text-fill: #19bd9a;
+}
+
+.button{
+	-fx-text-fill: #19bd9a;
+}

@@ -47,7 +47,7 @@
                   </JFXPasswordField>
                   <HBox prefHeight="48.0" prefWidth="220.0">
                      <children>
-                        <JFXCheckBox fx:id="rememberMe" checkedColor="#19bd9a" prefHeight="18.0" prefWidth="122.0" styleClass="text" text="Remeber me" unCheckedColor="#8a8a8a" />
+                        <JFXCheckBox fx:id="rememberMe" checkedColor="#19bd9a" prefHeight="18.0" prefWidth="122.0" styleClass="text" text="Remember me" unCheckedColor="#8a8a8a" />
                         <Label onMouseClicked="#openRecover" prefHeight="17.0" prefWidth="113.0" text="Forgot password?" underline="true">
                            <styleClass>
                               <String fx:value="text" />
