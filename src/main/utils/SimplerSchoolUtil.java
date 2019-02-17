@@ -183,7 +183,7 @@ public class SimplerSchoolUtil {
 		return stage;
 	}
 	
-	public static void initCalendarWeekDayHeader(HBox weekdayHeader) {
+/*	public static void initCalendarWeekDayHeader(HBox weekdayHeader) {
 		int weekdays = 7;
 		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun"};
 		for (int i = 0; i < weekdays; i++) {
@@ -210,7 +210,7 @@ public class SimplerSchoolUtil {
 					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
 					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane"); 
 					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
-				/*	inputSubject = new TextInputDialog();
+					inputSubject = new TextInputDialog();
 					inputSubject.setContentText("Insert the subject");
 					inputSubject.setTitle(null);
 					inputSubject.setHeaderText(null);
@@ -219,7 +219,7 @@ public class SimplerSchoolUtil {
 					dialogPane.getStylesheets().add(
 							getClass().getResource("../resources/gui/css/dialog.css").toExternalForm());
 					dialogPane.getStyleClass().add("myDialog");
-					inputSubject.show();*/
+					inputSubject.show();
 				});
 				GridPane.setVgrow(vPane, Priority.ALWAYS);
 				calendarGrid.add(vPane, j, i);
@@ -229,7 +229,7 @@ public class SimplerSchoolUtil {
 			RowConstraints row = new RowConstraints();
 			calendarGrid.getRowConstraints().add(row);
 		}
-	}
+	}*/
 	
 	public static void initOSCalendarWeekDayHeader(HBox weekdayHeader) {
 		int weekdays = 7;
@@ -340,4 +340,12 @@ public class SimplerSchoolUtil {
 	public static URI getFileURI(String configName, String path) {
 		return new File(Config.getString(configName, path)).toURI();
 	}
+	
+	public static String toRGBCode(Color color )
+    {
+        return String.format( "#%02X%02X%02X",
+            (int)( color.getRed() * 255 ),
+            (int)( color.getGreen() * 255 ),
+            (int)( color.getBlue() * 255 ) );
+    }
 }

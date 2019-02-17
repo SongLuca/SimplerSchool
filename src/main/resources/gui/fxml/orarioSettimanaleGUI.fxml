@@ -9,7 +9,7 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="subContentPane" minHeight="685.0" minWidth="900.0" prefHeight="685.0" prefWidth="900.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOrarioS">
+<AnchorPane fx:id="subContentPane" minHeight="685.0" minWidth="900.0" prefHeight="685.0" prefWidth="900.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="main.controllers.ControllerOrarioS">
    <children>
       <Pane layoutY="11.0" prefHeight="95.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -17,7 +17,7 @@
             <JFXButton layoutX="14.0" layoutY="31.0" prefHeight="20.0" prefWidth="80.0" text="Edit..." />
             <JFXButton layoutX="14.0" layoutY="62.0" prefHeight="20.0" prefWidth="80.0" text="Save..." />
             <JFXButton layoutX="806.0" layoutY="12.0" prefHeight="20.0" prefWidth="80.0" text="List" />
-            <JFXButton layoutX="94.0" layoutY="2.0" text="Materie" />
+            <JFXButton layoutX="94.0" layoutY="2.0" onMouseClicked="#openMaterie" text="Materie" />
          </children>
       </Pane>
       <AnchorPane layoutY="110.0" prefHeight="575.0" prefWidth="900.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">

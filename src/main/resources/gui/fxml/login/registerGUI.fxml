@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="registerPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegister">
+<AnchorPane fx:id="registerPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegister">
    <children>
       <Pane prefHeight="500.0" prefWidth="650.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
@@ -28,19 +28,19 @@
          <children>
             <Circle fx:id="profileImage" fill="DODGERBLUE" layoutX="175.0" layoutY="82.0" radius="50.0" stroke="BLACK" strokeType="INSIDE" />
             <JFXButton layoutX="129.0" layoutY="155.0" onAction="#selectAvatar" prefHeight="27.0" prefWidth="92.0" styleClass="actionButton" text="Select Image" />
-            <VBox layoutX="75.0" layoutY="209.0" prefHeight="277.0" prefWidth="200.0" spacing="15.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="209.0">
+            <VBox layoutX="75.0" layoutY="209.0" prefHeight="277.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="14.0" AnchorPane.leftAnchor="65.0" AnchorPane.rightAnchor="65.0" AnchorPane.topAnchor="209.0">
                <children>
-                  <JFXTextField fx:id="usernameField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="200.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
+                  <JFXTextField fx:id="usernameField" focusColor="#19bd9a" labelFloat="true" prefHeight="40.0" prefWidth="200.0" promptText="Username" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXTextField>
-                  <JFXPasswordField fx:id="passField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
+                  <JFXPasswordField fx:id="passField" focusColor="#19bd9a" labelFloat="true" prefHeight="40.0" prefWidth="180.0" promptText="Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </JFXPasswordField>
-                  <JFXPasswordField fx:id="confirmPassField" focusColor="#19bd9a" prefHeight="40.0" prefWidth="180.0" promptText="Confirm Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
+                  <JFXPasswordField fx:id="confirmPassField" focusColor="#19bd9a" labelFloat="true" prefHeight="40.0" prefWidth="180.0" promptText="Confirm Password" style="-fx-prompt-text-fill: #8a8a8a; -fx-text-fill: #19bd9a;" styleClass="textField" unFocusColor="#8a8a8a">
                      <font>
                         <Font size="18.0" />
                      </font>

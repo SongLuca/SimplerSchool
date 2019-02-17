@@ -7,7 +7,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="193.0" prefWidth="300.0" styleClass="dialog" stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerAddSubject">
+<AnchorPane prefHeight="193.0" prefWidth="300.0" styleClass="dialog" stylesheets="@../css/dialog.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/10.0.1" fx:controller="main.controllers.ControllerAddSubject">
    <children>
       <HBox alignment="TOP_CENTER" layoutX="7.0" layoutY="28.0" prefHeight="138.0" prefWidth="286.0" AnchorPane.bottomAnchor="27.0" AnchorPane.leftAnchor="7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="28.0">
          <children>

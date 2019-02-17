@@ -21,10 +21,11 @@
 	 -fx-background-color: #2d3e50;
 }
 
-.label{
+.button{
 	-fx-text-fill: #19bd9a;
 }
 
-.button{
-	-fx-text-fill: #19bd9a;
+.addButton{
+	-fx-background-color: #19bd9a;
+	
 }

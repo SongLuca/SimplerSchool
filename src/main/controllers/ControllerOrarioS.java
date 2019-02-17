@@ -1,6 +1,7 @@
 package main.controllers;
 
 import javafx.fxml.FXML;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -10,6 +11,9 @@ import javafx.scene.layout.Priority;
 import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import main.application.models.MetaData;
+import main.application.models.OrarioSettimanale;
 import main.utils.SimplerSchoolUtil;
 
 public class ControllerOrarioS {
@@ -22,10 +26,18 @@ public class ControllerOrarioS {
 	@FXML
 	private AnchorPane subContentPane;
 
-	
+	private OrarioSettimanale os;
+
 	public void initialize() {
+		os = new OrarioSettimanale();
 		initOSCalendarWeekDayHeader(weekdayHeader);
 		initOSCalendarGrid(weekdayHeader, calendarGrid);
+	}
+
+	@FXML
+	void openMaterie(MouseEvent event) {
+		SimplerSchoolUtil.loadWindow("materieFXML",
+				(Stage)((Node)event.getSource()).getScene().getWindow(), false, null, null);
 	}
 
 	public void initOSCalendarWeekDayHeader(HBox weekdayHeader) {
@@ -51,8 +63,10 @@ public class ControllerOrarioS {
 				vPane.getStyleClass().add("calendar_pane");
 				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-					System.out.println("grid");
-					addMateria();
+			//		addMateria(vPane);
+					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
+					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane"); 
+					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
 					/*
 					 * inputSubject = new TextInputDialog();
 					 * inputSubject.setContentText("Insert the subject");
@@ -73,9 +87,12 @@ public class ControllerOrarioS {
 		}
 	}
 
-	public void addMateria() {
+	public void addMateria(VBox vPane) {
+		MetaData.sub_row = GridPane.getRowIndex(vPane);
+		MetaData.sub_col = GridPane.getColumnIndex(vPane);
+		System.out.println(MetaData.sub_row);
+		System.out.println(MetaData.sub_col);
 		SimplerSchoolUtil.loadNoTitleWindow("addSubjectFXML", null, false, null, null);
 	}
 
-	
 }
