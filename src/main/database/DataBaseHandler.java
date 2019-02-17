@@ -63,6 +63,40 @@ public class DataBaseHandler {
 		}
 	}
 	
+	public boolean runResetPassQuery(String username, char[] password){
+		System.out.println("reseting passwod");
+		String query = "UPDATE UTENTE SET pass_hash = ? WHERE username = ?";
+		Connection conn;
+		try {
+			String pash_hash = PasswordHash.createHash(password);
+			Class.forName("com.mysql.jdbc.Driver");
+			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
+					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setString(1, pash_hash);
+			stmt.setString(2, username);
+			int recordUpdated = stmt.executeUpdate();
+			if(recordUpdated == 1)
+				return true;
+			else {
+				System.out.println(recordUpdated + " have been updated!");
+				this.setMsg("No such username");
+				return false;
+			}
+		} catch (SQLException e) {
+			this.setMsg("Failed to update the user table! Check query and connection");
+			return false;
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		} catch (InvalidKeySpecException e) {
+			e.printStackTrace();
+		}
+		return false;
+	}
+	
 	public boolean runRegisterValidateQuery(String username, char[] password) {
 		System.out.println("validating username");
 		String query = "SELECT * FROM UTENTE WHERE UTENTE.USERNAME = ?";
@@ -174,7 +208,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean runGetMaterieQuery() {
-		System.out.println("validating login");
+		System.out.println("getting materie ");
 		String query = "SELECT * FROM MATERIA";
 		Connection conn;
 		ResultSet rs = null;
@@ -196,6 +230,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean updateMateriaTable(HashMap<Integer, Materia> materieNuove) {
+		System.out.println("updating materie");
 		Connection conn = null;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -254,8 +289,13 @@ public class DataBaseHandler {
 			stmt.setString(1, m.getNome());
 			stmt.setString(2, m.getColore());
 			stmt.setInt(3, m.getId());
-			stmt.execute();
-			return true;
+			int recourdUpdated = stmt.executeUpdate();
+			if(recourdUpdated == 1)
+				return true;
+			else {
+				System.out.println(recourdUpdated + " records have been updated!");
+				return false;
+			}
 		} catch (SQLException e) {
 			System.out.println("Can not connect to the SQL database!");
 			this.setMsg("Can not connect to the SQL database!");

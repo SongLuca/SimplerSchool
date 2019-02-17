@@ -58,6 +58,6 @@
                </children>
             </HBox>
          </children></AnchorPane>
-      <JFXSpinner fx:id="loading" layoutX="210.0" layoutY="154.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
+      <JFXSpinner fx:id="loading" layoutX="285.0" layoutY="210.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
    </children>
 </AnchorPane>
