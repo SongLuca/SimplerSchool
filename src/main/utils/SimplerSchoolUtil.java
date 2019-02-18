@@ -1,5 +1,7 @@
 package main.utils;
 
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -35,6 +37,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.application.models.Config;
+import main.application.models.OrarioSettimanale;
 
 public class SimplerSchoolUtil {
 	private static String config = "src/main/resources/config/config.properties";
@@ -279,6 +282,18 @@ public class SimplerSchoolUtil {
 		}
 	}
 	
+	public static void toXML(OrarioSettimanale os) {
+		try {
+			XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(
+			          new FileOutputStream(os.getNomeOrario()+".xml")));
+			encoder.writeObject(os.getSettimana());
+			encoder.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public static boolean isAlpha(String name) {
 	    char[] chars = name.toCharArray();
 	    for (char c : chars) {
@@ -341,11 +356,30 @@ public class SimplerSchoolUtil {
 		return new File(Config.getString(configName, path)).toURI();
 	}
 	
-	public static String toRGBCode(Color color )
-    {
+	public static String toRGBCode(Color color ) {
         return String.format( "#%02X%02X%02X",
             (int)( color.getRed() * 255 ),
             (int)( color.getGreen() * 255 ),
             (int)( color.getBlue() * 255 ) );
     }
+	 
+	public static String numToDay(int n) {
+		switch(n) {
+			case 0:
+				return "lunedi";
+			case 1:
+				return "martedi";
+			case 2:
+				return "mercoledi";
+			case 3:
+				return "giovedi";
+			case 4:
+				return "venerdi";
+			case 5:
+				return "sabato";
+			case 6:
+				return "domenica";
+		}
+		return null;
+	}
 }

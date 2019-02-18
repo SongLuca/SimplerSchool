@@ -29,11 +29,30 @@ public class ControllerOrarioS {
 	private OrarioSettimanale os;
 
 	public void initialize() {
-		os = new OrarioSettimanale();
-		initOSCalendarWeekDayHeader(weekdayHeader);
-		initOSCalendarGrid(weekdayHeader, calendarGrid);
+		weekdayHeader.setVisible(false);
+		calendarGrid.setVisible(false);
+		os = new OrarioSettimanale("default");
+		MetaData.os = this.os;
+		MetaData.OrarioSGrid = calendarGrid;
+	//	initOSCalendarWeekDayHeader(weekdayHeader);
+	//	initOSCalendarGrid(weekdayHeader, calendarGrid);
 	}
-
+	
+	@FXML
+	public void newOS() {
+		
+	}
+	
+	@FXML
+	public void editOS() {
+		
+	}
+	
+	@FXML
+	public void saveOS() {
+		
+	}
+	
 	@FXML
 	void openMaterie(MouseEvent event) {
 		SimplerSchoolUtil.loadWindow("materieFXML",
@@ -41,6 +60,7 @@ public class ControllerOrarioS {
 	}
 
 	public void initOSCalendarWeekDayHeader(HBox weekdayHeader) {
+		weekdayHeader.setVisible(true);
 		int weekdays = 7;
 		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 		for (int i = 0; i < weekdays; i++) {
@@ -55,6 +75,7 @@ public class ControllerOrarioS {
 	}
 
 	public void initOSCalendarGrid(HBox weekdayHeader, GridPane calendarGrid) {
+		calendarGrid.setVisible(true);
 		int rows = 11;
 		int cols = 7;
 		for (int i = 0; i < rows; i++) {
@@ -63,10 +84,10 @@ public class ControllerOrarioS {
 				vPane.getStyleClass().add("calendar_pane");
 				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-			//		addMateria(vPane);
-					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
+					addMateria(vPane);
+				/*	StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
 					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane"); 
-					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
+					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");*/
 					/*
 					 * inputSubject = new TextInputDialog();
 					 * inputSubject.setContentText("Insert the subject");
