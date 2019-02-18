@@ -27,7 +27,7 @@ public class Utente {
 	}
 
 	public void setUserid(int userid) {
-		this.userid = userid;
+	this.userid = userid;	
 	}
 
 	public String getUsername() {

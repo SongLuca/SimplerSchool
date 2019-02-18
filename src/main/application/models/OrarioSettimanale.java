@@ -70,17 +70,17 @@ public class OrarioSettimanale {
 		return false;
 	}
 	
-	public static void toXML(OrarioSettimanale os, String path) {
+	public void toXML(String path) {
 		try {
 			XMLEncoder encoder;
 			if(path == null)
 				encoder = new XMLEncoder(new BufferedOutputStream(
-			          new FileOutputStream(os.getNomeOrario()+".xml")));
+			          new FileOutputStream(nomeOrario+".xml")));
 			else {
 				encoder = new XMLEncoder(new BufferedOutputStream(
-				          new FileOutputStream(path+"/"+os.getNomeOrario()+".xml")));
+				          new FileOutputStream(path+"/"+nomeOrario+".xml")));
 			}
-			encoder.writeObject(os.getSettimana());
+			encoder.writeObject(settimana);
 			encoder.close();
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

@@ -3,7 +3,10 @@ package main.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXSpinner;
@@ -40,13 +43,18 @@ public class ControllerMaterie {
 	private HBox subjectBox;
 	
 	private HashMap<Integer, Materia> materie;
-
+	
+	private List<Integer> toRemove;
+	
 	public void initialize() {
+		materie = DataBaseHandler.getInstance().getMaterie();
 		System.out.println("opening materie gui");
+		initMaterieBox();
 		initTitleBox();
 	}
 	
 	public void apply() {
+		toRemove = new ArrayList<Integer>();
 		for(int key : materie.keySet()) {
 			Materia m = materie.get(key);
 			HBox materia = (HBox)materieBox.lookup("#materiaBox"+key);  // prende il materiabox a seconda dell id
@@ -57,8 +65,11 @@ public class ControllerMaterie {
 				JFXTextField nome = (JFXTextField)materia.lookup("#nomeMateria");
 				JFXColorPicker colore = (JFXColorPicker)materia.lookup("#coloreMateria");
 				String hexColor = SimplerSchoolUtil.toRGBCode(colore.getValue());
-				if(nome.getText().trim().equals("")) {  // cancella materia con nome vuoto
-					materie.remove(key);
+				if(nome.getText().trim().equals("") && !m.getStato().equals("insert")) {  // cancella materia con nome vuoto
+					m.setStato("delete");
+				}
+				if(nome.getText().trim().equals("") && m.getStato().equals("insert")) {  // cancella materia con nome vuoto
+					toRemove.add(key);
 				}
 				if(m.getStato().equals("fresh")) {
 					if(!m.getNome().equals(nome.getText())) { // se ha modificato il nome materia
@@ -76,8 +87,12 @@ public class ControllerMaterie {
 				}
 			}
 		}
+		for(int i = 0 ; i < toRemove.size() ; i ++) {
+			materie.remove(toRemove.get(i));
+		}
 		materieBox.getChildren().clear();  	// svuota tutti i materiabox
 		updateMaterieInDB();
+		
 	}
 	
 	public void exit() {
@@ -89,9 +104,11 @@ public class ControllerMaterie {
 		HBox box = loadMateriaBox();
 		int id = 100;
 		Label idLbl = (Label)box.lookup("#idMateria");
-		for(int key : materie.keySet()) {
-			if(id == key)
-				id++;
+		if(materie.size() != 0) {
+			for(int key : materie.keySet()) {
+				if(id == key)
+					id++;
+			}
 		}
 		materie.put(id, new Materia(id));
 		idLbl.setText(""+id);

@@ -61,7 +61,7 @@ public class ControllerAddOS {
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) titleHBox.getScene().getWindow());
+			WindowStyle.close((Stage) nomeField.getScene().getWindow());
 		});
 	}
 	/***********************************************/

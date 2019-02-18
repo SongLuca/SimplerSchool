@@ -55,7 +55,7 @@ public class ControllerOrarioS {
 	
 	@FXML
 	public void saveOS(MouseEvent e) {
-		
+		os.toXML(null);
 	}
 	
 	@FXML

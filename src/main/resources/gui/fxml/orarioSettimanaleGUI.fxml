@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXMasonryPane?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
@@ -22,7 +26,7 @@
       </Pane>
       <AnchorPane layoutY="110.0" prefHeight="575.0" prefWidth="900.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
          <children>
-            <VBox prefHeight="570.0" prefWidth="890.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox prefHeight="570.0" prefWidth="890.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
                   <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
@@ -51,6 +55,33 @@
                   </GridPane>
                </children>
             </VBox>
+            <JFXMasonryPane layoutX="35.0" layoutY="104.0" prefHeight="575.0" prefWidth="890.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+               <children>
+                  <JFXButton onMouseClicked="#newOS" prefHeight="75.0" prefWidth="75.0" text="">
+                     <graphic>
+                        <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/add.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="75.0" prefWidth="75.0" text="">
+                     <graphic>
+                        <VBox alignment="CENTER" prefHeight="84.0" prefWidth="84.0" spacing="10.0">
+                           <children>
+                              <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/calendar.png" />
+                                 </image>
+                              </ImageView>
+                              <Label text="Label" />
+                           </children>
+                        </VBox>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </JFXMasonryPane>
          </children>
       </AnchorPane>
    </children>
