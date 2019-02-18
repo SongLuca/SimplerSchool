@@ -17,6 +17,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Region;
+import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
@@ -31,6 +32,12 @@ public class ControllerSettings {
 	
 	@FXML
 	private JFXButton backButton;
+	
+	@FXML
+	private AnchorPane rootPane;
+	
+	@FXML
+	private StackPane rootStack;
 	
 	@FXML
 	private AnchorPane contentPane;

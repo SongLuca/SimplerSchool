@@ -17,16 +17,29 @@
    <children>
       <Pane layoutY="11.0" prefHeight="95.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
-            <JFXButton layoutX="14.0" onMouseClicked="#newOS" prefHeight="20.0" prefWidth="80.0" text="New..." />
-            <JFXButton layoutX="14.0" layoutY="31.0" onMouseClicked="#editOS" prefHeight="20.0" prefWidth="80.0" text="Edit..." />
-            <JFXButton layoutX="14.0" layoutY="62.0" onMouseClicked="#saveOS" prefHeight="20.0" prefWidth="80.0" text="Save..." />
-            <JFXButton layoutX="94.0" layoutY="62.0" prefHeight="20.0" prefWidth="80.0" text="List" />
-            <JFXButton layoutX="94.0" layoutY="2.0" onMouseClicked="#openMaterie" text="Materie" />
+            <VBox alignment="CENTER" prefHeight="95.0" prefWidth="140.0" spacing="10.0">
+               <children>
+                  <JFXButton onMouseClicked="#openMaterie" prefHeight="30.0" prefWidth="100.0" text="Materie" />
+                  <JFXButton prefHeight="30.0" prefWidth="100.0" text="Professori" />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="140.0" prefHeight="95.0" prefWidth="140.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="saveButton" prefHeight="30.0" prefWidth="100.0" text="Save..." />
+                  <JFXButton fx:id="deleteButton" prefHeight="30.0" prefWidth="100.0" text="Delete..." />
+               </children>
+            </VBox>
+            <VBox alignment="CENTER" layoutX="280.0" prefHeight="95.0" prefWidth="140.0" spacing="10.0">
+               <children>
+                  <JFXButton fx:id="backButton" prefHeight="30.0" prefWidth="100.0" text="Back..." />
+                  <JFXButton fx:id="clearButton" prefHeight="30.0" prefWidth="100.0" text="Clear..." />
+               </children>
+            </VBox>
          </children>
       </Pane>
       <AnchorPane layoutY="110.0" prefHeight="575.0" prefWidth="900.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">
          <children>
-            <VBox prefHeight="570.0" prefWidth="890.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <VBox fx:id="calendarioBox" prefHeight="570.0" prefWidth="890.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="weekdayHeader" prefHeight="60.0" prefWidth="902.0" />
                   <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
@@ -55,7 +68,7 @@
                   </GridPane>
                </children>
             </VBox>
-            <JFXMasonryPane layoutX="35.0" layoutY="104.0" prefHeight="575.0" prefWidth="890.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+            <JFXMasonryPane fx:id="calendarioPane" layoutX="35.0" layoutY="104.0" prefHeight="575.0" prefWidth="890.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
                <children>
                   <JFXButton onMouseClicked="#newOS" prefHeight="75.0" prefWidth="75.0" text="">
                      <graphic>

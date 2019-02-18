@@ -24,6 +24,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import main.application.models.Config;
 import main.application.models.Materia;
+import main.application.models.MetaData;
 import main.database.DataBaseHandler;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
@@ -89,6 +90,9 @@ public class ControllerMaterie {
 		}
 		for(int i = 0 ; i < toRemove.size() ; i ++) {
 			materie.remove(toRemove.get(i));
+		}
+		if(MetaData.os != null) {
+			((ControllerOrarioS) MetaData.controller).reRenderCalendario();
 		}
 		materieBox.getChildren().clear();  	// svuota tutti i materiabox
 		updateMaterieInDB();

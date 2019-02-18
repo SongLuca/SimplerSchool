@@ -48,6 +48,10 @@ public class ControllerAddSubject {
 		Label lbl = new Label();
 		lbl.setText(m.getNome());
 		pane.getChildren().add(lbl);
+		pane.getStyleClass().add("calendar_pane");
+		pane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+			((ControllerOrarioS) MetaData.controller).addMateria(pane);
+		});
 		osGrid.add(pane, MetaData.sub_col, MetaData.sub_row);
 		cancel(event);
 	}

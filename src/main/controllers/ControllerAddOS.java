@@ -28,6 +28,7 @@ public class ControllerAddOS {
 			msgLbl.setText("Invalid name");
 		}
 		else {
+			System.out.println("nuovo orario settimanale creato : "+nomeOS);
 			((ControllerOrarioS) MetaData.controller).initCalendar(nomeOS);
 			cancel(event);
 		}
