@@ -63,6 +63,11 @@ public class DataBaseHandler {
 		}
 	}
 	
+	public void preLoadUserData() { // prende tutti i dati dal db prima di entrare nel main
+		System.out.println("loading all user data");
+		runGetMaterieQuery();
+	}
+	
 	public boolean runResetPassQuery(String username, char[] password){
 		System.out.println("reseting passwod");
 		String query = "UPDATE UTENTE SET pass_hash = ? WHERE username = ?";

@@ -12,9 +12,9 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="650.0" stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMaterie">
+<AnchorPane fx:id="rootPane" prefHeight="500.0" prefWidth="650.0" stylesheets="@../css/dialog.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMaterie">
    <children>
-      <HBox fx:id="titleHBox" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="370.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox fx:id="titleHBox" layoutX="20.0" layoutY="20.0" prefHeight="30.0" prefWidth="650.0" AnchorPane.bottomAnchor="470.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
             <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                <children>

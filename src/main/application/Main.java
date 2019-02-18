@@ -19,8 +19,8 @@ public class Main extends Application {
 	public void start(Stage stage) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException{
 			Config.config = SimplerSchoolUtil.readProperties("config");
 			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");
-			SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
-		//	SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+		//	SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
+			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 			
 		//	SimplerSchoolUtil.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");
 	}

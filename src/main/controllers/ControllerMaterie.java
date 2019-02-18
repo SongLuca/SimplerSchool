@@ -44,7 +44,6 @@ public class ControllerMaterie {
 	public void initialize() {
 		System.out.println("opening materie gui");
 		initTitleBox();
-		getMaterieFromDB();
 	}
 	
 	public void apply() {

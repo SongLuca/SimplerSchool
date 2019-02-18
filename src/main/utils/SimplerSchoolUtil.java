@@ -1,7 +1,5 @@
 package main.utils;
 
-import java.beans.XMLEncoder;
-import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -37,7 +35,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.application.models.Config;
-import main.application.models.OrarioSettimanale;
 
 public class SimplerSchoolUtil {
 	private static String config = "src/main/resources/config/config.properties";
@@ -280,18 +277,6 @@ public class SimplerSchoolUtil {
 			RowConstraints row = new RowConstraints();
 			calendarGrid.getRowConstraints().add(row);
 		}
-	}
-	
-	public static void toXML(OrarioSettimanale os) {
-		try {
-			XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(
-			          new FileOutputStream(os.getNomeOrario()+".xml")));
-			encoder.writeObject(os.getSettimana());
-			encoder.close();
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
-		}
-		
 	}
 	
 	public static boolean isAlpha(String name) {

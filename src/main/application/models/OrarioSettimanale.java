@@ -1,8 +1,10 @@
 package main.application.models;
 
+import java.beans.XMLEncoder;
+import java.io.BufferedOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.util.LinkedHashMap;
-
-import main.utils.SimplerSchoolUtil;
 
 public class OrarioSettimanale {
 	private String nomeOrario;
@@ -68,11 +70,28 @@ public class OrarioSettimanale {
 		return false;
 	}
 	
+	public static void toXML(OrarioSettimanale os, String path) {
+		try {
+			XMLEncoder encoder;
+			if(path == null)
+				encoder = new XMLEncoder(new BufferedOutputStream(
+			          new FileOutputStream(os.getNomeOrario()+".xml")));
+			else {
+				encoder = new XMLEncoder(new BufferedOutputStream(
+				          new FileOutputStream(path+"/"+os.getNomeOrario()+".xml")));
+			}
+			encoder.writeObject(os.getSettimana());
+			encoder.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
 	public String toString() {
 		for(String key : settimana.keySet()) {
 			System.out.println(key+": "+settimana.get(key).toString());
 		}
-		SimplerSchoolUtil.toXML(this);
 		return null;
 	}
 }

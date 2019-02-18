@@ -31,25 +31,30 @@ public class ControllerOrarioS {
 	public void initialize() {
 		weekdayHeader.setVisible(false);
 		calendarGrid.setVisible(false);
-		os = new OrarioSettimanale("default");
+	}
+	
+	public void initCalendar(String nomeOS) {
+		initOSCalendarWeekDayHeader(weekdayHeader);
+		initOSCalendarGrid(weekdayHeader, calendarGrid);
+		os = new OrarioSettimanale(nomeOS);
 		MetaData.os = this.os;
 		MetaData.OrarioSGrid = calendarGrid;
-	//	initOSCalendarWeekDayHeader(weekdayHeader);
-	//	initOSCalendarGrid(weekdayHeader, calendarGrid);
 	}
 	
 	@FXML
-	public void newOS() {
+	public void newOS(MouseEvent e) {
+		MetaData.controller = this;
+		SimplerSchoolUtil.loadWindow("addOSFXML",
+				(Stage)((Node)e.getSource()).getScene().getWindow(), false, null, null);
+	}
+	
+	@FXML
+	public void editOS(MouseEvent e) {
 		
 	}
 	
 	@FXML
-	public void editOS() {
-		
-	}
-	
-	@FXML
-	public void saveOS() {
+	public void saveOS(MouseEvent e) {
 		
 	}
 	
@@ -111,8 +116,6 @@ public class ControllerOrarioS {
 	public void addMateria(VBox vPane) {
 		MetaData.sub_row = GridPane.getRowIndex(vPane);
 		MetaData.sub_col = GridPane.getColumnIndex(vPane);
-		System.out.println(MetaData.sub_row);
-		System.out.println(MetaData.sub_col);
 		SimplerSchoolUtil.loadNoTitleWindow("addSubjectFXML", null, false, null, null);
 	}
 

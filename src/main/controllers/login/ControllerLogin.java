@@ -130,9 +130,10 @@ public class ControllerLogin {
 		});
 
 		loginValidateTask.setOnSucceeded(event -> {
-			loading.setVisible(false);
-			loginPane.setEffect(null);
 			if (loginValidateTask.getValue()) {
+				DataBaseHandler.getInstance().preLoadUserData();
+				loading.setVisible(false);
+				loginPane.setEffect(null);
 				endAnimation(e, root);
 				if(rememberMe.isSelected()) {
 					Config.userConfig.setProperty("rememberMe", "true");

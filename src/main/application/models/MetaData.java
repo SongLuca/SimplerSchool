@@ -9,6 +9,6 @@ public class MetaData {
 	public static int sub_col;
 	public static OrarioSettimanale os;
 	public static GridPane OrarioSGrid;
-	
+	public static Object controller;
 	;
 }
