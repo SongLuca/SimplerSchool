@@ -91,6 +91,17 @@ public class OrarioSettimanale {
 		return null;
 	}
 
+	public void removeMateria(String materia) {
+		for(String giorno : settimana.keySet()) {
+			for(String ora : settimana.get(giorno).keySet()) {
+				if(settimana.get(giorno).get(ora) != null) {
+					if(settimana.get(giorno).get(ora).equals(materia))
+						settimana.get(giorno).put(ora, null);
+				}
+			}
+		}
+	}
+	
 	public int getColByGiorno(String giorno) {
 		switch (giorno) {
 		case "lunedi":
@@ -144,7 +155,7 @@ public class OrarioSettimanale {
 	public String toString() {
 		System.out.println("Orario nome: " + this.nomeOrario);
 		for (String key : settimana.keySet()) {
-			System.out.println(key + ": " + settimana.get(key).toString());
+			System.out.println(key + "  \t:\t" + settimana.get(key).toString());
 		}
 		return null;
 	}

@@ -68,6 +68,12 @@ public class ControllerMaterie {
 				String hexColor = SimplerSchoolUtil.toRGBCode(colore.getValue());
 				if(nome.getText().trim().equals("") && !m.getStato().equals("insert")) {  // cancella materia con nome vuoto
 					m.setStato("delete");
+					System.out.println(m.getNome());
+					if(MetaData.os != null) {
+						MetaData.os.toString();
+						MetaData.os.removeMateria(m.getNome());
+						MetaData.os.toString();
+					}
 				}
 				if(nome.getText().trim().equals("") && m.getStato().equals("insert")) {  // cancella materia con nome vuoto
 					toRemove.add(key);

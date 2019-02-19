@@ -68,9 +68,17 @@ public class ControllerOrarioS {
 			new FadeIn(calendarioPane).play();
 		});
 		deleteButton.setOnMouseClicked(e->{
-			calendarioBox.setVisible(false);
+		/*	calendarioBox.setVisible(false);
 			calendarioPane.setVisible(true);
-			new FadeIn(calendarioPane).play();
+			new FadeIn(calendarioPane).play();*/
+			VBox pane = new VBox();
+			pane.setAlignment(Pos.CENTER);
+			pane.setStyle("-fx-background-color: red;");
+			Label lbl = new Label("babababa");
+			pane.getChildren().add(lbl);
+			pane.getStyleClass().add("calendar_pane");
+			calendarGrid.add(pane, 1, 1, 1, 2);
+			System.out.println(GridPane.getRowSpan(pane));
 		});
 		saveButton.setOnMouseClicked(e->{
 			os.toXML(); 

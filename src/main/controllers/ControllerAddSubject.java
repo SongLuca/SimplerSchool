@@ -41,6 +41,7 @@ public class ControllerAddSubject {
 		String giorno = SimplerSchoolUtil.numToDay(MetaData.sub_col);
 		System.out.println("adding "+m.getNome()+" to "+ora +" at "+ giorno);
 		MetaData.os.addMateria(ora,giorno, m.getNome());
+		
 		GridPane osGrid = MetaData.OrarioSGrid;
 		VBox pane = new VBox();
 		pane.setAlignment(Pos.CENTER);
@@ -55,6 +56,7 @@ public class ControllerAddSubject {
 		osGrid.add(pane, MetaData.sub_col, MetaData.sub_row);
 		cancel(event);
 	}
+	
 	
 	public Materia getMateriaByNome(String nome) {
 		for(int key : materie.keySet()) {

@@ -25,7 +25,6 @@ public class ControllerMateriaBox {
 	
 	@FXML
 	public void deleteMateria(MouseEvent event) {
-		System.out.println("delete materia");
 		VBox mBox = (VBox) ((Node) event.getSource()).getScene().lookup("#materieBox");
 		mBox.getChildren().remove(materiaBox);
 	}
