@@ -228,7 +228,11 @@ public class DataBaseHandler {
 	public void uploadAvatarFile(String avatarFile) {
 		System.out.println("uploading avatar file");
 		File avatar = new File(avatarFile);
-		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/avatars/" + avatar.getName());
+		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/avatars/");
+		if (!serverAvatar.exists()) {
+			serverAvatar.mkdirs();
+		}
+		serverAvatar = new File(serverAvatar.getAbsolutePath() + "/" + avatar.getName());
 		InputStream is = null;
 		OutputStream os = null;
 		try {
