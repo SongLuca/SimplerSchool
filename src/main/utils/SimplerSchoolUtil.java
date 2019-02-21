@@ -14,6 +14,7 @@ import com.jfoenix.controls.JFXDialogLayout;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -181,6 +182,15 @@ public class SimplerSchoolUtil {
 			e.printStackTrace();
 		}
 		return stage;
+	}
+	
+	public static VBox getCellByPos(GridPane os, int row, int col) {
+		for (Node node : os.getChildren()) {
+	        if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
+	            return (VBox)node;
+	        }
+		}
+		return null;
 	}
 	
 /*	public static void initCalendarWeekDayHeader(HBox weekdayHeader) {

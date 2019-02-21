@@ -102,6 +102,33 @@ public class OrarioSettimanale {
 		}
 	}
 	
+	public LinkedHashMap<String, String> getOrarioGiorno(int day) {
+		String giorno = this.getGiornoByCol(day);
+		System.out.println("giorno selezionato: " + giorno);
+		return settimana.get(giorno);
+	}
+	
+	public String getGiornoByCol(int col) {
+		switch (col) {
+		case 0:
+			return "lunedi";
+		case 1:
+			return "materdi";
+		case 2:
+			return "mercoledi";
+		case 3:
+			return "giovedi";
+		case 4:
+			return "venerdi";
+		case 5:
+			return "sabato";
+		case 6:
+			return "domenica";
+		default:
+			return "errore";
+		}
+	}
+	
 	public int getColByGiorno(String giorno) {
 		switch (giorno) {
 		case "lunedi":
@@ -152,6 +179,23 @@ public class OrarioSettimanale {
 		}
 	}
 
+	public String findMateriaByPos(int row, int col) {
+		int countRow = 0;
+		int countCol = 0;
+		for (String keyDay: settimana.keySet()) {
+			if (row == countRow) {
+				for (String keyHour: settimana.get(keyDay).keySet()) {
+					if (col == countCol) {
+						return settimana.get(keyDay).get(keyHour);
+					}
+					countCol++;
+				}
+			}
+			countRow++;
+		}
+		return null;
+	}
+	
 	public String toString() {
 		System.out.println("Orario nome: " + this.nomeOrario);
 		for (String key : settimana.keySet()) {
@@ -159,4 +203,6 @@ public class OrarioSettimanale {
 		}
 		return null;
 	}
+	
+	
 }

@@ -232,7 +232,7 @@ public class DataBaseHandler {
 		if (!serverAvatar.exists()) {
 			serverAvatar.mkdirs();
 		}
-		serverAvatar = new File(serverAvatar.getAbsolutePath() + "/" + avatar.getName());
+		serverAvatar = new File	(serverAvatar.getAbsolutePath() + "/" + avatar.getName());
 		InputStream is = null;
 		OutputStream os = null;
 		try {
