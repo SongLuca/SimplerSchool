@@ -1,0 +1,4 @@
+xampp
+         htdocs
+                   Simpler_School
+		         avatars

@@ -6,6 +6,7 @@ public class Utente {
 	private String nome;
 	private String cognome;
 	private String scuola;
+	private String avatar_path;
 	
 	public Utente() {
 		
@@ -62,11 +63,21 @@ public class Utente {
 		this.scuola = scuola;
 	}
 
+	public String getAvatar_path() {
+		return avatar_path;
+	}
+
+	public void setAvatar_path(String avatar_path) {
+		this.avatar_path = avatar_path;
+	}
+
 	@Override
 	public String toString() {
 		return "Utente [userid=" + userid + ", username=" + username + ", nome=" + nome + ", cognome=" + cognome
-				+ ", scuola=" + scuola + "]";
+				+ ", scuola=" + scuola + ", avatar_path=" + avatar_path + "]";
 	}
+
+	
 	
 	
 }

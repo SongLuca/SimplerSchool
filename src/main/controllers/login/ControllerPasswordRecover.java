@@ -42,7 +42,7 @@ public class ControllerPasswordRecover {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -119,7 +119,7 @@ public class ControllerPasswordRecover {
 	
 	public void openRecoverCompleted(MouseEvent e1) {
 		try {
-			AnchorPane regCompleted = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "regCompletedFXML").toURL());
+			AnchorPane regCompleted = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "regCompletedFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			Label msgLbl = (Label)regCompleted.lookup("#infoLbl");

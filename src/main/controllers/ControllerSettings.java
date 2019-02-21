@@ -54,11 +54,11 @@ public class ControllerSettings {
 		initTitleBox();
 		backButton.setVisible(false);
 		backButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURI("config", "backHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURIByPath("config", "backHoverImagePath").toString();
 			backImage.setImage(new Image(img));
 		});
 		backButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURI("config", "backImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURIByPath("config", "backImagePath").toString();
 			backImage.setImage(new Image(img));
 		});
 		new ZoomOut(pop).play();
@@ -66,7 +66,7 @@ public class ControllerSettings {
 	@FXML
 	public void backToSettings() { 
 		try {
-			Parent fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "settingsFXML").toURL());
+			Parent fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "settingsFXML").toURL());
 			Stage currentStage = (Stage)pop.getScene().getWindow();
 			currentStage.setScene(new Scene(fxml));
 			mainPane.setPrefHeight(currentStage.getHeight());
@@ -82,7 +82,7 @@ public class ControllerSettings {
 	@FXML
 	public void openOrarioSettimanale(){
 		try {
-			AnchorPane fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "orarioSettimanaleFXML").toURL());
+			AnchorPane fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "orarioSettimanaleFXML").toURL());
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(fxml);
 			title.setText("Orario Settimanale");
@@ -148,19 +148,19 @@ public class ControllerSettings {
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURI("config", "titleCloseImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("config", "titleMaxmizeHoverImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = SimplerSchoolUtil.getFileURI("config", "titleMaxmizeImagePath").toString();
+			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleMaxmizeImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

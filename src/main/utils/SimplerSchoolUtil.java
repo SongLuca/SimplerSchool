@@ -337,7 +337,7 @@ public class SimplerSchoolUtil {
 		return false;
 	}
 	
-	public static URI getFileURI(String configName, String path) {
+	public static URI getFileURIByPath(String configName, String path) {
 		return new File(Config.getString(configName, path)).toURI();
 	}
 	

@@ -28,28 +28,29 @@ import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
 public class ControllerLogin {
-	@FXML
-	private Label registerLabel;
-	@FXML
-	private AnchorPane loginPane;
-	@FXML
-	private JFXTextField usernameField;
-	@FXML
-	private JFXPasswordField passField;
-	@FXML
-	private JFXSpinner loading;
-	@FXML
-	private JFXCheckBox rememberMe;
 	
 	@FXML
-	void animation(MouseEvent event) {
-		// new FadeOutRight(loginPane).play();
-	}
+	private Label registerLabel;
+	
+	@FXML
+	private AnchorPane loginPane;
+	
+	@FXML
+	private JFXTextField usernameField;
+	
+	@FXML
+	private JFXPasswordField passField;
+	
+	@FXML
+	private JFXSpinner loading;
+	
+	@FXML
+	private JFXCheckBox rememberMe;
 
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
-			AnchorPane register = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "registerFXML").toURL());
+			AnchorPane register = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "registerFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(register, 50, 50, 275, 275);
 			register.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -74,7 +75,7 @@ public class ControllerLogin {
 	@FXML
 	void openRecover(MouseEvent e1) {
 		try {
-			AnchorPane recover = FXMLLoader.load(SimplerSchoolUtil.getFileURI("config", "passwordRecoverFXML").toURL());
+			AnchorPane recover = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "passwordRecoverFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(recover, 50, 50, 275, 275);
 			recover.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -164,7 +165,9 @@ public class ControllerLogin {
 		});
 		timeline.play();
 	}
-
+	
+	
+	
 	public void initialize() {
 		if(Config.getBoolean("userconfig", "rememberMe")) {
 			rememberMe.setSelected(true);
@@ -175,6 +178,7 @@ public class ControllerLogin {
 		}
 		loading.setVisible(false);
 		passField.setText("12345");
+		
 	}
 
 	/***********************************************/

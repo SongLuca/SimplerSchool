@@ -20,8 +20,7 @@ public class Main extends Application {
 			Config.config = SimplerSchoolUtil.readProperties("config");
 			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");
 		//	SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
-			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
-			
+			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");	
 		//	SimplerSchoolUtil.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");
 	}
 

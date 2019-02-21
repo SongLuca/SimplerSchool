@@ -56,20 +56,39 @@ public class ControllerOrarioS {
 	public void initialize() {
 		weekdayHeader.setVisible(false);
 		calendarGrid.setVisible(false);
+		
+		saveButton.setDisable(true);
+		deleteButton.setDisable(true);
+		backButton.setDisable(true);
+		clearButton.setDisable(true);
+		
 		clearButton.setOnMouseClicked(e->{
 			initOSCalendarGrid(weekdayHeader, calendarGrid);
 			os = new OrarioSettimanale(os.getNomeOrario());
 			MetaData.os = this.os;
 			MetaData.os.toString();
 		});
+		
 		backButton.setOnMouseClicked(e->{
 			calendarioBox.setVisible(false);
 			calendarioPane.setVisible(true);
+			
+			saveButton.setDisable(true);
+			deleteButton.setDisable(true);
+			backButton.setDisable(true);
+			clearButton.setDisable(true);
+			
 			new FadeIn(calendarioPane).play();
+			subContentPane.requestFocus();
 		});
+		
 		deleteButton.setOnMouseClicked(e->{
 		/*	calendarioBox.setVisible(false);
 			calendarioPane.setVisible(true);
+			saveButton.setDisable(false);
+			deleteButton.setDisable(false);
+			backButton.setDisable(false);
+			clearButton.setDisable(false);
 			new FadeIn(calendarioPane).play();*/
 			VBox pane = new VBox();
 			pane.setAlignment(Pos.CENTER);
@@ -80,6 +99,7 @@ public class ControllerOrarioS {
 			calendarGrid.add(pane, 1, 1, 1, 2);
 			System.out.println(GridPane.getRowSpan(pane));
 		});
+		
 		saveButton.setOnMouseClicked(e->{
 			os.toXML(); 
 			StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
@@ -133,6 +153,10 @@ public class ControllerOrarioS {
 		MetaData.controller = this;
 		SimplerSchoolUtil.loadWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
 				null);
+		saveButton.setDisable(false);
+		deleteButton.setDisable(false);
+		backButton.setDisable(false);
+		clearButton.setDisable(false);
 	}
 
 	@FXML
