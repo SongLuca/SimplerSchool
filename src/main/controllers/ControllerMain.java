@@ -1,4 +1,7 @@
 package main.controllers;
+
+import java.io.File;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
@@ -29,7 +32,9 @@ import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import main.application.Main;
 import main.application.models.Config;
+import main.application.models.Utente;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -37,57 +42,63 @@ public class ControllerMain {
 	private final int HAMMENUSIZE = 230;
 	@FXML
 	private StackPane rootStack;
-	
+
 	@FXML
 	private AnchorPane rootPane;
-	
+
 	@FXML
 	private AnchorPane menuPane;
-	
+
 	@FXML
 	private Pane menuShadowPane;
-	
+
 	@FXML
 	private Pane gridShadowPane;
-	
+
 	@FXML
 	private VBox menuVBox;
-	
+
 	@FXML
 	private JFXHamburger hamMenu;
-	
+
 	@FXML
 	private HBox weekdayHeader;
-	
+
 	@FXML
 	private GridPane calendarGrid;
-	
+
 	@FXML
 	private ImageView profilePaneAvatar;
+
+	@FXML
+	private Circle avatar;
 	
 	@FXML
-	private Circle cccc;
+	private Label nomeLbl;
+
+	@FXML
+	private Label cognomeLbl;
+
+	@FXML
+	private Label scuolaLbl;
 	
 	@FXML
 	private JFXTabPane tabPane;
-	
+
 	@FXML
 	private JFXButton settingsButton;
-	
+
 	@FXML
 	private JFXButton profileButton;
-	
+
 	@FXML
 	private JFXButton closeButton;
-	
-	@FXML
-	private ImageView image;
 
 	@FXML
 	private TextInputDialog inputSubject;
-	
+
 	private double prefHeight = 700, prefWidth = 1200;
-	
+
 	@FXML
 	public void hamclicked(MouseEvent event) {
 		if (menuPane.getPrefWidth() == 300) {
@@ -125,7 +136,7 @@ public class ControllerMain {
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
 		}
-		new Wobble(cccc).play();
+		new Wobble(avatar).play();
 	}
 
 	public void initialize() {
@@ -138,9 +149,14 @@ public class ControllerMain {
 	}
 
 	public void initProfilePane() {
-		cccc.setFill(new ImagePattern(profilePaneAvatar.getImage()));
+		Utente u = Main.utente;
+		File avatarFile = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
+		avatar.setFill(new ImagePattern(new Image(avatarFile.toURI().toString())));
+		nomeLbl.setText((u.getNome() == null) ? "null" :u.getNome());
+		cognomeLbl.setText((u.getCognome() == null) ? "null" : u.getCognome());
+		scuolaLbl.setText((u.getScuola() == null) ? "null" : u.getScuola());
 	}
-	
+
 	public void initHamMenu() {
 		HamburgerSlideCloseTransition transition = new HamburgerSlideCloseTransition(hamMenu);
 		transition.setRate(-1);
@@ -166,26 +182,26 @@ public class ControllerMain {
 		});
 
 	}
-	
+
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
 		System.out.println("opening settings window");
 		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
-				(Stage)((Node)event.getSource()).getScene().getWindow(), true, null, null);
+				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
 	}
-	
+
 	@FXML
 	public void openCloseWindow(MouseEvent event) {
 		System.out.println("opening close window");
-		SimplerSchoolUtil.loadWindow("closeFXML",
-				(Stage)((Node)event.getSource()).getScene().getWindow(), false, null, null);
+		SimplerSchoolUtil.loadWindow("closeFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
+				null, null);
 	}
-	
+
 	public void initCalendarWeekDayHeader() {
 		int weekdays = 7;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat","Sun"};
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 		for (int i = 0; i < weekdays; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");
@@ -196,7 +212,7 @@ public class ControllerMain {
 			pane.getChildren().add(new Label(weekDays[i]));
 		}
 	}
-	
+
 	public void initCalendarGrid() {
 		int rows = 11;
 		int cols = 7;
@@ -208,7 +224,7 @@ public class ControllerMain {
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 					System.out.println("grid");
 					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
-					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane"); 
+					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
 					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
 				});
 				GridPane.setVgrow(vPane, Priority.ALWAYS);
@@ -220,32 +236,32 @@ public class ControllerMain {
 			calendarGrid.getRowConstraints().add(row);
 		}
 	}
-	
+
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;
-	
+
 	@FXML
 	private Label title;
-	
+
 	@FXML
 	private JFXButton titleCloseButton;
-	
+
 	@FXML
 	private JFXButton titleMaxmizeButton;
-	
+
 	@FXML
 	private JFXButton titleHideButton;
-	
+
 	@FXML
 	private ImageView titleCloseImage;
-	
+
 	@FXML
 	private ImageView titleMaxmizeImage;
-	
+
 	@FXML
 	private ImageView titleHideImage;
-	
+
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
@@ -275,8 +291,8 @@ public class ControllerMain {
 		titleHideButton.setOnMouseClicked(e -> {
 			WindowStyle.hidde((Stage) tabPane.getScene().getWindow());
 		});
-		titleMaxmizeButton.setOnMouseClicked(e ->{
-			WindowStyle. MaxMinScreen((Stage) tabPane.getScene().getWindow());
+		titleMaxmizeButton.setOnMouseClicked(e -> {
+			WindowStyle.MaxMinScreen((Stage) tabPane.getScene().getWindow());
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
 			WindowStyle.close((Stage) tabPane.getScene().getWindow());
@@ -284,11 +300,11 @@ public class ControllerMain {
 		titleHBox.setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
-					WindowStyle. MaxMinScreen((Stage) tabPane.getScene().getWindow());
+					WindowStyle.MaxMinScreen((Stage) tabPane.getScene().getWindow());
 				}
 			}
 		});
 	}
-	
+
 	/***********************************************/
 }

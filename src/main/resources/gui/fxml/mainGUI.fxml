@@ -27,7 +27,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml" fx:controller="main.controllers.ControllerMain">
+<AnchorPane style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -84,11 +84,6 @@
                   </HBox>
                </children>
             </HBox>
-            <ImageView fx:id="profilePaneAvatar" fitHeight="150.0" fitWidth="200.0" pickOnBounds="true" preserveRatio="true" visible="false">
-               <image>
-                  <Image url="@../../images/defaultAvatar.jpg" />
-               </image>
-            </ImageView>
             <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
                <top>
                   <AnchorPane>
@@ -135,12 +130,12 @@
                         </JFXTabPane>
                         <Pane layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                            <children>
-                              <Circle fx:id="cccc" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
+                              <Circle fx:id="avatar" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
                               <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
                                  <children>
-                                    <Label prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
-                                    <Label prefHeight="30.0" prefWidth="120.0" text="Zheng" />
-                                    <Label prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                    <Label fx:id="nomeLbl" prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
+                                    <Label fx:id="cognomeLbl" prefHeight="30.0" prefWidth="120.0" text="Zheng" />
+                                    <Label fx:id="scuolaLbl" prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
                                  </children>
                               </VBox>
                            </children>
