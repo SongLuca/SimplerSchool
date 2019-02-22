@@ -21,6 +21,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.util.Duration;
+import main.application.Main;
 import main.application.models.Config;
 import main.database.DataBaseHandler;
 import main.utils.Effect;
@@ -161,7 +162,7 @@ public class ControllerLogin {
 		timeline.getKeyFrames().add(key);
 		timeline.setOnFinished((ae) -> {
 			WindowStyle.closeByRoot(root);
-			SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School",1200,700);
+			SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School -"+Main.utente.getUserid(),1200,700);
 		});
 		timeline.play();
 	}

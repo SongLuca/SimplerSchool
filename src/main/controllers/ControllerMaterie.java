@@ -56,11 +56,15 @@ public class ControllerMaterie {
 	
 	public void apply() {
 		toRemove = new ArrayList<Integer>();
+		boolean modificato = false;
 		for(int key : materie.keySet()) {
 			Materia m = materie.get(key);
 			HBox materia = (HBox)materieBox.lookup("#materiaBox"+key);  // prende il materiabox a seconda dell id
 			if(materia == null) {			// se il tale box non esiste allora vuol dire che e' stato cancellato dall utente
 				m.setStato("delete");	
+				if(MetaData.os != null)
+					MetaData.os.removeMateria(m.getNome());
+				modificato = true;
 			}
 			else {
 				JFXTextField nome = (JFXTextField)materia.lookup("#nomeMateria");
@@ -68,41 +72,45 @@ public class ControllerMaterie {
 				String hexColor = SimplerSchoolUtil.toRGBCode(colore.getValue());
 				if(nome.getText().trim().equals("") && !m.getStato().equals("insert")) {  // cancella materia con nome vuoto
 					m.setStato("delete");
-					System.out.println(m.getNome());
-					if(MetaData.os != null) {
-						MetaData.os.toString();
+					modificato = true;
+					if(MetaData.os != null)
 						MetaData.os.removeMateria(m.getNome());
-						MetaData.os.toString();
-					}
 				}
 				if(nome.getText().trim().equals("") && m.getStato().equals("insert")) {  // cancella materia con nome vuoto
 					toRemove.add(key);
+					modificato = true;
 				}
 				if(m.getStato().equals("fresh")) {
 					if(!m.getNome().equals(nome.getText())) { // se ha modificato il nome materia
 						m.setNome(nome.getText());
 						m.setStato("update");
+						modificato = true;
 					}
 					if(!m.getColore().equalsIgnoreCase(hexColor)) {  // se ha modificato il colore materia
 						m.setColore(hexColor);
 						m.setStato("update");
+						modificato = true;
 					}
 				}
 				if(m.getStato().equals("insert")) {
 					m.setNome(nome.getText());
 					m.setColore(hexColor);
+					modificato = true;
 				}
 			}
 		}
-		for(int i = 0 ; i < toRemove.size() ; i ++) {
-			materie.remove(toRemove.get(i));
-		}
-		if(MetaData.os != null) {
-			((ControllerOrarioS) MetaData.controller).reRenderCalendario();
-		}
-		materieBox.getChildren().clear();  	// svuota tutti i materiabox
-		updateMaterieInDB();
 		
+		if(modificato) {
+			System.out.println("changes detected");
+			for(int i = 0 ; i < toRemove.size() ; i ++)
+				materie.remove(toRemove.get(i));
+			materieBox.getChildren().clear();  	// svuota tutti i materiabox
+			updateMaterieInDB();
+			if(MetaData.os != null) 
+				((ControllerOrarioS) MetaData.controller).reRenderCalendario();
+		}
+		else
+			System.out.println("no changes detected");
 	}
 	
 	public void exit() {

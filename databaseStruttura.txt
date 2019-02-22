@@ -1,4 +1,7 @@
 xampp
          htdocs
                    Simpler_School
-		         avatars
+		         default
+			defaultAvatar.jpg
+		         users
+			*user_id*

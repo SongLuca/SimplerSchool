@@ -190,7 +190,7 @@ public class ControllerRegister {
 		selectAvatarButton.setOnMouseClicked(e -> {
 			selectAvatar();
 		});
-		avatarPath = "avatars/defaultAvatar.jpg";
+		avatarPath = "default/defaultAvatar.jpg";
 		profileImage.setFill(
 				new ImagePattern(new Image(SimplerSchoolUtil.getFileURIByPath("config", "defaultAvatar").toString())));
 	}

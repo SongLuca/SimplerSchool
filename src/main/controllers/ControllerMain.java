@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -231,9 +232,13 @@ public class ControllerMain {
 				calendarGrid.add(vPane, j, i);
 			}
 		}
-		for (int i = 0; i < cols; i++) {
+		for (int i = 0; i < rows; i++) {
 			RowConstraints row = new RowConstraints();
 			calendarGrid.getRowConstraints().add(row);
+		}
+		for (int i = 0; i < cols; i++) {
+			ColumnConstraints col = new ColumnConstraints();
+			calendarGrid.getColumnConstraints().add(col);
 		}
 	}
 

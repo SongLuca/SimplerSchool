@@ -25,17 +25,17 @@ public class OrarioSettimanale {
 
 	public LinkedHashMap<String, String> initGiornoHashMap() {
 		LinkedHashMap<String, String> giorno = new LinkedHashMap<String, String>();
-		giorno.put("1ora", null);
-		giorno.put("2ora", null);
-		giorno.put("3ora", null);
-		giorno.put("4ora", null);
-		giorno.put("5ora", null);
-		giorno.put("6ora", null);
-		giorno.put("7ora", null);
-		giorno.put("8ora", null);
-		giorno.put("9ora", null);
-		giorno.put("10ora", null);
-		giorno.put("11ora", null);
+		giorno.put("1ora", "null");
+		giorno.put("2ora", "null");
+		giorno.put("3ora", "null");
+		giorno.put("4ora", "null");
+		giorno.put("5ora", "null");
+		giorno.put("6ora", "null");
+		giorno.put("7ora", "null");
+		giorno.put("8ora", "null");
+		giorno.put("9ora", "null");
+		giorno.put("10ora", "null");
+		giorno.put("11ora", "null");
 		return giorno;
 	}
 
@@ -90,21 +90,22 @@ public class OrarioSettimanale {
 		}
 		return null;
 	}
-
+	
+	public String getMateriaByPos(int row, int col) {
+		return settimana.get(getGiornoByCol(col)).get(getOraByRow(row));
+	}
+	
 	public void removeMateria(String materia) {
 		for(String giorno : settimana.keySet()) {
 			for(String ora : settimana.get(giorno).keySet()) {
-				if(settimana.get(giorno).get(ora) != null) {
-					if(settimana.get(giorno).get(ora).equals(materia))
-						settimana.get(giorno).put(ora, null);
-				}
+				if(settimana.get(giorno).get(ora).equals(materia))
+					settimana.get(giorno).put(ora, "null");
 			}
 		}
 	}
 	
 	public LinkedHashMap<String, String> getOrarioGiorno(int day) {
 		String giorno = this.getGiornoByCol(day);
-		System.out.println("giorno selezionato: " + giorno);
 		return settimana.get(giorno);
 	}
 	
@@ -113,7 +114,7 @@ public class OrarioSettimanale {
 		case 0:
 			return "lunedi";
 		case 1:
-			return "materdi";
+			return "martedi";
 		case 2:
 			return "mercoledi";
 		case 3:
@@ -124,6 +125,35 @@ public class OrarioSettimanale {
 			return "sabato";
 		case 6:
 			return "domenica";
+		default:
+			return "errore";
+		}
+	}
+	
+	public String getOraByRow(int row) {
+		switch (row) {
+		case 0:
+			return "1ora";
+		case 1:
+			return "2ora";
+		case 2:
+			return "3ora";
+		case 3:
+			return "4ora";
+		case 4:
+			return "5ora";
+		case 5:
+			return "6ora";
+		case 6:
+			return "7ora";
+		case 7:
+			return "8ora";
+		case 8:
+			return "9ora";
+		case 9:
+			return "10ora";
+		case 10:
+			return "11ora";
 		default:
 			return "errore";
 		}

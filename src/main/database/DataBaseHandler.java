@@ -32,7 +32,7 @@ public class DataBaseHandler {
 	private String passHash;
 	private HashMap<Integer, Materia> materie;
 	static String mySqlConnClass = "com.mysql.jdbc.Driver";
-	private String defaultAvatar = "avatars/defaultAvatar.jpg";
+	private String defaultAvatar = "default/defaultAvatar.jpg";
 
 	private DataBaseHandler() {
 
@@ -92,7 +92,7 @@ public class DataBaseHandler {
 			if (recordUpdated == 1)
 				return true;
 			else {
-				System.out.println(recordUpdated + " have been updated!");
+				System.out.println(recordUpdated + " record has been updated!");
 				this.setMsg("No such username");
 				return false;
 			}
@@ -125,7 +125,7 @@ public class DataBaseHandler {
 			String s = toStringResultSet(rs);
 			if (s.equals("")) {
 				System.out.println("the username is not used");
-				if (updateUtenteTable(u, password, conn))
+				if (insertUtenteQuery(u, password, conn))
 					return true;
 				else
 					return false;
@@ -188,7 +188,7 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	public boolean updateUtenteTable(Utente u, char[] password, Connection conn) {
+	public boolean insertUtenteQuery(Utente u, char[] password, Connection conn) {
 		System.out.println("inserting user");
 		String query = "INSERT INTO UTENTE(username,nome,cognome,pass_hash,scuola,avatar_path) "
 				+ "VALUES(?,?,?,?,?,?)";
@@ -199,17 +199,17 @@ public class DataBaseHandler {
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
 			System.out.println(stmt);
-			stmt.setString(1, u.getUsername()); // username
-			stmt.setString(2, u.getNome()); // nome
-			stmt.setString(3, u.getCognome()); // cognome
-			stmt.setString(4, pash_hash); // pass_hash
-			stmt.setString(5, u.getScuola()); // scuola
-			System.out.println(u.getAvatar_path());
-			stmt.setString(6, "avatars" + // avatar path
-					u.getAvatar_path().substring(u.getAvatar_path().lastIndexOf("/"), u.getAvatar_path().length()));
+			stmt.setString(1, u.getUsername()); 	// username
+			stmt.setString(2, u.getNome()); 		// nome
+			stmt.setString(3, u.getCognome()); 	// cognome
+			stmt.setString(4, pash_hash); 			// pass_hash
+			stmt.setString(5, u.getScuola()); 		// scuola
+			stmt.setString(6, defaultAvatar);		// avatar path
 			stmt.execute();
-			if (!u.getAvatar_path().equals(defaultAvatar))
-				uploadAvatarFile(u.getAvatar_path());
+			if (!u.getAvatar_path().equals(defaultAvatar)) {
+				uploadAvatarFile(u, conn);
+				updateUtenteQuery(u, conn);
+			}
 			return true;
 		} catch (SQLException e) {
 			this.setMsg("Failed to update the user table! Check query and connection");
@@ -224,15 +224,59 @@ public class DataBaseHandler {
 		}
 		return false;
 	}
-
-	public void uploadAvatarFile(String avatarFile) {
+	
+	public void updateUtenteQuery(Utente u, Connection conn) {
+		System.out.println("updating user");
+		String query = "UPDATE UTENTE SET SCUOLA = ?, NOME = ?, COGNOME = ?, AVATAR_PATH = ? WHERE USERNAME = ?";
+		try{
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setString(1, u.getScuola());
+			stmt.setString(2, u.getNome());
+			stmt.setString(3, u.getCognome());
+			stmt.setString(4, u.getAvatar_path());
+			stmt.setString(5, u.getUsername());
+			int recordUpdated = stmt.executeUpdate();
+			if (recordUpdated != 1)
+				throw new IllegalArgumentException("error! multiple record have been updated!");
+			System.out.println(recordUpdated + " record has been updated!");
+		}catch (SQLException e) {
+			this.setMsg("Failed to update the user table! Check query and connection");
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public int getUserIdQuery(String username, Connection conn) {
+		System.out.println("getting user id");
+		String query = "SELECT USER_ID FROM UTENTE WHERE USERNAME = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setString(1, username);
+			ResultSet rs = stmt.executeQuery();
+			while(rs.next()) {
+				return rs.getInt("user_id");
+			}
+			throw new IllegalArgumentException("invalid username: " + username);
+		} catch (SQLException e) {
+			this.setMsg("Failed to update the user table! Check query and connection");
+			e.printStackTrace();
+		}
+		return 0;
+	}
+	
+	public void uploadAvatarFile(Utente u, Connection conn) {
 		System.out.println("uploading avatar file");
-		File avatar = new File(avatarFile);
-		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/avatars/");
+		int id = getUserIdQuery(u.getUsername(), conn);
+		File avatar = new File(u.getAvatar_path());
+		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/users/"+id);
 		if (!serverAvatar.exists()) {
 			serverAvatar.mkdirs();
 		}
 		serverAvatar = new File	(serverAvatar.getAbsolutePath() + "/" + avatar.getName());
+		u.setUserid(id);
+		u.setAvatar_path("users/" + id + "/" + avatar.getName());
 		InputStream is = null;
 		OutputStream os = null;
 		try {

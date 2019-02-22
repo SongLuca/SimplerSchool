@@ -13,5 +13,7 @@ CREATE TABLE utente (
 CREATE TABLE MATERIA(
 	materia_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nome varchar(50) NOT NULL,
-	color varchar(10) 
+	color varchar(10),
+	user_id int NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES utente(user_id)
 )AUTO_INCREMENT 100
