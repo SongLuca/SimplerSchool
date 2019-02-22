@@ -30,16 +30,22 @@ public class ControllerOrarioS {
 	private HBox weekdayHeader;
 
 	@FXML
+	private VBox oreHeader;
+
+	@FXML
 	private GridPane calendarGrid;
 
 	@FXML
 	private AnchorPane subContentPane;
-	
+
 	@FXML
 	private VBox calendarioBox;
 
 	@FXML
 	private JFXMasonryPane calendarioPane;
+	
+	@FXML
+	private AnchorPane rootCalendar;
 
 	@FXML
 	private JFXButton saveButton;
@@ -49,63 +55,53 @@ public class ControllerOrarioS {
 
 	@FXML
 	private JFXButton backButton;
+
 	@FXML
 	private JFXButton clearButton;
-	
+
 	private OrarioSettimanale os;
 
 	private HashMap<Integer, Materia> materie;
+
 	public void initialize() {
-		weekdayHeader.setVisible(false);
-		calendarGrid.setVisible(false);
-		
 		saveButton.setDisable(true);
 		deleteButton.setDisable(true);
 		backButton.setDisable(true);
 		clearButton.setDisable(true);
-		
-		clearButton.setOnMouseClicked(e->{
-			initOSCalendarGrid(weekdayHeader, calendarGrid);
+
+		clearButton.setOnMouseClicked(e -> {
+			initOSCalendarGrid();
 			os = new OrarioSettimanale(os.getNomeOrario());
 			MetaData.os = this.os;
 			MetaData.os.toString();
 		});
-		
-		backButton.setOnMouseClicked(e->{
+
+		backButton.setOnMouseClicked(e -> {
 			MetaData.os = null;
-			calendarioBox.setVisible(false);
+			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
-			
+
 			saveButton.setDisable(true);
 			deleteButton.setDisable(true);
 			backButton.setDisable(true);
 			clearButton.setDisable(true);
-			
+
 			new FadeIn(calendarioPane).play();
 			subContentPane.requestFocus();
 		});
-		
-		deleteButton.setOnMouseClicked(e->{
-		/*	calendarioBox.setVisible(false);
+
+		deleteButton.setOnMouseClicked(e -> {
+			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
 			saveButton.setDisable(false);
 			deleteButton.setDisable(false);
 			backButton.setDisable(false);
 			clearButton.setDisable(false);
-			new FadeIn(calendarioPane).play();*/
-			VBox pane = new VBox();
-			pane.setAlignment(Pos.CENTER);
-			pane.setStyle("-fx-background-color: red;");
-			Label lbl = new Label("babababa");
-			pane.getChildren().add(lbl);
-			pane.getStyleClass().add("calendar_pane");
-			pane.setId("123");
-		//	calendarGrid.add(pane, 1, 1, 1, 2);
-			calendarGrid.add(pane, 0, 0);
+			new FadeIn(calendarioPane).play();
 		});
-		
-		saveButton.setOnMouseClicked(e->{
-			os.toXML(); 
+
+		saveButton.setOnMouseClicked(e -> {
+			os.toXML();
 			StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
 			AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
 			SimplerSchoolUtil.popUpDialog(root, pane, "Message", "done!");
@@ -114,56 +110,37 @@ public class ControllerOrarioS {
 
 	public void initCalendar(String nomeOS) {
 		calendarioPane.setVisible(false);
-		initOSCalendarWeekDayHeader(weekdayHeader);
-		initOSCalendarGrid(weekdayHeader, calendarGrid);
-		calendarioBox.setVisible(true);
-		new FadeIn(calendarioBox).play();
+		initOSCalendarWeekDayHeader();
+		initOSCalendarGrid();
+		initOrarioHeader();
+		rootCalendar.setVisible(true);
+		new FadeIn(rootCalendar).play();
 		os = new OrarioSettimanale(nomeOS);
 		MetaData.os = this.os;
 		MetaData.OrarioSGrid = calendarGrid;
 		subContentPane.requestFocus();
 	}
-	
+
 	public void reRenderCalendario() {
 		System.out.println("rerendering calendario");
-		calendarGrid.getChildren().retainAll(calendarGrid.getChildren().get(0));
-		initOSCalendarGrid(weekdayHeader, calendarGrid);
+		initOSCalendarGrid();
 		materie = DataBaseHandler.getInstance().getMaterie();
 		this.os = MetaData.os;
-		for(String giornoK : os.getSettimana().keySet()) {
-			/*LinkedHashMap<String, String> giornoM = os.getSettimana().get(giornoK);
-			for(String oraK : giornoM.keySet()) {
-				if(!giornoM.get(oraK).equals("null")) {
-					Materia m = os.findMateriaByNome(materie, giornoM.get(oraK));
-					int ora = os.getRowByOra(oraK);
-					int giorno = os.getColByGiorno(giornoK);
-					VBox pane = new VBox();
-					pane.setAlignment(Pos.CENTER);
-					pane.setStyle("-fx-background-color:"+m.getColore()+";");
-					Label lbl = new Label();
-					lbl.setText(m.getNome());
-					pane.getChildren().add(lbl);
-					pane.getStyleClass().add("calendar_pane");
-					pane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-						addMateria(pane);
-					});
-					calendarGrid.add(pane, giorno, ora);
-				}
-			}*/
+		for (String giornoK : os.getSettimana().keySet()) {
 			int dayCol = os.getColByGiorno(giornoK);
 			fuseSubjects(calendarGrid, dayCol);
 		}
 	}
-	
+
 	public Materia getMateriaByNome(String nome) {
 		materie = DataBaseHandler.getInstance().getMaterie();
-		for(int key : materie.keySet()) {
-			if(materie.get(key).getNome().equals(nome))
+		for (int key : materie.keySet()) {
+			if (materie.get(key).getNome().equals(nome))
 				return materie.get(key);
 		}
 		return null;
 	}
-	
+
 	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
 		Materia m = getMateriaByNome(nomeMateria);
 		VBox pane = new VBox();
@@ -177,22 +154,22 @@ public class ControllerOrarioS {
 		pane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 			addMateria(pane);
 		});
-		if(rowSpan != 1) 
+		if (rowSpan != 1)
 			osGrid.add(pane, col, row, 1, rowSpan);
 		else
 			osGrid.add(pane, col, row);
 	}
-	
-	public void fuseSubjects (GridPane osGrid, int col) {
+
+	public void fuseSubjects(GridPane osGrid, int col) {
 		LinkedHashMap<String, String> giorno = os.getOrarioGiorno(col);
 		osGrid.getChildren().removeIf(node -> (node instanceof VBox) && GridPane.getColumnIndex(node) == col);
 		int count = 0;
 		int length = 1;
 		int startPos = 0;
 		String materiaPrec = "";
-		for(String ora : giorno.keySet()) {
-			if(count == 0) {
-				if(!giorno.get(ora).equals("null"))
+		for (String ora : giorno.keySet()) {
+			if (count == 0) {
+				if (!giorno.get(ora).equals("null"))
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
 					VBox vPane = new VBox();
@@ -203,30 +180,27 @@ public class ControllerOrarioS {
 					osGrid.add(vPane, col, count);
 				}
 			}
-			if(count != 0) {
-				if(!giorno.get(ora).equals("null") && giorno.get(ora).equals(materiaPrec)) {
-					length ++;
-					if(length == 1)
+			if (count != 0) {
+				if (!giorno.get(ora).equals("null") && giorno.get(ora).equals(materiaPrec)) {
+					length++;
+					if (length == 1)
 						startPos = count;
-				}
-				else {
-					if(length != 1) {
+				} else {
+					if (length != 1) {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
-						if(giorno.get(ora).equals("null")) {
+						if (giorno.get(ora).equals("null")) {
 							VBox vPane = new VBox();
 							vPane.getStyleClass().add("calendar_pane");
 							vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 								addMateria(vPane);
 							});
 							osGrid.add(vPane, col, count);
-						}
-						else
+						} else
 							addVBoxToCell(osGrid, giorno.get(ora), count, col, 1);
-					}
-					else {
+					} else {
 						length = 1;
 						startPos = count;
-						if(!giorno.get(ora).equals("null"))
+						if (!giorno.get(ora).equals("null"))
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
 							VBox vPane = new VBox();
@@ -245,7 +219,7 @@ public class ControllerOrarioS {
 			count++;
 		}
 	}
-	
+
 	@FXML
 	public void newOS(MouseEvent e) {
 		MetaData.controller = this;
@@ -263,9 +237,8 @@ public class ControllerOrarioS {
 				null, null);
 	}
 
-	public void initOSCalendarWeekDayHeader(HBox weekdayHeader) {
+	public void initOSCalendarWeekDayHeader() {
 		weekdayHeader.getChildren().clear();
-		weekdayHeader.setVisible(true);
 		int weekdays = 7;
 		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
 		for (int i = 0; i < weekdays; i++) {
@@ -279,9 +252,8 @@ public class ControllerOrarioS {
 		}
 	}
 
-	public void initOSCalendarGrid(HBox weekdayHeader, GridPane calendarGrid) {
+	public void initOSCalendarGrid() {
 		calendarGrid.getChildren().retainAll(calendarGrid.getChildren().get(0));
-		calendarGrid.setVisible(true);
 		int rows = 11;
 		int cols = 7;
 		for (int i = 0; i < rows; i++) {
@@ -303,6 +275,20 @@ public class ControllerOrarioS {
 		for (int i = 0; i < cols; i++) {
 			ColumnConstraints col = new ColumnConstraints();
 			calendarGrid.getColumnConstraints().add(col);
+		}
+	}
+
+	public void initOrarioHeader() {
+		oreHeader.getChildren().clear();
+		int ore = 11;
+		for (int i = 1; i <= ore; i++) {
+			StackPane pane = new StackPane();
+			pane.getStyleClass().add("weekday-header");
+			VBox.setVgrow(pane, Priority.ALWAYS);
+			pane.setMaxHeight(Double.MAX_VALUE);
+			pane.setMinHeight(oreHeader.getPrefHeight() / ore);
+			oreHeader.getChildren().add(pane);
+			pane.getChildren().add(new Label("" + i));
 		}
 	}
 

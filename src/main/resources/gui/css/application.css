@@ -86,14 +86,12 @@
 }
 .calendarPane{
 	-fx-background-color: white;
-	-fx-border-color: grey;
 }
-
-
 
 .calendar_pane:hover{
 	-fx-effect: dropshadow(gaussian , purple, 10, 0.9, 0, 0)
 }
+
 #titleClose:hover{
 	-fx-background-color:red;
 }

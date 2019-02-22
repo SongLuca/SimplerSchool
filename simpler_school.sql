@@ -10,10 +10,20 @@ CREATE TABLE utente (
 	avatar_path varchar(150) DEFAULT NULL
 )AUTO_INCREMENT=10000
 
+CREATE TABLE PROFESSORE(
+	prof_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nome varchar(50) DEFAULT NULL,
+	cognome varchar(50) DEFAULT NULL,
+)AUTO_INCREMENT=1000
+
 CREATE TABLE MATERIA(
 	materia_id int NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nome varchar(50) NOT NULL,
-	color varchar(10),
+	color varchar(10) NOT NULL,
 	user_id int NOT NULL,
-	FOREIGN KEY (user_id) REFERENCES utente(user_id)
-)AUTO_INCREMENT 100
+	prof_id int DEFAULT NULL,
+	prof2_id int DEFAULT NULL,
+	FOREIGN KEY (user_id) REFERENCES utente(user_id),
+	FOREIGN KEY (prof_id) REFERENCES PROFESSORE(prof_id),
+	FOREIGN KEY (prof2_id) REFERENCES PROFESSORE(prof_id)
+)AUTO_INCREMENT=100

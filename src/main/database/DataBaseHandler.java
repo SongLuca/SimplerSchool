@@ -296,7 +296,7 @@ public class DataBaseHandler {
 
 	public boolean runGetMaterieQuery() {
 		System.out.println("getting materie ");
-		String query = "SELECT * FROM MATERIA";
+		String query = "SELECT * FROM MATERIA WHERE USER_ID = ?";
 		Connection conn;
 		ResultSet rs = null;
 		try {
@@ -305,6 +305,7 @@ public class DataBaseHandler {
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
 			System.out.println(stmt);
+			stmt.setInt(1, Main.utente.getUserid());
 			rs = stmt.executeQuery();
 			return rsToMaterie(rs);
 		} catch (SQLException e) {
@@ -394,13 +395,14 @@ public class DataBaseHandler {
 	}
 
 	public boolean runInsertMateria(Materia m, Connection conn) {
-		String query = "INSERT INTO MATERIA VALUES(?,?,?)";
+		String query = "INSERT INTO MATERIA (MATERIA_ID, NOME, COLOR, USER_ID) VALUES(?,?,?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			System.out.println(stmt);
 			stmt.setInt(1, m.getId());
 			stmt.setString(2, m.getNome());
 			stmt.setString(3, m.getColore());
+			stmt.setInt(4, Main.utente.getUserid());
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -408,6 +410,22 @@ public class DataBaseHandler {
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
+	}
+	
+	public void getOSQuery() {
+		
+	}
+	
+	public void insertOSQuery() {
+		
+	}
+	
+	public void updateOSQuery() {
+		
+	}
+	
+	public void deleteOSQuery() {
+		
 	}
 
 	public boolean rsToMaterie(ResultSet rs) {
