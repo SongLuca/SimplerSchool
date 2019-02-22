@@ -64,6 +64,9 @@ public class ControllerMain {
 
 	@FXML
 	private HBox weekdayHeader;
+	
+	@FXML
+	private VBox oreHeader;
 
 	@FXML
 	private GridPane calendarGrid;
@@ -145,6 +148,7 @@ public class ControllerMain {
 		initTitleBox();
 		initHamMenu();
 		initCalendarWeekDayHeader();
+		initOrarioHeader();
 		initCalendarGrid();
 		initProfilePane();
 	}
@@ -211,6 +215,19 @@ public class ControllerMain {
 			pane.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
 			weekdayHeader.getChildren().add(pane);
 			pane.getChildren().add(new Label(weekDays[i]));
+		}
+	}
+	
+	public void initOrarioHeader() {
+		int ore = 11;
+		for (int i = 1; i <= ore; i++) {
+			StackPane pane = new StackPane();
+			pane.getStyleClass().add("weekday-header");
+			VBox.setVgrow(pane, Priority.ALWAYS);
+			pane.setMaxHeight(Double.MAX_VALUE);
+			pane.setMinHeight(oreHeader.getPrefHeight() / ore);
+			oreHeader.getChildren().add(pane);
+			pane.getChildren().add(new Label(""+i));
 		}
 	}
 
