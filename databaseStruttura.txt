@@ -1,7 +1,10 @@
 xampp
-         htdocs
-                   Simpler_School
-		         default
-			defaultAvatar.jpg
-		         users
-			*user_id*
+	htdocs
+		Simpler_School
+			default
+				defaultAvatar.jpg
+			users
+				*user_id*
+				*user_id*
+				*user_id*
+				*user_id*
