@@ -308,7 +308,7 @@ public class SimplerSchoolUtil {
 	}
 	
 	public static void confirmMsg(String msg) {
-		Alert alert = new Alert(AlertType.NONE);
+		Alert alert = new Alert(AlertType.INFORMATION);
     //    alert.setTitle(titleBar);
    //     alert.setHeaderText(headerMessage);
         alert.setContentText(msg);
