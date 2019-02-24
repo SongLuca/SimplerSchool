@@ -17,6 +17,7 @@ import java.sql.PreparedStatement;
 import main.application.Main;
 import main.application.models.Config;
 import main.application.models.Materia;
+import main.application.models.OrarioSettimanale;
 import main.application.models.Utente;
 import main.utils.PasswordHash;
 
@@ -31,6 +32,7 @@ public class DataBaseHandler {
 	private String msg;
 	private String passHash;
 	private HashMap<Integer, Materia> materie;
+	private HashMap<Integer, OrarioSettimanale> orariS;
 	static String mySqlConnClass = "com.mysql.jdbc.Driver";
 	private String defaultAvatar = "default/defaultAvatar.jpg";
 
@@ -48,7 +50,11 @@ public class DataBaseHandler {
 	public HashMap<Integer, Materia> getMaterie() {
 		return materie;
 	}
-
+	
+	public HashMap<Integer, OrarioSettimanale> getOS() {
+		return orariS;
+	}
+	
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
@@ -71,8 +77,10 @@ public class DataBaseHandler {
 	}
 
 	public void preLoadUserData() { // prende tutti i dati dal db prima di entrare nel main
-		System.out.println("loading all user data");
+		System.out.println("---Preloading all user data---");
 		runGetMaterieQuery();
+		getOSQuery();
+		System.out.println("--------------------------------");
 	}
 
 	public boolean runResetPassQuery(String username, char[] password) {
@@ -318,7 +326,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean updateMateriaTable(HashMap<Integer, Materia> materieNuove) {
-		System.out.println("updating materie");
+		System.out.println("update materie table");
 		Connection conn = null;
 		try {
 			Class.forName(mySqlConnClass);
@@ -336,15 +344,15 @@ public class DataBaseHandler {
 			switch (m.getStato()) {
 			case "insert": // inserimento della nuova materia
 				System.out.println("inserting materia " + m.getNome());
-				runInsertMateria(m, conn);
+				runInsertMateriaQuery(m, conn);
 				break;
 			case "update": // aggiornamento della materia modificata
 				System.out.println("updating materia " + m.getNome());
-				runUpdateMateria(m, conn);
+				runUpdateMateriaQuery(m, conn);
 				break;
 			case "delete": // cancellamento della materia
 				System.out.println("deleting materia " + m.getNome());
-				runDeleteMateria(m, conn);
+				runDeleteMateriaQuery(m, conn);
 				break;
 			case "fresh":
 				// non fare niente...
@@ -357,7 +365,7 @@ public class DataBaseHandler {
 		return true;
 	}
 
-	public boolean runDeleteMateria(Materia m, Connection conn) {
+	public boolean runDeleteMateriaQuery(Materia m, Connection conn) {
 		String query = "DELETE FROM MATERIA WHERE MATERIA_ID = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -372,7 +380,7 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	public boolean runUpdateMateria(Materia m, Connection conn) {
+	public boolean runUpdateMateriaQuery(Materia m, Connection conn) {
 		String query = "UPDATE MATERIA SET NOME = ?, COLOR = ? WHERE MATERIA_ID = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -394,7 +402,7 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	public boolean runInsertMateria(Materia m, Connection conn) {
+	public boolean runInsertMateriaQuery(Materia m, Connection conn) {
 		String query = "INSERT INTO MATERIA (MATERIA_ID, NOME, COLOR, USER_ID) VALUES(?,?,?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -412,22 +420,145 @@ public class DataBaseHandler {
 		return false;
 	}
 	
-	public void getOSQuery() {
-		
+	public boolean updateOSTable(OrarioSettimanale os) {
+		System.out.println("update orariosettimanale table");
+		Connection conn = null;
+		try {
+			Class.forName(mySqlConnClass);
+			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
+					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		} catch (SQLException e) {
+			System.out.println("Can not connect to the SQL database!");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		switch(os.getStato()) {
+			case "insert": 
+				return insertOSQuery(os, conn);
+			case "update": 
+				return updateOSQuery(os, conn);
+			case "delete": 
+				return deleteOSQuery(os, conn);
+			case "fresh": 
+				System.out.println("fresh");
+				break;
+		}
+		return false;
 	}
 	
-	public void insertOSQuery() {
-		
+	public boolean getOSQuery() {
+		System.out.println("getting orariosettimanale");
+		String query = "SELECT * FROM ORARIOSETTIMANALE WHERE USER_ID = ?";
+		Connection conn;
+		ResultSet rs = null;
+		try {
+			Class.forName(mySqlConnClass);
+			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
+					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setInt(1, Main.utente.getUserid());
+			rs = stmt.executeQuery();
+			return rsToOS(rs);
+		} catch (SQLException e) {
+			System.out.println("Can not connect to the SQL database!");
+			this.setMsg("Can not connect to the SQL database!");
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			e.printStackTrace();
+		}
+		return false;
 	}
 	
-	public void updateOSQuery() {
-		
+	public boolean insertOSQuery(OrarioSettimanale os, Connection conn) {
+		System.out.println("inserting orariosettimanale");
+		String query = "INSERT INTO ORARIOSETTIMANALE(OS_ID, NOME, FILE_PATH, USER_ID) VALUES(?,?,?,?)";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setInt(1, os.getId());
+			stmt.setString(2, os.getNomeOrario());
+			stmt.setString(3, os.getStoredPath());
+			stmt.setInt(4, Main.utente.getUserid());
+			stmt.execute();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Can not connect to the SQL database!");
+			this.setMsg("Can not connect to the SQL database!");
+			e.printStackTrace();
+			return false;
+		}
 	}
 	
-	public void deleteOSQuery() {
-		
+	public boolean updateOSQuery(OrarioSettimanale os, Connection conn) {
+		System.out.println("updating orariosettimanale");
+		String query = "UPDATE ORARIOSETTIMANALE SET NOME = ? WHERE OS_ID = ? AND USER_ID =?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setString(1, os.getNomeOrario());
+			stmt.setInt(2, os.getId());
+			stmt.setInt(3, Main.utente.getUserid());
+			stmt.execute();
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Can not connect to the SQL database!");
+			this.setMsg("Can not connect to the SQL database!");
+			e.printStackTrace();
+			return false;
+		}
 	}
-
+	
+	public boolean deleteOSQuery(OrarioSettimanale os, Connection conn) {
+		System.out.println("deleting orariosettimanale");
+		String query = "DELETE FROM ORARIOSETTIMANALE WHERE OS_ID = ? AND USER_ID = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			System.out.println(stmt);
+			stmt.setInt(1, os.getId());
+			stmt.setInt(2, Main.utente.getUserid());
+			stmt.execute();
+			removeOSXmlFile(os);
+			return true;
+		} catch (SQLException e) {
+			System.out.println("Can not connect to the SQL database!");
+			this.setMsg("Can not connect to the SQL database!");
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+	public void removeOSXmlFile(OrarioSettimanale os) {
+		File xml = new File(Config.getString("config", "databaseFolder") + "/" + os.getStoredPath());
+		if(xml.delete())
+			System.out.println(xml.getAbsolutePath() + " deleted");
+		else
+			System.out.println(xml.getAbsolutePath() + " doesnt exist");
+	}
+	
+	public boolean rsToOS(ResultSet rs) {
+		orariS = new HashMap<Integer, OrarioSettimanale>();
+		OrarioSettimanale os;
+		try {
+			while (rs.next()) {
+				os = new OrarioSettimanale();
+				os.setId(rs.getInt("os_id"));
+				os.setNomeOrario(rs.getString("nome"));
+				os.setStoredPath(rs.getString("file_path"));
+				os.setUser_id(rs.getInt("user_id"));
+				os.loadXML();
+				orariS.put(os.getId(), os);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		if (orariS.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
 	public boolean rsToMaterie(ResultSet rs) {
 		materie = new HashMap<Integer, Materia>();
 		Materia ma;

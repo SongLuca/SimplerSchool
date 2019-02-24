@@ -68,7 +68,6 @@ public class ControllerRegister {
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			backgroundLogin.getChildren().add(login);
-
 			FadeOutRight fadeOutLeft = new FadeOutRight(registerPane);
 			fadeOutLeft.setOnFinished(e -> {
 				registerPane.setVisible(false);

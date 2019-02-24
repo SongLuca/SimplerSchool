@@ -70,10 +70,7 @@ public class ControllerMain {
 
 	@FXML
 	private GridPane calendarGrid;
-
-	@FXML
-	private ImageView profilePaneAvatar;
-
+	
 	@FXML
 	private Circle avatar;
 	

@@ -27,3 +27,11 @@ CREATE TABLE MATERIA(
 	FOREIGN KEY (prof_id) REFERENCES PROFESSORE(prof_id),
 	FOREIGN KEY (prof2_id) REFERENCES PROFESSORE(prof_id)
 )AUTO_INCREMENT=100
+
+CREATE TABLE ORARIOSETTIMANALE(
+	os_id int not null AUTO_INCREMENT PRIMARY KEY,
+	nome varchar(50) not null,
+	file_path varchar(255) not null,
+	user_id int not null,
+	FOREIGN KEY (user_id) REFERENCES utente(user_id)
+)AUTO_INCREMENT=100

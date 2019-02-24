@@ -5,6 +5,9 @@ xampp
 				defaultAvatar.jpg
 			users
 				*user_id*
+						useravatar.png
+						orariosettiamanale
+										.xml
 				*user_id*
 				*user_id*
 				*user_id*

@@ -2,9 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXMasonryPane?>
-<?import javafx.scene.control.ContextMenu?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuItem?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -86,32 +84,10 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton prefHeight="75.0" prefWidth="75.0" text="">
-                     <graphic>
-                        <VBox alignment="CENTER" prefHeight="84.0" prefWidth="84.0" spacing="10.0">
-                           <children>
-                              <ImageView fitHeight="75.0" fitWidth="75.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/calendar.png" />
-                                 </image>
-                              </ImageView>
-                              <Label text="Label" />
-                           </children>
-                        </VBox>
-                     </graphic>
-                     <contextMenu>
-                        <ContextMenu>
-                          <items>
-                              <MenuItem mnemonicParsing="false" text="Open" />
-                              <MenuItem mnemonicParsing="false" text="Rename" />
-                            <MenuItem mnemonicParsing="false" text="Delete" />
-                          </items>
-                        </ContextMenu>
-                     </contextMenu>
-                  </JFXButton>
                </children>
             </JFXMasonryPane>
          </children>
       </AnchorPane>
+      <JFXSpinner fx:id="loading" layoutX="410.0" layoutY="303.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
    </children>
 </AnchorPane>

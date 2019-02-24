@@ -1,17 +1,40 @@
 package main.application.models;
 
+import java.beans.XMLDecoder;
 import java.beans.XMLEncoder;
+import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 
-public class OrarioSettimanale {
-	private String nomeOrario;
-	private LinkedHashMap<String, LinkedHashMap<String, String>> settimana;
+import main.application.Main;
 
+public class OrarioSettimanale {
+	private int id;
+	private String nomeOrario;
+	private String storedPath;
+	private int user_id ;
+	private String stato;
+	private LinkedHashMap<String, LinkedHashMap<String, String>> settimana;
+	
+	public OrarioSettimanale() {
+		this.stato = "fresh";
+		settimana = new LinkedHashMap<String, LinkedHashMap<String, String>>();
+		settimana.put("lunedi", initGiornoHashMap());
+		settimana.put("martedi", initGiornoHashMap());
+		settimana.put("mercoledi", initGiornoHashMap());
+		settimana.put("giovedi", initGiornoHashMap());
+		settimana.put("venerdi", initGiornoHashMap());
+		settimana.put("sabato", initGiornoHashMap());
+		settimana.put("domenica", initGiornoHashMap());
+	}
+	
 	public OrarioSettimanale(String nomeOrario) {
+		this.stato = "fresh";
 		this.nomeOrario = nomeOrario;
 		settimana = new LinkedHashMap<String, LinkedHashMap<String, String>>();
 		settimana.put("lunedi", initGiornoHashMap());
@@ -22,7 +45,7 @@ public class OrarioSettimanale {
 		settimana.put("sabato", initGiornoHashMap());
 		settimana.put("domenica", initGiornoHashMap());
 	}
-
+	
 	public LinkedHashMap<String, String> initGiornoHashMap() {
 		LinkedHashMap<String, String> giorno = new LinkedHashMap<String, String>();
 		giorno.put("1ora", "null");
@@ -42,6 +65,22 @@ public class OrarioSettimanale {
 	public LinkedHashMap<String, LinkedHashMap<String, String>> getSettimana() {
 		return settimana;
 	}
+	
+	public int getUser_id() {
+		return user_id;
+	}
+
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
 
 	public void setSettimana(LinkedHashMap<String, LinkedHashMap<String, String>> settimana) {
 		this.settimana = settimana;
@@ -54,6 +93,22 @@ public class OrarioSettimanale {
 	public void setNomeOrario(String nomeOrario) {
 		this.nomeOrario = nomeOrario;
 	}
+	
+	public String getStoredPath() {
+		return storedPath;
+	}
+
+	public void setStoredPath(String stoledPath) {
+		this.storedPath = stoledPath;
+	}
+	
+	public String getStato() {
+		return stato;
+	}
+
+	public void setStato(String stato) {
+		this.stato = stato;
+	}
 
 	public boolean addMateria(String ora, String giorno, String materia) {
 		for (String key : settimana.keySet()) {
@@ -62,6 +117,8 @@ public class OrarioSettimanale {
 				for (String key2 : g.keySet()) {
 					if (key2.equals(ora)) {
 						g.put(key2, materia);
+						if(!stato.equals("insert"));
+							stato = "update";
 						return true;
 					}
 				}
@@ -71,10 +128,14 @@ public class OrarioSettimanale {
 	}
 
 	public void toXML() {
-		System.out.println("writing oraio "+ this.getNomeOrario() +" into .xml file");
+		System.out.println("writing orario "+ this.getNomeOrario() +" into .xml file");
 		try {
 			XMLEncoder encoder;
-			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(nomeOrario + ".xml")));
+			File filePath = new File(Config.getString("config", "databaseFolder") + "/users/" + Main.utente.getUserid() + "/orariosettimanale/");
+			if(!filePath.exists())
+				filePath.mkdirs();
+			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filePath.getAbsolutePath() + "/" + this.id + ".xml")));
+			storedPath = "users/" + Main.utente.getUserid()+"/orariosettimanale/"+ this.id+".xml";
 			encoder.writeObject(settimana);
 			encoder.close();
 		} catch (FileNotFoundException e) {
@@ -82,7 +143,21 @@ public class OrarioSettimanale {
 		}
 
 	}
-
+	
+	@SuppressWarnings("unchecked")
+	public void loadXML() {
+		System.out.println("reading orario "+ this.getNomeOrario() +" from .xml file");
+		try {
+			XMLDecoder decoder;
+			String path = Config.getString("config", "databaseFolder") + "/" + storedPath;
+			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
+			settimana = (LinkedHashMap<String, LinkedHashMap<String, String>>) decoder.readObject();
+			decoder.close();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Materia findMateriaByNome(HashMap<Integer, Materia> materie, String nome) {
 		for (int key : materie.keySet()) {
 			if (materie.get(key).getNome().equals(nome))
@@ -98,8 +173,11 @@ public class OrarioSettimanale {
 	public void removeMateria(String materia) {
 		for(String giorno : settimana.keySet()) {
 			for(String ora : settimana.get(giorno).keySet()) {
-				if(settimana.get(giorno).get(ora).equals(materia))
+				if(settimana.get(giorno).get(ora).equals(materia)) {
 					settimana.get(giorno).put(ora, "null");
+					if(!stato.equals("insert"));
+					stato = "update";
+				}
 			}
 		}
 	}
@@ -226,8 +304,9 @@ public class OrarioSettimanale {
 		return null;
 	}
 	
+	@Override
 	public String toString() {
-		System.out.println("Orario nome: " + this.nomeOrario);
+		System.out.println("userid: " + user_id +" Orario nome: " + this.nomeOrario + " stato: " + stato + " path: " + storedPath);
 		for (String key : settimana.keySet()) {
 			System.out.println(key + "  \t:\t" + settimana.get(key).toString());
 		}

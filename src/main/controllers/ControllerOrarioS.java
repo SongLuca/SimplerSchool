@@ -1,11 +1,17 @@
 package main.controllers;
 
+import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXMasonryPane;
+import com.jfoenix.controls.JFXSpinner;
 import animatefx.animation.*;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
@@ -19,10 +25,15 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.application.customGUI.ConfirmDialog;
+import main.application.customGUI.TextFieldDialog;
+import main.application.models.Config;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
+import main.controllers.orariosettimanale.ControllerOrarioSBox;
 import main.database.DataBaseHandler;
+import main.utils.Effect;
 import main.utils.SimplerSchoolUtil;
 
 public class ControllerOrarioS {
@@ -58,17 +69,20 @@ public class ControllerOrarioS {
 
 	@FXML
 	private JFXButton clearButton;
-
+	
+	@FXML
+    private JFXSpinner loading;
+	
 	private OrarioSettimanale os;
 
 	private HashMap<Integer, Materia> materie;
-
+	
+	private HashMap<Integer, OrarioSettimanale> orariS;
+	
 	public void initialize() {
-		saveButton.setDisable(true);
-		deleteButton.setDisable(true);
-		backButton.setDisable(true);
-		clearButton.setDisable(true);
-
+		setDisableFuncBtns(true);
+		initOSList();
+		
 		clearButton.setOnMouseClicked(e -> {
 			initOSCalendarGrid();
 			os = new OrarioSettimanale(os.getNomeOrario());
@@ -80,35 +94,133 @@ public class ControllerOrarioS {
 			MetaData.os = null;
 			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
-
-			saveButton.setDisable(true);
-			deleteButton.setDisable(true);
-			backButton.setDisable(true);
-			clearButton.setDisable(true);
-
+			setDisableFuncBtns(false);
+			initOSList();
 			new FadeIn(calendarioPane).play();
 			subContentPane.requestFocus();
 		});
 
 		deleteButton.setOnMouseClicked(e -> {
+			if(!os.getStato().equals("insert")) {
+				Stage owner = (Stage)calendarioPane.getScene().getWindow();
+				ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to delete this?");
+				calendarioPane.requestFocus();
+				if(cd.getResult()) { 
+					System.out.println("yes");
+					os.setStato("delete");
+					updateOSTask(os.getNomeOrario() + " deleted", true); 
+				}
+				else {
+					System.out.println("delete canceled");
+				}
+			}
+		
 			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
-			saveButton.setDisable(false);
-			deleteButton.setDisable(false);
-			backButton.setDisable(false);
-			clearButton.setDisable(false);
+			setDisableFuncBtns(false);
 			new FadeIn(calendarioPane).play();
 		});
 
 		saveButton.setOnMouseClicked(e -> {
-			os.toXML();
-			StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
-			AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
-			SimplerSchoolUtil.popUpDialog(root, pane, "Message", "done!");
+			System.out.println("stato : " + os.getStato());
+			updateOSTask("saved", false);
 		});
 	}
+	
+	public void updateOSTask(String doneMsg, boolean refreshList) {
+		StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
+		AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
+		Task<Boolean> updateOSTask = new Task<Boolean>() {
+			@Override
+			protected Boolean call() throws Exception {
+				loading.setVisible(true);
+				subContentPane.setEffect(Effect.blur());
+				if(!os.getStato().equals("fresh"))
+					os.toXML();
+				return DataBaseHandler.getInstance().updateOSTable(os);
+			}
+		};
 
+		updateOSTask.setOnFailed(event -> {
+			loading.setVisible(false);
+			subContentPane.setEffect(null);
+			SimplerSchoolUtil.popUpDialog(root, pane, "Message", "RIP");
+			updateOSTask.getException().printStackTrace();
+		});
+
+		updateOSTask.setOnSucceeded(event -> {
+			loading.setVisible(false);
+			subContentPane.setEffect(null);
+			if (updateOSTask.getValue()) {
+				DataBaseHandler.getInstance().getOSQuery();
+				if(refreshList)
+					initOSList();
+				SimplerSchoolUtil.popUpDialog(root, pane, "Message", doneMsg);
+			}
+		});
+		new Thread(updateOSTask).start();
+	}
+	
+	public void initOSList() {
+		calendarioPane.getChildren().retainAll(calendarioPane.getChildren().get(0));
+		orariS = DataBaseHandler.getInstance().getOS();
+		for(int key : orariS.keySet()) {
+			try {
+				URL fxmlURL = new File(Config.getString("config", "orarioSBoxFXML")).toURI().toURL();
+				FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+				JFXButton osBox = fxmlLoader.load();
+				ControllerOrarioSBox c = fxmlLoader.<ControllerOrarioSBox>getController();
+				c.setNome(orariS.get(key).getNomeOrario());
+				c.setOpenAction(e->{
+					loadCalendar(orariS.get(key).getNomeOrario());
+				});
+				c.setDeleteAction(e->{
+					Stage owner = (Stage)calendarioPane.getScene().getWindow();
+					ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to delete this?");
+					calendarioPane.requestFocus();
+					if(cd.getResult()) { 
+						os = orariS.get(key);
+						os.setStato("delete");
+						updateOSTask(os.getNomeOrario() + " deleted", true); 
+					}
+				});
+				c.setRenameAction(e->{
+					Stage owner = (Stage)calendarioPane.getScene().getWindow();
+					TextFieldDialog tfd = new TextFieldDialog(owner, orariS , orariS.get(key).getNomeOrario(), "Rename to:");
+					calendarioPane.requestFocus();
+					String newN = tfd.getResult();
+					String oldN = orariS.get(key).getNomeOrario();
+					if(!tfd.getResult().equals("")) {
+						os = orariS.get(key);
+						os.setNomeOrario(newN);
+						os.setStato("update");
+						System.out.println("stato : " + os.getStato());
+						updateOSTask(oldN + "changed to " + newN, true);
+					}
+				});
+				calendarioPane.getChildren().add(osBox);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void loadCalendar(String nomeOS) {
+		setDisableFuncBtns(false);
+		calendarioPane.setVisible(false);
+		os = getOSByNome(nomeOS);
+		MetaData.os = this.os;
+		MetaData.OrarioSGrid = calendarGrid;
+		initOSCalendarWeekDayHeader();
+		initOrarioHeader();
+		reRenderCalendario();
+		rootCalendar.setVisible(true);
+		new FadeIn(rootCalendar).play();
+		subContentPane.requestFocus();
+	}
+	
 	public void initCalendar(String nomeOS) {
+		setDisableFuncBtns(false);
 		calendarioPane.setVisible(false);
 		initOSCalendarWeekDayHeader();
 		initOSCalendarGrid();
@@ -116,11 +228,26 @@ public class ControllerOrarioS {
 		rootCalendar.setVisible(true);
 		new FadeIn(rootCalendar).play();
 		os = new OrarioSettimanale(nomeOS);
+		int id = 100;
+		for(int key : orariS.keySet()) {
+			if(key == id)
+				id++;
+		}
+		os.setId(id);
+		os.setStato("insert");
 		MetaData.os = this.os;
 		MetaData.OrarioSGrid = calendarGrid;
+		initOSList();
 		subContentPane.requestFocus();
 	}
-
+	
+	public void setDisableFuncBtns(boolean value) {
+		saveButton.setDisable(value);
+		deleteButton.setDisable(value);
+		backButton.setDisable(value);
+		clearButton.setDisable(value);
+	}
+	
 	public void reRenderCalendario() {
 		System.out.println("rerendering calendario");
 		initOSCalendarGrid();
@@ -140,7 +267,15 @@ public class ControllerOrarioS {
 		}
 		return null;
 	}
-
+	
+	public OrarioSettimanale getOSByNome(String nome) {
+		for(int key : orariS.keySet()){
+			if(orariS.get(key).getNomeOrario().equals(nome))
+				return orariS.get(key);
+		}
+		return null;
+	}
+	
 	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
 		Materia m = getMateriaByNome(nomeMateria);
 		VBox pane = new VBox();
@@ -225,10 +360,6 @@ public class ControllerOrarioS {
 		MetaData.controller = this;
 		SimplerSchoolUtil.loadWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
 				null);
-		saveButton.setDisable(false);
-		deleteButton.setDisable(false);
-		backButton.setDisable(false);
-		clearButton.setDisable(false);
 	}
 
 	@FXML
@@ -293,6 +424,7 @@ public class ControllerOrarioS {
 	}
 
 	public void addMateria(VBox vPane) {
+		MetaData.controller = this;
 		MetaData.sub_row = GridPane.getRowIndex(vPane);
 		MetaData.sub_col = GridPane.getColumnIndex(vPane);
 		SimplerSchoolUtil.loadNoTitleWindow("addSubjectFXML", null, false, null, null);
