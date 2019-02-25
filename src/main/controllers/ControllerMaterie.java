@@ -26,6 +26,7 @@ import main.application.models.Config;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -49,7 +50,7 @@ public class ControllerMaterie {
 	
 	public void initialize() {
 		materie = DataBaseHandler.getInstance().getMaterie();
-		System.out.println("opening materie gui");
+		Console.print("Opening materie gui","gui");
 		initMaterieBox();
 		initTitleBox();
 	}
@@ -101,7 +102,6 @@ public class ControllerMaterie {
 		}
 		
 		if(modificato) {
-			System.out.println("changes detected");
 			for(int i = 0 ; i < toRemove.size() ; i ++)
 				materie.remove(toRemove.get(i));
 			materieBox.getChildren().clear();  	// svuota tutti i materiabox
@@ -109,8 +109,6 @@ public class ControllerMaterie {
 			if(MetaData.os != null) 
 				((ControllerOrarioS) MetaData.controller).reRenderCalendario();
 		}
-		else
-			System.out.println("no changes detected");
 	}
 	
 	public void exit() {
@@ -164,7 +162,6 @@ public class ControllerMaterie {
 			if (getMaterieTask.getValue()) {
 				materie = DataBaseHandler.getInstance().getMaterie();
 				initMaterieBox();
-				System.out.println(materie);
 			} else {
 				materie = new HashMap<Integer, Materia>();
 			}
@@ -192,7 +189,7 @@ public class ControllerMaterie {
 			if (updateMaterieTask.getValue()) {
 				getMaterieFromDB();
 			} else {
-				System.out.println("Error");
+				Console.print("Error on updating materie table","db");
 			}
 		});
 		new Thread(updateMaterieTask).start();

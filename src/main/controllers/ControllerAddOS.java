@@ -11,6 +11,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import main.application.models.MetaData;
+import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -28,7 +29,7 @@ public class ControllerAddOS {
 			msgLbl.setText("Invalid name");
 		}
 		else {
-			System.out.println("nuovo orario settimanale creato : "+nomeOS);
+			Console.print("nuovo orario settimanale creato : "+nomeOS, "app");
 			((ControllerOrarioS) MetaData.controller).initCalendar(nomeOS);
 			cancel(event);
 		}

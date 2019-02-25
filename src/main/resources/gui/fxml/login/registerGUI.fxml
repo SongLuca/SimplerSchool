@@ -17,7 +17,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="registerPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegister">
+<AnchorPane fx:id="registerPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegister">
    <children>
       <Pane prefHeight="500.0" prefWidth="650.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>

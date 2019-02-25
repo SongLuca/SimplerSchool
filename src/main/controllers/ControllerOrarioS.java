@@ -33,6 +33,7 @@ import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.controllers.orariosettimanale.ControllerOrarioSBox;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.Effect;
 import main.utils.SimplerSchoolUtil;
 
@@ -106,12 +107,8 @@ public class ControllerOrarioS {
 				ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to delete this?");
 				calendarioPane.requestFocus();
 				if(cd.getResult()) { 
-					System.out.println("yes");
 					os.setStato("delete");
 					updateOSTask(os.getNomeOrario() + " deleted", true); 
-				}
-				else {
-					System.out.println("delete canceled");
 				}
 			}
 		
@@ -122,7 +119,6 @@ public class ControllerOrarioS {
 		});
 
 		saveButton.setOnMouseClicked(e -> {
-			System.out.println("stato : " + os.getStato());
 			updateOSTask("saved", false);
 		});
 	}
@@ -194,7 +190,6 @@ public class ControllerOrarioS {
 						os = orariS.get(key);
 						os.setNomeOrario(newN);
 						os.setStato("update");
-						System.out.println("stato : " + os.getStato());
 						updateOSTask(oldN + "changed to " + newN, true);
 					}
 				});
@@ -249,7 +244,7 @@ public class ControllerOrarioS {
 	}
 	
 	public void reRenderCalendario() {
-		System.out.println("rerendering calendario");
+		Console.print("Rerendering calendario","gui");
 		initOSCalendarGrid();
 		materie = DataBaseHandler.getInstance().getMaterie();
 		this.os = MetaData.os;

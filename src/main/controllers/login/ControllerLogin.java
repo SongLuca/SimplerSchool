@@ -167,8 +167,6 @@ public class ControllerLogin {
 		timeline.play();
 	}
 	
-	
-	
 	public void initialize() {
 		if(Config.getBoolean("userconfig", "rememberMe")) {
 			rememberMe.setSelected(true);

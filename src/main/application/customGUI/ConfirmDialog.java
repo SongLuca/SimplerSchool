@@ -32,7 +32,6 @@ public class ConfirmDialog extends Dialog<Boolean>{
             	setResult(true);
             });
             noButton.setOnMouseClicked(e->{
-            	System.out.println(getWidth() + "  " + getHeight());
             	setResult(false);
             });
             root.requestFocus();

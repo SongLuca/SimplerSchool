@@ -11,15 +11,10 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Background;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
-import javafx.scene.layout.Region;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
-import javafx.scene.paint.Paint;
 import javafx.stage.Stage;
 import main.application.models.Config;
 import main.utils.FXResizeHelper;
@@ -109,23 +104,6 @@ public class ControllerSettings {
 		}
 	}
 	
-	@FXML
-	public void testt(MouseEvent event) {
-		
-		Object o = event.getSource();
-		   if(o instanceof Region){
-		       Background b = mainPane.getBackground();
-		       Paint p = b.getFills().get(0).getFill();//paint is actually your color :)
-		       if(p instanceof Color){
-		    	   Color c = (Color) p;
-		    	   String hex = String.format( "#%02X%02X%02X",
-		    	               (int)( c.getRed() * 255 ),
-		    	               (int)( c.getGreen() * 255 ),
-		    	               (int)( c.getBlue() * 255 ) );
-		    	   System.out.println(hex);
-		       }
-		   }	        
-	}
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;

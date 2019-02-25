@@ -36,6 +36,7 @@ import javafx.util.Duration;
 import main.application.Main;
 import main.application.models.Config;
 import main.application.models.Utente;
+import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -141,7 +142,7 @@ public class ControllerMain {
 	}
 
 	public void initialize() {
-		System.out.println("init menu gui");
+		Console.print("Initializing menu gui","gui");
 		initTitleBox();
 		initHamMenu();
 		initCalendarWeekDayHeader();
@@ -187,7 +188,7 @@ public class ControllerMain {
 
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
-		System.out.println("opening settings window");
+		Console.print("Opening settings window","gui");
 		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
@@ -196,7 +197,7 @@ public class ControllerMain {
 
 	@FXML
 	public void openCloseWindow(MouseEvent event) {
-		System.out.println("opening close window");
+		Console.print("opening close window","gui");
 		SimplerSchoolUtil.loadWindow("closeFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
 				null, null);
 	}
@@ -237,7 +238,7 @@ public class ControllerMain {
 				vPane.getStyleClass().add("calendar_pane");
 				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-					System.out.println("grid");
+					Console.print("you clicked on a grid","gui");
 					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
 					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
 					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");

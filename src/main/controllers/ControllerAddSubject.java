@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 
 public class ControllerAddSubject {
@@ -40,7 +41,7 @@ public class ControllerAddSubject {
 		String giorno = SimplerSchoolUtil.numToDay(MetaData.sub_col);
 		if(!materiaBox.getValue().equals("null")) {
 			Materia m = getMateriaByNome(materiaBox.getValue());
-			System.out.println("adding " + m.getNome() + " to " + ora + " at " + giorno);
+			Console.print("Os: " + MetaData.os.getNomeOrario() + " adding " + m.getNome() + " to " + ora + " at " + giorno, "app");
 			MetaData.os.addMateria(ora, giorno, m.getNome());
 		}
 		else {

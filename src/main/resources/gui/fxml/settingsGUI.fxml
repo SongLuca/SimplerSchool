@@ -159,7 +159,6 @@
                               </HBox>
                            </graphic>
                         </JFXButton>
-                        <JFXButton onMouseClicked="#testt" />
                      </children>
                   </JFXMasonryPane>
                </children>

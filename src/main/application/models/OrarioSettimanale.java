@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import main.application.Main;
+import main.utils.Console;
 
 public class OrarioSettimanale {
 	private int id;
@@ -128,7 +129,7 @@ public class OrarioSettimanale {
 	}
 
 	public void toXML() {
-		System.out.println("writing orario "+ this.getNomeOrario() +" into .xml file");
+		Console.print("Writing orario "+ this.getNomeOrario() +" into .xml file", "fileio");
 		try {
 			XMLEncoder encoder;
 			File filePath = new File(Config.getString("config", "databaseFolder") + "/users/" + Main.utente.getUserid() + "/orariosettimanale/");
@@ -146,7 +147,7 @@ public class OrarioSettimanale {
 	
 	@SuppressWarnings("unchecked")
 	public void loadXML() {
-		System.out.println("reading orario "+ this.getNomeOrario() +" from .xml file");
+		Console.print("Reading orario "+ this.getNomeOrario() +" from .xml file", "fileio");
 		try {
 			XMLDecoder decoder;
 			String path = Config.getString("config", "databaseFolder") + "/" + storedPath;

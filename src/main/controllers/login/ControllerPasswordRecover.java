@@ -65,7 +65,6 @@ public class ControllerPasswordRecover {
 
 	@FXML
 	public boolean recover(MouseEvent e1) {
-		System.out.println("123");
 		StackPane root = (StackPane) ((Node) e1.getSource()).getScene().lookup("#rootStack");
 		AnchorPane rootPane = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane"); 
 		String username = usernameField.getText();
@@ -91,7 +90,6 @@ public class ControllerPasswordRecover {
 			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Password contains space!");
 			return false;
 		}
-		System.out.println("123");
 		Task<Boolean> resetPassTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {

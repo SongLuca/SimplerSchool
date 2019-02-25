@@ -19,6 +19,7 @@ import main.application.models.Config;
 import main.application.models.Materia;
 import main.application.models.OrarioSettimanale;
 import main.application.models.Utente;
+import main.utils.Console;
 import main.utils.PasswordHash;
 
 /***********************************************
@@ -71,20 +72,20 @@ public class DataBaseHandler {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			System.out.println("Error caught while closing connection");
+			Console.print("Error caught while closing connection","db");
 			e.printStackTrace();
 		}
 	}
 
 	public void preLoadUserData() { // prende tutti i dati dal db prima di entrare nel main
-		System.out.println("---Preloading all user data---");
+		Console.print("---Preloading all user data---","app");
 		runGetMaterieQuery();
 		getOSQuery();
-		System.out.println("--------------------------------");
+		Console.print("--------------------------------","app");
 	}
 
 	public boolean runResetPassQuery(String username, char[] password) {
-		System.out.println("reseting passwod");
+		Console.print("Reseting passwod","app");
 		String query = "UPDATE UTENTE SET pass_hash = ? WHERE username = ?";
 		Connection conn;
 		try {
@@ -93,14 +94,14 @@ public class DataBaseHandler {
 			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
+			Console.print(stmt.toString(),"db");
 			stmt.setString(1, pash_hash);
 			stmt.setString(2, username);
 			int recordUpdated = stmt.executeUpdate();
 			if (recordUpdated == 1)
 				return true;
 			else {
-				System.out.println(recordUpdated + " record has been updated!");
+				Console.print(recordUpdated + " record has been updated!","db");
 				this.setMsg("No such username");
 				return false;
 			}
@@ -118,7 +119,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean runRegisterValidateQuery(Utente u, char[] password) {
-		System.out.println("validating username");
+		Console.print("Validating username","db");
 		String query = "SELECT * FROM UTENTE WHERE UTENTE.USERNAME = ?";
 		Connection conn;
 		ResultSet rs = null;
@@ -128,11 +129,11 @@ public class DataBaseHandler {
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, u.getUsername());
-			System.out.println(stmt);
+			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			String s = toStringResultSet(rs);
 			if (s.equals("")) {
-				System.out.println("the username is not used");
+				Console.print("the username is not used","debug");
 				if (insertUtenteQuery(u, password, conn))
 					return true;
 				else
@@ -151,7 +152,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean runValidateUserQuery(String username, char[] pass) {
-		System.out.println("validating login");
+		Console.print("Validating login","db");
 		String query = "SELECT * FROM UTENTE WHERE UTENTE.USERNAME = ?";
 		Connection conn;
 		ResultSet rs = null;
@@ -161,10 +162,9 @@ public class DataBaseHandler {
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);
-			System.out.println(stmt);
+			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			Utente utente = this.RsToUtente(rs);
-			System.out.println(utente.toString());
 			if (utente.getUsername() == null) {
 				this.setMsg("Incorrect username or password");
 				return false;
@@ -172,7 +172,7 @@ public class DataBaseHandler {
 				try {
 					if (PasswordHash.validatePassword(pass, getPassHash())) {
 						Main.utente = utente;
-						System.out.println("logged in user info: " + utente.toString());
+						Console.print("logged in user info: " + utente.toString(),"db");
 						conn.close();
 						return true;
 					}
@@ -187,7 +187,7 @@ public class DataBaseHandler {
 			}
 
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -197,7 +197,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean insertUtenteQuery(Utente u, char[] password, Connection conn) {
-		System.out.println("inserting user");
+		Console.print("Inserting user","db");
 		String query = "INSERT INTO UTENTE(username,nome,cognome,pass_hash,scuola,avatar_path) "
 				+ "VALUES(?,?,?,?,?,?)";
 		try {
@@ -206,13 +206,13 @@ public class DataBaseHandler {
 			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setString(1, u.getUsername()); 	// username
 			stmt.setString(2, u.getNome()); 		// nome
 			stmt.setString(3, u.getCognome()); 	// cognome
 			stmt.setString(4, pash_hash); 			// pass_hash
 			stmt.setString(5, u.getScuola()); 		// scuola
 			stmt.setString(6, defaultAvatar);		// avatar path
+			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			if (!u.getAvatar_path().equals(defaultAvatar)) {
 				uploadAvatarFile(u, conn);
@@ -234,20 +234,20 @@ public class DataBaseHandler {
 	}
 	
 	public void updateUtenteQuery(Utente u, Connection conn) {
-		System.out.println("updating user");
+		Console.print("Updating user","db");
 		String query = "UPDATE UTENTE SET SCUOLA = ?, NOME = ?, COGNOME = ?, AVATAR_PATH = ? WHERE USERNAME = ?";
 		try{
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setString(1, u.getScuola());
 			stmt.setString(2, u.getNome());
 			stmt.setString(3, u.getCognome());
 			stmt.setString(4, u.getAvatar_path());
 			stmt.setString(5, u.getUsername());
+			Console.print(stmt.toString(),"db");
 			int recordUpdated = stmt.executeUpdate();
 			if (recordUpdated != 1)
 				throw new IllegalArgumentException("error! multiple record have been updated!");
-			System.out.println(recordUpdated + " record has been updated!");
+			Console.print(recordUpdated + " record has been updated!","db");
 		}catch (SQLException e) {
 			this.setMsg("Failed to update the user table! Check query and connection");
 			e.printStackTrace();
@@ -256,12 +256,12 @@ public class DataBaseHandler {
 	}
 	
 	public int getUserIdQuery(String username, Connection conn) {
-		System.out.println("getting user id");
+		Console.print("Getting user id","db");
 		String query = "SELECT USER_ID FROM UTENTE WHERE USERNAME = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setString(1, username);
+			Console.print(stmt.toString(),"db");
 			ResultSet rs = stmt.executeQuery();
 			while(rs.next()) {
 				return rs.getInt("user_id");
@@ -275,7 +275,7 @@ public class DataBaseHandler {
 	}
 	
 	public void uploadAvatarFile(Utente u, Connection conn) {
-		System.out.println("uploading avatar file");
+		Console.print("Uploading avatar file","db");
 		int id = getUserIdQuery(u.getUsername(), conn);
 		File avatar = new File(u.getAvatar_path());
 		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/users/"+id);
@@ -303,7 +303,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean runGetMaterieQuery() {
-		System.out.println("getting materie ");
+		Console.print("Getting materie","db");
 		String query = "SELECT * FROM MATERIA WHERE USER_ID = ?";
 		Connection conn;
 		ResultSet rs = null;
@@ -312,12 +312,12 @@ public class DataBaseHandler {
 			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setInt(1, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			return rsToMaterie(rs);
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -326,32 +326,31 @@ public class DataBaseHandler {
 	}
 
 	public boolean updateMateriaTable(HashMap<Integer, Materia> materieNuove) {
-		System.out.println("update materie table");
+		Console.print("Update materie table","db");
 		Connection conn = null;
 		try {
 			Class.forName(mySqlConnClass);
 			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		for (int key : materie.keySet()) {
 			Materia m = materie.get(key);
 			switch (m.getStato()) {
 			case "insert": // inserimento della nuova materia
-				System.out.println("inserting materia " + m.getNome());
+				Console.print("Inserting materia " + m.getNome(),"db");
 				runInsertMateriaQuery(m, conn);
 				break;
 			case "update": // aggiornamento della materia modificata
-				System.out.println("updating materia " + m.getNome());
+				Console.print("updating materia " + m.getNome(),"db");
 				runUpdateMateriaQuery(m, conn);
 				break;
 			case "delete": // cancellamento della materia
-				System.out.println("deleting materia " + m.getNome());
+				Console.print("deleting materia " + m.getNome(),"db");
 				runDeleteMateriaQuery(m, conn);
 				break;
 			case "fresh":
@@ -369,12 +368,12 @@ public class DataBaseHandler {
 		String query = "DELETE FROM MATERIA WHERE MATERIA_ID = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setInt(1, m.getId());
+			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
@@ -384,19 +383,19 @@ public class DataBaseHandler {
 		String query = "UPDATE MATERIA SET NOME = ?, COLOR = ? WHERE MATERIA_ID = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setString(1, m.getNome());
 			stmt.setString(2, m.getColore());
 			stmt.setInt(3, m.getId());
+			Console.print(stmt.toString(),"db");
 			int recourdUpdated = stmt.executeUpdate();
 			if (recourdUpdated == 1)
 				return true;
 			else {
-				System.out.println(recourdUpdated + " records have been updated!");
+				Console.print(recourdUpdated + " records have been updated!","db");
 				return false;
 			}
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
@@ -406,22 +405,22 @@ public class DataBaseHandler {
 		String query = "INSERT INTO MATERIA (MATERIA_ID, NOME, COLOR, USER_ID) VALUES(?,?,?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setInt(1, m.getId());
 			stmt.setString(2, m.getNome());
 			stmt.setString(3, m.getColore());
 			stmt.setInt(4, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
 	}
 	
 	public boolean updateOSTable(OrarioSettimanale os) {
-		System.out.println("update orariosettimanale table");
+		Console.print("Update orariosettimanale table","db");
 		Connection conn = null;
 		try {
 			Class.forName(mySqlConnClass);
@@ -430,25 +429,25 @@ public class DataBaseHandler {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		switch(os.getStato()) {
-			case "insert": 
+			case "insert":
 				return insertOSQuery(os, conn);
 			case "update": 
 				return updateOSQuery(os, conn);
 			case "delete": 
 				return deleteOSQuery(os, conn);
 			case "fresh": 
-				System.out.println("fresh");
+				Console.print("No action taken on " + os.getNomeOrario(),"db");
 				break;
 		}
 		return false;
 	}
 	
 	public boolean getOSQuery() {
-		System.out.println("getting orariosettimanale");
+		Console.print("Getting orariosettimanale","db");
 		String query = "SELECT * FROM ORARIOSETTIMANALE WHERE USER_ID = ?";
 		Connection conn;
 		ResultSet rs = null;
@@ -457,12 +456,12 @@ public class DataBaseHandler {
 			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
 					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setInt(1, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			return rsToOS(rs);
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
@@ -472,19 +471,19 @@ public class DataBaseHandler {
 	}
 	
 	public boolean insertOSQuery(OrarioSettimanale os, Connection conn) {
-		System.out.println("inserting orariosettimanale");
+		Console.print("Inserting orariosettimanale","db");
 		String query = "INSERT INTO ORARIOSETTIMANALE(OS_ID, NOME, FILE_PATH, USER_ID) VALUES(?,?,?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setInt(1, os.getId());
 			stmt.setString(2, os.getNomeOrario());
 			stmt.setString(3, os.getStoredPath());
 			stmt.setInt(4, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 			e.printStackTrace();
 			return false;
@@ -492,18 +491,18 @@ public class DataBaseHandler {
 	}
 	
 	public boolean updateOSQuery(OrarioSettimanale os, Connection conn) {
-		System.out.println("updating orariosettimanale");
+		Console.print("updating orariosettimanale","db");
 		String query = "UPDATE ORARIOSETTIMANALE SET NOME = ? WHERE OS_ID = ? AND USER_ID =?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setString(1, os.getNomeOrario());
 			stmt.setInt(2, os.getId());
 			stmt.setInt(3, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 			e.printStackTrace();
 			return false;
@@ -511,18 +510,18 @@ public class DataBaseHandler {
 	}
 	
 	public boolean deleteOSQuery(OrarioSettimanale os, Connection conn) {
-		System.out.println("deleting orariosettimanale");
+		Console.print("Deleting orariosettimanale","db");
 		String query = "DELETE FROM ORARIOSETTIMANALE WHERE OS_ID = ? AND USER_ID = ?";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			System.out.println(stmt);
 			stmt.setInt(1, os.getId());
 			stmt.setInt(2, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			removeOSXmlFile(os);
 			return true;
 		} catch (SQLException e) {
-			System.out.println("Can not connect to the SQL database!");
+			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 			e.printStackTrace();
 			return false;
@@ -532,9 +531,9 @@ public class DataBaseHandler {
 	public void removeOSXmlFile(OrarioSettimanale os) {
 		File xml = new File(Config.getString("config", "databaseFolder") + "/" + os.getStoredPath());
 		if(xml.delete())
-			System.out.println(xml.getAbsolutePath() + " deleted");
+			Console.print(xml.getAbsolutePath() + " deleted","fileio");
 		else
-			System.out.println(xml.getAbsolutePath() + " doesnt exist");
+			Console.print(xml.getAbsolutePath() + " doesnt exist","fileio");
 	}
 	
 	public boolean rsToOS(ResultSet rs) {
