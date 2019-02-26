@@ -34,6 +34,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.application.Main;
+import main.application.customGUI.ConfirmDialog;
 import main.application.models.Config;
 import main.application.models.Utente;
 import main.utils.Console;
@@ -198,8 +199,12 @@ public class ControllerMain {
 	@FXML
 	public void openCloseWindow(MouseEvent event) {
 		Console.print("opening close window","gui");
-		SimplerSchoolUtil.loadWindow("closeFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
-				null, null);
+		Stage owner = (Stage)rootPane.getScene().getWindow();
+		ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to log out?");
+		if(cd.getResult()) {
+			WindowStyle.close(owner);
+			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+		}
 	}
 
 	public void initCalendarWeekDayHeader() {

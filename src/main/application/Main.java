@@ -21,7 +21,7 @@ public class Main extends Application {
 			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");			
 			
 			SimplerSchoolUtil.confirmMsg("Cartella database corrente: " + Config.getString("config", "databaseFolder") + 
-					"\n\nAssicurati che stai usando la cartella database del tuo computer (modificalo nel config.properties)");		
+					"\n\nAssicurati che stai usando la cartella database del tuo computer (modifica 'databaseFolder' nel config.properties)");		
 					
 		//	SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
 			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");	

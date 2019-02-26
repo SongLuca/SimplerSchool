@@ -353,7 +353,7 @@ public class ControllerOrarioS {
 	@FXML
 	public void newOS(MouseEvent e) {
 		MetaData.controller = this;
-		SimplerSchoolUtil.loadWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
+		SimplerSchoolUtil.loadNoTitleWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
 				null);
 	}
 
