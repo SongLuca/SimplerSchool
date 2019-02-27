@@ -193,6 +193,9 @@ public class ControllerMain {
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
+		settings.setOnHiding(e->{
+			WindowStyle.stageDimension(prefWidth, prefHeight);
+		});
 	}
 
 	@FXML

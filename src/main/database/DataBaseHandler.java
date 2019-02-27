@@ -106,6 +106,7 @@ public class DataBaseHandler {
 				return false;
 			}
 		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Failed to update the user table! Check query and connection");
 			return false;
 		} catch (ClassNotFoundException e) {
@@ -144,6 +145,7 @@ public class DataBaseHandler {
 				return false;
 			}
 		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -187,9 +189,8 @@ public class DataBaseHandler {
 			}
 
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -221,7 +222,7 @@ public class DataBaseHandler {
 			return true;
 		} catch (SQLException e) {
 			this.setMsg("Failed to update the user table! Check query and connection");
-			e.printStackTrace();
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			return false;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -250,7 +251,7 @@ public class DataBaseHandler {
 			Console.print(recordUpdated + " record has been updated!","db");
 		}catch (SQLException e) {
 			this.setMsg("Failed to update the user table! Check query and connection");
-			e.printStackTrace();
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 		}
 		
 	}
@@ -269,7 +270,7 @@ public class DataBaseHandler {
 			throw new IllegalArgumentException("invalid username: " + username);
 		} catch (SQLException e) {
 			this.setMsg("Failed to update the user table! Check query and connection");
-			e.printStackTrace();
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 		}
 		return 0;
 	}
@@ -317,7 +318,7 @@ public class DataBaseHandler {
 			rs = stmt.executeQuery();
 			return rsToMaterie(rs);
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
@@ -373,7 +374,7 @@ public class DataBaseHandler {
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
@@ -395,7 +396,7 @@ public class DataBaseHandler {
 				return false;
 			}
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
@@ -413,7 +414,7 @@ public class DataBaseHandler {
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		return false;
@@ -429,7 +430,7 @@ public class DataBaseHandler {
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
 		switch(os.getStato()) {
@@ -461,9 +462,8 @@ public class DataBaseHandler {
 			rs = stmt.executeQuery();
 			return rsToOS(rs);
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
-			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -483,9 +483,8 @@ public class DataBaseHandler {
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -502,9 +501,8 @@ public class DataBaseHandler {
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -521,9 +519,8 @@ public class DataBaseHandler {
 			removeOSXmlFile(os);
 			return true;
 		} catch (SQLException e) {
-			Console.print("Can not connect to the SQL database!","db");
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
 			this.setMsg("Can not connect to the SQL database!");
-			e.printStackTrace();
 			return false;
 		}
 	}
@@ -550,7 +547,7 @@ public class DataBaseHandler {
 				orariS.put(os.getId(), os);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Console.print("Failed to retrive resultset" + e.getMessage(),"db");
 		}
 		if (orariS.isEmpty())
 			return false;
@@ -571,7 +568,7 @@ public class DataBaseHandler {
 				materie.put(ma.getId(), ma);
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Console.print("Failed to retrive resultset" + e.getMessage(),"db");
 		}
 		if (materie.isEmpty())
 			return false;
@@ -592,7 +589,7 @@ public class DataBaseHandler {
 				this.savePassHash(rs.getString("pass_hash"));
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Console.print("Failed to retrive resultset" + e.getMessage(),"db");
 		}
 		return utente;
 	}
@@ -612,7 +609,7 @@ public class DataBaseHandler {
 				toString += "";
 			}
 		} catch (SQLException e) {
-			e.printStackTrace();
+			Console.print("Failed to retrive resultset" + e.getMessage(),"db");
 		}
 		return toString;
 	}

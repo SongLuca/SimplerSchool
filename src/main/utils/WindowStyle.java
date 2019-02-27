@@ -58,6 +58,7 @@ public class WindowStyle {
 	}
 
 	public static void restoreScreen(Stage stage) {
+		System.out.println(pref_WH[0] + " " + pref_WH[1]);
 		stage.setX((SCREEN_BOUNDS.getMaxX() - pref_WH[0]) / 2);
 		stage.setY((SCREEN_BOUNDS.getMaxY() - pref_WH[1]) / 2);
 		stage.setWidth(pref_WH[0]);
