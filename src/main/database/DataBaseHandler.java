@@ -49,7 +49,7 @@ public class DataBaseHandler {
 	}
 
 	public HashMap<Integer, Materia> getMaterie() {
-		return materie;
+		return new HashMap<Integer, Materia>(materie);
 	}
 	
 	public HashMap<Integer, OrarioSettimanale> getOS() {

@@ -48,7 +48,10 @@ public class ControllerMaterie {
 	
 	private List<Integer> toRemove;
 	
+	private boolean modificato;
+	
 	public void initialize() {
+		modificato = false;
 		materie = DataBaseHandler.getInstance().getMaterie();
 		Console.print("Opening materie gui","gui");
 		initMaterieBox();
@@ -57,7 +60,6 @@ public class ControllerMaterie {
 	
 	public void apply() {
 		toRemove = new ArrayList<Integer>();
-		boolean modificato = false;
 		for(int key : materie.keySet()) {
 			Materia m = materie.get(key);
 			HBox materia = (HBox)materieBox.lookup("#materiaBox"+key);  // prende il materiabox a seconda dell id
