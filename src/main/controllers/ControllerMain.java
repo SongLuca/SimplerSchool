@@ -198,10 +198,11 @@ public class ControllerMain {
 
 	@FXML
 	public void openCloseWindow(MouseEvent event) {
-		Console.print("opening close window","gui");
+		Console.print("Opening logout dialog","gui");
 		Stage owner = (Stage)rootPane.getScene().getWindow();
 		ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to log out?");
 		if(cd.getResult()) {
+			Console.print("User " + Main.utente.getUsername() +"[" + Main.utente.getUserid()+ "]" + " has logged out","App");
 			WindowStyle.close(owner);
 			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 		}
