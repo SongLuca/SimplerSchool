@@ -184,7 +184,6 @@ public class ControllerMain {
 		timeline.setOnFinished(event -> {
 			hamMenu.setDisable(false);
 		});
-
 	}
 
 	@FXML

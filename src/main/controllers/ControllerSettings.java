@@ -17,6 +17,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.models.Config;
+import main.utils.Console;
 import main.utils.FXResizeHelper;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
@@ -43,7 +44,7 @@ public class ControllerSettings {
 	@FXML
 	private ImageView backImage;
 	
-	private double prefHeight = 630, prefWidth = 765;
+	private double prefHeight = 630, prefWidth = 800;
 	
 	public void initialize() {
 		initTitleBox();
@@ -64,11 +65,11 @@ public class ControllerSettings {
 			Parent fxml = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "settingsFXML").toURL());
 			Stage currentStage = (Stage)pop.getScene().getWindow();
 			currentStage.setScene(new Scene(fxml));
-			mainPane.setPrefHeight(currentStage.getHeight());
-			mainPane.setPrefWidth(currentStage.getWidth());
+			currentStage.setHeight(prefHeight);
+			currentStage.setWidth(prefWidth);
+			Console.print(fxml.getStyleClass().toString(), "");
 			new FXResizeHelper(currentStage,5,5);
-			prefHeight = 630;
-			prefWidth = 765;
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
