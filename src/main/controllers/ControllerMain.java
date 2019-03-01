@@ -1,6 +1,9 @@
 package main.controllers;
 
 import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXHamburger;
@@ -13,6 +16,7 @@ import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -211,17 +215,30 @@ public class ControllerMain {
 	}
 
 	public void initCalendarWeekDayHeader() {
+		Date oggi = new Date();
+		Calendar c = Calendar.getInstance();
+		c.setTime(oggi);
+		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
+		//1 domenica , 2 lunedi ... 7 = sabato
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM");
 		int weekdays = 7;
+							//  2      3      4      5      6      7      1
 		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+		int differenze = dayOfWeek - 2;
+		
 		for (int i = 0; i < weekdays; i++) {
-			StackPane pane = new StackPane();
-			pane.getStyleClass().add("weekday-header");
-			HBox.setHgrow(pane, Priority.ALWAYS);
-			pane.setMaxWidth(Double.MAX_VALUE);
-			pane.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
-			weekdayHeader.getChildren().add(pane);
-			pane.getChildren().add(new Label(weekDays[i]));
+			VBox box = new VBox();
+			box.setAlignment(Pos.CENTER);
+			box.getStyleClass().add("weekday-header");
+			HBox.setHgrow(box, Priority.ALWAYS);
+			box.setMaxWidth(Double.MAX_VALUE);
+			box.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
+			weekdayHeader.getChildren().add(box);
+			
+			box.getChildren().add(new Label(weekDays[i]));
+			box.getChildren().add(new Label(sdf.format(c.getTime())));
 		}
+		
 	}
 	
 	public void initOrarioHeader() {
