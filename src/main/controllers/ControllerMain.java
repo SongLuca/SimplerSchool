@@ -1,11 +1,11 @@
 package main.controllers;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-
+import java.time.DayOfWeek;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -70,16 +70,16 @@ public class ControllerMain {
 
 	@FXML
 	private HBox weekdayHeader;
-	
+
 	@FXML
 	private VBox oreHeader;
 
 	@FXML
 	private GridPane calendarGrid;
-	
+
 	@FXML
 	private Circle avatar;
-	
+
 	@FXML
 	private Label nomeLbl;
 
@@ -88,7 +88,7 @@ public class ControllerMain {
 
 	@FXML
 	private Label scuolaLbl;
-	
+
 	@FXML
 	private JFXTabPane tabPane;
 
@@ -102,7 +102,19 @@ public class ControllerMain {
 	private JFXButton closeButton;
 
 	@FXML
+	private JFXButton lastWeekBtn;
+
+	@FXML
+	private JFXButton thisWeekBtn;
+
+	@FXML
+	private JFXButton nextWeekBtn;
+
+	@FXML
 	private TextInputDialog inputSubject;
+
+	@FXML
+	private JFXDatePicker datePicker;
 
 	private double prefHeight = 700, prefWidth = 1200;
 
@@ -147,10 +159,11 @@ public class ControllerMain {
 	}
 
 	public void initialize() {
-		Console.print("Initializing menu gui","gui");
+		Console.print("Initializing menu gui", "gui");
 		initTitleBox();
 		initHamMenu();
-		initCalendarWeekDayHeader();
+		initTabPane();
+		initCalendarWeekDayHeader(LocalDate.now(), false);
 		initOrarioHeader();
 		initCalendarGrid();
 		initProfilePane();
@@ -160,7 +173,7 @@ public class ControllerMain {
 		Utente u = Main.utente;
 		File avatarFile = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
 		avatar.setFill(new ImagePattern(new Image(avatarFile.toURI().toString())));
-		nomeLbl.setText((u.getNome() == null) ? "null" :u.getNome());
+		nomeLbl.setText((u.getNome() == null) ? "null" : u.getNome());
 		cognomeLbl.setText((u.getCognome() == null) ? "null" : u.getCognome());
 		scuolaLbl.setText((u.getScuola() == null) ? "null" : u.getScuola());
 	}
@@ -176,7 +189,33 @@ public class ControllerMain {
 	}
 
 	public void initTabPane() {
-
+		datePicker.setValue(LocalDate.now());
+		datePicker.setOnAction(e -> {
+			initCalendarWeekDayHeader(datePicker.getValue(), true);
+		});
+		
+		lastWeekBtn.setOnAction(e->{
+			LocalDate lastWeek = datePicker.getValue().minusWeeks(1);
+			initCalendarWeekDayHeader(datePicker.getValue().minusWeeks(1), true);
+			datePicker.setValue(lastWeek);
+			Console.print("Jumping to last week " + lastWeek, "Gui");
+		});
+		
+		thisWeekBtn.setOnAction(e->{
+			LocalDate today = LocalDate.now();
+			if(datePicker.getValue().compareTo(today) != 0) {
+				initCalendarWeekDayHeader(today, true);
+				datePicker.setValue(today);
+				Console.print("Jumping to current week " + today, "Gui");
+			}
+		});
+		
+		nextWeekBtn.setOnAction(e->{
+			LocalDate nextWeek = datePicker.getValue().plusWeeks(1);
+			initCalendarWeekDayHeader(datePicker.getValue().plusWeeks(1), true);
+			datePicker.setValue(nextWeek);
+			Console.print("Jumping to next week " + nextWeek, "Gui");
+		});
 	}
 
 	public void hamMenuAnimation(Pane pane, double width) {
@@ -192,40 +231,35 @@ public class ControllerMain {
 
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
-		Console.print("Opening settings window","gui");
+		Console.print("Opening settings window", "gui");
 		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
-		settings.setOnHiding(e->{
+		settings.setOnHiding(e -> {
 			WindowStyle.stageDimension(prefWidth, prefHeight);
 		});
 	}
 
 	@FXML
 	public void openCloseWindow(MouseEvent event) {
-		Console.print("Opening logout dialog","gui");
-		Stage owner = (Stage)rootPane.getScene().getWindow();
+		Console.print("Opening logout dialog", "gui");
+		Stage owner = (Stage) rootPane.getScene().getWindow();
 		ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to log out?");
-		if(cd.getResult()) {
-			Console.print("User " + Main.utente.getUsername() +"[" + Main.utente.getUserid()+ "]" + " has logged out","App");
+		if (cd.getResult()) {
+			Console.print("User " + Main.utente.getUsername() + "[" + Main.utente.getUserid() + "]" + " has logged out",
+					"App");
 			WindowStyle.close(owner);
 			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 		}
 	}
 
-	public void initCalendarWeekDayHeader() {
-		Date oggi = new Date();
-		Calendar c = Calendar.getInstance();
-		c.setTime(oggi);
-		int dayOfWeek = c.get(Calendar.DAY_OF_WEEK);
-		//1 domenica , 2 lunedi ... 7 = sabato
-		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM");
+	public void initCalendarWeekDayHeader(LocalDate data, boolean clear) {
+		if(clear)
+			weekdayHeader.getChildren().clear();
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-LLL");
 		int weekdays = 7;
-							//  2      3      4      5      6      7      1
 		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
-		int differenze = dayOfWeek - 2;
-		
 		for (int i = 0; i < weekdays; i++) {
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
@@ -234,13 +268,12 @@ public class ControllerMain {
 			box.setMaxWidth(Double.MAX_VALUE);
 			box.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
 			weekdayHeader.getChildren().add(box);
-			
 			box.getChildren().add(new Label(weekDays[i]));
-			box.getChildren().add(new Label(sdf.format(c.getTime())));
+			box.getChildren().add(new Label(data.with(DayOfWeek.of(i + 1)).format(dtf)));
+
 		}
-		
 	}
-	
+
 	public void initOrarioHeader() {
 		int ore = 11;
 		for (int i = 1; i <= ore; i++) {
@@ -250,7 +283,7 @@ public class ControllerMain {
 			pane.setMaxHeight(Double.MAX_VALUE);
 			pane.setMinHeight(oreHeader.getPrefHeight() / ore);
 			oreHeader.getChildren().add(pane);
-			pane.getChildren().add(new Label(""+i));
+			pane.getChildren().add(new Label("" + i));
 		}
 	}
 
@@ -263,7 +296,7 @@ public class ControllerMain {
 				vPane.getStyleClass().add("calendar_pane");
 				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-					Console.print("you clicked on a grid","gui");
+					Console.print("you clicked on a grid", "gui");
 					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
 					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
 					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");

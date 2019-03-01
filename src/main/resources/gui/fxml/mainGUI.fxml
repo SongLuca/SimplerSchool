@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXHamburger?>
 <?import com.jfoenix.controls.JFXRadioButton?>
@@ -28,7 +29,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -95,10 +96,29 @@
                                 <content>
                                   <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                                        <children>
-                                          <JFXButton layoutX="14.0" layoutY="14.0" ripplerFill="#e42626" />
-                                          <JFXButton layoutX="69.0" layoutY="14.0" ripplerFill="#a5c66f" />
-                                          <JFXRadioButton layoutX="124.0" layoutY="18.0" />
-                                          <JFXDatePicker layoutX="14.0" layoutY="51.0" />
+                                          <HBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
+                                             <children>
+                                                <Label prefHeight="30.0" text="Data: ">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <JFXDatePicker fx:id="datePicker" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="14.0" layoutY="51.0" prefHeight="45.0" prefWidth="260.0" spacing="10.0">
+                                             <children>
+                                                <JFXButton fx:id="lastWeekBtn" prefHeight="30.0" text="Last week" />
+                                                <JFXButton fx:id="thisWeekBtn" prefHeight="30.0" text="This week" />
+                                                <JFXButton fx:id="nextWeekBtn" prefHeight="30.0" text="Next week" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" layoutX="307.0" layoutY="1.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
+                                             <children>
+                                                <Label prefHeight="30.0" text="Orario settimanale" />
+                                                <JFXComboBox prefHeight="23.0" prefWidth="130.0" />
+                                             </children>
+                                          </HBox>
                                        </children>
                                     </AnchorPane>
                                 </content>
