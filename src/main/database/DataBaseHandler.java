@@ -339,8 +339,8 @@ public class DataBaseHandler {
 			Console.print("Can not connect to the SQL database!","db");
 			this.setMsg("Can not connect to the SQL database!");
 		}
-		for (int key : materie.keySet()) {
-			Materia m = materie.get(key);
+		for (int key : materieNuove.keySet()) {
+			Materia m = materieNuove.get(key);
 			switch (m.getStato()) {
 			case "insert": // inserimento della nuova materia
 				Console.print("Inserting materia " + m.getNome(),"db");

@@ -4,7 +4,10 @@ import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
@@ -14,6 +17,11 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.collections.FXCollections;
+import javafx.collections.MapChangeListener;
+import javafx.collections.MapChangeListener.Change;
+import javafx.collections.ObservableList;
+import javafx.collections.ObservableMap;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -40,7 +48,9 @@ import javafx.util.Duration;
 import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.models.Config;
+import main.application.models.OrarioSettimanale;
 import main.application.models.Utente;
+import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
@@ -115,11 +125,17 @@ public class ControllerMain {
 
 	@FXML
 	private JFXDatePicker datePicker;
-
+	
+	@FXML
+	private JFXComboBox<String> orarioSPicker;
+	
+	private HashMap<Integer, OrarioSettimanale> orariS ;
+	
 	private double prefHeight = 700, prefWidth = 1200;
 
 	@FXML
 	public void hamclicked(MouseEvent event) {
+		
 		if (menuPane.getPrefWidth() == 300) {
 			hamMenu.setPrefSize(hamMenu.getPrefWidth() - HAMMENUSIZE, hamMenu.getPrefHeight());
 			hamMenu.setPadding(new Insets(0, 0, 0, 0));
@@ -160,6 +176,7 @@ public class ControllerMain {
 
 	public void initialize() {
 		Console.print("Initializing menu gui", "gui");
+		orariS = DataBaseHandler.getInstance().getOS();
 		initTitleBox();
 		initHamMenu();
 		initTabPane();
@@ -216,6 +233,18 @@ public class ControllerMain {
 			datePicker.setValue(nextWeek);
 			Console.print("Jumping to next week " + nextWeek, "Gui");
 		});
+		String selectedOrariS = Config.getString("userconfig","selectedOrarioSettimanale");
+		for(int key : orariS.keySet()) {
+			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
+			if(orariS.get(key).getNomeOrario().equals(selectedOrariS))
+				orarioSPicker.getSelectionModel().select(selectedOrariS); 
+		}
+		/* ObservableMap<Integer, OrarioSettimanale> items = FXCollections.observableMap(DataBaseHandler.getInstance().getOS());
+		 
+		 items.addListener(( Change<? extends Integer, ? extends OrarioSettimanale> c) -> {
+			 orarioSPicker.getItems().clear();
+			 
+	        });*/
 	}
 
 	public void hamMenuAnimation(Pane pane, double width) {
@@ -296,10 +325,7 @@ public class ControllerMain {
 				vPane.getStyleClass().add("calendar_pane");
 				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
 				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-					Console.print("you clicked on a grid", "gui");
-					StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
-					AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
-					SimplerSchoolUtil.popUpDialog(root, pane, "asdasd", "asdasd");
+					
 				});
 				GridPane.setVgrow(vPane, Priority.ALWAYS);
 				calendarGrid.add(vPane, j, i);

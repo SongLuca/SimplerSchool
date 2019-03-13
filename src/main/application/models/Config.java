@@ -7,7 +7,7 @@ public class Config {
 	public static Properties userConfig;
 	
 	public static double getDouble(String configName, String key) {
-		switch(configName) {
+		switch(configName.toLowerCase()) {
 			case "config":
 				return Double.parseDouble(config.getProperty(key));
 			case "userconfig":
@@ -17,7 +17,7 @@ public class Config {
 	}
 	
 	public static int getInt(String configName, String key) {
-		switch(configName) {
+		switch(configName.toLowerCase()) {
 			case "config":
 				return Integer.parseInt(config.getProperty(key));
 			case "userconfig":
@@ -27,7 +27,7 @@ public class Config {
 	}
 	
 	public static String getString(String configName, String key) {
-		switch(configName) {
+		switch(configName.toLowerCase()) {
 			case "config":
 				return config.getProperty(key);
 			case "userconfig":
@@ -37,7 +37,7 @@ public class Config {
 	}
 	
 	public static boolean getBoolean(String configName, String key) {
-		switch(configName) {
+		switch(configName.toLowerCase()) {
 			case "config":
 				return Boolean.parseBoolean(config.getProperty(key));
 			case "userconfig":

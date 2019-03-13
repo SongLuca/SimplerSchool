@@ -94,6 +94,8 @@ public class ControllerSettings {
 			Stage stage = (Stage)pop.getScene().getWindow();
 			stage.setMinHeight(Config.getDouble("config", "prefHeightOS"));
 			stage.setMinWidth(Config.getDouble("config", "prefWidthOS"));
+			stage.setHeight(Config.getDouble("config", "prefHeightOS"));
+			stage.setWidth(Config.getDouble("config", "prefWidthOS"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			new FadeInUp(contentPane).setOnFinished(e->{
