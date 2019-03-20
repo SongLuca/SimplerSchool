@@ -116,7 +116,7 @@
                                           <HBox alignment="CENTER_LEFT" layoutX="307.0" layoutY="1.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
                                              <children>
                                                 <Label prefHeight="30.0" text="Orario settimanale" />
-                                                <JFXComboBox fx:id="orarioSPicker" prefHeight="23.0" prefWidth="150.0" />
+                                                <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
                                              </children>
                                           </HBox>
                                        </children>

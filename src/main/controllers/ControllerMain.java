@@ -22,6 +22,7 @@ import javafx.collections.MapChangeListener;
 import javafx.collections.MapChangeListener.Change;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableMap;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -240,13 +241,18 @@ public class ControllerMain {
 				orarioSPicker.getSelectionModel().select(selectedOrariS); 
 		}
 		/* ObservableMap<Integer, OrarioSettimanale> items = FXCollections.observableMap(DataBaseHandler.getInstance().getOS());
-		 
+//		 
 		 items.addListener(( Change<? extends Integer, ? extends OrarioSettimanale> c) -> {
 			 orarioSPicker.getItems().clear();
 			 
 	        });*/
 	}
-
+	
+	@FXML
+	public void setOrarioSettimanale(ActionEvent a) {
+		Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
+	}
+	
 	public void hamMenuAnimation(Pane pane, double width) {
 		hamMenu.setDisable(true);
 		Timeline timeline = new Timeline();
