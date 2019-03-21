@@ -151,6 +151,7 @@ public class ControllerOrarioS {
 				DataBaseHandler.getInstance().getOSQuery();
 				if(refreshList)
 					initOSList();
+				MetaData.cm.updateOSPicker();
 				SimplerSchoolUtil.popUpDialog(root, pane, "Message", doneMsg);
 			}
 		});

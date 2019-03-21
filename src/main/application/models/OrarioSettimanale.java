@@ -118,7 +118,7 @@ public class OrarioSettimanale {
 				for (String key2 : g.keySet()) {
 					if (key2.equals(ora)) {
 						g.put(key2, materia);
-						if(!stato.equals("insert"));
+						if(!stato.equals("insert"))
 							stato = "update";
 						return true;
 					}

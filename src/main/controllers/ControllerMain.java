@@ -5,6 +5,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -17,11 +18,6 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.collections.FXCollections;
-import javafx.collections.MapChangeListener;
-import javafx.collections.MapChangeListener.Change;
-import javafx.collections.ObservableList;
-import javafx.collections.ObservableMap;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -49,6 +45,8 @@ import javafx.util.Duration;
 import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.models.Config;
+import main.application.models.Materia;
+import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
@@ -132,6 +130,8 @@ public class ControllerMain {
 	
 	private HashMap<Integer, OrarioSettimanale> orariS ;
 	
+	private OrarioSettimanale os;
+	
 	private double prefHeight = 700, prefWidth = 1200;
 
 	@FXML
@@ -185,6 +185,7 @@ public class ControllerMain {
 		initOrarioHeader();
 		initCalendarGrid();
 		initProfilePane();
+		MetaData.cm = this;
 	}
 
 	public void initProfilePane() {
@@ -207,6 +208,7 @@ public class ControllerMain {
 	}
 
 	public void initTabPane() {
+		updateOSPicker();
 		datePicker.setValue(LocalDate.now());
 		datePicker.setOnAction(e -> {
 			initCalendarWeekDayHeader(datePicker.getValue(), true);
@@ -234,18 +236,123 @@ public class ControllerMain {
 			datePicker.setValue(nextWeek);
 			Console.print("Jumping to next week " + nextWeek, "Gui");
 		});
+		
+		orarioSPicker.setOnAction(e->{
+			if (orarioSPicker.getSelectionModel().getSelectedItem() != null){
+				Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
+				os = getOSbyName(orarioSPicker.getSelectionModel().getSelectedItem());
+				for (String giornoK : os.getSettimana().keySet()) {
+					int dayCol = os.getColByGiorno(giornoK);
+					fuseSubjects(calendarGrid, dayCol);
+				}
+			}
+			
+		});
+		
+		for (String giornoK : os.getSettimana().keySet()) {
+			int dayCol = os.getColByGiorno(giornoK);
+			fuseSubjects(calendarGrid, dayCol);
+		}
+	}
+	
+	public void updateOSPicker() {
+		Console.print("Updating OS picker", "gui");
+		orariS = DataBaseHandler.getInstance().getOS();
 		String selectedOrariS = Config.getString("userconfig","selectedOrarioSettimanale");
+		orarioSPicker.getItems().clear();
 		for(int key : orariS.keySet()) {
 			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
-			if(orariS.get(key).getNomeOrario().equals(selectedOrariS))
-				orarioSPicker.getSelectionModel().select(selectedOrariS); 
+			if(orariS.get(key).getNomeOrario().equals(selectedOrariS)) {
+				orarioSPicker.getSelectionModel().select(selectedOrariS);
+				os = getOSbyName(selectedOrariS);
+			}
+				
 		}
-		/* ObservableMap<Integer, OrarioSettimanale> items = FXCollections.observableMap(DataBaseHandler.getInstance().getOS());
-//		 
-		 items.addListener(( Change<? extends Integer, ? extends OrarioSettimanale> c) -> {
-			 orarioSPicker.getItems().clear();
-			 
-	        });*/
+		
+	}
+	
+	public OrarioSettimanale getOSbyName(String nome) {
+		for(int key : orariS.keySet()) {
+			if(orariS.get(key).getNomeOrario().equals(nome))
+				return orariS.get(key);
+		}
+		return null;
+	}
+	
+	public Materia getMateriaByNome(String nome) {
+		HashMap<Integer, Materia> materie = DataBaseHandler.getInstance().getMaterie();
+		for (int key : materie.keySet()) {
+			if (materie.get(key).getNome().equals(nome))
+				return materie.get(key);
+		}
+		return null;
+	}
+	
+	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
+		Materia m = getMateriaByNome(nomeMateria);
+		VBox pane = new VBox();
+		pane.setAlignment(Pos.CENTER);
+		pane.setStyle("-fx-background-color:" + m.getColore() + ";");
+		Label lbl = new Label();
+		lbl.setText(m.getNome());
+		lbl.setId("#nomeM");
+		pane.getChildren().add(lbl);
+		pane.getStyleClass().add("calendar_pane");
+		if (rowSpan != 1)
+			osGrid.add(pane, col, row, 1, rowSpan);
+		else
+			osGrid.add(pane, col, row);
+	}
+
+	public void fuseSubjects(GridPane osGrid, int col) {
+		LinkedHashMap<String, String> giorno = os.getOrarioGiorno(col);
+		osGrid.getChildren().removeIf(node -> (node instanceof VBox) && GridPane.getColumnIndex(node) == col);
+		int count = 0;
+		int length = 1;
+		int startPos = 0;
+		String materiaPrec = "";
+		for (String ora : giorno.keySet()) {
+			if (count == 0) {
+				if (!giorno.get(ora).equals("null"))
+					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
+				else {
+					VBox vPane = new VBox();
+					vPane.getStyleClass().add("calendar_pane");
+					osGrid.add(vPane, col, count);
+				}
+			}
+			if (count != 0) {
+				if (!giorno.get(ora).equals("null") && giorno.get(ora).equals(materiaPrec)) {
+					length++;
+					if (length == 1)
+						startPos = count;
+				} else {
+					if (length != 1) {
+						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
+						if (giorno.get(ora).equals("null")) {
+							VBox vPane = new VBox();
+							vPane.getStyleClass().add("calendar_pane");
+							osGrid.add(vPane, col, count);
+						} else
+							addVBoxToCell(osGrid, giorno.get(ora), count, col, 1);
+					} else {
+						length = 1;
+						startPos = count;
+						if (!giorno.get(ora).equals("null"))
+							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
+						else {
+							VBox vPane = new VBox();
+							vPane.getStyleClass().add("calendar_pane");
+							osGrid.add(vPane, col, startPos);
+						}
+					}
+					length = 1;
+					startPos = count;
+				}
+			}
+			materiaPrec = giorno.get(ora);
+			count++;
+		}
 	}
 	
 	@FXML

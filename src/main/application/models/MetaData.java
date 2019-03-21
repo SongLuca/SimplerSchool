@@ -1,6 +1,7 @@
 package main.application.models;
 
 import javafx.scene.layout.GridPane;
+import main.controllers.ControllerMain;
 
 public class MetaData {
 	
@@ -10,5 +11,5 @@ public class MetaData {
 	public static OrarioSettimanale os;
 	public static GridPane OrarioSGrid;
 	public static Object controller;
-	;
+	public static ControllerMain cm;
 }

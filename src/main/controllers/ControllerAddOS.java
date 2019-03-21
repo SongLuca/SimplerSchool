@@ -1,11 +1,15 @@
 package main.controllers;
 
+import java.util.HashMap;
+
 import com.jfoenix.controls.JFXTextField;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.application.models.MetaData;
+import main.application.models.OrarioSettimanale;
+import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.WindowStyle;
 
@@ -23,9 +27,22 @@ public class ControllerAddOS {
 			msgLbl.setText("Invalid name");
 		}
 		else {
-			Console.print("nuovo orario settimanale creato : "+nomeOS, "app");
-			((ControllerOrarioS) MetaData.controller).initCalendar(nomeOS);
-			cancel(event);
+			HashMap<Integer, OrarioSettimanale> orariS = DataBaseHandler.getInstance().getOS();
+			boolean valido = true;
+			for(int key : orariS.keySet()) {
+				if(nomeOS.equals(orariS.get(key).getNomeOrario())) {
+					valido = false;
+					break;
+				}
+			}
+			if(valido) {
+				Console.print("nuovo orario settimanale creato : "+nomeOS, "app");
+				((ControllerOrarioS) MetaData.controller).initCalendar(nomeOS);
+				cancel(event);
+			}
+			else {
+				msgLbl.setText("Nome esistente");
+			}
 		}
 	}
 
