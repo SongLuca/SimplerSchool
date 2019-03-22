@@ -174,7 +174,7 @@ public class ControllerMain {
 		}
 		new Wobble(avatar).play();
 	}
-
+	
 	public void initialize() {
 		Console.print("Initializing menu gui", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
@@ -187,7 +187,7 @@ public class ControllerMain {
 		initProfilePane();
 		MetaData.cm = this;
 	}
-
+	
 	public void initProfilePane() {
 		Utente u = Main.utente;
 		File avatarFile = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
@@ -238,15 +238,17 @@ public class ControllerMain {
 		});
 		
 		orarioSPicker.setOnAction(e->{
-			if (orarioSPicker.getSelectionModel().getSelectedItem() != null){
-				Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
-				os = getOSbyName(orarioSPicker.getSelectionModel().getSelectedItem());
+			String selectedOS = orarioSPicker.getSelectionModel().getSelectedItem();
+			if (selectedOS != null){
+				Console.print(selectedOS+" selected", "Gui");
+				os = getOSbyName(selectedOS);
+				Config.userConfig.setProperty("selectedOrarioSettimanale", selectedOS);
+				SimplerSchoolUtil.saveProperties(Config.userConfig, "userconfig", true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
 					fuseSubjects(calendarGrid, dayCol);
 				}
 			}
-			
 		});
 		
 		for (String giornoK : os.getSettimana().keySet()) {
@@ -297,7 +299,6 @@ public class ControllerMain {
 		lbl.setText(m.getNome());
 		lbl.setId("#nomeM");
 		pane.getChildren().add(lbl);
-		pane.getStyleClass().add("calendar_pane");
 		if (rowSpan != 1)
 			osGrid.add(pane, col, row, 1, rowSpan);
 		else
@@ -317,7 +318,6 @@ public class ControllerMain {
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
 					VBox vPane = new VBox();
-					vPane.getStyleClass().add("calendar_pane");
 					osGrid.add(vPane, col, count);
 				}
 			}
@@ -331,7 +331,6 @@ public class ControllerMain {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
 						if (giorno.get(ora).equals("null")) {
 							VBox vPane = new VBox();
-							vPane.getStyleClass().add("calendar_pane");
 							osGrid.add(vPane, col, count);
 						} else
 							addVBoxToCell(osGrid, giorno.get(ora), count, col, 1);
@@ -342,7 +341,6 @@ public class ControllerMain {
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
 							VBox vPane = new VBox();
-							vPane.getStyleClass().add("calendar_pane");
 							osGrid.add(vPane, col, startPos);
 						}
 					}
