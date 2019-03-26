@@ -366,8 +366,8 @@ public class ControllerOrarioS {
 
 	public void initOSCalendarWeekDayHeader() {
 		weekdayHeader.getChildren().clear();
-		int weekdays = 7;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+		int weekdays = 6;
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 		for (int i = 0; i < weekdays; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");
@@ -381,8 +381,8 @@ public class ControllerOrarioS {
 
 	public void initOSCalendarGrid() {
 		calendarGrid.getChildren().retainAll(calendarGrid.getChildren().get(0));
-		int rows = 11;
-		int cols = 7;
+		int rows = 10;
+		int cols = 6;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				VBox vPane = new VBox();
@@ -407,7 +407,7 @@ public class ControllerOrarioS {
 
 	public void initOrarioHeader() {
 		oreHeader.getChildren().clear();
-		int ore = 11;
+		int ore = 10;
 		for (int i = 1; i <= ore; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");

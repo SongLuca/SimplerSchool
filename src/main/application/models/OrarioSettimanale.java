@@ -31,7 +31,6 @@ public class OrarioSettimanale {
 		settimana.put("giovedi", initGiornoHashMap());
 		settimana.put("venerdi", initGiornoHashMap());
 		settimana.put("sabato", initGiornoHashMap());
-		settimana.put("domenica", initGiornoHashMap());
 	}
 	
 	public OrarioSettimanale(String nomeOrario) {
@@ -44,7 +43,6 @@ public class OrarioSettimanale {
 		settimana.put("giovedi", initGiornoHashMap());
 		settimana.put("venerdi", initGiornoHashMap());
 		settimana.put("sabato", initGiornoHashMap());
-		settimana.put("domenica", initGiornoHashMap());
 	}
 	
 	public LinkedHashMap<String, String> initGiornoHashMap() {
@@ -59,7 +57,6 @@ public class OrarioSettimanale {
 		giorno.put("8ora", "null");
 		giorno.put("9ora", "null");
 		giorno.put("10ora", "null");
-		giorno.put("11ora", "null");
 		return giorno;
 	}
 

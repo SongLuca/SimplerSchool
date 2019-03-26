@@ -251,10 +251,13 @@ public class ControllerMain {
 			}
 		});
 		
-		for (String giornoK : os.getSettimana().keySet()) {
-			int dayCol = os.getColByGiorno(giornoK);
-			fuseSubjects(calendarGrid, dayCol);
+		if(os != null) {
+			for (String giornoK : os.getSettimana().keySet()) {
+				int dayCol = os.getColByGiorno(giornoK);
+				fuseSubjects(calendarGrid, dayCol);
+			}
 		}
+		
 	}
 	
 	public void updateOSPicker() {
@@ -398,8 +401,8 @@ public class ControllerMain {
 		if(clear)
 			weekdayHeader.getChildren().clear();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-LLL");
-		int weekdays = 7;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun" };
+		int weekdays = 6;
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
 		for (int i = 0; i < weekdays; i++) {
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
@@ -415,7 +418,7 @@ public class ControllerMain {
 	}
 
 	public void initOrarioHeader() {
-		int ore = 11;
+		int ore = 10;
 		for (int i = 1; i <= ore; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");
@@ -428,8 +431,8 @@ public class ControllerMain {
 	}
 
 	public void initCalendarGrid() {
-		int rows = 11;
-		int cols = 7;
+		int rows = 10;
+		int cols = 6;
 		for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				VBox vPane = new VBox();
