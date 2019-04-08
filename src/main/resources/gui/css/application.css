@@ -4,13 +4,13 @@
  * 
  * Giallo: #FFC950     |  	 Verde Acqua old: #28C8AC
  * 
- * 
+ * BLU MERDA DEL CALENDARIO: #4163ad;
  * 
  * 
  * 
  * */
 *{
-	-custom-primary: #28C8AC;
+	-custom-primary: #2d3e50;
 	-custom-secondary: #19bd9a;
 	-custom-hover-primary: white;
 	-custom-hover-secondary:white;
@@ -74,7 +74,7 @@
 .weekday-header {
     -fx-font: bold 17px "System";
     -fx-font-style: normal;
-    -fx-background-color:  #4163ad;
+    -fx-background-color:  #19bd9a;
     -fx-border-style: solid;
     -fx-border-insets: 1;
     -fx-border-width: .2;

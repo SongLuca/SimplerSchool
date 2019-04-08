@@ -161,18 +161,21 @@ public class ControllerMain {
 			menuVBox.setPrefSize(menuVBox.getPrefWidth() + HAMMENUSIZE, menuVBox.getPrefHeight());
 
 			settingsButton.setPrefSize(settingsButton.getPrefWidth() + HAMMENUSIZE, settingsButton.getPrefHeight());
-			settingsButton.setText("Settings");
+			//settingsButton.setText("Settings");
 
 			profileButton.setPrefSize(profileButton.getPrefWidth() + HAMMENUSIZE, profileButton.getPrefHeight());
-			profileButton.setText("Profile");
+			//profileButton.setText("Profile");
 
 			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
-			closeButton.setText("Log out");
+			//closeButton.setText("Log out");
 
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
+			settingsButton.setText("Settings");
+			profileButton.setText("Profile");
+			closeButton.setText("Log out");
 		}
-		new Wobble(avatar).play();
+		//new Wobble(avatar).play();
 	}
 	
 	public void initialize() {

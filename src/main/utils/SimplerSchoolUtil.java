@@ -163,6 +163,8 @@ public class SimplerSchoolUtil {
 			stage.setScene(scene);
 			stage.setMinWidth(minW);
 			stage.setMinHeight(minH);
+			stage.setWidth(minW);
+			stage.setHeight(minH);
 			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");
 			WindowStyle.allowDrag(titleBox, stage);
 			if(resizable)
@@ -174,6 +176,7 @@ public class SimplerSchoolUtil {
 			stage.show();
 			root.requestFocus();
 			
+			System.out.println(stage.getWidth());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
