@@ -1,12 +1,8 @@
 package main.application;
-import java.security.NoSuchAlgorithmException;
-import java.security.spec.InvalidKeySpecException;
-import java.sql.SQLException;
 import javafx.application.Application;
 import javafx.stage.Stage;
 import main.application.models.Config;
 import main.application.models.Utente;
-import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 
 public class Main extends Application {
@@ -17,7 +13,7 @@ public class Main extends Application {
 	}
 	
 	@Override
-	public void start(Stage stage) throws SQLException, NoSuchAlgorithmException, InvalidKeySpecException{
+	public void start(Stage stage){
 			Config.config = SimplerSchoolUtil.readProperties("config");
 			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");			
 			

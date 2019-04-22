@@ -6,14 +6,12 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
-import animatefx.animation.*;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -23,6 +21,7 @@ import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Node;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.image.Image;
@@ -190,6 +189,12 @@ public class ControllerMain {
 		initProfilePane();
 		MetaData.cm = this;
 	}
+		
+	@FXML
+	public void insertTask(MouseEvent e) {
+		SimplerSchoolUtil.loadWindow("insertTaskFXML",
+				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+	}
 	
 	public void initProfilePane() {
 		Utente u = Main.utente;
@@ -260,7 +265,7 @@ public class ControllerMain {
 				fuseSubjects(calendarGrid, dayCol);
 			}
 		}
-		
+
 	}
 	
 	public void updateOSPicker() {
@@ -305,10 +310,21 @@ public class ControllerMain {
 		lbl.setText(m.getNome());
 		lbl.setId("#nomeM");
 		pane.getChildren().add(lbl);
+		VBox bPane = new VBox();
+		pane.getChildren().add(bPane);
+		bPane.setAlignment(Pos.BASELINE_RIGHT);
+		Button details = new Button();
+		details.setBackground(SimplerSchoolUtil.imgToBackground("detailsImagePath"));	
+		details.setOnAction(e->{
+			openDetailsWindow(e);
+			Console.print(LocalDate.now().with(DayOfWeek.of(col+1)).toString(), "");
+		});
+		bPane.getChildren().add(details);
 		if (rowSpan != 1)
 			osGrid.add(pane, col, row, 1, rowSpan);
 		else
 			osGrid.add(pane, col, row);
+		
 	}
 
 	public void fuseSubjects(GridPane osGrid, int col) {
@@ -364,6 +380,12 @@ public class ControllerMain {
 		Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
 	}
 	
+	public void openDetailsWindow(ActionEvent event) {
+		Console.print("Opening materia details window", "gui");
+		Stage details = SimplerSchoolUtil.loadWindow("oreDetailsFXML",
+				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
+	}
+	
 	public void hamMenuAnimation(Pane pane, double width) {
 		hamMenu.setDisable(true);
 		Timeline timeline = new Timeline();
@@ -413,10 +435,13 @@ public class ControllerMain {
 			HBox.setHgrow(box, Priority.ALWAYS);
 			box.setMaxWidth(Double.MAX_VALUE);
 			box.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
-			weekdayHeader.getChildren().add(box);
+			
 			box.getChildren().add(new Label(weekDays[i]));
-			box.getChildren().add(new Label(data.with(DayOfWeek.of(i + 1)).format(dtf)));
-
+			Label timeLbl = new Label(data.with(DayOfWeek.of(i + 1)).format(dtf));
+			timeLbl.setId("#time");
+			box.getChildren().add(timeLbl);
+			
+			weekdayHeader.getChildren().add(box);
 		}
 	}
 
@@ -436,7 +461,7 @@ public class ControllerMain {
 	public void initCalendarGrid() {
 		int rows = 10;
 		int cols = 6;
-		for (int i = 0; i < rows; i++) {
+	/*	for (int i = 0; i < rows; i++) {
 			for (int j = 0; j < cols; j++) {
 				VBox vPane = new VBox();
 				vPane.getStyleClass().add("calendar_pane");
@@ -447,7 +472,7 @@ public class ControllerMain {
 				GridPane.setVgrow(vPane, Priority.ALWAYS);
 				calendarGrid.add(vPane, j, i);
 			}
-		}
+		}*/
 		for (int i = 0; i < rows; i++) {
 			RowConstraints row = new RowConstraints();
 			calendarGrid.getRowConstraints().add(row);

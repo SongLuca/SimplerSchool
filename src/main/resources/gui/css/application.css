@@ -10,8 +10,8 @@
  * 
  * */
 *{
-	-custom-primary: #2d3e50;
-	-custom-secondary: #19bd9a;
+	-custom-primary: #19bd9a;
+	-custom-secondary: cyan;
 	-custom-hover-primary: white;
 	-custom-hover-secondary:white;
 }
@@ -74,7 +74,7 @@
 .weekday-header {
     -fx-font: bold 17px "System";
     -fx-font-style: normal;
-    -fx-background-color:  #19bd9a;
+    -fx-background-color:  -custom-secondary;
     -fx-border-style: solid;
     -fx-border-insets: 1;
     -fx-border-width: .2;

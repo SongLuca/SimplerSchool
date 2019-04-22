@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXComboBox?>
+<?import com.jfoenix.controls.JFXTabPane?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Tab?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171">
+   <children>
+      <JFXTabPane layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+         <tabs>
+            <Tab text="Compiti">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane prefHeight="486.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox prefHeight="484.0" prefWidth="585.0">
+                                 <children>
+                                    <VBox maxHeight="0.0" minHeight="0.0" prefHeight="200.0" prefWidth="100.0" />
+                                    <Pane prefHeight="408.0" prefWidth="585.0">
+                                       <children>
+                                          <JFXButton layoutX="494.0" layoutY="353.0" text="Aggiunge" />
+                                          <Label layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="125.0" text="Data: " />
+                                          <JFXComboBox layoutX="77.0" layoutY="48.0" prefHeight="30.0" prefWidth="170.0" />
+                                          <Label layoutX="14.0" layoutY="48.0" prefHeight="30.0" text="Materia" />
+                                          <JFXComboBox layoutX="77.0" layoutY="89.0" prefHeight="30.0" prefWidth="171.0" />
+                                          <Label layoutX="14.0" layoutY="86.0" prefHeight="30.0" text="Tipo" />
+                                          <Label layoutX="14.0" layoutY="131.0" prefHeight="30.0" text="Commento" />
+                                          <JFXTextArea layoutX="27.0" layoutY="165.0" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </VBox>
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab text="Verifiche">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+              </content>
+            </Tab>
+            <Tab text="Interrogazioni">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Allegato file">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Altro">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+      <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="550.0">
+         <children>
+            <JFXButton prefHeight="30.0" prefWidth="60.0" text="Apply" />
+            <JFXButton prefHeight="30.0" prefWidth="60.0" text="Cancel" />
+         </children>
+         <padding>
+            <Insets right="50.0" />
+         </padding>
+      </HBox>
+   </children>
+</AnchorPane>
