@@ -4,14 +4,12 @@ import java.io.File;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
-
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -127,7 +125,7 @@ public class ControllerInsertTask {
 	@FXML
 	public void insert() {
 		SchoolTask task;
-		ObservableList<File> selectedItems = fileListView.getSelectionModel().getSelectedItems();
+		ObservableList<File> selectedItems = fileListView.getItems();
 		if (selectedItems.size() > 0) {
 			task = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 					materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), selectedItems);
@@ -135,9 +133,7 @@ public class ControllerInsertTask {
 			task = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 					materiaBox.getSelectionModel().getSelectedItem(),commento.getText());
 		}
-		
 		insertTask(task); 
-		
 	}
 
 	public void insertTask(SchoolTask task) {

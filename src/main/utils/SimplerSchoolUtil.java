@@ -180,8 +180,6 @@ public class SimplerSchoolUtil {
 				stage.setTitle(title);
 			stage.show();
 			root.requestFocus();
-			
-			System.out.println(stage.getWidth());
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

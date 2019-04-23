@@ -76,7 +76,7 @@ public class SchoolTask {
 		if(allegati == null)
 			return false;
 		else
-			return allegati.isEmpty();
+			return !allegati.isEmpty();
 	}
 	
 	public List<File> getAllegati() {

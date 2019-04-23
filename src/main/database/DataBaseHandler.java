@@ -148,10 +148,7 @@ public class DataBaseHandler {
 			String s = toStringResultSet(rs);
 			if (s.equals("")) {
 				Console.print("the username is not used","debug");
-				if (insertUtenteQuery(u, password, conn))
-					return true;
-				else
-					return false;
+				return insertUtenteQuery(u, password, conn);
 			} else {
 				setMsg("the username is already taken");
 				conn.close();
@@ -243,14 +240,14 @@ public class DataBaseHandler {
 	
 	public void updateUtenteQuery(Utente u, Connection conn) {
 		Console.print("Updating user","db");
-		String query = "UPDATE UTENTE SET SCUOLA = ?, NOME = ?, COGNOME = ?, AVATAR_PATH = ? WHERE USERNAME = ?";
+		String query = "UPDATE UTENTE SET SCUOLA = ?, NOME = ?, COGNOME = ?, AVATAR_PATH = ? WHERE USER_ID = ?";
 		try{
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, u.getScuola());
 			stmt.setString(2, u.getNome());
 			stmt.setString(3, u.getCognome());
 			stmt.setString(4, u.getAvatar_path());
-			stmt.setString(5, u.getUsername());
+			stmt.setInt(5, u.getUserid());
 			Console.print(stmt.toString(),"db");
 			int recordUpdated = stmt.executeUpdate();
 			if (recordUpdated != 1)
@@ -493,8 +490,6 @@ public class DataBaseHandler {
 			stmt.setString(4, task.getComment());
 			stmt.setInt(5, Main.utente.getUserid());
 			Console.print(stmt.toString(),"db");
-			if(task.hasAllegato())
-				uploadAllegati(task);
 			stmt.execute();
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 	            if (generatedKeys.next())
@@ -502,7 +497,8 @@ public class DataBaseHandler {
 	            else
 	                throw new SQLException("Creating task failed, no ID obtained.");
 	        }
-			Console.print("task id: " + task.getIdTask(), "");
+			if(task.hasAllegato())
+				uploadAllegati(task, conn);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
@@ -511,7 +507,7 @@ public class DataBaseHandler {
 		}
 	}
 	
-	public void uploadAllegati(SchoolTask task) {
+	public void uploadAllegati(SchoolTask task, Connection conn) {
 		Console.print("Uploading allegati to db folder","db");
 		List<File> files = task.getAllegati();
 		File destFolder = new File(Config.getString("config", "databaseFolder") + 
@@ -519,24 +515,24 @@ public class DataBaseHandler {
 		if(!destFolder.exists())
 			destFolder.mkdirs();
 		for(File file : files) {
-			Console.print("Uploading allegato " + file.getName(),"db");
-			File dest = new File(destFolder.getAbsolutePath() + "/" +file.getName());
-			try {
-				FileUtils.copyFile(file, dest);
-			} catch (IOException e) {
-				e.printStackTrace();
+			if(insertAllegatoQuery(file.getName(), task.getIdTask(), conn)) {
+				File dest = new File(destFolder.getAbsolutePath() + "/" +file.getName());
+				try {
+					FileUtils.copyFile(file, dest);
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
 			}
 		}
+		Console.print(files.size() + " allegati uploaded","db");
 	}
 	
-	public boolean insertAllegatoQuery(File allegato) {
-		Console.print("Inserting task","db");
+	public boolean insertAllegatoQuery(String allegato, int taskID, Connection conn) {
 		String query = "INSERT INTO ALLEGATO(file_path, task_id) VALUES(?,?)";
-		Connection conn = openConn();
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			//stmt.setString(1, task.getTipo());
-		//	stmt.setInt(2, task.getMateria());
+			stmt.setString(1, "users/" + Main.utente.getUserid() + "/allegati/"+ allegato);
+			stmt.setInt(2, taskID);
 			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
