@@ -9,12 +9,12 @@ set defaultAvatr=defaultAvatar.jpg
 set dbAvatar=%DefaultFolder%/defaultAvatar.jpg
 
 if not exist "%defaultAvatr%" ( 
-	echo Cannot find defaultAvatar.jpg! Put the file in the same folder
+	echo defaultAvatar.jpg non esiste! 
 	goto :end
 )
 
 if not exist "%xamppFolder%\*" (
-	echo %xamppFolder% doesn't exist
+	echo %xamppFolder% non esiste. Apri il batch e cambia manualmente la cartella di xampp
 	goto :end
 )
 echo %xamppFolder% is ok
@@ -32,10 +32,10 @@ goto :createDefault
 			pause
 			goto :EOF
 		)
-		echo %DefaultFolder% created
+		echo %DefaultFolder% creata
 		goto :createUser
 	)
-	echo %DefaultFolder% alreay exists
+	echo %DefaultFolder% gia esistente
 	
 :createUser
 	if not exist "%UserFolder%\*" (
@@ -44,10 +44,10 @@ goto :createDefault
 			pause
 			goto :EOF
 		)
-		echo %UserFolder% created
+		echo %UserFolder% creata
 		goto :end
 	)
-	echo %UserFolder% alreay exists
+	echo %UserFolder% gia esistente
 	
 :end
 pause
