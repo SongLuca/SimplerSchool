@@ -192,6 +192,7 @@ public class ControllerMain {
 		
 	@FXML
 	public void insertTask(MouseEvent e) {
+		Console.print("Opening insert task window", "gui");
 		SimplerSchoolUtil.loadWindow("insertTaskFXML",
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
 	}
@@ -382,7 +383,7 @@ public class ControllerMain {
 	
 	public void openDetailsWindow(ActionEvent event) {
 		Console.print("Opening materia details window", "gui");
-		Stage details = SimplerSchoolUtil.loadWindow("oreDetailsFXML",
+		SimplerSchoolUtil.loadWindow("oreDetailsFXML",
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 	}
 	
