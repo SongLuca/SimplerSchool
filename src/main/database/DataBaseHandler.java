@@ -3,6 +3,7 @@ package main.database;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
@@ -13,6 +14,12 @@ import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.HashMap;
+import java.util.List;
+
+import org.apache.commons.io.FileUtils;
+
+import com.mysql.jdbc.Statement;
+
 import java.sql.PreparedStatement;
 import main.application.Main;
 import main.application.models.Config;
@@ -202,7 +209,7 @@ public class DataBaseHandler {
 				+ "VALUES(?,?,?,?,?,?)";
 		try {
 			String pash_hash = PasswordHash.createHash(password);
-			PreparedStatement stmt = conn.prepareStatement(query);
+			PreparedStatement stmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, u.getUsername()); 	// username
 			stmt.setString(2, u.getNome()); 		// nome
 			stmt.setString(3, u.getCognome()); 	// cognome
@@ -211,6 +218,12 @@ public class DataBaseHandler {
 			stmt.setString(6, defaultAvatar);		// avatar path
 			Console.print(stmt.toString(),"db");
 			stmt.execute();
+			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+	            if (generatedKeys.next())
+	                u.setUserid(generatedKeys.getInt(1));
+	            else
+	                throw new SQLException("Creating user failed, no ID obtained.");
+	        }
 			if (!u.getAvatar_path().equals(defaultAvatar)) {
 				uploadAvatarFile(u, conn);
 				updateUtenteQuery(u, conn);
@@ -250,36 +263,15 @@ public class DataBaseHandler {
 		
 	}
 	
-	public int getUserIdQuery(String username, Connection conn) {
-		Console.print("Getting user id","db");
-		String query = "SELECT USER_ID FROM UTENTE WHERE USERNAME = ?";
-		try {
-			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, username);
-			Console.print(stmt.toString(),"db");
-			ResultSet rs = stmt.executeQuery();
-			while(rs.next()) {
-				return rs.getInt("user_id");
-			}
-			throw new IllegalArgumentException("invalid username: " + username);
-		} catch (SQLException e) {
-			this.setMsg("Failed to update the user table! Check query and connection");
-			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
-		}
-		return 0;
-	}
-	
 	public void uploadAvatarFile(Utente u, Connection conn) {
 		Console.print("Uploading avatar file","db");
-		int id = getUserIdQuery(u.getUsername(), conn);
 		File avatar = new File(u.getAvatar_path());
-		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/users/"+id);
+		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/users/"+ u.getUserid());
 		if (!serverAvatar.exists()) {
 			serverAvatar.mkdirs();
 		}
 		serverAvatar = new File	(serverAvatar.getAbsolutePath() + "/" + avatar.getName());
-		u.setUserid(id);
-		u.setAvatar_path("users/" + id + "/" + avatar.getName());
+		u.setAvatar_path("users/" + u.getUserid() + "/" + avatar.getName());
 		InputStream is = null;
 		OutputStream os = null;
 		try {
@@ -494,12 +486,57 @@ public class DataBaseHandler {
 		String query = "INSERT INTO TASK(TIPO,MATERIA,TASK_DATA, COMMENTO, USER_ID) VALUES(?,?,?,?,?)";
 		Connection conn = openConn();
 		try {
-			PreparedStatement stmt = conn.prepareStatement(query);
+			PreparedStatement stmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, task.getTipo());
 			stmt.setString(2, task.getMateria());
 			stmt.setDate(3, java.sql.Date.valueOf(task.getData()));
 			stmt.setString(4, task.getComment());
 			stmt.setInt(5, Main.utente.getUserid());
+			Console.print(stmt.toString(),"db");
+			if(task.hasAllegato())
+				uploadAllegati(task);
+			stmt.execute();
+			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+	            if (generatedKeys.next())
+	                task.setIdTask(generatedKeys.getInt(1));
+	            else
+	                throw new SQLException("Creating task failed, no ID obtained.");
+	        }
+			Console.print("task id: " + task.getIdTask(), "");
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
+			this.setMsg("Can not connect to the SQL database!");
+			return false;
+		}
+	}
+	
+	public void uploadAllegati(SchoolTask task) {
+		Console.print("Uploading allegati to db folder","db");
+		List<File> files = task.getAllegati();
+		File destFolder = new File(Config.getString("config", "databaseFolder") + 
+				"/users/" + Main.utente.getUserid() + "/allegati/");
+		if(!destFolder.exists())
+			destFolder.mkdirs();
+		for(File file : files) {
+			Console.print("Uploading allegato " + file.getName(),"db");
+			File dest = new File(destFolder.getAbsolutePath() + "/" +file.getName());
+			try {
+				FileUtils.copyFile(file, dest);
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public boolean insertAllegatoQuery(File allegato) {
+		Console.print("Inserting task","db");
+		String query = "INSERT INTO ALLEGATO(file_path, task_id) VALUES(?,?)";
+		Connection conn = openConn();
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			//stmt.setString(1, task.getTipo());
+		//	stmt.setInt(2, task.getMateria());
 			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
@@ -509,10 +546,6 @@ public class DataBaseHandler {
 			return false;
 		}
 	}
-	
-	
-	
-	
 	
 	public void removeOSXmlFile(OrarioSettimanale os) {
 		File xml = new File(Config.getString("config", "databaseFolder") + "/" + os.getStoredPath());

@@ -200,7 +200,12 @@ public class ControllerMain {
 	public void initProfilePane() {
 		Utente u = Main.utente;
 		File avatarFile = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
-		avatar.setFill(new ImagePattern(new Image(avatarFile.toURI().toString())));
+		if(!avatarFile.exists())
+			Console.print("Error!!! Profile avatar file not found", "fileio");
+		else {
+			Image avatarImage = new Image(avatarFile.toURI().toString());
+			avatar.setFill(new ImagePattern(avatarImage));
+		}
 		nomeLbl.setText((u.getNome() == null) ? "null" : u.getNome());
 		cognomeLbl.setText((u.getCognome() == null) ? "null" : u.getCognome());
 		scuolaLbl.setText((u.getScuola() == null) ? "null" : u.getScuola());
@@ -543,6 +548,7 @@ public class ControllerMain {
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
 			WindowStyle.close((Stage) tabPane.getScene().getWindow());
+			Console.print("Terminating application", "app");
 		});
 		titleHBox.setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {

@@ -152,7 +152,7 @@ public class OrarioSettimanale {
 			settimana = (LinkedHashMap<String, LinkedHashMap<String, String>>) decoder.readObject();
 			decoder.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Console.print("Error!!! File " + this.getNomeOrario() + " not found", "fileio");
 		}
 	}
 	

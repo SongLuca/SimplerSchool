@@ -3,6 +3,8 @@ import javafx.application.Application;
 import javafx.stage.Stage;
 import main.application.models.Config;
 import main.application.models.Utente;
+import main.utils.Console;
+import main.utils.DBFolderChecker;
 import main.utils.SimplerSchoolUtil;
 
 public class Main extends Application {
@@ -14,14 +16,14 @@ public class Main extends Application {
 	
 	@Override
 	public void start(Stage stage){
+			Console.print("Initializing application", "app");
 			Config.config = SimplerSchoolUtil.readProperties("config");
-			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");			
-			
-			SimplerSchoolUtil.confirmMsg("Cartella database corrente: " + Config.getString("config", "databaseFolder") + 
-					"\n\nAssicurati che stai usando la cartella database del tuo computer (modifica 'databaseFolder' nel config.properties)");		
-					
+			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");				
+			if(DBFolderChecker.doCheck())		
+				SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+			else
+				Console.print("Terminated. Database folder not found", "fileio");
 		//	SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
-			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 		//	SimplerSchoolUtil.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");
 	}
 

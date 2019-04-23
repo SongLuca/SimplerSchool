@@ -13,6 +13,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import main.utils.Console;
 import main.utils.SimplerSchoolUtil;
 import main.utils.WindowStyle;
 
@@ -66,6 +67,7 @@ public class ControllerBackgroundLogin {
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
 			WindowStyle.close((Stage) rootStack.getScene().getWindow());
+			Console.print("Terminating application", "app");
 		});
 	}
 	
