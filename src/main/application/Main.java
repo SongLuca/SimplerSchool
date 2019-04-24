@@ -5,7 +5,7 @@ import main.application.models.Config;
 import main.application.models.Utente;
 import main.utils.Console;
 import main.utils.DBFolderChecker;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 
 public class Main extends Application {
 	public static Utente utente;
@@ -17,14 +17,14 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage){
 			Console.print("Initializing application", "app");
-			Config.config = SimplerSchoolUtil.readProperties("config");
-			Config.userConfig = SimplerSchoolUtil.readProperties("userconfig");				
+			Config.config = Utils.readProperties("config");
+			Config.userConfig = Utils.readProperties("userconfig");				
 			if(DBFolderChecker.doCheck())		
-				SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+				Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 			else
 				Console.print("Terminated. Database folder not found", "fileio");
-		//	SimplerSchoolUtil.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
-		//	SimplerSchoolUtil.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");
+		//	Utils.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
+		//	Utils.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");
 	}
 
 }

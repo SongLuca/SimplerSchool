@@ -35,7 +35,7 @@ import main.controllers.orariosettimanale.ControllerOrarioSBox;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 
 public class ControllerOrarioS {
 	@FXML
@@ -140,7 +140,7 @@ public class ControllerOrarioS {
 		updateOSTask.setOnFailed(event -> {
 			loading.setVisible(false);
 			subContentPane.setEffect(null);
-			SimplerSchoolUtil.popUpDialog(root, pane, "Message", "RIP");
+			Utils.popUpDialog(root, pane, "Message", "RIP");
 			updateOSTask.getException().printStackTrace();
 		});
 
@@ -152,7 +152,7 @@ public class ControllerOrarioS {
 				if(refreshList)
 					initOSList();
 				MetaData.cm.updateOSPicker();
-				SimplerSchoolUtil.popUpDialog(root, pane, "Message", doneMsg);
+				Utils.popUpDialog(root, pane, "Message", doneMsg);
 			}
 		});
 		new Thread(updateOSTask).start();
@@ -354,13 +354,13 @@ public class ControllerOrarioS {
 	@FXML
 	public void newOS(MouseEvent e) {
 		MetaData.controller = this;
-		SimplerSchoolUtil.loadNoTitleWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
+		Utils.loadNoTitleWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
 				null);
 	}
 
 	@FXML
 	void openMaterie(MouseEvent event) {
-		SimplerSchoolUtil.loadWindow("materieFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
+		Utils.loadWindow("materieFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
 				null, null);
 	}
 
@@ -423,7 +423,7 @@ public class ControllerOrarioS {
 		MetaData.controller = this;
 		MetaData.sub_row = GridPane.getRowIndex(vPane);
 		MetaData.sub_col = GridPane.getColumnIndex(vPane);
-		SimplerSchoolUtil.loadNoTitleWindow("addSubjectFXML", null, false, null, null);
+		Utils.loadNoTitleWindow("addSubjectFXML", null, false, null, null);
 	}
 
 }

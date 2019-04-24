@@ -14,7 +14,7 @@ import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
 import main.utils.Console;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 
 public class ControllerAddSubject {
 
@@ -38,7 +38,7 @@ public class ControllerAddSubject {
 	@FXML
 	void save(MouseEvent event) {
 		String ora = (MetaData.sub_row+1) + "ora";
-		String giorno = SimplerSchoolUtil.numToDay(MetaData.sub_col);
+		String giorno = Utils.numToDay(MetaData.sub_col);
 		if(!materiaBox.getValue().equals("null")) {
 			Materia m = getMateriaByNome(materiaBox.getValue());
 			Console.print("Os: " + MetaData.os.getNomeOrario() + " adding " + m.getNome() + " to " + ora + " at " + giorno, "app");

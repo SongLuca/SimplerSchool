@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerOreDetails {
@@ -32,11 +32,11 @@ public class ControllerOreDetails {
 
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

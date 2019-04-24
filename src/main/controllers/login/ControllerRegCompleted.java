@@ -9,7 +9,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerRegCompleted {
@@ -19,7 +19,7 @@ public class ControllerRegCompleted {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath("config", "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");

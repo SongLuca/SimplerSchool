@@ -27,7 +27,7 @@ import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
 import main.utils.Console;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerMaterie {
@@ -72,7 +72,7 @@ public class ControllerMaterie {
 			else {
 				JFXTextField nome = (JFXTextField)materia.lookup("#nomeMateria");
 				JFXColorPicker colore = (JFXColorPicker)materia.lookup("#coloreMateria");
-				String hexColor = SimplerSchoolUtil.toRGBCode(colore.getValue());
+				String hexColor = Utils.toRGBCode(colore.getValue());
 				if(nome.getText().trim().equals("") && !m.getStato().equals("insert")) {  // cancella materia con nome vuoto
 					m.setStato("delete");
 					modificato = true;
@@ -155,7 +155,7 @@ public class ControllerMaterie {
 
 		getMaterieTask.setOnFailed(event -> {
 			loading.setVisible(false);
-			SimplerSchoolUtil.errorMsg("Failed to get Materie from db");
+			Utils.errorMsg("Failed to get Materie from db");
 			getMaterieTask.getException().printStackTrace();
 		});
 
@@ -182,7 +182,7 @@ public class ControllerMaterie {
 
 		updateMaterieTask.setOnFailed(event -> {
 			loading.setVisible(false);
-			SimplerSchoolUtil.errorMsg("Failed to get Materie from db");
+			Utils.errorMsg("Failed to get Materie from db");
 			updateMaterieTask.getException().printStackTrace();
 		});
 
@@ -233,11 +233,11 @@ public class ControllerMaterie {
 
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

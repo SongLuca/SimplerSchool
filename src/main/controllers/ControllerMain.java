@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXHamburger;
 import com.jfoenix.controls.JFXTabPane;
+import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
@@ -50,7 +51,7 @@ import main.application.models.OrarioSettimanale;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerMain {
@@ -193,7 +194,7 @@ public class ControllerMain {
 	@FXML
 	public void insertTask(MouseEvent e) {
 		Console.print("Opening insert task window", "gui");
-		SimplerSchoolUtil.loadWindow("insertTaskFXML",
+		Utils.loadWindow("insertTaskFXML",
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
 	}
 	
@@ -257,7 +258,7 @@ public class ControllerMain {
 				Console.print(selectedOS+" selected", "Gui");
 				os = getOSbyName(selectedOS);
 				Config.userConfig.setProperty("selectedOrarioSettimanale", selectedOS);
-				SimplerSchoolUtil.saveProperties(Config.userConfig, "userconfig", true);
+				Utils.saveProperties(Config.userConfig, "userconfig", true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
 					fuseSubjects(calendarGrid, dayCol);
@@ -320,7 +321,7 @@ public class ControllerMain {
 		pane.getChildren().add(bPane);
 		bPane.setAlignment(Pos.BASELINE_RIGHT);
 		Button details = new Button();
-		details.setBackground(SimplerSchoolUtil.imgToBackground("detailsImagePath"));	
+		details.setBackground(Utils.imgToBackground("detailsImagePath"));	
 		details.setOnAction(e->{
 			openDetailsWindow(e);
 			Console.print(LocalDate.now().with(DayOfWeek.of(col+1)).toString(), "");
@@ -388,7 +389,7 @@ public class ControllerMain {
 	
 	public void openDetailsWindow(ActionEvent event) {
 		Console.print("Opening materia details window", "gui");
-		SimplerSchoolUtil.loadWindow("oreDetailsFXML",
+		Utils.loadWindow("oreDetailsFXML",
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 	}
 	
@@ -406,7 +407,7 @@ public class ControllerMain {
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
 		Console.print("Opening settings window", "gui");
-		Stage settings = SimplerSchoolUtil.loadWindow("settingsFXML",
+		Stage settings = Utils.loadWindow("settingsFXML",
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
@@ -424,7 +425,7 @@ public class ControllerMain {
 			Console.print("User " + Main.utente.getUsername() + "[" + Main.utente.getUserid() + "]" + " has logged out",
 					"App");
 			WindowStyle.close(owner);
-			SimplerSchoolUtil.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+			Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 		}
 	}
 
@@ -517,43 +518,43 @@ public class ControllerMain {
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleMaxmizeHoverImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleMaxmizeImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleMaxmizeImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseEntered(e1 -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleHideHoverImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleHideHoverImagePath").toString();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseExited(e1 -> {
-			String img = SimplerSchoolUtil.getFileURIByPath("config", "titleHideImagePath").toString();
+			String img = Utils.getFileURIByPath("config", "titleHideImagePath").toString();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseClicked(e -> {
-			WindowStyle.hidde((Stage) tabPane.getScene().getWindow());
+			WindowStyle.hidde((Stage) rootPane.getScene().getWindow());
 		});
 		titleMaxmizeButton.setOnMouseClicked(e -> {
-			WindowStyle.MaxMinScreen((Stage) tabPane.getScene().getWindow());
+			WindowStyle.MaxMinScreen((Stage) rootPane.getScene().getWindow());
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) tabPane.getScene().getWindow());
+			WindowStyle.close((Stage) rootPane.getScene().getWindow());
 			Console.print("Terminating application", "app");
 		});
 		titleHBox.setOnMouseClicked(e -> {
 			if (e.getButton().equals(MouseButton.PRIMARY)) {
 				if (e.getClickCount() == 2) {
-					WindowStyle.MaxMinScreen((Stage) tabPane.getScene().getWindow());
+					WindowStyle.MaxMinScreen((Stage) rootPane.getScene().getWindow());
 				}
 			}
 		});

@@ -4,16 +4,10 @@
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXHamburger?>
-<?import com.jfoenix.controls.JFXRadioButton?>
-<?import com.jfoenix.controls.JFXTabPane?>
-<?import com.jfoenix.controls.JFXToggleButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.MenuButton?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.Tab?>
-<?import javafx.scene.control.ToggleButton?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.effect.Shadow?>
 <?import javafx.scene.image.Image?>
@@ -91,11 +85,7 @@
                <top>
                   <AnchorPane>
                      <children>
-                        <JFXTabPane fx:id="tabPane" prefHeight="120.0" prefWidth="973.0" styleClass="tabpane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="227.0" AnchorPane.topAnchor="0.0">
-                           <tabs>
-                              <Tab text="FunctionBar1">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="888.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="0.0">
                                        <children>
                                           <HBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
                                              <children>
@@ -123,35 +113,6 @@
                                           <JFXButton layoutX="342.0" layoutY="62.0" onMouseClicked="#insertTask" prefHeight="23.0" prefWidth="128.0" text="Insert Task" />
                                        </children>
                                     </AnchorPane>
-                                </content>
-                              </Tab>
-                              <Tab text="FunctionBar2">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <JFXRadioButton layoutX="14.0" layoutY="14.0" />
-                                          <JFXToggleButton layoutX="125.0" layoutY="14.0" />
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </Tab>
-                              <Tab text="FunctionBar3">
-                                <content>
-                                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                                       <children>
-                                          <ToggleButton layoutX="14.0" layoutY="14.0" mnemonicParsing="false" text="ToggleButton" />
-                                          <MenuButton layoutX="109.0" layoutY="14.0" mnemonicParsing="false" text="MenuButton">
-                                            <items>
-                                              <MenuItem mnemonicParsing="false" text="Action 1" />
-                                              <MenuItem mnemonicParsing="false" text="Action 2" />
-                                            </items>
-                                          </MenuButton>
-                                       </children>
-                                    </AnchorPane>
-                                </content>
-                              </Tab>
-                           </tabs>
-                        </JFXTabPane>
                         <Pane layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
                            <children>
                               <Circle fx:id="avatar" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
@@ -170,9 +131,6 @@
                <bottom>
                   <Pane prefHeight="30.0" prefWidth="1130.0" />
                </bottom>
-               <right>
-                  <Pane prefHeight="420.0" prefWidth="228.0" BorderPane.alignment="CENTER" />
-               </right>
                <center>
                   <AnchorPane prefHeight="200.0" prefWidth="200.0">
                      <children>
@@ -206,10 +164,18 @@
                         </VBox>
                      </children>
                      <BorderPane.margin>
-                        <Insets bottom="20.0" left="40.0" right="20.0" top="20.0" />
+                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
                      </BorderPane.margin>
                   </AnchorPane>
                </center>
+               <right>
+                  <VBox prefHeight="457.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="NoteBoard of the week" />
+                        <JFXTextArea prefHeight="420.0" prefWidth="251.0" />
+                     </children>
+                  </VBox>
+               </right>
             </BorderPane>
             <Pane fx:id="menuShadowPane" layoutX="10.0" layoutY="34.0" prefHeight="666.0" prefWidth="60.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="34.0">
                <effect>

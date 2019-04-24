@@ -25,7 +25,7 @@ import main.application.Main;
 import main.application.models.Config;
 import main.database.DataBaseHandler;
 import main.utils.Effect;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerLogin {
@@ -51,7 +51,7 @@ public class ControllerLogin {
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
-			AnchorPane register = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "registerFXML").toURL());
+			AnchorPane register = FXMLLoader.load(Utils.getFileURIByPath("config", "registerFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(register, 50, 50, 275, 275);
 			register.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -76,7 +76,7 @@ public class ControllerLogin {
 	@FXML
 	void openRecover(MouseEvent e1) {
 		try {
-			AnchorPane recover = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "passwordRecoverFXML").toURL());
+			AnchorPane recover = FXMLLoader.load(Utils.getFileURIByPath("config", "passwordRecoverFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(recover, 50, 50, 275, 275);
 			recover.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -107,12 +107,12 @@ public class ControllerLogin {
 		char[] password = passField.getText().toCharArray();
 
 		if (username.trim().length() < 5) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Username is too short!");
+			Utils.popUpDialog(root, rootPane, "Error", "Username is too short!");
 			loginPane.setDisable(false);
 			return false;
 		}
 		if (password.length < 5) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Password can not be empty!");
+			Utils.popUpDialog(root, rootPane, "Error", "Password can not be empty!");
 			loginPane.setDisable(false);
 			return false;
 		}
@@ -145,9 +145,9 @@ public class ControllerLogin {
 					Config.userConfig.setProperty("rememberMe", "false");
 					Config.userConfig.setProperty("rememberedUser", "");
 				}
-				SimplerSchoolUtil.saveProperties(Config.userConfig, "userconfig", true);
+				Utils.saveProperties(Config.userConfig, "userconfig", true);
 			} else {
-				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loginPane.setDisable(false);
 			}
 		});
@@ -162,7 +162,7 @@ public class ControllerLogin {
 		timeline.getKeyFrames().add(key);
 		timeline.setOnFinished((ae) -> {
 			WindowStyle.closeByRoot(root);
-			SimplerSchoolUtil.newWindow("mainFXML", true, "appIconPath", "Simpler School -"+Main.utente.getUserid(),1300,800);
+			Utils.newWindow("mainFXML", true, "appIconPath", "Simpler School -"+Main.utente.getUserid(),1300,800);
 		});
 		timeline.play();
 	}

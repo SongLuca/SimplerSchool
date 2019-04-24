@@ -16,7 +16,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.database.DataBaseHandler;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerPasswordRecover {
@@ -42,7 +42,7 @@ public class ControllerPasswordRecover {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath("config", "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -71,23 +71,23 @@ public class ControllerPasswordRecover {
 		char[] password = passField.getText().toCharArray(),
 				confirmPass = confirmPassField.getText().toCharArray();
 		if(!Arrays.equals(password, confirmPass)) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Password not match!");
+			Utils.popUpDialog(root, rootPane, "Error","Password not match!");
 			return false;
 		}
 		if(username.trim().length() < 5) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Username atleast 5 chars!");
+			Utils.popUpDialog(root, rootPane, "Error","Username atleast 5 chars!");
 			return false;
 		}
-		if(!SimplerSchoolUtil.isAlpha(username)) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Username is not valid!");
+		if(!Utils.isAlpha(username)) {
+			Utils.popUpDialog(root, rootPane, "Error","Username is not valid!");
 			return false;
 		}
 		if(password.length < 5) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Password atleast 5 chars!");
+			Utils.popUpDialog(root, rootPane, "Error","Password atleast 5 chars!");
 			return false;
 		}
-		if(SimplerSchoolUtil.charArrayContains(confirmPass, ' ')) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error","Password contains space!");
+		if(Utils.charArrayContains(confirmPass, ' ')) {
+			Utils.popUpDialog(root, rootPane, "Error","Password contains space!");
 			return false;
 		}
 		Task<Boolean> resetPassTask = new Task<Boolean>() {
@@ -108,7 +108,7 @@ public class ControllerPasswordRecover {
 			if (resetPassTask.getValue()) {
 				openRecoverCompleted(e1);
 			} else {
-				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 			}
 		});
 		new Thread(resetPassTask).start();
@@ -117,7 +117,7 @@ public class ControllerPasswordRecover {
 	
 	public void openRecoverCompleted(MouseEvent e1) {
 		try {
-			AnchorPane regCompleted = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "regCompletedFXML").toURL());
+			AnchorPane regCompleted = FXMLLoader.load(Utils.getFileURIByPath("config", "regCompletedFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			Label msgLbl = (Label)regCompleted.lookup("#infoLbl");

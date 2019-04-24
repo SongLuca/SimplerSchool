@@ -27,7 +27,7 @@ import javafx.stage.Stage;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Effect;
-import main.utils.SimplerSchoolUtil;
+import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerRegister {
@@ -63,7 +63,7 @@ public class ControllerRegister {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(SimplerSchoolUtil.getFileURIByPath("config", "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath("config", "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -91,27 +91,27 @@ public class ControllerRegister {
 		String username = usernameField.getText();
 		char[] password = passField.getText().toCharArray(), confirmpw = confirmPassField.getText().toCharArray();
 		if (username.length() > 15) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Username must be less than 15 chars!");
+			Utils.popUpDialog(root, rootPane, "Error", "Username must be less than 15 chars!");
 			return false;
 		}
 		if (username.trim().length() < 5) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Username atleast 5 chars!");
+			Utils.popUpDialog(root, rootPane, "Error", "Username atleast 5 chars!");
 			return false;
 		}
-		if (!SimplerSchoolUtil.isAlpha(username)) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Username is not valid!");
+		if (!Utils.isAlpha(username)) {
+			Utils.popUpDialog(root, rootPane, "Error", "Username is not valid!");
 			return false;
 		}
-		if (SimplerSchoolUtil.charArrayContains(confirmpw, ' ')) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Password contains space!");
+		if (Utils.charArrayContains(confirmpw, ' ')) {
+			Utils.popUpDialog(root, rootPane, "Error", "Password contains space!");
 			return false;
 		}
 		if (confirmpw.length < 5) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Password atleast 5 chars!");
+			Utils.popUpDialog(root, rootPane, "Error", "Password atleast 5 chars!");
 			return false;
 		}
 		if (!Arrays.equals(password, confirmpw)) {
-			SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", "Password not match!");
+			Utils.popUpDialog(root, rootPane, "Error", "Password not match!");
 			return false;
 		}
 		
@@ -140,7 +140,7 @@ public class ControllerRegister {
 			if (registerTask.getValue()) {
 				openRegCompleted(event);
 			} else {
-				SimplerSchoolUtil.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				registerPane.setDisable(false);
 			}
 		});
@@ -152,7 +152,7 @@ public class ControllerRegister {
 	public void openRegCompleted(ActionEvent e1) {
 		try {
 			AnchorPane regCompleted = FXMLLoader
-					.load(SimplerSchoolUtil.getFileURIByPath("config", "regCompletedFXML").toURL());
+					.load(Utils.getFileURIByPath("config", "regCompletedFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			backgroundLogin.getChildren().add(regCompleted);
@@ -191,7 +191,7 @@ public class ControllerRegister {
 		});
 		avatarPath = "default/defaultAvatar.jpg";
 		profileImage.setFill(
-				new ImagePattern(new Image(SimplerSchoolUtil.getFileURIByPath("config", "defaultAvatar").toString())));
+				new ImagePattern(new Image(Utils.getFileURIByPath("config", "defaultAvatar").toString())));
 	}
 
 	/***********************************************/

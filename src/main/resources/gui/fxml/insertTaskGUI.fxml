@@ -76,12 +76,16 @@
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="120.0" text="Commento" />
+                              <Label prefHeight="30.0" prefWidth="540.0" text="Commento" />
+                              <Label fx:id="countLbl" prefHeight="30.0" prefWidth="308.0" text="Charcaters: 0 (max 200)" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <JFXTextArea fx:id="commento" prefHeight="122.0" prefWidth="570.0" />
+                              <JFXTextArea fx:id="commento" prefHeight="122.0" prefWidth="570.0">
+                                 <font>
+                                    <Font size="20.0" />
+                                 </font></JFXTextArea>
                            </children>
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="45.0" prefWidth="580.0" spacing="10.0">

@@ -38,7 +38,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.application.models.Config;
 
-public class SimplerSchoolUtil {
+public class Utils {
 	private static String config = "src/main/resources/config/config.properties";
 	private static String userConfig = "src/main/resources/config/userconfig.properties";
 	
@@ -60,7 +60,7 @@ public class SimplerSchoolUtil {
 			FileInputStream fit =new FileInputStream(configPath);
 			prop.load(fit);
 	        fit.close();
-	        Console.print(configName + ".properties loaded","config");
+	        Console.print(configName + " loaded","config");
 		}
 		catch (Exception e) {
 			Console.print("Exception: " + e,"exception");
