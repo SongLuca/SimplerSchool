@@ -162,7 +162,7 @@ public class ControllerLogin {
 		timeline.getKeyFrames().add(key);
 		timeline.setOnFinished((ae) -> {
 			WindowStyle.closeByRoot(root);
-			Utils.newWindow("mainFXML", true, "appIconPath", "Simpler School -"+Main.utente.getUserid(),1300,800);
+			Utils.newWindow("mainFXML", true, "appIconPath", "Simpler School -"+Main.utente.getUserid(),1400,800);
 		});
 		timeline.play();
 	}

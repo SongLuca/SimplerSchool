@@ -2,6 +2,7 @@ package main.application.models;
 
 import java.io.File;
 import java.time.LocalDate;
+import java.util.LinkedList;
 import java.util.List;
 
 public class SchoolTask {
@@ -14,6 +15,15 @@ public class SchoolTask {
 	
 	public SchoolTask(){
 		
+	}
+	
+	public SchoolTask(int idTask,LocalDate data, String tipo, String materia, String comment) {
+		this.idTask = idTask;
+		this.data = data;
+		this.tipo = tipo;
+		this.comment = comment;
+		this.materia = materia;
+		this.allegati = null;
 	}
 	
 	public SchoolTask(LocalDate data, String tipo, String materia, String comment, List<File> allegati) {
@@ -30,6 +40,12 @@ public class SchoolTask {
 		this.comment = comment;
 		this.materia = materia;
 		this.allegati = null;
+	}
+	
+	public boolean addFile(File f) {
+		if(allegati == null)
+			allegati = new LinkedList<File>();
+		return allegati.add(f);
 	}
 	
 	public String getMateria() {
@@ -89,7 +105,11 @@ public class SchoolTask {
 	
 	@Override
 	public String toString() {
-		return "Task id: " + idTask +" data: " + data + " tipo: " 
+		if(allegati != null)
+			return "Task id: " + idTask +" data: " + data + " tipo: " 
 					+ tipo + " materia: " + materia + " commento: " + comment + " allegati: " + allegati.toString();
+		else
+			return "Task id: " + idTask +" data: " + data + " tipo: " 
+					+ tipo + " materia: " + materia + " commento: " + comment + " nessun file allegato";
 	}
 }

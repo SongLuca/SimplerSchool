@@ -170,7 +170,8 @@ public class ControllerInsertTask {
 			return false;
 		}
 		
-		if(tipoBox.getSelectionModel().getSelectedItem().equals("Allegato file")) {
+		if(tipoBox.getSelectionModel().getSelectedItem().equals("Allegato file") &&
+				fileListView.getItems().size() == 0) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Inserire almeno un file!");
 			return false;
 		}

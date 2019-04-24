@@ -24,7 +24,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane prefWidth="1350.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -169,12 +169,15 @@
                   </AnchorPane>
                </center>
                <right>
-                  <VBox prefHeight="457.0" prefWidth="250.0" BorderPane.alignment="CENTER">
+                  <AnchorPane prefHeight="457.0" prefWidth="291.0" BorderPane.alignment="CENTER">
                      <children>
-                        <Label prefHeight="30.0" prefWidth="250.0" text="NoteBoard of the week" />
-                        <JFXTextArea prefHeight="420.0" prefWidth="251.0" />
+                        <Label prefHeight="30.0" prefWidth="250.0" text="NoteBoard of the week" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <JFXTextArea fx:id="noteBoard" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
                      </children>
-                  </VBox>
+                     <padding>
+                        <Insets bottom="10.0" right="20.0" />
+                     </padding>
+                  </AnchorPane>
                </right>
             </BorderPane>
             <Pane fx:id="menuShadowPane" layoutX="10.0" layoutY="34.0" prefHeight="666.0" prefWidth="60.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="34.0">

@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import com.jfoenix.controls.JFXButton;
@@ -48,6 +49,7 @@ import main.application.models.Config;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
+import main.application.models.SchoolTask;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;
@@ -124,19 +126,22 @@ public class ControllerMain {
 
 	@FXML
 	private JFXDatePicker datePicker;
-	
+
 	@FXML
 	private JFXComboBox<String> orarioSPicker;
-	
-	private HashMap<Integer, OrarioSettimanale> orariS ;
-	
+
+	@FXML
+	private JFXTextArea noteBoard;
+
+	private HashMap<Integer, OrarioSettimanale> orariS;
+
 	private OrarioSettimanale os;
-	
-	private double prefHeight = 700, prefWidth = 1200;
+
+	private double prefHeight = 800, prefWidth = 1400;
 
 	@FXML
 	public void hamclicked(MouseEvent event) {
-		
+
 		if (menuPane.getPrefWidth() == 300) {
 			hamMenu.setPrefSize(hamMenu.getPrefWidth() - HAMMENUSIZE, hamMenu.getPrefHeight());
 			hamMenu.setPadding(new Insets(0, 0, 0, 0));
@@ -161,13 +166,13 @@ public class ControllerMain {
 			menuVBox.setPrefSize(menuVBox.getPrefWidth() + HAMMENUSIZE, menuVBox.getPrefHeight());
 
 			settingsButton.setPrefSize(settingsButton.getPrefWidth() + HAMMENUSIZE, settingsButton.getPrefHeight());
-			//settingsButton.setText("Settings");
+			// settingsButton.setText("Settings");
 
 			profileButton.setPrefSize(profileButton.getPrefWidth() + HAMMENUSIZE, profileButton.getPrefHeight());
-			//profileButton.setText("Profile");
+			// profileButton.setText("Profile");
 
 			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
-			//closeButton.setText("Log out");
+			// closeButton.setText("Log out");
 
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
@@ -175,9 +180,9 @@ public class ControllerMain {
 			profileButton.setText("Profile");
 			closeButton.setText("Log out");
 		}
-		//new Wobble(avatar).play();
+		// new Wobble(avatar).play();
 	}
-	
+
 	public void initialize() {
 		Console.print("Initializing menu gui", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
@@ -188,20 +193,70 @@ public class ControllerMain {
 		initOrarioHeader();
 		initCalendarGrid();
 		initProfilePane();
+		loadNoteBoard();
 		MetaData.cm = this;
 	}
+
+	public void loadNoteBoard() {
+		noteBoard.clear();
+		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
+		if (attivita == null || attivita.size() == 0) {
+			noteBoard.setText("Nessuna attivita scolastica in questa settimana");
+		} else {
+			noteBoard.setText(attivita.size() + " attivita:\n");
+			String verifica = "Verifica:\n";
+			String compito = "Compito:\n";
+			String interrogazione = "Interrogazione:\n";
+			for (SchoolTask task : attivita) {
+				if (task.getTipo().equalsIgnoreCase("Verifica")) {
+					verifica += "\tMateria: " + task.getMateria()+"\n";
+					verifica += "\tData: " + task.getData()+"\n";
+					verifica += ("\tCommento: " + task.getComment()+"\n");
+					verifica += "\t-----------------\n";
+				}
+				if (task.getTipo().equalsIgnoreCase("Compito")) {
+					compito += "\tMateria: " + task.getMateria()+"\n";
+					compito += "\tData: " + task.getData()+"\n";
+					compito += ("\tCommento: " + task.getComment()+"\n");
+					compito += "\t-----------------\n";
+				}
+
+				if (task.getTipo().equalsIgnoreCase("interrogazione")) {
+					interrogazione += "\tMateria: " + task.getMateria()+"\n";
+					interrogazione += "\tData: " + task.getData()+"\n";	
+					interrogazione += ("\tCommento: " + task.getComment()+"\n");
+					interrogazione += "\t-----------------\n";
+				}
+				
+			}
+
+			if (verifica.equals("Verifica:\n")) {
+				verifica = "Nessuna verifica\n";
+			}
+
+			if (compito.equals("Compito:\n")) {
+				compito = "Nessun compito\n";
+			}
+			if (interrogazione.equals("interrogazione:\n")) {
+				interrogazione = "Nessuna interrogazione\n";
+			}
 		
+			noteBoard.appendText(verifica);
+			noteBoard.appendText(compito);
+			noteBoard.appendText(interrogazione);
+		}
+	}
+
 	@FXML
 	public void insertTask(MouseEvent e) {
 		Console.print("Opening insert task window", "gui");
-		Utils.loadWindow("insertTaskFXML",
-				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+		Utils.loadWindow("insertTaskFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
 	}
-	
+
 	public void initProfilePane() {
 		Utente u = Main.utente;
 		File avatarFile = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
-		if(!avatarFile.exists())
+		if (!avatarFile.exists())
 			Console.print("Error!!! Profile avatar file not found", "fileio");
 		else {
 			Image avatarImage = new Image(avatarFile.toURI().toString());
@@ -228,34 +283,35 @@ public class ControllerMain {
 		datePicker.setOnAction(e -> {
 			initCalendarWeekDayHeader(datePicker.getValue(), true);
 		});
-		
-		lastWeekBtn.setOnAction(e->{
+
+		lastWeekBtn.setOnAction(e -> {
 			LocalDate lastWeek = datePicker.getValue().minusWeeks(1);
 			initCalendarWeekDayHeader(datePicker.getValue().minusWeeks(1), true);
 			datePicker.setValue(lastWeek);
 			Console.print("Jumping to last week " + lastWeek, "Gui");
 		});
-		
-		thisWeekBtn.setOnAction(e->{
+
+		thisWeekBtn.setOnAction(e -> {
+			Console.print(""+datePicker.getScene().getWindow().getWidth(), "");
 			LocalDate today = LocalDate.now();
-			if(datePicker.getValue().compareTo(today) != 0) {
+			if (datePicker.getValue().compareTo(today) != 0) {
 				initCalendarWeekDayHeader(today, true);
 				datePicker.setValue(today);
 				Console.print("Jumping to current week " + today, "Gui");
 			}
 		});
-		
-		nextWeekBtn.setOnAction(e->{
+
+		nextWeekBtn.setOnAction(e -> {
 			LocalDate nextWeek = datePicker.getValue().plusWeeks(1);
 			initCalendarWeekDayHeader(datePicker.getValue().plusWeeks(1), true);
 			datePicker.setValue(nextWeek);
 			Console.print("Jumping to next week " + nextWeek, "Gui");
 		});
-		
-		orarioSPicker.setOnAction(e->{
+
+		orarioSPicker.setOnAction(e -> {
 			String selectedOS = orarioSPicker.getSelectionModel().getSelectedItem();
-			if (selectedOS != null){
-				Console.print(selectedOS+" selected", "Gui");
+			if (selectedOS != null) {
+				Console.print(selectedOS + " selected", "Gui");
 				os = getOSbyName(selectedOS);
 				Config.userConfig.setProperty("selectedOrarioSettimanale", selectedOS);
 				Utils.saveProperties(Config.userConfig, "userconfig", true);
@@ -265,8 +321,8 @@ public class ControllerMain {
 				}
 			}
 		});
-		
-		if(os != null) {
+
+		if (os != null) {
 			for (String giornoK : os.getSettimana().keySet()) {
 				int dayCol = os.getColByGiorno(giornoK);
 				fuseSubjects(calendarGrid, dayCol);
@@ -274,31 +330,31 @@ public class ControllerMain {
 		}
 
 	}
-	
+
 	public void updateOSPicker() {
 		Console.print("Updating OS picker", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
-		String selectedOrariS = Config.getString("userconfig","selectedOrarioSettimanale");
+		String selectedOrariS = Config.getString("userconfig", "selectedOrarioSettimanale");
 		orarioSPicker.getItems().clear();
-		for(int key : orariS.keySet()) {
+		for (int key : orariS.keySet()) {
 			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
-			if(orariS.get(key).getNomeOrario().equals(selectedOrariS)) {
+			if (orariS.get(key).getNomeOrario().equals(selectedOrariS)) {
 				orarioSPicker.getSelectionModel().select(selectedOrariS);
 				os = getOSbyName(selectedOrariS);
 			}
-				
+
 		}
-		
+
 	}
-	
+
 	public OrarioSettimanale getOSbyName(String nome) {
-		for(int key : orariS.keySet()) {
-			if(orariS.get(key).getNomeOrario().equals(nome))
+		for (int key : orariS.keySet()) {
+			if (orariS.get(key).getNomeOrario().equals(nome))
 				return orariS.get(key);
 		}
 		return null;
 	}
-	
+
 	public Materia getMateriaByNome(String nome) {
 		HashMap<Integer, Materia> materie = DataBaseHandler.getInstance().getMaterie();
 		for (int key : materie.keySet()) {
@@ -307,7 +363,7 @@ public class ControllerMain {
 		}
 		return null;
 	}
-	
+
 	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
 		Materia m = getMateriaByNome(nomeMateria);
 		VBox pane = new VBox();
@@ -321,17 +377,17 @@ public class ControllerMain {
 		pane.getChildren().add(bPane);
 		bPane.setAlignment(Pos.BASELINE_RIGHT);
 		Button details = new Button();
-		details.setBackground(Utils.imgToBackground("detailsImagePath"));	
-		details.setOnAction(e->{
+		details.setBackground(Utils.imgToBackground("detailsImagePath"));
+		details.setOnAction(e -> {
 			openDetailsWindow(e);
-			Console.print(LocalDate.now().with(DayOfWeek.of(col+1)).toString(), "");
+			Console.print(LocalDate.now().with(DayOfWeek.of(col + 1)).toString(), "");
 		});
 		bPane.getChildren().add(details);
 		if (rowSpan != 1)
 			osGrid.add(pane, col, row, 1, rowSpan);
 		else
 			osGrid.add(pane, col, row);
-		
+
 	}
 
 	public void fuseSubjects(GridPane osGrid, int col) {
@@ -381,18 +437,17 @@ public class ControllerMain {
 			count++;
 		}
 	}
-	
+
 	@FXML
 	public void setOrarioSettimanale(ActionEvent a) {
 		Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
 	}
-	
+
 	public void openDetailsWindow(ActionEvent event) {
 		Console.print("Opening materia details window", "gui");
-		Utils.loadWindow("oreDetailsFXML",
-				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
+		Utils.loadWindow("oreDetailsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
 	}
-	
+
 	public void hamMenuAnimation(Pane pane, double width) {
 		hamMenu.setDisable(true);
 		Timeline timeline = new Timeline();
@@ -407,8 +462,8 @@ public class ControllerMain {
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
 		Console.print("Opening settings window", "gui");
-		Stage settings = Utils.loadWindow("settingsFXML",
-				(Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
+		Stage settings = Utils.loadWindow("settingsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+				true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
 		settings.setOnHiding(e -> {
@@ -430,11 +485,11 @@ public class ControllerMain {
 	}
 
 	public void initCalendarWeekDayHeader(LocalDate data, boolean clear) {
-		if(clear)
+		if (clear)
 			weekdayHeader.getChildren().clear();
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-LLL");
 		int weekdays = 6;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
 		for (int i = 0; i < weekdays; i++) {
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
@@ -442,12 +497,12 @@ public class ControllerMain {
 			HBox.setHgrow(box, Priority.ALWAYS);
 			box.setMaxWidth(Double.MAX_VALUE);
 			box.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
-			
+
 			box.getChildren().add(new Label(weekDays[i]));
 			Label timeLbl = new Label(data.with(DayOfWeek.of(i + 1)).format(dtf));
 			timeLbl.setId("#time");
 			box.getChildren().add(timeLbl);
-			
+
 			weekdayHeader.getChildren().add(box);
 		}
 	}
@@ -468,18 +523,15 @@ public class ControllerMain {
 	public void initCalendarGrid() {
 		int rows = 10;
 		int cols = 6;
-	/*	for (int i = 0; i < rows; i++) {
-			for (int j = 0; j < cols; j++) {
-				VBox vPane = new VBox();
-				vPane.getStyleClass().add("calendar_pane");
-				vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
-				vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
-					
-				});
-				GridPane.setVgrow(vPane, Priority.ALWAYS);
-				calendarGrid.add(vPane, j, i);
-			}
-		}*/
+		/*
+		 * for (int i = 0; i < rows; i++) { for (int j = 0; j < cols; j++) { VBox vPane
+		 * = new VBox(); vPane.getStyleClass().add("calendar_pane");
+		 * vPane.setMinWidth(weekdayHeader.getPrefWidth() / cols);
+		 * vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
+		 * 
+		 * }); GridPane.setVgrow(vPane, Priority.ALWAYS); calendarGrid.add(vPane, j, i);
+		 * } }
+		 */
 		for (int i = 0; i < rows; i++) {
 			RowConstraints row = new RowConstraints();
 			calendarGrid.getRowConstraints().add(row);

@@ -13,6 +13,7 @@ import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -42,6 +43,7 @@ public class DataBaseHandler {
 	private String passHash;
 	private HashMap<Integer, Materia> materie;
 	private HashMap<Integer, OrarioSettimanale> orariS;
+	private ArrayList<SchoolTask> attivita;
 	static String mySqlConnClass = "com.mysql.jdbc.Driver";
 	private String defaultAvatar = "default/defaultAvatar.jpg";
 
@@ -62,6 +64,10 @@ public class DataBaseHandler {
 	
 	public HashMap<Integer, OrarioSettimanale> getOS() {
 		return orariS;
+	}
+	
+	public ArrayList<SchoolTask> getAttivita() {
+		return attivita;
 	}
 	
 	public void setMsg(String msg) {
@@ -102,6 +108,7 @@ public class DataBaseHandler {
 		Console.print("---Preloading all user data---","app");
 		runGetMaterieQuery();
 		getOSQuery();
+		getAttivitaS();
 		Console.print("--------------------------------","app");
 	}
 
@@ -112,7 +119,6 @@ public class DataBaseHandler {
 		try {
 			String pash_hash = PasswordHash.createHash(password);
 			PreparedStatement stmt = conn.prepareStatement(query);
-			Console.print(stmt.toString(),"db");
 			stmt.setString(1, pash_hash);
 			stmt.setString(2, username);
 			int recordUpdated = stmt.executeUpdate();
@@ -143,7 +149,6 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, u.getUsername());
-			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			String s = toStringResultSet(rs);
 			if (s.equals("")) {
@@ -169,7 +174,6 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, username);
-			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			Utente utente = this.RsToUtente(rs);
 			if (utente.getUsername() == null) {
@@ -213,7 +217,6 @@ public class DataBaseHandler {
 			stmt.setString(4, pash_hash); 			// pass_hash
 			stmt.setString(5, u.getScuola()); 		// scuola
 			stmt.setString(6, defaultAvatar);		// avatar path
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 	            if (generatedKeys.next())
@@ -248,7 +251,6 @@ public class DataBaseHandler {
 			stmt.setString(3, u.getCognome());
 			stmt.setString(4, u.getAvatar_path());
 			stmt.setInt(5, u.getUserid());
-			Console.print(stmt.toString(),"db");
 			int recordUpdated = stmt.executeUpdate();
 			if (recordUpdated != 1)
 				throw new IllegalArgumentException("error! multiple record have been updated!");
@@ -294,7 +296,6 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			return rsToMaterie(rs);
 		} catch (SQLException e) {
@@ -338,7 +339,6 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, m.getId());
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -355,7 +355,6 @@ public class DataBaseHandler {
 			stmt.setString(1, m.getNome());
 			stmt.setString(2, m.getColore());
 			stmt.setInt(3, m.getId());
-			Console.print(stmt.toString(),"db");
 			int recourdUpdated = stmt.executeUpdate();
 			if (recourdUpdated == 1)
 				return true;
@@ -378,7 +377,6 @@ public class DataBaseHandler {
 			stmt.setString(2, m.getNome());
 			stmt.setString(3, m.getColore());
 			stmt.setInt(4, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -413,7 +411,6 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			rs = stmt.executeQuery();
 			return rsToOS(rs);
 		} catch (SQLException e) {
@@ -432,7 +429,6 @@ public class DataBaseHandler {
 			stmt.setString(2, os.getNomeOrario());
 			stmt.setString(3, os.getStoredPath());
 			stmt.setInt(4, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -450,7 +446,6 @@ public class DataBaseHandler {
 			stmt.setString(1, os.getNomeOrario());
 			stmt.setInt(2, os.getId());
 			stmt.setInt(3, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -467,7 +462,6 @@ public class DataBaseHandler {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, os.getId());
 			stmt.setInt(2, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			removeOSXmlFile(os);
 			return true;
@@ -476,6 +470,26 @@ public class DataBaseHandler {
 			this.setMsg("Can not connect to the SQL database!");
 			return false;
 		}
+	}
+	
+	public boolean getAttivitaS() {
+		Console.print("Getting tasks of this week","db");
+		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(CURDATE(), 1) "
+				+ "AND USER_ID = ? "
+				+ "AND TIPO in ('compito','interrogazione','verifica') " 
+				+ "order by TASK_DATA, TIPO desc";
+		Connection conn = openConn();
+		ResultSet rs = null;
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, Main.utente.getUserid());
+			rs = stmt.executeQuery();
+			return rsToAttivita(rs);
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
 	}
 	
 	public boolean insertTaskQuery(SchoolTask task) {
@@ -489,7 +503,6 @@ public class DataBaseHandler {
 			stmt.setDate(3, java.sql.Date.valueOf(task.getData()));
 			stmt.setString(4, task.getComment());
 			stmt.setInt(5, Main.utente.getUserid());
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 	            if (generatedKeys.next())
@@ -527,13 +540,26 @@ public class DataBaseHandler {
 		Console.print(files.size() + " allegati uploaded","db");
 	}
 	
+	public ResultSet getAllegatoByTask(int idTask) {
+		String query = "SELECT file_path FROM allegato WHERE task_id = ?";
+		Connection conn = openConn();
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, idTask);
+			return stmt.executeQuery();
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return null;
+	}
+	
 	public boolean insertAllegatoQuery(String allegato, int taskID, Connection conn) {
 		String query = "INSERT INTO ALLEGATO(file_path, task_id) VALUES(?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, "users/" + Main.utente.getUserid() + "/allegati/"+ allegato);
 			stmt.setInt(2, taskID);
-			Console.print(stmt.toString(),"db");
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -549,6 +575,33 @@ public class DataBaseHandler {
 			Console.print(xml.getAbsolutePath() + " deleted","fileio");
 		else
 			Console.print(xml.getAbsolutePath() + " doesnt exist","fileio");
+	}
+	
+	public boolean rsToAttivita(ResultSet rs) {
+		attivita = new ArrayList<SchoolTask>();
+		SchoolTask task;
+		try {
+			while (rs.next()) {
+				task = new SchoolTask(rs.getInt("TASK_ID"), 
+						rs.getDate("TASK_DATA").toLocalDate(),
+						rs.getString("TIPO"), 
+						rs.getString("MATERIA"),
+						rs.getString("COMMENTO"));
+				ResultSet files = getAllegatoByTask(task.getIdTask());
+				while(files.next()) {
+					String path = files.getString("file_path");
+					task.addFile(new File(Config.getString("config", "databaseFolder") + "/" + path));
+				}
+				attivita.add(task);
+			}
+			Console.print(attivita.size()+ " tasks loaded", "db");
+		} catch (SQLException e) {
+			Console.print("Failed to retrive resultset" + e.getMessage(),"db");
+		}
+		if (attivita.isEmpty())
+			return false;
+		else
+			return true;
 	}
 	
 	public boolean rsToOS(ResultSet rs) {
