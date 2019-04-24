@@ -17,6 +17,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -43,7 +44,7 @@ public class ControllerLogin {
 	private JFXPasswordField passField;
 	
 	@FXML
-	private JFXSpinner loading;
+	private ImageView loading;
 	
 	@FXML
 	private JFXCheckBox rememberMe;

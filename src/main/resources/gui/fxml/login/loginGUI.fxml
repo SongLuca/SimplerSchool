@@ -3,7 +3,6 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXPasswordField?>
-<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import java.lang.String?>
 <?import javafx.geometry.Insets?>
@@ -19,7 +18,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
+<AnchorPane fx:id="loginPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerLogin">
    <children>
       <Pane fx:id="innerBackgroundShadow" layoutX="10.0" layoutY="10.0" prefHeight="500.0" prefWidth="350.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
@@ -90,6 +89,10 @@
             </VBox>
          </children>
       </AnchorPane>
-      <JFXSpinner fx:id="loading" layoutX="135.0" layoutY="210.0" prefHeight="80.0" prefWidth="80.0" />
+      <ImageView fx:id="loading" fitHeight="150.0" fitWidth="200.0" layoutX="100.0" layoutY="175.0" pickOnBounds="true" preserveRatio="true" visible="false">
+         <image>
+            <Image url="@../../../../../../rika-loading.gif" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
