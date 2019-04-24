@@ -26,6 +26,8 @@ import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import main.application.models.Materia;
+import main.application.models.MetaData;
+import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
@@ -149,13 +151,13 @@ public class ControllerInsertTask {
 	@FXML
 	public void insert() {
 		if(validateInputs()) {
-			if (fileListView.getItems().size() > 0) {
+		/*	if (fileListView.getItems().size() > 0) {
 				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 						materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems()));
 			} else {
 				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 						materiaBox.getSelectionModel().getSelectedItem(),commento.getText()));
-			}
+			}*/
 		}
 	}
 	
@@ -175,13 +177,24 @@ public class ControllerInsertTask {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Inserire almeno un file!");
 			return false;
 		}
-		Console.print(""+commento.getText().length(), "");
+		
 		if(commento.getText().length() >= 200) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Il commento e' troppo lungo!");
 			return false;
 		}
 		
+		if(!validateDateMateria()) {
+			Utils.popUpDialog(stackPane, insertPane, "Error", materiaBox.getValue() + " non ce in questo giorno!");
+			return false;
+		}
+		
 		return true;
+	}
+	
+	public boolean validateDateMateria() {
+		int day = datePicker.getValue().getDayOfWeek().getValue();
+		OrarioSettimanale os = MetaData.os;
+		return os.validateMateriaByGiorno(day-1, materiaBox.getValue());
 	}
 	
 	public void insertTask(SchoolTask task) {

@@ -9,10 +9,12 @@ import java.io.OutputStream;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -108,7 +110,7 @@ public class DataBaseHandler {
 		Console.print("---Preloading all user data---","app");
 		runGetMaterieQuery();
 		getOSQuery();
-		getAttivitaS();
+		getAttivitaS(LocalDate.now());
 		Console.print("--------------------------------","app");
 	}
 
@@ -472,9 +474,9 @@ public class DataBaseHandler {
 		}
 	}
 	
-	public boolean getAttivitaS() {
+	public boolean getAttivitaS(LocalDate data) {
 		Console.print("Getting tasks of this week","db");
-		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(CURDATE(), 1) "
+		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(?, 1) "
 				+ "AND USER_ID = ? "
 				+ "AND TIPO in ('compito','interrogazione','verifica') " 
 				+ "order by TASK_DATA, TIPO desc";
@@ -482,7 +484,8 @@ public class DataBaseHandler {
 		ResultSet rs = null;
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setInt(1, Main.utente.getUserid());
+			stmt.setDate(1, Date.valueOf(data));
+			stmt.setInt(2, Main.utente.getUserid());
 			rs = stmt.executeQuery();
 			return rsToAttivita(rs);
 		} catch (SQLException e) {

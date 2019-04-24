@@ -26,10 +26,13 @@
                <children>
                   <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text="  Inserimento attivita">
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets left="10.0" />
+                           </HBox.margin>
                         </Label>
                      </children>
                   </HBox>

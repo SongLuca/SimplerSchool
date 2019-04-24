@@ -11,6 +11,7 @@ import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
@@ -18,6 +19,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
@@ -53,6 +55,7 @@ import main.application.models.SchoolTask;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;
+import main.utils.Effect;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -132,6 +135,9 @@ public class ControllerMain {
 
 	@FXML
 	private JFXTextArea noteBoard;
+	
+	@FXML
+	private JFXSpinner loading;
 
 	private HashMap<Integer, OrarioSettimanale> orariS;
 
@@ -198,10 +204,11 @@ public class ControllerMain {
 	}
 
 	public void loadNoteBoard() {
+		Console.print("Loading note board", "gui");
 		noteBoard.clear();
 		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
 		if (attivita == null || attivita.size() == 0) {
-			noteBoard.setText("Nessuna attivita scolastica in questa settimana");
+			noteBoard.setText("Nessuna attivita in questa settimana");
 		} else {
 			noteBoard.setText(attivita.size() + " attivita:\n");
 			String verifica = "Verifica:\n";
@@ -237,7 +244,7 @@ public class ControllerMain {
 			if (compito.equals("Compito:\n")) {
 				compito = "Nessun compito\n";
 			}
-			if (interrogazione.equals("interrogazione:\n")) {
+			if (interrogazione.equals("Interrogazione:\n")) {
 				interrogazione = "Nessuna interrogazione\n";
 			}
 		
@@ -249,8 +256,11 @@ public class ControllerMain {
 
 	@FXML
 	public void insertTask(MouseEvent e) {
-		Console.print("Opening insert task window", "gui");
-		Utils.loadWindow("insertTaskFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+		Console.print("Opening insert  window", "gui");
+		Stage insert = Utils.loadWindow("insertTaskFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+		
+		Label title = (Label) insert.getScene().lookup("#title");
+		title.setText("Inserimento attivita");
 	}
 
 	public void initProfilePane() {
@@ -288,16 +298,18 @@ public class ControllerMain {
 			LocalDate lastWeek = datePicker.getValue().minusWeeks(1);
 			initCalendarWeekDayHeader(datePicker.getValue().minusWeeks(1), true);
 			datePicker.setValue(lastWeek);
-			Console.print("Jumping to last week " + lastWeek, "Gui");
+			Console.print("Jumping to the last week " + lastWeek, "Gui");
+			changeWeek(datePicker.getValue());
 		});
 
 		thisWeekBtn.setOnAction(e -> {
-			Console.print(""+datePicker.getScene().getWindow().getWidth(), "");
 			LocalDate today = LocalDate.now();
 			if (datePicker.getValue().compareTo(today) != 0) {
 				initCalendarWeekDayHeader(today, true);
 				datePicker.setValue(today);
 				Console.print("Jumping to current week " + today, "Gui");
+				changeWeek(datePicker.getValue());
+				
 			}
 		});
 
@@ -305,7 +317,8 @@ public class ControllerMain {
 			LocalDate nextWeek = datePicker.getValue().plusWeeks(1);
 			initCalendarWeekDayHeader(datePicker.getValue().plusWeeks(1), true);
 			datePicker.setValue(nextWeek);
-			Console.print("Jumping to next week " + nextWeek, "Gui");
+			Console.print("Jumping to the next week " + nextWeek, "Gui");
+			changeWeek(datePicker.getValue());
 		});
 
 		orarioSPicker.setOnAction(e -> {
@@ -330,7 +343,37 @@ public class ControllerMain {
 		}
 
 	}
+	
+	public void changeWeek(LocalDate data) {
+		Task<Boolean> changeWeekTask = new Task<Boolean>() {
+			@Override
+			protected Boolean call() throws Exception {
+				loading.setVisible(true);
+				rootPane.setEffect(Effect.blur());
+				return DataBaseHandler.getInstance().getAttivitaS(data);
+			}
+		};
 
+		changeWeekTask.setOnFailed(event -> {
+			loading.setVisible(false);
+			rootPane.setDisable(false);
+			changeWeekTask.getException().printStackTrace();
+		});
+
+		changeWeekTask.setOnSucceeded(event -> {
+			loading.setVisible(false);
+			rootPane.setEffect(null);
+			if (changeWeekTask.getValue()) {
+				loadNoteBoard();
+			} else {
+				Utils.popUpDialog(rootStack, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				rootPane.setDisable(false);
+			}
+		});
+
+		new Thread(changeWeekTask).start();
+	}
+	
 	public void updateOSPicker() {
 		Console.print("Updating OS picker", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
@@ -341,6 +384,7 @@ public class ControllerMain {
 			if (orariS.get(key).getNomeOrario().equals(selectedOrariS)) {
 				orarioSPicker.getSelectionModel().select(selectedOrariS);
 				os = getOSbyName(selectedOrariS);
+				MetaData.os = os;
 			}
 
 		}
@@ -379,8 +423,8 @@ public class ControllerMain {
 		Button details = new Button();
 		details.setBackground(Utils.imgToBackground("detailsImagePath"));
 		details.setOnAction(e -> {
-			openDetailsWindow(e);
-			Console.print(LocalDate.now().with(DayOfWeek.of(col + 1)).toString(), "");
+			LocalDate data = LocalDate.now().with(DayOfWeek.of(col + 1));
+			openDetailsWindow(e,m.getNome(), data);
 		});
 		bPane.getChildren().add(details);
 		if (rowSpan != 1)
@@ -443,9 +487,11 @@ public class ControllerMain {
 		Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
 	}
 
-	public void openDetailsWindow(ActionEvent event) {
+	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
 		Console.print("Opening materia details window", "gui");
-		Utils.loadWindow("oreDetailsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), true, null, null);
+		Stage details = Utils.loadWindow("oreDetailsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
+		Label titolo = (Label) details.getScene().lookup("#title");
+		titolo.setText(materia + " - " + data.getDayOfWeek() + " - " + data);
 	}
 
 	public void hamMenuAnimation(Pane pane, double width) {
