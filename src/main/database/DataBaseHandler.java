@@ -22,6 +22,7 @@ import org.apache.commons.io.FileUtils;
 import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
 import main.application.Main;
+import main.application.models.Allegato;
 import main.application.models.Config;
 import main.application.models.Materia;
 import main.application.models.OrarioSettimanale;
@@ -595,7 +596,7 @@ public class DataBaseHandler {
 	
 	public void uploadAllegati(SchoolTask task, Connection conn) {
 		Console.print("Uploading allegati to db folder","db");
-		LinkedHashMap<String,File> files = task.getAllegati();
+		LinkedHashMap<String,Allegato> files = task.getAllegati();
 		File destFolder = new File(Config.getString("config", "databaseFolder") + 
 				"/users/" + Main.utente.getUserid() + "/allegati/"+task.getIdTask()+"/");
 		if(!destFolder.exists())
@@ -604,7 +605,7 @@ public class DataBaseHandler {
 			if(insertAllegatoQuery(file, task.getIdTask(), conn)) {
 				File dest = new File(destFolder.getAbsolutePath() + "/" +file);
 				try {
-					FileUtils.copyFile(files.get(file), dest);
+					FileUtils.copyFile(files.get(file).getFile(), dest);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -614,7 +615,7 @@ public class DataBaseHandler {
 	}
 	
 	public ResultSet getAllegatoByTask(int idTask) {
-		String query = "SELECT file_path FROM allegato WHERE task_id = ?";
+		String query = "SELECT * FROM allegato WHERE task_id = ?";
 		Connection conn = openConn();
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -663,7 +664,10 @@ public class DataBaseHandler {
 				ResultSet files = getAllegatoByTask(task.getIdTask());
 				while(files.next()) {
 					String path = files.getString("file_path");
-					task.addFile(new File(Config.getString("config", "databaseFolder") + "/" + path));
+					int idTask = files.getInt("task_id");
+					int idAllegato = files.getInt("allegato_id");
+					task.addFile(new Allegato(idAllegato, idTask, 
+							new File(Config.getString("config", "databaseFolder") + "/" + path)));
 				}
 				attivita.add(task);
 			}

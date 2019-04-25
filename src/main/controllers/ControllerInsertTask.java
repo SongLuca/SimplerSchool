@@ -27,6 +27,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.application.models.Allegato;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
@@ -79,7 +80,7 @@ public class ControllerInsertTask {
 	
 	private HashMap<Integer,Materia> materie;
 	
-	private LinkedHashMap<String,File> allegati;
+	private LinkedHashMap<String,Allegato> allegati;
 	
 	private String mode;
 	
@@ -90,7 +91,7 @@ public class ControllerInsertTask {
 	private attivitaBoxController boxController;
 	
 	public void initialize() {
-		allegati = new LinkedHashMap<String,File>();
+		allegati = new LinkedHashMap<String,Allegato>();
 		this.idTask = 0 ;
 		materie = DataBaseHandler.getInstance().getMaterie();
 		initTitleBox();
@@ -127,8 +128,11 @@ public class ControllerInsertTask {
 			materiaBox.getSelectionModel().select(editTask.getMateria());
 			commento.setText(editTask.getComment());
 			if(editTask.hasAllegato()) {
+				removeFilesBtn.setDisable(false);
+				clearFileBtn.setDisable(false);
 				for(String file : editTask.getAllegati().keySet()) {
 					fileListView.getItems().add(file);
+					allegati.put(file, editTask.getAllegati().get(file));
 				}
 			}
 			return true;
@@ -189,7 +193,7 @@ public class ControllerInsertTask {
 				clearFileBtn.setDisable(false);
 				if(!fileListView.getItems().contains(f.getName())) {
 					fileListView.getItems().add(f.getName());
-					allegati.put(f.getName(), f);
+					allegati.put(f.getName(), new Allegato(idTask, f));
 				}
 					
 			}
@@ -200,9 +204,8 @@ public class ControllerInsertTask {
 	public void removeFiles() {
 		ObservableList<String> selectedItems = fileListView.getSelectionModel().getSelectedItems();
 		if (selectedItems.size() > 0) {
+			allegati.keySet().removeAll(selectedItems);
 			fileListView.getItems().removeAll(selectedItems);
-			for(String nome : selectedItems)
-				allegati.remove(nome);
 			if (fileListView.getItems().isEmpty()) {
 				removeFilesBtn.setDisable(true);
 				clearFileBtn.setDisable(true);
@@ -246,7 +249,9 @@ public class ControllerInsertTask {
 					Console.print("No changes detected", "");
 				else {
 					Console.print("Changes detected", "");
-					updateTask(newTask);
+					Utils.detectRemoved(newTask.getAllegati(), editTask.getAllegati());
+					Utils.detectAdded(newTask.getAllegati(), editTask.getAllegati());
+					//updateTask(newTask);
 				}
 					
 			}
@@ -338,7 +343,7 @@ public class ControllerInsertTask {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				insertPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().insertTaskQuery(task);
+				return DataBaseHandler.getInstance().updateTaskQuery(task);
 			}
 		};
 
@@ -363,6 +368,7 @@ public class ControllerInsertTask {
 
 		new Thread(updateTask).start();
 	}
+	
 	
 	public void cancel() {
 		WindowStyle.close((Stage) titleHBox.getScene().getWindow());

@@ -1,6 +1,5 @@
 package main.application.models;
 
-import java.io.File;
 import java.time.LocalDate;
 import java.util.LinkedHashMap;
 import java.util.Objects;
@@ -11,7 +10,8 @@ public class SchoolTask {
 	private String tipo;
 	private String comment;
 	private String materia;
-	private LinkedHashMap<String,File> allegati;
+	private LinkedHashMap<String,Allegato> allegati;
+	
 	public SchoolTask(){
 		
 	}
@@ -25,7 +25,7 @@ public class SchoolTask {
 		this.allegati = null;
 	}
 	
-	public SchoolTask(LocalDate data, String tipo, String materia, String comment, LinkedHashMap<String,File> allegati) {
+	public SchoolTask(LocalDate data, String tipo, String materia, String comment, LinkedHashMap<String,Allegato> allegati) {
 		this.data = data;
 		this.tipo = tipo;
 		this.comment = comment;
@@ -41,10 +41,10 @@ public class SchoolTask {
 		this.allegati = null;
 	}
 	
-	public void addFile(File f) {
+	public void addFile(Allegato a) {
 		if(allegati == null)
-			allegati = new LinkedHashMap<String,File>();
-		allegati.put(f.getName(),f);
+			allegati = new LinkedHashMap<String,Allegato>();
+		allegati.put(a.getFile().getName(),a);
 	}
 	
 	public String getMateria() {
@@ -94,11 +94,11 @@ public class SchoolTask {
 			return !allegati.isEmpty();
 	}
 	
-	public LinkedHashMap<String,File> getAllegati() {
+	public LinkedHashMap<String,Allegato> getAllegati() {
 		return allegati;
 	}
 	
-	public void setAllegati(LinkedHashMap<String,File> allegati) {
+	public void setAllegati(LinkedHashMap<String,Allegato> allegati) {
 		this.allegati = allegati;
 	}
 	
@@ -114,7 +114,7 @@ public class SchoolTask {
                 && Objects.equals(this.tipo, task.tipo)
                 && Objects.equals(this.materia, task.materia)
                 && Objects.equals(this.comment, task.comment)
-                && Objects.equals(this.allegati, task.allegati);
+                && Objects.equals(this.allegati.keySet(), task.allegati.keySet());
 	}
 	
 	@Override
