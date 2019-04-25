@@ -101,7 +101,39 @@ public class Utils {
 		}
 	}
 	
-	public static Stage loadWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
+	public static Object loadWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
+		Stage stage = null;
+		FXMLLoader fxmlLoader = null;
+		try {
+			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
+			fxmlLoader = new FXMLLoader(fxmlURL);
+			Parent root = fxmlLoader.load();	
+			stage = new Stage();
+			stage.initModality(Modality.WINDOW_MODAL);
+			stage.initStyle(StageStyle.TRANSPARENT);
+			Scene scene = new Scene(root);
+			scene.setFill(Color.TRANSPARENT);
+			stage.setScene(scene);
+			HBox titleBox = (HBox)fxmlLoader.getNamespace().get("titleHBox");
+			WindowStyle.allowDrag(titleBox, stage);
+			if(primaryStage != null)
+				stage.initOwner(primaryStage);
+			if(resizable)
+				new FXResizeHelper(stage,5,5);
+			if(appIconPath != null)
+				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
+			if(title != null)
+				stage.setTitle(title);
+			stage.show();
+		
+			root.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return fxmlLoader.getController();
+	}
+	
+	public static Stage loadWindowS(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath, String title) {
 		Stage stage = null;
 		try {
 			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();

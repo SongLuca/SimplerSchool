@@ -73,12 +73,30 @@ public class ControllerInsertTask {
 	@FXML
 	private Label countLbl;
 	
+	@FXML
+	private Label modeLbl;
+	
 	HashMap<Integer,Materia> materie;
+	
+	private String mode;
 	
 	public void initialize() {
 		materie = DataBaseHandler.getInstance().getMaterie();
 		initTitleBox();
 		initComponents();
+	}
+	
+	public String getMode() {
+		return mode;
+	}
+
+
+	public void setMode(String mode) {
+		this.mode = mode;
+	}
+	
+	public void setTitle(String title) {
+		this.title.setText(title);
 	}
 
 	public void initComponents() {
@@ -150,17 +168,22 @@ public class ControllerInsertTask {
 	
 	@FXML
 	public void insert() {
-		Console.print(commento.getText(), "");
-		if(validateInputs()) {
-			if (fileListView.getItems().size() > 0) {
-				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-						materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems()));
-			} else {
-				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-						materiaBox.getSelectionModel().getSelectedItem(),commento.getText()));
+	//	String mode = modeLbl.getText();
+		if(mode.equalsIgnoreCase("insert")) {
+			if(validateInputs()) {
+				if (fileListView.getItems().size() > 0) {
+					insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems()));
+				} else {
+					insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							materiaBox.getSelectionModel().getSelectedItem(),commento.getText()));
+				}
 			}
 		}
-		
+		else if(mode.contains("edit")) {
+			Console.print("edit", "");
+			//SchoolTask task = DataBaseHandler.getInstance().getAttivita(mode.substring(5));
+		}
 		
 	}
 	

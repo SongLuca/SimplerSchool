@@ -15,7 +15,6 @@
    <content>
       <Pane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="590.0">
          <children>
-            <Label fx:id="idLbl" visible="false" />
             <VBox layoutY="6.0" prefHeight="190.0" prefWidth="590.0">
                <children>
                   <Label fx:id="materiaLbl" prefHeight="36.0" prefWidth="140.0" text="Materia: " />

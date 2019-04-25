@@ -6,14 +6,12 @@ import java.net.URL;
 import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
-import com.jfoenix.controls.JFXTextArea;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
-import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.application.models.Config;
@@ -62,7 +60,11 @@ public class ControllerOreDetails {
 	public void setMateria(String materia) {
 		this.materia = materia;
 	}
-
+	
+	public void setTitle(String title) {
+		this.title.setText(title);
+	}
+	
 	public void populatePanes() {
 		if (attivita != null) {
 			this.compitiCount = 0;
@@ -72,48 +74,48 @@ public class ControllerOreDetails {
 				if (task.getMateria().equalsIgnoreCase(materia)) {
 					if (task.getTipo().equalsIgnoreCase("Compito")) {
 						compitiCount++;
-						Pane content = loadTaskBox(compitiBox, compitiCount);
-						((Label) content.lookup("#idLbl")).setText(task.getIdTask() + "");
-						((Label) content.lookup("#materiaLbl")).setText("Materia: " + task.getMateria());
-						((JFXTextArea) content.lookup("#comment")).setText(task.getComment() + "");
+						attivitaBoxController c = loadTaskBox(compitiBox, compitiCount);
+						c.setIdTask(task.getIdTask());
+						c.setMateria(task.getMateria());
+						c.setCommento(task.getComment());
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Verifica")) {
 						verificheCount++;
-						Pane content = loadTaskBox(verificheBox, verificheCount);
-						((Label) content.lookup("#idLbl")).setText(task.getIdTask() + "");
-						((Label) content.lookup("#materiaLbl")).setText("Materia: " + task.getMateria());
-						((JFXTextArea) content.lookup("#comment")).setText(task.getComment() + "");
+						attivitaBoxController c = loadTaskBox(verificheBox, verificheCount);
+						c.setIdTask(task.getIdTask());
+						c.setMateria(task.getMateria());
+						c.setCommento(task.getComment());
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Interrogazione")) {
 						interrCount++;
-						Pane content = loadTaskBox(interrBox, interrCount);
-						((Label) content.lookup("#idLbl")).setText(task.getIdTask() + "");
-						((Label) content.lookup("#materiaLbl")).setText("Materia: " + task.getMateria());
-						((JFXTextArea) content.lookup("#comment")).setText(task.getComment() + "");
+						attivitaBoxController c = loadTaskBox(interrBox, interrCount);
+						c.setIdTask(task.getIdTask());
+						c.setMateria(task.getMateria());
+						c.setCommento(task.getComment());
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Allegato file")) {
 						allegatoCount++;
-						Pane content = loadTaskBox(allegatoBox, allegatoCount);
-						((Label) content.lookup("#idLbl")).setText(task.getIdTask() + "");
-						((Label) content.lookup("#materiaLbl")).setText("Materia: " + task.getMateria());
-						((JFXTextArea) content.lookup("#comment")).setText(task.getComment() + "");
+						attivitaBoxController c = loadTaskBox(allegatoBox, allegatoCount);
+						c.setIdTask(task.getIdTask());
+						c.setMateria(task.getMateria());
+						c.setCommento(task.getComment());
 					}
 				}
 			}
 		}
 	}
 
-	public Pane loadTaskBox(VBox pane, int count) {
+	public attivitaBoxController loadTaskBox(VBox pane, int count) {
 		try {
 			URL fxmlURL = new File(Config.getString("config", "attivitaBoxFXML")).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			TitledPane content = fxmlLoader.load();
 			content.setText("N." + count);
 			pane.getChildren().add(content);
-			return (Pane) content.getContent().lookup("#contentPane");
+			return (attivitaBoxController)fxmlLoader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

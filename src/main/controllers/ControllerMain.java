@@ -268,11 +268,11 @@ public class ControllerMain {
 
 	@FXML
 	public void insertTask(MouseEvent e) {
-		Console.print("Opening insert  window", "gui");
-		Stage insert = Utils.loadWindow("insertTaskFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
-		
-		Label title = (Label) insert.getScene().lookup("#title");
-		title.setText("Inserimento attivita");
+		Console.print("Opening insert window", "gui");
+		ControllerInsertTask cit = (ControllerInsertTask)Utils.loadWindow("insertTaskFXML", 
+				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+		cit.setTitle("Inserimento attivita");
+		cit.setMode("insert");
 	}
 
 	public void initProfilePane() {
@@ -506,9 +506,9 @@ public class ControllerMain {
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
 		Console.print("Opening materia details window", "gui");
 		MetaData.materiaSelected = materia;
-		Stage details = Utils.loadWindow("oreDetailsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
-		Label titolo = (Label) details.getScene().lookup("#title");
-		titolo.setText(materia + " - " + data.getDayOfWeek() + " - " + data);
+		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML", 
+				(Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
+		cod.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
 	}
 
 	public void hamMenuAnimation(Pane pane, double width) {
@@ -525,7 +525,7 @@ public class ControllerMain {
 	@FXML
 	public void openSettingsWindow(MouseEvent event) {
 		Console.print("Opening settings window", "gui");
-		Stage settings = Utils.loadWindow("settingsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(),
+		Stage settings = Utils.loadWindowS("settingsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(),
 				true, null, null);
 		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
