@@ -93,11 +93,7 @@ public class ControllerInsertTask {
 		}
 		datePicker.setValue(LocalDate.now());
 		
-		tipoBox.getItems().add("Compito");
-		tipoBox.getItems().add("Verifica");
-		tipoBox.getItems().add("Interrogazione");
-		tipoBox.getItems().add("Allegato file");
-		tipoBox.getItems().add("Altro");
+		tipoBox.getItems().addAll("Compito","Verifica","Interrogazione","Allegato file");
 		
 		commento.textProperty().addListener(new ChangeListener<String>() {
 		    @Override
@@ -229,10 +225,10 @@ public class ControllerInsertTask {
 				LocalDate data = task.getData();
 				if(data.isBefore(MetaData.cm.getSelectedDate().with(DayOfWeek.MONDAY)) || 
 						data.isAfter(MetaData.cm.getSelectedDate().with(DayOfWeek.SUNDAY))) {
-					Console.print("questa attivita non e' di questa settimana", "");
+					Console.print("Input task does not belong to this week", "");
 				}
 				else {
-					Console.print("questa attivita e' di questa settimana", "");
+					Console.print("Input task belongs to this week", "");
 					DataBaseHandler.getInstance().addAttivita(task);
 					MetaData.cm.loadNoteBoard();
 				}

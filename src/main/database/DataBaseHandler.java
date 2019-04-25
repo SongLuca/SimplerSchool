@@ -72,6 +72,31 @@ public class DataBaseHandler {
 		return attivita;
 	}
 	
+	public SchoolTask getAttivita(int idTask) {
+		if(attivita == null)
+			return null;
+		else{
+			for(SchoolTask task : attivita) {
+				if(task.getIdTask() == idTask)
+					return task;
+			}
+		}
+		return null;
+	}
+	
+	public SchoolTask getAttivita(String idTask) {
+		int id = Integer.parseInt(idTask);
+		if(attivita == null)
+			return null;
+		else{
+			for(SchoolTask task : attivita) {
+				if(task.getIdTask() == id)
+					return task;
+			}
+		}
+		return null;
+	}
+	
 	public boolean addAttivita(SchoolTask task) {
 		return attivita.add(task);
 	}
@@ -519,6 +544,23 @@ public class DataBaseHandler {
 	        }
 			if(task.hasAllegato())
 				uploadAllegati(task, conn);
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
+			this.setMsg("Can not connect to the SQL database!");
+			return false;
+		}
+	}
+	
+	public boolean deleteTaskQuery(SchoolTask task) {
+		Console.print("Deleting task "+task.getIdTask(),"db");
+		String query = "DELETE FROM TASK WHERE TASK_ID = ? AND USER_ID = ?";
+		Connection conn = openConn();
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query,Statement.RETURN_GENERATED_KEYS);
+			stmt.setInt(1, task.getIdTask());
+			stmt.setInt(2, Main.utente.getUserid());
+			stmt.execute();
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");

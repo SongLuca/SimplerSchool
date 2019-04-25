@@ -12,4 +12,5 @@ public class MetaData {
 	public static GridPane OrarioSGrid;
 	public static Object controller;
 	public static ControllerMain cm;
+	public static String materiaSelected;
 }

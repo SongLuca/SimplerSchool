@@ -505,6 +505,7 @@ public class ControllerMain {
 
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
 		Console.print("Opening materia details window", "gui");
+		MetaData.materiaSelected = materia;
 		Stage details = Utils.loadWindow("oreDetailsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
 		Label titolo = (Label) details.getScene().lookup("#title");
 		titolo.setText(materia + " - " + data.getDayOfWeek() + " - " + data);
