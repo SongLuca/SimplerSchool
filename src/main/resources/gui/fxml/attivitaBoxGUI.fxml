@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextArea?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.VBox?>
+
+
+<TitledPane prefWidth="570.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.attivitaBoxController">
+   <content>
+      <Pane fx:id="contentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="220.0" prefWidth="590.0">
+         <children>
+            <Label fx:id="idLbl" visible="false" />
+            <VBox layoutY="6.0" prefHeight="190.0" prefWidth="590.0">
+               <children>
+                  <Label fx:id="materiaLbl" prefHeight="36.0" prefWidth="140.0" text="Materia: " />
+                  <Label prefHeight="36.0" prefWidth="140.0" text="Commento:" />
+                  <JFXTextArea fx:id="comment" editable="false" prefHeight="100.0" prefWidth="550.0" />
+               </children>
+               <padding>
+                  <Insets left="20.0" right="20.0" />
+               </padding>
+            </VBox>
+            <HBox alignment="BASELINE_RIGHT" layoutX="426.0" layoutY="186.0" prefHeight="30.0" prefWidth="150.0">
+               <children>
+                  <JFXButton prefHeight="20.0" prefWidth="20.0" text="">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#viewAllegati" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/allegato.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="20.0" prefWidth="20.0" text="">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#edit" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/edit.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton prefHeight="20.0" prefWidth="20.0" text="">
+                     <graphic>
+                        <ImageView fitHeight="20.0" fitWidth="20.0" onMouseClicked="#remove" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/delete.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+               </children>
+            </HBox>
+         </children>
+      </Pane>
+   </content>
+</TitledPane>
