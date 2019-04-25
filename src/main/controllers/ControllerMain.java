@@ -218,20 +218,32 @@ public class ControllerMain {
 				if (task.getTipo().equalsIgnoreCase("Verifica")) {
 					verifica += "\tMateria: " + task.getMateria()+"\n";
 					verifica += "\tData: " + task.getData()+"\n";
-					verifica += ("\tCommento: " + task.getComment()+"\n");
+					if(task.getComment().length() != 0)
+						verifica += "\tCommento: " + task.getComment()+"\n";
+					else {
+						verifica += "\tCommento: nessun commento\n";
+					}
 					verifica += "\t-----------------\n";
 				}
 				if (task.getTipo().equalsIgnoreCase("Compito")) {
 					compito += "\tMateria: " + task.getMateria()+"\n";
 					compito += "\tData: " + task.getData()+"\n";
-					compito += ("\tCommento: " + task.getComment()+"\n");
+					if(task.getComment().length() != 0)
+						compito += "\tCommento: " + task.getComment()+"\n";
+					else {
+						compito += "\tCommento: nessun commento\n";
+					}
 					compito += "\t-----------------\n";
 				}
 
 				if (task.getTipo().equalsIgnoreCase("interrogazione")) {
 					interrogazione += "\tMateria: " + task.getMateria()+"\n";
 					interrogazione += "\tData: " + task.getData()+"\n";	
-					interrogazione += ("\tCommento: " + task.getComment()+"\n");
+					if(task.getComment().length() != 0)
+						interrogazione += "\tCommento: " + task.getComment()+"\n";
+					else {
+						interrogazione += "\tCommento: nessun commento\n";
+					}
 					interrogazione += "\t-----------------\n";
 				}
 				
@@ -592,6 +604,10 @@ public class ControllerMain {
 		}
 	}
 
+	public LocalDate getSelectedDate() {
+		return datePicker.getValue();
+	}
+	
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;

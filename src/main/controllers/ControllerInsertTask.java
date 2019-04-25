@@ -1,6 +1,7 @@
 package main.controllers;
 
 import java.io.File;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
@@ -30,6 +31,7 @@ import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.Effect;
 import main.utils.Utils;
 import main.utils.WindowStyle;
@@ -151,6 +153,7 @@ public class ControllerInsertTask {
 	
 	@FXML
 	public void insert() {
+		Console.print(commento.getText(), "");
 		if(validateInputs()) {
 			if (fileListView.getItems().size() > 0) {
 				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
@@ -222,8 +225,17 @@ public class ControllerInsertTask {
 			if (insertSTTask.getValue()) {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "New task inserted");
 				resetFields();
-				DataBaseHandler.getInstance().addAttivita(task);
-				MetaData.cm.loadNoteBoard();
+				LocalDate data = task.getData();
+				if(data.isBefore(MetaData.cm.getSelectedDate().with(DayOfWeek.MONDAY)) || 
+						data.isAfter(MetaData.cm.getSelectedDate().with(DayOfWeek.SUNDAY))) {
+					Console.print("questa attivita non e' di questa settimana", "");
+				}
+				else {
+					Console.print("questa attivita e' di questa settimana", "");
+					DataBaseHandler.getInstance().addAttivita(task);
+					MetaData.cm.loadNoteBoard();
+				}
+				
 			} else {
 				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
 				insertPane.setDisable(false);
