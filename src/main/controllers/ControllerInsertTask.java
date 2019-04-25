@@ -73,14 +73,18 @@ public class ControllerInsertTask {
 	@FXML
 	private Label countLbl;
 	
-	@FXML
-	private Label modeLbl;
-	
 	HashMap<Integer,Materia> materie;
 	
 	private String mode;
 	
+	private int idTask;
+	
+	private SchoolTask editTask;
+	
+	private attivitaBoxController boxController;
+	
 	public void initialize() {
+		this.idTask = 0 ;
 		materie = DataBaseHandler.getInstance().getMaterie();
 		initTitleBox();
 		initComponents();
@@ -90,15 +94,39 @@ public class ControllerInsertTask {
 		return mode;
 	}
 
-
 	public void setMode(String mode) {
 		this.mode = mode;
+		if(mode.equalsIgnoreCase("edit"))
+			insertBtn.setText("Apply");
+	}
+	
+	public void setIdTask(int idTask) {
+		this.idTask = idTask;
 	}
 	
 	public void setTitle(String title) {
 		this.title.setText(title);
 	}
-
+	
+	public void setTaskBoxController(attivitaBoxController boxController) {
+		this.boxController = boxController;
+	}
+	
+	public boolean loadEditTask() {
+		if(idTask != 0) {
+			editTask = DataBaseHandler.getInstance().getAttivita(idTask);
+			datePicker.setValue(editTask.getData());
+			tipoBox.getSelectionModel().select(editTask.getTipo());
+			materiaBox.getSelectionModel().select(editTask.getMateria());
+			commento.setText(editTask.getComment());
+			if(editTask.hasAllegato()) {
+				fileListView.getItems().addAll(editTask.getAllegati());
+			}
+			return true;
+		}	
+		return false;
+	}
+	
 	public void initComponents() {
 		fileListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 		
@@ -168,7 +196,6 @@ public class ControllerInsertTask {
 	
 	@FXML
 	public void insert() {
-	//	String mode = modeLbl.getText();
 		if(mode.equalsIgnoreCase("insert")) {
 			if(validateInputs()) {
 				if (fileListView.getItems().size() > 0) {
@@ -182,7 +209,23 @@ public class ControllerInsertTask {
 		}
 		else if(mode.contains("edit")) {
 			Console.print("edit", "");
-			//SchoolTask task = DataBaseHandler.getInstance().getAttivita(mode.substring(5));
+			if(validateInputs()) {
+				SchoolTask newTask;
+				if (fileListView.getItems().size() > 0) {
+					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems());
+				} else {
+					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							materiaBox.getSelectionModel().getSelectedItem(),commento.getText());
+				}
+				if(newTask.equals(editTask)) 
+					Console.print("No changes detected", "");
+				else {
+					Console.print("Changes detected", "");
+					updateTask(newTask);
+				}
+					
+			}
 		}
 		
 	}
@@ -263,6 +306,38 @@ public class ControllerInsertTask {
 		});
 
 		new Thread(insertSTTask).start();
+	}
+	
+	public void updateTask(SchoolTask task) {
+		Task<Boolean> updateTask = new Task<Boolean>() {
+			@Override
+			protected Boolean call() throws Exception {
+				loading.setVisible(true);
+				insertPane.setEffect(Effect.blur());
+				return DataBaseHandler.getInstance().insertTaskQuery(task);
+			}
+		};
+
+		updateTask.setOnFailed(event -> {
+			loading.setVisible(false);
+			insertPane.setDisable(false);
+			updateTask.getException().printStackTrace();
+		});
+
+		updateTask.setOnSucceeded(event -> {
+			loading.setVisible(false);
+			insertPane.setEffect(null);
+			if (updateTask.getValue()) {
+				Utils.popUpDialog(stackPane, insertPane, "Message", "Task has been updated!");
+				this.editTask = task;
+				this.boxController.setAllInfo(task);
+			} else {
+				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
+				insertPane.setDisable(false);
+			}
+		});
+
+		new Thread(updateTask).start();
 	}
 	
 	public void cancel() {

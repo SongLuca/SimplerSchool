@@ -477,7 +477,10 @@ public class DataBaseHandler {
 			stmt.setString(1, os.getNomeOrario());
 			stmt.setInt(2, os.getId());
 			stmt.setInt(3, Main.utente.getUserid());
-			stmt.execute();
+			int recordUpdated = stmt.executeUpdate();
+			if (recordUpdated != 1)
+				throw new IllegalArgumentException("error! multiple record have been updated!");
+			Console.print(recordUpdated + " record has been updated!","db");
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
@@ -561,6 +564,30 @@ public class DataBaseHandler {
 			stmt.setInt(1, task.getIdTask());
 			stmt.setInt(2, Main.utente.getUserid());
 			stmt.execute();
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");
+			this.setMsg("Can not connect to the SQL database!");
+			return false;
+		}
+	}
+	
+	public boolean updateTaskQuery(SchoolTask task) {
+		Console.print("Updating task " + task.getIdTask(),"db");
+		String query = "UPDATE TASK SET TASK_DATA = ?, MATERIA = ?, TIPO = ?, COMMENTO = ? WHERE TASK_ID = ? AND USER_ID =?";
+		Connection conn = openConn();
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setDate(1, Date.valueOf(task.getData()));
+			stmt.setString(2, task.getMateria());
+			stmt.setString(3, task.getTipo());
+			stmt.setString(4, task.getComment());
+			stmt.setInt(5, task.getIdTask());
+			stmt.setInt(6, Main.utente.getUserid());
+			int recordUpdated = stmt.executeUpdate();
+			if (recordUpdated != 1)
+				throw new IllegalArgumentException("error! multiple record have been updated!");
+			Console.print(recordUpdated + " record has been updated!","db");
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(),"db");

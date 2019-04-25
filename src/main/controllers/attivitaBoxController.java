@@ -58,11 +58,12 @@ public class attivitaBoxController {
 	public void setCommento(String commento) {
 		comment.setText(commento);
 	}
-
-	public void set() {
-
+	
+	public void setAllInfo(SchoolTask task) {
+		materiaLbl.setText("Materia: "+task.getMateria());
+		comment.setText(task.getComment());
 	}
-
+	
 	@FXML
 	void edit(MouseEvent e) {
 		Console.print("Opening edit task " + idTask + " window", "gui");
@@ -70,6 +71,10 @@ public class attivitaBoxController {
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
 		cit.setTitle("Modifica attivita");
 		cit.setMode("edit");
+		cit.setIdTask(idTask);
+		cit.setTaskBoxController(this);
+		if(!cit.loadEditTask())
+			Console.print("Error! Invalid task id!", "ERROR");
 	}
 
 	@FXML

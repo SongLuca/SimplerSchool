@@ -29,6 +29,9 @@ public class Console{
 			case "EXCEPTION": 
 				System.out.println(sdf.format(date) + "[Exception]" + msg);
 				break;
+			case "ERROR": 
+				System.out.println(sdf.format(date) + "[ERROR]" + msg);
+				break;
 			default:
 				System.out.println(sdf.format(date) + "[Default]" + msg);
 				break;
