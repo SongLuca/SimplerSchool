@@ -597,7 +597,7 @@ public class DataBaseHandler {
 		Console.print("Uploading allegati to db folder","db");
 		LinkedHashMap<String,File> files = task.getAllegati();
 		File destFolder = new File(Config.getString("config", "databaseFolder") + 
-				"/users/" + Main.utente.getUserid() + "/allegati/");
+				"/users/" + Main.utente.getUserid() + "/allegati/"+task.getIdTask()+"/");
 		if(!destFolder.exists())
 			destFolder.mkdirs();
 		for(String file : files.keySet()) {
