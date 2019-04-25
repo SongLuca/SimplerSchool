@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -59,7 +60,7 @@ public class ControllerInsertTask {
 	private JFXTextArea commento;
 
 	@FXML
-	private JFXListView<File> fileListView;
+	private JFXListView<String> fileListView;
 
 	@FXML
 	private JFXButton removeFilesBtn;
@@ -76,7 +77,9 @@ public class ControllerInsertTask {
 	@FXML
 	private Label countLbl;
 	
-	HashMap<Integer,Materia> materie;
+	private HashMap<Integer,Materia> materie;
+	
+	private LinkedHashMap<String,File> allegati;
 	
 	private String mode;
 	
@@ -87,6 +90,7 @@ public class ControllerInsertTask {
 	private attivitaBoxController boxController;
 	
 	public void initialize() {
+		allegati = new LinkedHashMap<String,File>();
 		this.idTask = 0 ;
 		materie = DataBaseHandler.getInstance().getMaterie();
 		initTitleBox();
@@ -123,7 +127,9 @@ public class ControllerInsertTask {
 			materiaBox.getSelectionModel().select(editTask.getMateria());
 			commento.setText(editTask.getComment());
 			if(editTask.hasAllegato()) {
-				fileListView.getItems().addAll(editTask.getAllegati());
+				for(String file : editTask.getAllegati().keySet()) {
+					fileListView.getItems().add(file);
+				}
 			}
 			return true;
 		}	
@@ -181,17 +187,22 @@ public class ControllerInsertTask {
 			for (File f : selectedFiles) {
 				removeFilesBtn.setDisable(false);
 				clearFileBtn.setDisable(false);
-				if(!fileListView.getItems().contains(f))
-					fileListView.getItems().add(f);
+				if(!fileListView.getItems().contains(f.getName())) {
+					fileListView.getItems().add(f.getName());
+					allegati.put(f.getName(), f);
+				}
+					
 			}
 		}
 	}
 
 	@FXML
 	public void removeFiles() {
-		ObservableList<File> selectedItems = fileListView.getSelectionModel().getSelectedItems();
+		ObservableList<String> selectedItems = fileListView.getSelectionModel().getSelectedItems();
 		if (selectedItems.size() > 0) {
 			fileListView.getItems().removeAll(selectedItems);
+			for(String nome : selectedItems)
+				allegati.remove(nome);
 			if (fileListView.getItems().isEmpty()) {
 				removeFilesBtn.setDisable(true);
 				clearFileBtn.setDisable(true);
@@ -202,6 +213,7 @@ public class ControllerInsertTask {
 	@FXML
 	public void clear() {
 		fileListView.getItems().clear();
+		allegati.clear();
 		clearFileBtn.setDisable(true);
 		removeFilesBtn.setDisable(true);
 	}
@@ -212,7 +224,7 @@ public class ControllerInsertTask {
 			if(validateInputs()) {
 				if (fileListView.getItems().size() > 0) {
 					insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems()));
+							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), allegati));
 				} else {
 					insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 							materiaBox.getSelectionModel().getSelectedItem(),commento.getText()));
@@ -225,7 +237,7 @@ public class ControllerInsertTask {
 				SchoolTask newTask;
 				if (fileListView.getItems().size() > 0) {
 					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems());
+							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), allegati);
 				} else {
 					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 							materiaBox.getSelectionModel().getSelectedItem(),commento.getText());

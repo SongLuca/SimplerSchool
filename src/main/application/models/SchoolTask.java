@@ -2,8 +2,7 @@ package main.application.models;
 
 import java.io.File;
 import java.time.LocalDate;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.LinkedHashMap;
 import java.util.Objects;
 
 public class SchoolTask {
@@ -12,8 +11,7 @@ public class SchoolTask {
 	private String tipo;
 	private String comment;
 	private String materia;
-	private List<File> allegati;
-	
+	private LinkedHashMap<String,File> allegati;
 	public SchoolTask(){
 		
 	}
@@ -27,7 +25,7 @@ public class SchoolTask {
 		this.allegati = null;
 	}
 	
-	public SchoolTask(LocalDate data, String tipo, String materia, String comment, List<File> allegati) {
+	public SchoolTask(LocalDate data, String tipo, String materia, String comment, LinkedHashMap<String,File> allegati) {
 		this.data = data;
 		this.tipo = tipo;
 		this.comment = comment;
@@ -43,10 +41,10 @@ public class SchoolTask {
 		this.allegati = null;
 	}
 	
-	public boolean addFile(File f) {
+	public void addFile(File f) {
 		if(allegati == null)
-			allegati = new LinkedList<File>();
-		return allegati.add(f);
+			allegati = new LinkedHashMap<String,File>();
+		allegati.put(f.getName(),f);
 	}
 	
 	public String getMateria() {
@@ -96,11 +94,11 @@ public class SchoolTask {
 			return !allegati.isEmpty();
 	}
 	
-	public List<File> getAllegati() {
+	public LinkedHashMap<String,File> getAllegati() {
 		return allegati;
 	}
 	
-	public void setAllegati(List<File> allegati) {
+	public void setAllegati(LinkedHashMap<String,File> allegati) {
 		this.allegati = allegati;
 	}
 	

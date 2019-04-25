@@ -17,12 +17,9 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
+import java.util.LinkedHashMap;
 import org.apache.commons.io.FileUtils;
-
 import com.mysql.jdbc.Statement;
-
 import java.sql.PreparedStatement;
 import main.application.Main;
 import main.application.models.Config;
@@ -598,16 +595,16 @@ public class DataBaseHandler {
 	
 	public void uploadAllegati(SchoolTask task, Connection conn) {
 		Console.print("Uploading allegati to db folder","db");
-		List<File> files = task.getAllegati();
+		LinkedHashMap<String,File> files = task.getAllegati();
 		File destFolder = new File(Config.getString("config", "databaseFolder") + 
 				"/users/" + Main.utente.getUserid() + "/allegati/");
 		if(!destFolder.exists())
 			destFolder.mkdirs();
-		for(File file : files) {
-			if(insertAllegatoQuery(file.getName(), task.getIdTask(), conn)) {
-				File dest = new File(destFolder.getAbsolutePath() + "/" +file.getName());
+		for(String file : files.keySet()) {
+			if(insertAllegatoQuery(file, task.getIdTask(), conn)) {
+				File dest = new File(destFolder.getAbsolutePath() + "/" +file);
 				try {
-					FileUtils.copyFile(file, dest);
+					FileUtils.copyFile(files.get(file), dest);
 				} catch (IOException e) {
 					e.printStackTrace();
 				}
@@ -634,7 +631,7 @@ public class DataBaseHandler {
 		String query = "INSERT INTO ALLEGATO(file_path, task_id) VALUES(?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setString(1, "users/" + Main.utente.getUserid() + "/allegati/"+ allegato);
+			stmt.setString(1, "users/" + Main.utente.getUserid() + "/allegati/"+ taskID + "/" + allegato);
 			stmt.setInt(2, taskID);
 			stmt.execute();
 			return true;

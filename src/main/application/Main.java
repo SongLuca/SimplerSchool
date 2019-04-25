@@ -18,11 +18,12 @@ public class Main extends Application {
 	public void start(Stage stage){
 			Console.print("Initializing application", "app");
 			Config.config = Utils.readProperties("config");
-			Config.userConfig = Utils.readProperties("userconfig");				
-			if(DBFolderChecker.doCheck())		
+			Config.userConfig = Utils.readProperties("userconfig");			
+			Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+		/*	if(DBFolderChecker.doCheck())		
 				Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 			else
-				Console.print("Terminated. Database folder not found", "fileio");
+				Console.print("Terminated. Database folder not found", "fileio");*/
 		//	Utils.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
 		//	Utils.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");
 	}
