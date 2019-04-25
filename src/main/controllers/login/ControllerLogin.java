@@ -4,7 +4,6 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
-import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import animatefx.animation.*;
 import javafx.animation.KeyFrame;

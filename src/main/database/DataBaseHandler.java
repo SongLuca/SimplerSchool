@@ -482,7 +482,7 @@ public class DataBaseHandler {
 		Console.print("Getting tasks of this week","db");
 		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(?, 1) "
 				+ "AND USER_ID = ? "
-				+ "AND TIPO in ('compito','interrogazione','verifica') " 
+			//	+ "AND TIPO in ('compito','interrogazione','verifica') " 
 				+ "order by TASK_DATA, TIPO desc";
 		Connection conn = openConn();
 		ResultSet rs = null;

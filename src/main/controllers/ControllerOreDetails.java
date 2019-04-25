@@ -32,13 +32,18 @@ public class ControllerOreDetails {
 	@FXML
 	private VBox interrBox;
 
+	@FXML
+	private VBox allegatoBox;
+	
 	private ArrayList<SchoolTask> attivita;
 	
 	private int compitiCount;
 	
 	private int verificheCount;
 	
-	private int interrCount;	
+	private int interrCount;
+	
+	private int allegatoCount;
 	
 	public void initialize() {
 		this.compitiCount = 0;
@@ -72,6 +77,14 @@ public class ControllerOreDetails {
 				if(task.getTipo().equalsIgnoreCase("Interrogazione")) {
 					interrCount++;
 					Pane content = loadTaskBox(interrBox,interrCount);
+					((Label)content.lookup("#idLbl")).setText(task.getIdTask()+"");
+					((Label)content.lookup("#materiaLbl")).setText("Materia: "+task.getMateria());
+					((JFXTextArea)content.lookup("#comment")).setText(task.getComment()+"");
+				}
+				
+				if(task.getTipo().equalsIgnoreCase("Allegato file")) {
+					allegatoCount++;
+					Pane content = loadTaskBox(allegatoBox,allegatoCount);
 					((Label)content.lookup("#idLbl")).setText(task.getIdTask()+"");
 					((Label)content.lookup("#materiaLbl")).setText("Materia: "+task.getMateria());
 					((JFXTextArea)content.lookup("#comment")).setText(task.getComment()+"");
