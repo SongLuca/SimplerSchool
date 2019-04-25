@@ -63,7 +63,10 @@ public class ControllerInsertTask {
 
 	@FXML
 	private JFXButton removeFilesBtn;
-
+	
+	@FXML
+	private JFXButton clearFileBtn;
+	
 	@FXML
 	private JFXButton insertBtn;
 
@@ -177,6 +180,7 @@ public class ControllerInsertTask {
 		if(selectedFiles != null) {
 			for (File f : selectedFiles) {
 				removeFilesBtn.setDisable(false);
+				clearFileBtn.setDisable(false);
 				if(!fileListView.getItems().contains(f))
 					fileListView.getItems().add(f);
 			}
@@ -190,8 +194,16 @@ public class ControllerInsertTask {
 			fileListView.getItems().removeAll(selectedItems);
 			if (fileListView.getItems().isEmpty()) {
 				removeFilesBtn.setDisable(true);
+				clearFileBtn.setDisable(true);
 			}
 		}
+	}
+	
+	@FXML
+	public void clear() {
+		fileListView.getItems().clear();
+		clearFileBtn.setDisable(true);
+		removeFilesBtn.setDisable(true);
 	}
 	
 	@FXML
