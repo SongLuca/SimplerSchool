@@ -7,7 +7,10 @@ xampp
 				*user_id*
 						useravatar.png
 						orariosettiamanale
-										.xml
+							os.xml
+						allegati
+							*task_id*
+								file.*
 				*user_id*
 				*user_id*
 				*user_id*
