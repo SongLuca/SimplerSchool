@@ -30,7 +30,6 @@ import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
-import main.utils.Console;
 import main.utils.Effect;
 import main.utils.Utils;
 import main.utils.WindowStyle;
@@ -131,9 +130,11 @@ public class ControllerInsertTask {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Allegare file");
 		List<File> selectedFiles = fileChooser.showOpenMultipleDialog(tipoBox.getScene().getWindow());
-		for (File f : selectedFiles) {
-			removeFilesBtn.setDisable(false);
-			fileListView.getItems().add(f);
+		if(selectedFiles != null) {
+			for (File f : selectedFiles) {
+				removeFilesBtn.setDisable(false);
+				fileListView.getItems().add(f);
+			}
 		}
 	}
 
@@ -151,14 +152,16 @@ public class ControllerInsertTask {
 	@FXML
 	public void insert() {
 		if(validateInputs()) {
-		/*	if (fileListView.getItems().size() > 0) {
+			if (fileListView.getItems().size() > 0) {
 				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 						materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), fileListView.getItems()));
 			} else {
 				insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 						materiaBox.getSelectionModel().getSelectedItem(),commento.getText()));
-			}*/
+			}
 		}
+		
+		
 	}
 	
 	public boolean validateInputs() {
@@ -219,6 +222,8 @@ public class ControllerInsertTask {
 			if (insertSTTask.getValue()) {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "New task inserted");
 				resetFields();
+				DataBaseHandler.getInstance().addAttivita(task);
+				MetaData.cm.loadNoteBoard();
 			} else {
 				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
 				insertPane.setDisable(false);

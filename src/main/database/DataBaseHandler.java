@@ -72,6 +72,10 @@ public class DataBaseHandler {
 		return attivita;
 	}
 	
+	public boolean addAttivita(SchoolTask task) {
+		return attivita.add(task);
+	}
+	
 	public void setMsg(String msg) {
 		this.msg = msg;
 	}
