@@ -96,8 +96,7 @@
       </JFXTabPane>
       <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="550.0">
          <children>
-            <JFXButton prefHeight="30.0" prefWidth="60.0" text="Apply" />
-            <JFXButton prefHeight="30.0" prefWidth="60.0" text="Cancel" />
+            <JFXButton onMouseClicked="#close" prefHeight="30.0" prefWidth="60.0" text="Close" />
          </children>
          <padding>
             <Insets right="50.0" />

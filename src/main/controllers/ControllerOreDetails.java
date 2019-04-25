@@ -6,14 +6,11 @@ import java.net.URL;
 import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextArea;
-import animatefx.animation.FadeIn;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
@@ -21,7 +18,6 @@ import javafx.stage.Stage;
 import main.application.models.Config;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
-import main.utils.Console;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 import javafx.scene.control.TitledPane;
@@ -98,7 +94,12 @@ public class ControllerOreDetails {
 		}
 		return null;
 	}
-
+	
+	@FXML
+	public void close() {
+		WindowStyle.close((Stage) compitiBox.getScene().getWindow());
+	}
+	
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;
