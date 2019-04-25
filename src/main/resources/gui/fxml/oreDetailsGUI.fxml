@@ -11,6 +11,7 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
 <AnchorPane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOreDetails">
@@ -49,22 +50,36 @@
               <content>
                 <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <ScrollPane prefHeight="486.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                          <content>
-                            <AnchorPane fx:id="compitiPane" minHeight="0.0" minWidth="0.0" prefHeight="480.0" prefWidth="590.0" />
-                          </content>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox fx:id="compitiBox" prefHeight="480.0" prefWidth="585.0" />
+                           </content>
                         </ScrollPane>
                      </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="Verifiche">
               <content>
-                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
+                           <content>
+                              <VBox fx:id="verificheBox" prefHeight="480.0" prefWidth="585.0" />
+                           </content>
+                        </ScrollPane>
+                     </children></AnchorPane>
               </content>
             </Tab>
             <Tab text="Interrogazioni">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
+                           <content>
+                              <VBox fx:id="interrBox" prefHeight="480.0" prefWidth="585.0" />
+                           </content>
+                        </ScrollPane>
+                     </children></AnchorPane>
                </content>
             </Tab>
             <Tab text="Allegato file">
