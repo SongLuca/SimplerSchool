@@ -135,7 +135,8 @@ public class ControllerInsertTask {
 		if(selectedFiles != null) {
 			for (File f : selectedFiles) {
 				removeFilesBtn.setDisable(false);
-				fileListView.getItems().add(f);
+				if(!fileListView.getItems().contains(f))
+					fileListView.getItems().add(f);
 			}
 		}
 	}
