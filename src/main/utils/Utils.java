@@ -7,6 +7,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Properties;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -37,6 +38,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.application.models.Config;
+import main.application.models.MetaData;
+import main.application.models.OrarioSettimanale;
+import main.application.models.SchoolTask;
 
 public class Utils {
 	private static String config = "src/main/resources/config/config.properties";
@@ -242,6 +246,18 @@ public class Utils {
 		content.setActions(button);
 	    dialog.show();
 	    pane.setEffect(bb);
+	}
+	
+	
+	/* Questo metodo serve per controllare e validare le attivita'
+	 * se la materia di un'attivita' viene spostata oppure rimossa 
+	 * nell'orario settimanale tale attivita' viene considerata 
+	 * invalida e quindi viene rimossa dal database
+	 */ 
+	public static boolean checkInvalidTasks(ArrayList<SchoolTask> attivita) {
+		OrarioSettimanale os = MetaData.os;
+		os.toString();
+		return false;
 	}
 	
 	public static boolean charArrayContains(char[] chars, char letter) {
