@@ -1,5 +1,7 @@
 package main.controllers;
 
+import java.util.LinkedHashMap;
+
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import animatefx.animation.FadeOutRight;
@@ -15,6 +17,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.application.customGUI.ConfirmDialog;
+import main.application.models.Allegato;
 import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
@@ -23,7 +26,6 @@ import main.utils.Effect;
 import main.utils.Utils;
 
 public class attivitaBoxController {
-
 	@FXML
 	private Label materiaLbl;
 
@@ -41,9 +43,9 @@ public class attivitaBoxController {
 
 	@FXML
 	private TitledPane Box;
-	
+
 	private int idTask;
-	
+
 	public void initialize() {
 
 	}
@@ -53,18 +55,18 @@ public class attivitaBoxController {
 	}
 
 	public void setMateria(String materia) {
-		materiaLbl.setText("Materia: "+materia);
+		materiaLbl.setText("Materia: " + materia);
 	}
 
 	public void setCommento(String commento) {
 		comment.setText(commento);
 	}
-	
+
 	public void setAllInfo(SchoolTask task) {
-		materiaLbl.setText("Materia: "+task.getMateria());
+		materiaLbl.setText("Materia: " + task.getMateria());
 		comment.setText(task.getComment());
 	}
-	
+
 	@FXML
 	void edit(MouseEvent e) {
 		Console.print("Opening edit task " + idTask + " window", "gui");
@@ -74,7 +76,7 @@ public class attivitaBoxController {
 		cit.setMode("edit");
 		cit.setIdTask(idTask);
 		cit.setTaskBoxController(this);
-		if(!cit.loadEditTask())
+		if (!cit.loadEditTask())
 			Console.print("Error! Invalid task id!", "ERROR");
 	}
 
@@ -108,7 +110,19 @@ public class attivitaBoxController {
 	}
 
 	@FXML
-	void showFileList(MouseEvent event) {
+	void showFileList(MouseEvent e) {
+		LinkedHashMap<String, Allegato> allegati = DataBaseHandler.getInstance().getAttivita(idTask).getAllegati();
+		if (allegati.isEmpty()) {
+			StackPane stack = (StackPane) contentPane.getScene().lookup("#stackPane");
+			AnchorPane anchor = (AnchorPane) contentPane.getScene().lookup("#detailsPane");
+			Utils.popUpDialog(stack, anchor, "Message", "There are no files to show");
+		} else {
+			Console.print("Opening file list view of task " + idTask + " window", "gui");
+			ControllerFileView cfv = (ControllerFileView) Utils.loadWindow("fileViewFXML",
+					(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+			cfv.setFileList(allegati);
+			cfv.populateListView();
+		}
 
 	}
 
