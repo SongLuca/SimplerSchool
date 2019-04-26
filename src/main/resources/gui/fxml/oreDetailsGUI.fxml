@@ -16,7 +16,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOreDetails">
    <children>
       <AnchorPane fx:id="detailsPane" prefHeight="600.0" prefWidth="600.0">
@@ -49,7 +48,7 @@
                   </HBox>
                </children>
             </HBox>
-            <JFXTabPane layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <JFXTabPane fx:id="tabPane" layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                <tabs>
                   <Tab text="Compiti">
                     <content>
@@ -107,6 +106,13 @@
             </JFXTabPane>
             <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="550.0">
                <children>
+                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="457.0">
+                     <children>
+                        <JFXButton onMouseClicked="#newTask" prefHeight="30.0" prefWidth="100.0" text="New task..." />
+                        <JFXButton onMouseClicked="#expandAll" prefHeight="30.0" prefWidth="100.0" text="Expand all" />
+                        <JFXButton onMouseClicked="#collapseAll" prefHeight="30.0" prefWidth="100.0" text="Collapse all" />
+                     </children>
+                  </HBox>
                   <JFXButton onMouseClicked="#close" prefHeight="30.0" prefWidth="60.0" text="Close" />
                </children>
                <padding>

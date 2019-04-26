@@ -153,15 +153,9 @@ public class ControllerMain {
 			hamMenu.setPadding(new Insets(0, 0, 0, 0));
 
 			menuVBox.setPrefSize(menuVBox.getPrefWidth() - HAMMENUSIZE, menuVBox.getPrefHeight());
-
 			settingsButton.setPrefSize(settingsButton.getPrefWidth() - HAMMENUSIZE, settingsButton.getPrefHeight());
-			//settingsButton.setText("");
-
 			profileButton.setPrefSize(profileButton.getPrefWidth() - HAMMENUSIZE, profileButton.getPrefHeight());
-			//profileButton.setText("");
-
 			closeButton.setPrefSize(closeButton.getPrefWidth() - HAMMENUSIZE, closeButton.getPrefHeight());
-			//closeButton.setText("");
 
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE, false);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() - HAMMENUSIZE, false);
@@ -170,21 +164,12 @@ public class ControllerMain {
 			hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
 
 			menuVBox.setPrefSize(menuVBox.getPrefWidth() + HAMMENUSIZE, menuVBox.getPrefHeight());
-
 			settingsButton.setPrefSize(settingsButton.getPrefWidth() + HAMMENUSIZE, settingsButton.getPrefHeight());
-			//settingsButton.setText("Settings");
-
 			profileButton.setPrefSize(profileButton.getPrefWidth() + HAMMENUSIZE, profileButton.getPrefHeight());
-			//profileButton.setText("Profile");
-
 			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
-			//closeButton.setText("Log out");
 
 			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE, true);
 			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE, true);
-			//settingsButton.setText("Settings");
-			//profileButton.setText("Profile");
-			//closeButton.setText("Log out");
 		}
 		// new Wobble(avatar).play();
 	}
@@ -509,6 +494,7 @@ public class ControllerMain {
 		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML", 
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
 		cod.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
+		cod.setDate(data);
 	}
 
 	public void hamMenuAnimation(Pane pane, double width, boolean expand) {

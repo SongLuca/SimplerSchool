@@ -77,6 +77,9 @@ public class ControllerInsertTask {
 	private JFXButton cancelBtn;
 	
 	@FXML
+	private JFXButton oggiBtn;
+	
+	@FXML
 	private Label countLbl;
 	
 	private HashMap<Integer,Materia> materie;
@@ -91,10 +94,13 @@ public class ControllerInsertTask {
 	
 	private attivitaBoxController boxController;
 	
+	private boolean fixedMateria;
+	
 	public void initialize() {
 		allegati = new LinkedHashMap<String,Allegato>();
 		this.idTask = 0 ;
 		materie = DataBaseHandler.getInstance().getMaterie();
+		fixedMateria = false;
 		initTitleBox();
 		initComponents();
 	}
@@ -119,6 +125,21 @@ public class ControllerInsertTask {
 	
 	public void setTaskBoxController(attivitaBoxController boxController) {
 		this.boxController = boxController;
+	}
+	
+	public void setMateriaBox(String materia) {
+		materiaBox.getSelectionModel().select(materia);
+		materiaBox.setDisable(true);
+	}
+	
+	public void setDatePicker(LocalDate date) {
+		datePicker.setValue(date);
+		datePicker.setDisable(true);
+		oggiBtn.setDisable(true);
+	}
+	
+	public void fixedMateria() {
+		fixedMateria = true;
 	}
 	
 	public boolean loadEditTask() {
@@ -173,10 +194,16 @@ public class ControllerInsertTask {
 	}
 	
 	public void resetFields() {
-		tipoBox.getSelectionModel().clearSelection();
-		materiaBox.getSelectionModel().clearSelection();
-		commento.clear();
-		fileListView.getItems().clear();
+		if(fixedMateria) {
+			commento.clear();
+			fileListView.getItems().clear();
+		}
+		else {
+			tipoBox.getSelectionModel().clearSelection();
+			materiaBox.getSelectionModel().clearSelection();
+			commento.clear();
+			fileListView.getItems().clear();
+		}
 	}
 	
 	@FXML
@@ -294,7 +321,6 @@ public class ControllerInsertTask {
 		return true;
 	}
 
-	
 	public boolean validateDateMateria() {
 		int day = datePicker.getValue().getDayOfWeek().getValue();
 		OrarioSettimanale os = MetaData.os;
@@ -323,16 +349,22 @@ public class ControllerInsertTask {
 			if (insertSTTask.getValue()) {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "New task inserted");
 				resetFields();
-				LocalDate data = task.getData();
-				if(data.isBefore(MetaData.cm.getSelectedDate().with(DayOfWeek.MONDAY)) || 
-						data.isAfter(MetaData.cm.getSelectedDate().with(DayOfWeek.SUNDAY))) {
-					Console.print("Input task does not belong to this week", "");
+				if(!fixedMateria) {
+					LocalDate data = task.getData();
+					if(data.isBefore(MetaData.cm.getSelectedDate().with(DayOfWeek.MONDAY)) || 
+							data.isAfter(MetaData.cm.getSelectedDate().with(DayOfWeek.SUNDAY))) {
+						Console.print("Input task does not belong to this week", "");
+					}
+					else {
+						Console.print("Input task belongs to this week", "");
+						MetaData.cm.loadNoteBoard();
+					}
 				}
 				else {
-					Console.print("Input task belongs to this week", "");
+					MetaData.cod.reloadAttivita();
+					MetaData.cod.populatePanes();
 					MetaData.cm.loadNoteBoard();
 				}
-				
 			} else {
 				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
 				insertPane.setDisable(false);
@@ -341,7 +373,6 @@ public class ControllerInsertTask {
 
 		new Thread(insertSTTask).start();
 	}
-	
 	
 	public void updateTask(SchoolTask task, List<Allegato> added, List<Allegato> removed) {
 		Task<Boolean> updateTask = new Task<Boolean>() {

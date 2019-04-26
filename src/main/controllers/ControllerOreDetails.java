@@ -3,14 +3,19 @@ package main.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
+import com.jfoenix.controls.JFXTabPane;
+
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -38,7 +43,10 @@ public class ControllerOreDetails {
 
 	@FXML
 	private JFXSpinner loading;
-
+	
+	@FXML
+    private JFXTabPane tabPane;
+	
 	private ArrayList<SchoolTask> attivita;
 
 	private int compitiCount;
@@ -50,9 +58,12 @@ public class ControllerOreDetails {
 	private int allegatoCount;
 
 	private String materia;
-
+	
+	private LocalDate data;
+	
 	public void initialize() {
 		attivita = DataBaseHandler.getInstance().getAttivita();
+		MetaData.cod = this;
 		setMateria(MetaData.materiaSelected);
 		initTitleBox();
 		populatePanes();
@@ -61,17 +72,29 @@ public class ControllerOreDetails {
 	public void setMateria(String materia) {
 		this.materia = materia;
 	}
-	
+
 	public void setTitle(String title) {
 		this.title.setText(title);
 	}
 	
+	public void setDate(LocalDate data) {
+		this.data = data;
+	}
+	
+	public void reloadAttivita() {
+		attivita = DataBaseHandler.getInstance().getAttivita();
+	}
+	
 	public void populatePanes() {
-		Console.print(attivita.toString(), "");
 		if (attivita != null) {
+			Console.print("populatePanes", "");
 			this.compitiCount = 0;
 			this.verificheCount = 0;
 			this.interrCount = 0;
+			compitiBox.getChildren().clear();
+			verificheBox.getChildren().clear();
+			interrBox.getChildren().clear();
+			allegatoBox.getChildren().clear();
 			for (SchoolTask task : attivita) {
 				if (task.getMateria().equalsIgnoreCase(materia)) {
 					if (task.getTipo().equalsIgnoreCase("Compito")) {
@@ -117,11 +140,74 @@ public class ControllerOreDetails {
 			TitledPane content = fxmlLoader.load();
 			content.setText("N." + count);
 			pane.getChildren().add(content);
-			return (attivitaBoxController)fxmlLoader.getController();
+			return (attivitaBoxController) fxmlLoader.getController();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		return null;
+	}
+	
+	public void setExpandTitlePanes(boolean expand, VBox box) {
+		for (Node component : box.getChildren()) {
+			if (component instanceof TitledPane) {
+				TitledPane pane = (TitledPane) component;
+				pane.setExpanded(expand);
+			}
+		}
+	}
+	
+	@FXML
+	void collapseAll(MouseEvent event) {
+		switch(tabPane.getSelectionModel().getSelectedItem().getText()) {
+			case "Compiti":
+				setExpandTitlePanes(false,compitiBox);
+				break;
+			case "Verifiche":
+				setExpandTitlePanes(false,verificheBox);
+				break;
+			case "Interrogazioni":
+				setExpandTitlePanes(false,interrBox);
+				break;
+			case "Allegato file":
+				setExpandTitlePanes(false,allegatoBox);
+				break;
+			default:
+				Console.print("Error! undefined tab!", "Error");
+				break;
+		}
+	}
+		
+	@FXML
+	void expandAll(MouseEvent event) {
+		switch(tabPane.getSelectionModel().getSelectedItem().getText()) {
+		case "Compiti":
+			setExpandTitlePanes(true,compitiBox);
+			break;
+		case "Verifiche":
+			setExpandTitlePanes(true,verificheBox);
+			break;
+		case "Interrogazioni":
+			setExpandTitlePanes(true,interrBox);
+			break;
+		case "Allegato file":
+			setExpandTitlePanes(true,allegatoBox);
+			break;
+		default:
+			Console.print("Error! undefined tab!", "Error");
+			break;
+		}
+	}
+
+	@FXML
+	void newTask(MouseEvent e) {
+		Console.print("Opening insert window materia: " + materia, "gui");
+		ControllerInsertTask cit = (ControllerInsertTask)Utils.loadWindow("insertTaskFXML", 
+				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+		cit.setTitle("Inserimento attivita");
+		cit.setMode("insert");
+		cit.setMateriaBox(materia);
+		cit.setDatePicker(data);
+		cit.fixedMateria();
 	}
 
 	@FXML

@@ -62,7 +62,7 @@
                            <children>
                               <Label prefHeight="30.0" prefWidth="40.0" text="Data" />
                               <JFXDatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="175.0" />
-                              <JFXButton onMouseClicked="#setToToday" prefHeight="23.0" prefWidth="64.0" text="Oggi" />
+                              <JFXButton fx:id="oggiBtn" onMouseClicked="#setToToday" prefHeight="23.0" prefWidth="64.0" text="Oggi" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">

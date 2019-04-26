@@ -17,7 +17,7 @@
          <children>
             <VBox layoutY="6.0" prefHeight="190.0" prefWidth="590.0">
                <children>
-                  <Label fx:id="materiaLbl" prefHeight="36.0" prefWidth="140.0" text="Materia: " />
+                  <Label fx:id="materiaLbl" prefHeight="36.0" prefWidth="500.0" text="Materia: " />
                   <Label prefHeight="36.0" prefWidth="140.0" text="Commento:" />
                   <JFXTextArea fx:id="comment" editable="false" prefHeight="100.0" prefWidth="550.0" />
                </children>
