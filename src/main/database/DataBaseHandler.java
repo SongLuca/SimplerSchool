@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
-
 import org.apache.commons.io.FileUtils;
 import com.mysql.jdbc.Statement;
 import java.sql.PreparedStatement;
@@ -564,6 +563,7 @@ public class DataBaseHandler {
 			stmt.setInt(1, task.getIdTask());
 			stmt.setInt(2, Main.utente.getUserid());
 			stmt.execute();
+			getAttivitaS(LocalDate.now());
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");

@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.application.customGUI.ConfirmDialog;
+import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
@@ -140,7 +141,7 @@ public class attivitaBoxController {
 					renameCounts(box);
 				});
 				animation.play();
-
+				MetaData.cm.loadNoteBoard();
 			} else {
 				Utils.popUpDialog(stack, anchor, "Error", DataBaseHandler.getInstance().getMsg());
 				anchor.setDisable(false);

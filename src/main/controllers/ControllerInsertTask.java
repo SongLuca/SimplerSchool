@@ -293,7 +293,7 @@ public class ControllerInsertTask {
 		
 		return true;
 	}
-	
+
 	
 	public boolean validateDateMateria() {
 		int day = datePicker.getValue().getDayOfWeek().getValue();
@@ -366,7 +366,7 @@ public class ControllerInsertTask {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "Task has been updated!");
 				loadEditTask();
 				this.boxController.setAllInfo(editTask);
-				Console.print(editTask.getAllegati()+"", "");
+				MetaData.cm.loadNoteBoard();
 			} else {
 				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
 				insertPane.setDisable(false);

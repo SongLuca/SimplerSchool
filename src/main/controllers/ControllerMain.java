@@ -155,16 +155,16 @@ public class ControllerMain {
 			menuVBox.setPrefSize(menuVBox.getPrefWidth() - HAMMENUSIZE, menuVBox.getPrefHeight());
 
 			settingsButton.setPrefSize(settingsButton.getPrefWidth() - HAMMENUSIZE, settingsButton.getPrefHeight());
-			settingsButton.setText("");
+			//settingsButton.setText("");
 
 			profileButton.setPrefSize(profileButton.getPrefWidth() - HAMMENUSIZE, profileButton.getPrefHeight());
-			profileButton.setText("");
+			//profileButton.setText("");
 
 			closeButton.setPrefSize(closeButton.getPrefWidth() - HAMMENUSIZE, closeButton.getPrefHeight());
-			closeButton.setText("");
+			//closeButton.setText("");
 
-			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE);
-			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() - HAMMENUSIZE);
+			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE, false);
+			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() - HAMMENUSIZE, false);
 		} else if (menuPane.getPrefWidth() == 70) {
 			hamMenu.setPrefSize(hamMenu.getPrefWidth() + HAMMENUSIZE, hamMenu.getPrefHeight());
 			hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
@@ -172,19 +172,19 @@ public class ControllerMain {
 			menuVBox.setPrefSize(menuVBox.getPrefWidth() + HAMMENUSIZE, menuVBox.getPrefHeight());
 
 			settingsButton.setPrefSize(settingsButton.getPrefWidth() + HAMMENUSIZE, settingsButton.getPrefHeight());
-			// settingsButton.setText("Settings");
+			//settingsButton.setText("Settings");
 
 			profileButton.setPrefSize(profileButton.getPrefWidth() + HAMMENUSIZE, profileButton.getPrefHeight());
-			// profileButton.setText("Profile");
+			//profileButton.setText("Profile");
 
 			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
-			// closeButton.setText("Log out");
+			//closeButton.setText("Log out");
 
-			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE);
-			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE);
-			settingsButton.setText("Settings");
-			profileButton.setText("Profile");
-			closeButton.setText("Log out");
+			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE, true);
+			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE, true);
+			//settingsButton.setText("Settings");
+			//profileButton.setText("Profile");
+			//closeButton.setText("Log out");
 		}
 		// new Wobble(avatar).play();
 	}
@@ -511,7 +511,7 @@ public class ControllerMain {
 		cod.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
 	}
 
-	public void hamMenuAnimation(Pane pane, double width) {
+	public void hamMenuAnimation(Pane pane, double width, boolean expand) {
 		hamMenu.setDisable(true);
 		Timeline timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200),
@@ -519,6 +519,16 @@ public class ControllerMain {
 		timeline.play();
 		timeline.setOnFinished(event -> {
 			hamMenu.setDisable(false);
+			if (expand) {
+				settingsButton.setText("Settings");
+				profileButton.setText("Profile");
+				closeButton.setText("Log out");
+			}
+			else {
+				settingsButton.setText("");
+				profileButton.setText("");
+				closeButton.setText("");
+			}
 		});
 	}
 
