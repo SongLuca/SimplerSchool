@@ -22,7 +22,7 @@ public class SchoolTask {
 		this.tipo = tipo;
 		this.comment = comment;
 		this.materia = materia;
-		this.allegati = null;
+		this.allegati = new LinkedHashMap<String,Allegato>();
 	}
 	
 	public SchoolTask(LocalDate data, String tipo, String materia, String comment, LinkedHashMap<String,Allegato> allegati) {
@@ -38,7 +38,7 @@ public class SchoolTask {
 		this.tipo = tipo;
 		this.comment = comment;
 		this.materia = materia;
-		this.allegati = null;
+		this.allegati = new LinkedHashMap<String,Allegato>();
 	}
 	
 	public void addFile(Allegato a) {

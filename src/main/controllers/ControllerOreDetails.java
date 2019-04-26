@@ -18,6 +18,7 @@ import main.application.models.Config;
 import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 import javafx.scene.control.TitledPane;
@@ -66,6 +67,7 @@ public class ControllerOreDetails {
 	}
 	
 	public void populatePanes() {
+		Console.print(attivita.toString(), "");
 		if (attivita != null) {
 			this.compitiCount = 0;
 			this.verificheCount = 0;

@@ -8,9 +8,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Properties;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
@@ -40,7 +37,6 @@ import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import main.application.models.Allegato;
 import main.application.models.Config;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
@@ -283,25 +279,6 @@ public class Utils {
 	    dialog.show();
 	    pane.setEffect(bb);
 	}
-	
-	public static List<String> detectRemoved(LinkedHashMap<String,Allegato> newM, LinkedHashMap<String,Allegato> oldM) {
-		List<String> removed = new LinkedList<String>();
-		for(String key : oldM.keySet())
-			if(!newM.containsKey(key))
-				removed.add(key);
-		Console.print("removed: " + removed.toString(),"");
-		return removed;
-	}
-	
-	public static List<String> detectAdded(LinkedHashMap<String,Allegato> newM, LinkedHashMap<String,Allegato> oldM) {
-		List<String> added = new LinkedList<String>();
-		for(String key : newM.keySet())
-			if(!oldM.containsKey(key))
-				added.add(key);
-		Console.print("added: " + added.toString(),"");
-		return added;
-	}
-	
 	
 	/* Questo metodo serve per controllare e validare le attivita'
 	 * se la materia di un'attivita' viene spostata oppure rimossa 

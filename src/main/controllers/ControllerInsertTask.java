@@ -5,6 +5,7 @@ import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
@@ -128,6 +129,7 @@ public class ControllerInsertTask {
 			materiaBox.getSelectionModel().select(editTask.getMateria());
 			commento.setText(editTask.getComment());
 			if(editTask.hasAllegato()) {
+				fileListView.getItems().clear();
 				removeFilesBtn.setDisable(false);
 				clearFileBtn.setDisable(false);
 				for(String file : editTask.getAllegati().keySet()) {
@@ -235,7 +237,6 @@ public class ControllerInsertTask {
 			}
 		}
 		else if(mode.contains("edit")) {
-			Console.print("edit", "");
 			if(validateInputs()) {
 				SchoolTask newTask;
 				if (fileListView.getItems().size() > 0) {
@@ -245,13 +246,17 @@ public class ControllerInsertTask {
 					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
 							materiaBox.getSelectionModel().getSelectedItem(),commento.getText());
 				}
-				if(newTask.equals(editTask)) 
-					Console.print("No changes detected", "");
+				newTask.setIdTask(idTask);
+				Console.print("new: "+newTask.getAllegati().toString(), "");
+				Console.print("edit: "+editTask.getAllegati().toString(), "");
+				if(!newTask.equals(editTask)) {
+					updateTask(newTask,
+							getAddedAllegati(newTask.getAllegati(), editTask.getAllegati()),
+							getRemoveAllegati(newTask.getAllegati(), editTask.getAllegati()));
+				}
 				else {
-					Console.print("Changes detected", "");
-					Utils.detectRemoved(newTask.getAllegati(), editTask.getAllegati());
-					Utils.detectAdded(newTask.getAllegati(), editTask.getAllegati());
-					//updateTask(newTask);
+					
+					Console.print("uguale", "");
 				}
 					
 			}
@@ -289,6 +294,7 @@ public class ControllerInsertTask {
 		return true;
 	}
 	
+	
 	public boolean validateDateMateria() {
 		int day = datePicker.getValue().getDayOfWeek().getValue();
 		OrarioSettimanale os = MetaData.os;
@@ -324,7 +330,6 @@ public class ControllerInsertTask {
 				}
 				else {
 					Console.print("Input task belongs to this week", "");
-					DataBaseHandler.getInstance().addAttivita(task);
 					MetaData.cm.loadNoteBoard();
 				}
 				
@@ -337,13 +342,14 @@ public class ControllerInsertTask {
 		new Thread(insertSTTask).start();
 	}
 	
-	public void updateTask(SchoolTask task) {
+	
+	public void updateTask(SchoolTask task, List<Allegato> added, List<Allegato> removed) {
 		Task<Boolean> updateTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				insertPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().updateTaskQuery(task);
+				return DataBaseHandler.getInstance().updateTaskQuery(task,added,removed);
 			}
 		};
 
@@ -358,8 +364,9 @@ public class ControllerInsertTask {
 			insertPane.setEffect(null);
 			if (updateTask.getValue()) {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "Task has been updated!");
-				this.editTask = task;
-				this.boxController.setAllInfo(task);
+				loadEditTask();
+				this.boxController.setAllInfo(editTask);
+				Console.print(editTask.getAllegati()+"", "");
 			} else {
 				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
 				insertPane.setDisable(false);
@@ -369,6 +376,27 @@ public class ControllerInsertTask {
 		new Thread(updateTask).start();
 	}
 	
+	public List<Allegato> getRemoveAllegati(LinkedHashMap<String,Allegato> newM, LinkedHashMap<String,Allegato> oldM) {
+		List<Allegato> removed = new LinkedList<Allegato>();
+		Console.print(oldM.toString(), "");
+		for(String key : oldM.keySet()) {
+			if(!newM.containsKey(key)) {
+				removed.add(new Allegato(oldM.get(key).getIdAllegato(), idTask, oldM.get(key).getFile()));
+			}
+				
+		}
+		return removed;
+	}
+	
+	public List<Allegato> getAddedAllegati(LinkedHashMap<String,Allegato> newM, LinkedHashMap<String,Allegato> oldM) {
+		List<Allegato> added = new LinkedList<Allegato>();
+		for(String key : newM.keySet()) {
+			if(!oldM.containsKey(key)) {
+				added.add(new Allegato(idTask, newM.get(key).getFile()));
+			}	
+		}
+		return added;
+	}
 	
 	public void cancel() {
 		WindowStyle.close((Stage) titleHBox.getScene().getWindow());
