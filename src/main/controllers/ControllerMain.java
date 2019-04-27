@@ -489,7 +489,7 @@ public class ControllerMain {
 	}
 
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
-		Console.print("Opening materia details window", "gui");
+		Console.print("Opening details window " + materia, "gui");
 		MetaData.materiaSelected = materia;
 		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML", 
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);

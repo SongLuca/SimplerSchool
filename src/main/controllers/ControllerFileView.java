@@ -1,13 +1,13 @@
 package main.controllers;
 
 import java.awt.Desktop;
+import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-
+import org.apache.commons.io.FileUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSpinner;
-
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -20,8 +20,10 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
 import javafx.scene.layout.StackPane;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import main.application.models.Allegato;
+import main.utils.Console;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -87,6 +89,22 @@ public class ControllerFileView {
 			btnImage.setFitWidth(15);
 			btnImage.setFitHeight(15);
 			btn.setGraphic(btnImage);
+			btn.setOnMouseClicked(e->{
+				DirectoryChooser chooser = new DirectoryChooser();
+				chooser.setTitle("Choose a directory to save the file");
+				File selectedDirectory = chooser.showDialog(hbox.getScene().getWindow());
+				if(selectedDirectory != null) {
+					File targetFile = allegati.get(label.getText()).getFile();
+					Console.print("Downloading " + targetFile.getName() + " to dir: " + selectedDirectory.getAbsolutePath(), "fileio");
+					try {
+						File dest = new File(selectedDirectory.getAbsolutePath()+"/"+label.getText());
+						FileUtils.copyFile(targetFile, dest);
+						Console.print("File saved in "+ dest.getAbsolutePath(), "fileio");
+					} catch (IOException ex) {
+						ex.printStackTrace();
+					}
+				}
+			});
 			hbox.getChildren().addAll(label, pane, btn);
 			HBox.setHgrow(pane, Priority.ALWAYS);
 		}

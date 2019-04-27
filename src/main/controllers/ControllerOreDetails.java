@@ -87,7 +87,7 @@ public class ControllerOreDetails {
 	
 	public void populatePanes() {
 		if (attivita != null) {
-			Console.print("populatePanes", "");
+			Console.print("Populating details pane", "gui");
 			this.compitiCount = 0;
 			this.verificheCount = 0;
 			this.interrCount = 0;
