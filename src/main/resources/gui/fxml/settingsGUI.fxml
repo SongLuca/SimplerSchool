@@ -106,14 +106,14 @@
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="139.0" text="Aggiungere, modificare e rimuovere orari settimanali" textAlignment="CENTER" wrapText="true" />
+                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare gli orari settimanali" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
                               </HBox>
                            </graphic>
                         </JFXButton>
-                        <JFXButton prefHeight="70.0" prefWidth="200.0">
+                        <JFXButton onMouseClicked="#openProfilo" prefHeight="70.0" prefWidth="200.0">
                            <graphic>
                               <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
                                  <children>
@@ -136,23 +136,46 @@
                               </HBox>
                            </graphic>
                         </JFXButton>
-                        <JFXButton prefHeight="70.0" prefWidth="200.0">
+                        <JFXButton onMouseClicked="#openMaterie" prefHeight="70.0" prefWidth="200.0">
                            <graphic>
                               <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
                                  <children>
                                     <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
                                        <image>
-                                          <Image url="@../../images/profile.png" />
+                                          <Image url="@../../images/materie.png" />
                                        </image>
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
+                                          <Label prefHeight="30.0" prefWidth="140.0" text=" Materie" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
+                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare la lista delle materie" textAlignment="CENTER" wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </JFXButton>
+                        <JFXButton onMouseClicked="#openDocenti" prefHeight="70.0" prefWidth="200.0">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
+                                 <children>
+                                    <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/professori.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
+                                       <children>
+                                          <Label prefHeight="30.0" prefWidth="140.0" text=" Docenti" wrapText="true">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare la lista dei docenti" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>

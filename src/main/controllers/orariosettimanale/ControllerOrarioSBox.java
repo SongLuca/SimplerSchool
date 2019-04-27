@@ -1,7 +1,6 @@
 package main.controllers.orariosettimanale;
 
 import com.jfoenix.controls.JFXButton;
-
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -29,7 +28,7 @@ public class ControllerOrarioSBox {
     @FXML
     private MenuItem delete;
     
-    public void initializa() {
+    public void initialize() {
     	
     }
     

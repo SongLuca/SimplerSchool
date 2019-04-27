@@ -3,6 +3,7 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXMasonryPane?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
@@ -13,28 +14,71 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="subContentPane" minHeight="685.0" minWidth="900.0" prefHeight="685.0" prefWidth="900.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOrarioS">
+<AnchorPane fx:id="subContentPane" minHeight="685.0" minWidth="900.0" prefHeight="685.0" prefWidth="900.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOrarioS">
    <children>
       <Pane layoutY="11.0" prefHeight="95.0" prefWidth="900.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
-            <VBox alignment="CENTER" prefHeight="95.0" prefWidth="140.0" spacing="10.0">
+            <HBox spacing="5.0">
                <children>
-                  <JFXButton onMouseClicked="#openMaterie" prefHeight="30.0" prefWidth="100.0" text="Materie" />
-                  <JFXButton prefHeight="30.0" prefWidth="100.0" text="Professori" />
+                  <JFXButton contentDisplay="TOP" onMouseClicked="#openMaterie" prefHeight="60.0" prefWidth="60.0" text="Materie">
+                     <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/materie.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton contentDisplay="TOP" prefHeight="60.0" prefWidth="60.0" text="Docenti">
+                     <graphic>
+                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/professori.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="saveButton" contentDisplay="TOP" prefHeight="30.0" prefWidth="100.0" text="Save...">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/save.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="deleteButton" contentDisplay="TOP" prefHeight="30.0" prefWidth="100.0" text="Delete...">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/deleteC.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="backButton" contentDisplay="TOP" prefHeight="30.0" prefWidth="100.0" text="Back...">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/backC.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
+                  <JFXButton fx:id="clearButton" contentDisplay="TOP" prefHeight="30.0" prefWidth="100.0" text="Clear...">
+                     <graphic>
+                        <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">
+                           <image>
+                              <Image url="@../../images/clear.png" />
+                           </image>
+                        </ImageView>
+                     </graphic>
+                  </JFXButton>
                </children>
-            </VBox>
-            <VBox alignment="CENTER" layoutX="140.0" prefHeight="95.0" prefWidth="140.0" spacing="10.0">
-               <children>
-                  <JFXButton fx:id="saveButton" prefHeight="30.0" prefWidth="100.0" text="Save..." />
-                  <JFXButton fx:id="deleteButton" prefHeight="30.0" prefWidth="100.0" text="Delete..." />
-               </children>
-            </VBox>
-            <VBox alignment="CENTER" layoutX="280.0" prefHeight="95.0" prefWidth="140.0" spacing="10.0">
-               <children>
-                  <JFXButton fx:id="backButton" prefHeight="30.0" prefWidth="100.0" text="Back..." />
-                  <JFXButton fx:id="clearButton" prefHeight="30.0" prefWidth="100.0" text="Clear..." />
-               </children>
-            </VBox>
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </HBox>
          </children>
       </Pane>
       <AnchorPane layoutY="110.0" prefHeight="575.0" prefWidth="900.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="5.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="105.0">

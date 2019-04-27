@@ -16,8 +16,6 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -44,6 +42,9 @@ public class ControllerMaterie {
 	@FXML
 	private HBox subjectBox;
 	
+	@FXML
+	private HBox titleHBox;
+	
 	private HashMap<Integer, Materia> materie;
 	
 	private List<Integer> toRemove;
@@ -55,7 +56,6 @@ public class ControllerMaterie {
 		materie = DataBaseHandler.getInstance().getMaterie();
 		Console.print("Opening materie gui","gui");
 		initMaterieBox();
-		initTitleBox();
 	}
 	
 	public void apply() {
@@ -218,31 +218,4 @@ public class ControllerMaterie {
 		}
 	}
 
-	/*********** Custom Window title bar ************/
-	@FXML
-	private HBox titleHBox;
-
-	@FXML
-	private Label title;
-
-	@FXML
-	private JFXButton titleCloseButton;
-
-	@FXML
-	private ImageView titleCloseImage;
-
-	public void initTitleBox() {
-		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
-			titleCloseImage.setImage(new Image(img));
-		});
-		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
-			titleCloseImage.setImage(new Image(img));
-		});
-		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) titleHBox.getScene().getWindow());
-		});
-	}
-	/***********************************************/
 }

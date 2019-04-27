@@ -81,9 +81,9 @@ public class ControllerOrarioS {
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	
 	public void initialize() {
-		setDisableFuncBtns(true);
+		Console.print("init cos", "");
+		setOSButtonVisible(false);
 		initOSList();
-		
 		clearButton.setOnMouseClicked(e -> {
 			initOSCalendarGrid();
 			os = new OrarioSettimanale(os.getNomeOrario());
@@ -95,7 +95,7 @@ public class ControllerOrarioS {
 			MetaData.os = null;
 			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
-			setDisableFuncBtns(false);
+			setOSButtonVisible(false);
 			initOSList();
 			new FadeIn(calendarioPane).play();
 			subContentPane.requestFocus();
@@ -114,7 +114,7 @@ public class ControllerOrarioS {
 		
 			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
-			setDisableFuncBtns(false);
+			setOSButtonVisible(false);
 			new FadeIn(calendarioPane).play();
 		});
 
@@ -170,6 +170,7 @@ public class ControllerOrarioS {
 				c.setNome(orariS.get(key).getNomeOrario());
 				c.setOpenAction(e->{
 					loadCalendar(orariS.get(key).getNomeOrario());
+					setOSButtonVisible(true);
 				});
 				c.setDeleteAction(e->{
 					Stage owner = (Stage)calendarioPane.getScene().getWindow();
@@ -202,7 +203,7 @@ public class ControllerOrarioS {
 	}
 	
 	public void loadCalendar(String nomeOS) {
-		setDisableFuncBtns(false);
+		setOSButtonVisible(false);
 		calendarioPane.setVisible(false);
 		os = getOSByNome(nomeOS);
 		MetaData.os = this.os;
@@ -216,7 +217,7 @@ public class ControllerOrarioS {
 	}
 	
 	public void initCalendar(String nomeOS) {
-		setDisableFuncBtns(false);
+		setOSButtonVisible(false);
 		calendarioPane.setVisible(false);
 		initOSCalendarWeekDayHeader();
 		initOSCalendarGrid();
@@ -237,11 +238,11 @@ public class ControllerOrarioS {
 		subContentPane.requestFocus();
 	}
 	
-	public void setDisableFuncBtns(boolean value) {
-		saveButton.setDisable(value);
-		deleteButton.setDisable(value);
-		backButton.setDisable(value);
-		clearButton.setDisable(value);
+	public void setOSButtonVisible(boolean visible) {
+		saveButton.setVisible(visible);
+		deleteButton.setVisible(visible);
+		backButton.setVisible(visible);
+		clearButton.setVisible(visible);
 	}
 	
 	public void reRenderCalendario() {

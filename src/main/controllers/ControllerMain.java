@@ -249,6 +249,7 @@ public class ControllerMain {
 			noteBoard.appendText(compito);
 			noteBoard.appendText(interrogazione);
 		}
+		noteBoard.positionCaret(0);
 	}
 
 	@FXML
@@ -499,6 +500,11 @@ public class ControllerMain {
 
 	public void hamMenuAnimation(Pane pane, double width, boolean expand) {
 		hamMenu.setDisable(true);
+		if(!expand) {
+			settingsButton.setText("");
+			profileButton.setText("");
+			closeButton.setText("");
+		}
 		Timeline timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200),
 				new KeyValue(pane.prefWidthProperty(), width, Interpolator.EASE_BOTH)));
@@ -509,11 +515,6 @@ public class ControllerMain {
 				settingsButton.setText("Settings");
 				profileButton.setText("Profile");
 				closeButton.setText("Log out");
-			}
-			else {
-				settingsButton.setText("");
-				profileButton.setText("");
-				closeButton.setText("");
 			}
 		});
 	}
