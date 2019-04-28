@@ -110,7 +110,6 @@ public class ControllerSettings {
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "materieFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
-			((ControllerMaterie)fxmlLoader.getController()).setIfFromOS(false);
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
 			title.setText("Settings - Materie");

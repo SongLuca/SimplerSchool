@@ -2,6 +2,7 @@ package main.application.models;
 
 import javafx.scene.layout.GridPane;
 import main.controllers.ControllerMain;
+import main.controllers.ControllerMaterie;
 import main.controllers.ControllerOreDetails;
 
 public class MetaData {
@@ -15,4 +16,5 @@ public class MetaData {
 	public static ControllerMain cm;
 	public static String materiaSelected;
 	public static ControllerOreDetails cod;
+	public static ControllerMaterie cmat;
 }

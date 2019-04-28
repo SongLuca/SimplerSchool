@@ -42,7 +42,7 @@ public class DataBaseHandler {
 	private static DataBaseHandler DataBaseHandler = null;
 	private String msg;
 	private String passHash;
-	private HashMap<Integer, Materia> materie;
+	private ArrayList<Materia> materie;
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	private ArrayList<SchoolTask> attivita;
 	static String mySqlConnClass = "com.mysql.jdbc.Driver";
@@ -59,8 +59,8 @@ public class DataBaseHandler {
 		return DataBaseHandler;
 	}
 
-	public HashMap<Integer, Materia> getMaterie() {
-		return new HashMap<Integer, Materia>(materie);
+	public ArrayList<Materia> getMaterie() {
+		return materie;
 	}
 
 	public HashMap<Integer, OrarioSettimanale> getOS() {
@@ -335,11 +335,10 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	public boolean updateMateriaTable(HashMap<Integer, Materia> materieNuove) {
+	public boolean updateMateriaTable(ArrayList<Materia> materie) {
 		Console.print("Update materie table", "db");
 		Connection conn = openConn();
-		for (int key : materieNuove.keySet()) {
-			Materia m = materieNuove.get(key);
+		for (Materia m : materie) {
 			switch (m.getStato()) {
 			case "insert": // inserimento della nuova materia
 				Console.print("Inserting materia " + m.getNome(), "db");
@@ -360,6 +359,7 @@ public class DataBaseHandler {
 				throw new IllegalArgumentException("Stato invalido nella materia " + m.getId());
 			}
 		}
+		runGetMaterieQuery();
 		this.closeConn(conn);
 		return true;
 	}
@@ -757,7 +757,7 @@ public class DataBaseHandler {
 	}
 
 	public boolean rsToMaterie(ResultSet rs) {
-		materie = new HashMap<Integer, Materia>();
+		materie = new ArrayList<Materia>();
 		Materia ma;
 		try {
 			while (rs.next()) {
@@ -766,7 +766,7 @@ public class DataBaseHandler {
 				ma.setNome(rs.getString("nome"));
 				ma.setColore(rs.getString("color"));
 				ma.setStato("fresh");
-				materie.put(ma.getId(), ma);
+				materie.add(ma);
 			}
 		} catch (SQLException e) {
 			Console.print("Failed to retrive resultset" + e.getMessage(), "db");

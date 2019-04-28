@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -42,11 +43,12 @@
             </JFXButton>
          </children>
       </HBox>
-      <ScrollPane hbarPolicy="NEVER" layoutY="102.0" pannable="true" prefHeight="475.0" prefWidth="610.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="102.0">
+      <ScrollPane hbarPolicy="NEVER" layoutY="102.0" pannable="true" prefHeight="460.0" prefWidth="610.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="102.0">
          <content>
-            <VBox fx:id="materieBox" alignment="TOP_CENTER" prefHeight="464.0" prefWidth="620.0" spacing="3.0" />
+            <VBox fx:id="materieBox" alignment="TOP_CENTER" prefHeight="450.0" prefWidth="620.0" spacing="3.0" />
          </content>
       </ScrollPane>
       <JFXSpinner fx:id="loading" layoutX="285.0" layoutY="200.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
+      <Label layoutX="20.0" layoutY="566.0" prefHeight="30.0" text="*Subject with empty will be removed" />
    </children>
 </AnchorPane>

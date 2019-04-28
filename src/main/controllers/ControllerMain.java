@@ -402,10 +402,10 @@ public class ControllerMain {
 	}
 
 	public Materia getMateriaByNome(String nome) {
-		HashMap<Integer, Materia> materie = DataBaseHandler.getInstance().getMaterie();
-		for (int key : materie.keySet()) {
-			if (materie.get(key).getNome().equals(nome))
-				return materie.get(key);
+		ArrayList<Materia> materie = DataBaseHandler.getInstance().getMaterie();
+		for (Materia m : materie) {
+			if (m.getNome().equals(nome))
+				return m;
 		}
 		return null;
 	}

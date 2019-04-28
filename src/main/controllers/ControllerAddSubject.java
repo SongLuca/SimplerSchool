@@ -1,6 +1,6 @@
 package main.controllers;
 
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.fxml.FXML;
@@ -27,7 +27,7 @@ public class ControllerAddSubject {
 	@FXML
 	private JFXComboBox<String> prof2Box;
 	
-	private HashMap<Integer, Materia> materie;
+	private ArrayList<Materia> materie;
 	
 	@FXML
 	void cancel(MouseEvent event) {
@@ -134,9 +134,9 @@ public class ControllerAddSubject {
 	}
 	
 	public Materia getMateriaByNome(String nome) {
-		for(int key : materie.keySet()) {
-			if(materie.get(key).getNome().equals(nome))
-				return materie.get(key);
+		for(Materia m : materie) {
+			if(m.getNome().equals(nome))
+				return m;
 		}
 		return null;
 	}
@@ -145,10 +145,10 @@ public class ControllerAddSubject {
 		materiaBox.getItems().add("null");
 		if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals("null"))
 			materiaBox.getSelectionModel().selectFirst();
-		for(int key : materie.keySet()) {
-			materiaBox.getItems().add(materie.get(key).getNome());
-			if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals(materie.get(key).getNome()))
-				materiaBox.getSelectionModel().select(materie.get(key).getNome());
+		for(Materia m : materie) {
+			materiaBox.getItems().add(m.getNome());
+			if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals(m.getNome()))
+				materiaBox.getSelectionModel().select(m.getNome());
 		}
 	}
 	

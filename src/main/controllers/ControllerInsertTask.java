@@ -3,7 +3,7 @@ package main.controllers;
 import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -82,7 +82,7 @@ public class ControllerInsertTask {
 	@FXML
 	private Label countLbl;
 	
-	private HashMap<Integer,Materia> materie;
+	private ArrayList<Materia> materie;
 	
 	private LinkedHashMap<String,Allegato> allegati;
 	
@@ -170,8 +170,8 @@ public class ControllerInsertTask {
 			cancel();
 		});
 		
-		for(int key : materie.keySet()) {
-			materiaBox.getItems().add(materie.get(key).getNome());
+		for(Materia m: materie) {
+			materiaBox.getItems().add(m.getNome());
 		}
 		datePicker.setValue(LocalDate.now());
 		

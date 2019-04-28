@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
@@ -13,6 +12,7 @@ import animatefx.animation.FadeIn;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Node;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -43,16 +43,20 @@ public class ControllerMaterie {
 	@FXML
 	private JFXSpinner loading;
 
-	private HashMap<Integer, Materia> materie;
+	private ArrayList<Materia> materie;
 
 	private List<Integer> toRemove;
+	
+	private List<HBox> emptyBoxList;
 
-	private boolean modificato, fromOS;
+	private boolean modificato;
 
 	public void initialize() {
 		modificato = false;
-		fromOS = true;
+		toRemove = new ArrayList<Integer>();
+		emptyBoxList = new ArrayList<HBox>();
 		materie = DataBaseHandler.getInstance().getMaterie();
+		MetaData.cmat = this;
 		Console.print("Opening materie gui", "gui");
 		initMaterieBox();
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
@@ -61,67 +65,80 @@ public class ControllerMaterie {
 		AnchorPane.setRightAnchor(subContentPane, 0.0);
 	}
 	
-	public void setIfFromOS(boolean value) {
-		this.fromOS = value;
+	public void addToRemove(int idMateria) {
+		this.toRemove.add(idMateria);
 	}
 	
 	public void apply() {
-		toRemove = new ArrayList<Integer>();
-		for (int key : materie.keySet()) {
-			Materia m = materie.get(key);
-			HBox materia = (HBox) materieBox.lookup("#materiaBox" + key); // prende il materiabox a seconda dell id
-			if (materia == null) { // se il tale box non esiste allora vuol dire che e' stato cancellato dall
-									// utente
-				m.setStato("delete");
-				if (MetaData.os != null)
-					MetaData.os.removeMateria(m.getNome());
-				modificato = true;
-			} else {
-				JFXTextField nome = (JFXTextField) materia.lookup("#nomeMateria");
-				ColorPicker colore = (ColorPicker) materia.lookup("#coloreMateria");
-				String hexColor = Utils.toRGBCode(colore.getValue());
-				if (nome.getText().trim().equals("") && !m.getStato().equals("insert")) { // cancella materia con nome
-																							// vuoto
-					m.setStato("delete");
-					modificato = true;
-					if (MetaData.os != null)
-						MetaData.os.removeMateria(m.getNome());
-				}
-				if (nome.getText().trim().equals("") && m.getStato().equals("insert")) { // cancella materia con nome
-																							// vuoto
-					toRemove.add(key);
-					modificato = true;
-				}
-				if (m.getStato().equals("fresh")) {
-					if (!m.getNome().equals(nome.getText())) { // se ha modificato il nome materia
-						m.setNome(nome.getText());
-						m.setStato("update");
-						modificato = true;
-					}
-					if (!m.getColore().equalsIgnoreCase(hexColor)) { // se ha modificato il colore materia
-						m.setColore(hexColor);
-						m.setStato("update");
-						modificato = true;
-					}
-				}
-				if (m.getStato().equals("insert")) {
-					m.setNome(nome.getText());
+		for (Node component : materieBox.getChildren()) {
+			if (component instanceof HBox) {
+				HBox matBox = (HBox) component;
+				Label idLbl = (Label) matBox.lookup("#idMateria");
+				JFXTextField nomeField = (JFXTextField) matBox.lookup("#nomeMateria");
+				String id = idLbl.getText();
+				String nomeM = nomeField.getText();
+				if(id.isEmpty() && !nomeM.trim().isEmpty()) {  // se id e' vuoto e nome non e'vuoto -> la materia e' insert
+					ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
+					String hexColor = Utils.toRGBCode(colore.getValue());
+					Materia m = new Materia();
+					m.setNome(nomeM);
 					m.setColore(hexColor);
+					m.setStato("insert");
+					// aggiungere alla lista
+					materie.add(m);
+					modificato = true;
+				}
+				else if(!id.isEmpty() && nomeM.trim().isEmpty()) {  // se id non e' vuoto e il nome e' vuoto -> la materia e' delete
+					int idM = Integer.parseInt(id);
+					getMaterieById(idM).setStato("delete");
+					modificato = true;
+				}
+				else if(id.isEmpty() && nomeM.trim().isEmpty()) {
+					emptyBoxList.add(matBox);
+				}
+				else if(!id.isEmpty()){
+					int idM = Integer.parseInt(id);
+					ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
+					String hexColor = Utils.toRGBCode(colore.getValue());
+					Materia m = getMaterieById(idM);
+					if(!m.getColore().equals(hexColor) || !m.getNome().equals(nomeM)) {
+						m.setNome(nomeM);
+						m.setColore(hexColor);
+						m.setStato("update");	
+					}
 					modificato = true;
 				}
 			}
 		}
-
+		
 		if (modificato) {
-			for (int i = 0; i < toRemove.size(); i++)
-				materie.remove(toRemove.get(i));
-			materieBox.getChildren().clear(); // svuota tutti i materiabox
+			if(!toRemove.isEmpty()) {
+				for(int idM : toRemove) {
+					getMaterieById(idM).setStato("delete");
+				}
+			}
 			updateMaterieInDB();
-			if (MetaData.os != null && this.fromOS)
-				((ControllerOrarioS) MetaData.controller).reRenderCalendario();
+			modificato = false;
+			emptyBoxList.clear();
+			toRemove.clear();
+		}
+		
+		else {
+			if(!emptyBoxList.isEmpty()) {
+				materieBox.getChildren().removeAll(emptyBoxList);
+				emptyBoxList = new ArrayList<HBox>();
+			}
 		}
 	}
-
+	
+	public Materia getMaterieById(int id) {
+		for(Materia m : materie)
+			if(m.getId() == id)
+				return m;
+		return null;
+	}
+	
+	
 	public void exit() {
 		WindowStyle.close((Stage) materieBox.getScene().getWindow());
 	}
@@ -133,10 +150,9 @@ public class ControllerMaterie {
 			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
 			if(cd.getResult()) { 
 				materieBox.getChildren().removeAll();
-				for(int key : materie.keySet()) {
-					materie.get(key).setStato("delete");
-					updateMaterieInDB();
-				}
+				for(Materia m : materie)
+					m.setStato("delete");
+				updateMaterieInDB();
 			}
 		}
 	}
@@ -144,17 +160,9 @@ public class ControllerMaterie {
 	@FXML
 	public void newMateria() { // aggiunge un nuovo materiabox con nome = "" e colore = ffffff
 		HBox box = loadMateriaBox();
-		int id = 100;
 		Label idLbl = (Label) box.lookup("#idMateria");
-		if (materie.size() != 0) {
-			for (int key : materie.keySet()) {
-				if (id == key)
-					id++;
-			}
-		}
-		materie.put(id, new Materia(id));
-		idLbl.setText("" + id);
-		box.setId(box.getId() + id);
+		//materie.put(id, new Materia(id));
+		idLbl.setText("");
 	}
 
 	public void addMateria(Materia m) { // aggiunge i materiabox a seconda di materia dato passato in parametro
@@ -168,33 +176,6 @@ public class ControllerMaterie {
 		idLbl.setText("" + m.getId());
 	}
 
-	public void getMaterieFromDB() { // un attivita in background per rivecere tutte le materie dal db
-
-		Task<Boolean> getMaterieTask = new Task<Boolean>() {
-			@Override
-			protected Boolean call() throws Exception {
-				loading.setVisible(true);
-				return DataBaseHandler.getInstance().runGetMaterieQuery();
-			}
-		};
-
-		getMaterieTask.setOnFailed(event -> {
-			loading.setVisible(false);
-			Utils.errorMsg("Failed to get Materie from db");
-			getMaterieTask.getException().printStackTrace();
-		});
-
-		getMaterieTask.setOnSucceeded(event -> {
-			loading.setVisible(false);
-			if (getMaterieTask.getValue()) {
-				materie = DataBaseHandler.getInstance().getMaterie();
-				initMaterieBox();
-			} else {
-				materie = new HashMap<Integer, Materia>();
-			}
-		});
-		new Thread(getMaterieTask).start();
-	}
 
 	public void updateMaterieInDB() { // un attivita in background per aggiornare tutte le materie nel db
 		Task<Boolean> updateMaterieTask = new Task<Boolean>() {
@@ -214,7 +195,8 @@ public class ControllerMaterie {
 		updateMaterieTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
 			if (updateMaterieTask.getValue()) {
-				getMaterieFromDB();
+				materie = DataBaseHandler.getInstance().getMaterie();
+				initMaterieBox();
 			} else {
 				Console.print("Error on updating materie table", "db");
 			}
@@ -238,8 +220,9 @@ public class ControllerMaterie {
 	}
 
 	public void initMaterieBox() { // aggiunge i materiabox a seconda della collezione delle materie
-		for (int key : materie.keySet()) {
-			addMateria(materie.get(key));
+		materieBox.getChildren().clear();
+		for (Materia m : materie) {
+			addMateria(m);
 		}
 	}
 

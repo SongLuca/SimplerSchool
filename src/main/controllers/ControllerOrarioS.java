@@ -3,6 +3,7 @@ package main.controllers;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import com.jfoenix.controls.JFXButton;
@@ -76,7 +77,7 @@ public class ControllerOrarioS {
 	
 	private OrarioSettimanale os;
 
-	private HashMap<Integer, Materia> materie;
+	private ArrayList<Materia> materie;
 	
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	
@@ -269,9 +270,9 @@ public class ControllerOrarioS {
 
 	public Materia getMateriaByNome(String nome) {
 		materie = DataBaseHandler.getInstance().getMaterie();
-		for (int key : materie.keySet()) {
-			if (materie.get(key).getNome().equals(nome))
-				return materie.get(key);
+		for (Materia m : materie) {
+			if (m.getNome().equals(nome))
+				return m;
 		}
 		return null;
 	}
