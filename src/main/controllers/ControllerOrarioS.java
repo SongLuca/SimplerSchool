@@ -81,14 +81,22 @@ public class ControllerOrarioS {
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	
 	public void initialize() {
-		Console.print("init cos", "");
 		setOSButtonVisible(false);
 		initOSList();
+		AnchorPane.setBottomAnchor(subContentPane, 0.0);
+		AnchorPane.setTopAnchor(subContentPane, 0.0);
+		AnchorPane.setLeftAnchor(subContentPane, 0.0);
+		AnchorPane.setRightAnchor(subContentPane, 0.0);
 		clearButton.setOnMouseClicked(e -> {
-			initOSCalendarGrid();
-			os = new OrarioSettimanale(os.getNomeOrario());
-			MetaData.os = this.os;
-			MetaData.os.toString();
+			Stage owner = (Stage)calendarioPane.getScene().getWindow();
+			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
+			calendarioPane.requestFocus();
+			if(cd.getResult()) { 
+				initOSCalendarGrid();
+				os = new OrarioSettimanale(os.getNomeOrario());
+				MetaData.os = this.os;
+				MetaData.os.toString();
+			}
 		});
 
 		backButton.setOnMouseClicked(e -> {
@@ -96,6 +104,8 @@ public class ControllerOrarioS {
 			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
 			setOSButtonVisible(false);
+			Label titolo = (Label)calendarioPane.getScene().lookup("#title");
+			titolo.setText("Settings - Orario Settimanale");
 			initOSList();
 			new FadeIn(calendarioPane).play();
 			subContentPane.requestFocus();
@@ -104,20 +114,19 @@ public class ControllerOrarioS {
 		deleteButton.setOnMouseClicked(e -> {
 			if(!os.getStato().equals("insert")) {
 				Stage owner = (Stage)calendarioPane.getScene().getWindow();
-				ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to delete this?");
+				ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to delete this?");
 				calendarioPane.requestFocus();
 				if(cd.getResult()) { 
 					os.setStato("delete");
 					updateOSTask(os.getNomeOrario() + " deleted", true); 
+					rootCalendar.setVisible(false);
+					calendarioPane.setVisible(true);
+					setOSButtonVisible(false);
+					new FadeIn(calendarioPane).play();
 				}
 			}
-		
-			rootCalendar.setVisible(false);
-			calendarioPane.setVisible(true);
-			setOSButtonVisible(false);
-			new FadeIn(calendarioPane).play();
 		});
-
+		
 		saveButton.setOnMouseClicked(e -> {
 			updateOSTask("saved", false);
 		});
@@ -169,6 +178,8 @@ public class ControllerOrarioS {
 				ControllerOrarioSBox c = fxmlLoader.<ControllerOrarioSBox>getController();
 				c.setNome(orariS.get(key).getNomeOrario());
 				c.setOpenAction(e->{
+					Label titolo = (Label)calendarioPane.getScene().lookup("#title");
+					titolo.setText(titolo.getText()+": "+orariS.get(key).getNomeOrario());
 					loadCalendar(orariS.get(key).getNomeOrario());
 					setOSButtonVisible(true);
 				});
@@ -357,12 +368,6 @@ public class ControllerOrarioS {
 		MetaData.controller = this;
 		Utils.loadNoTitleWindow("addOSFXML", (Stage) ((Node) e.getSource()).getScene().getWindow(), false, null,
 				null);
-	}
-
-	@FXML
-	void openMaterie(MouseEvent event) {
-		Utils.loadWindow("materieFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
-				null, null);
 	}
 
 	public void initOSCalendarWeekDayHeader() {

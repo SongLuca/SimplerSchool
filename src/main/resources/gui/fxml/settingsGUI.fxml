@@ -39,7 +39,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Settings">
+                        <Label fx:id="title" prefHeight="28.0" prefWidth="529.0" text=" Settings">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>
@@ -113,7 +113,7 @@
                               </HBox>
                            </graphic>
                         </JFXButton>
-                        <JFXButton onMouseClicked="#openProfilo" prefHeight="70.0" prefWidth="200.0">
+                        <JFXButton prefHeight="70.0" prefWidth="200.0">
                            <graphic>
                               <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
                                  <children>

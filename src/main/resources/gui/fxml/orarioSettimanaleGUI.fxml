@@ -20,24 +20,6 @@
          <children>
             <HBox spacing="5.0">
                <children>
-                  <JFXButton contentDisplay="TOP" onMouseClicked="#openMaterie" prefHeight="60.0" prefWidth="60.0" text="Materie">
-                     <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/materie.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
-                  <JFXButton contentDisplay="TOP" prefHeight="60.0" prefWidth="60.0" text="Docenti">
-                     <graphic>
-                        <ImageView fitHeight="60.0" fitWidth="60.0" pickOnBounds="true" preserveRatio="true">
-                           <image>
-                              <Image url="@../../images/professori.png" />
-                           </image>
-                        </ImageView>
-                     </graphic>
-                  </JFXButton>
                   <JFXButton fx:id="saveButton" contentDisplay="TOP" prefHeight="30.0" prefWidth="100.0" text="Save...">
                      <graphic>
                         <ImageView fitHeight="40.0" fitWidth="40.0" pickOnBounds="true" preserveRatio="true">

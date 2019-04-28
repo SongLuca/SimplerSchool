@@ -2,7 +2,6 @@ package main.application.models;
 
 import javafx.scene.layout.GridPane;
 import main.controllers.ControllerMain;
-import main.controllers.ControllerOrarioS;
 import main.controllers.ControllerOreDetails;
 
 public class MetaData {

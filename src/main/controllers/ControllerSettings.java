@@ -5,7 +5,6 @@ import com.jfoenix.controls.JFXButton;
 import animatefx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -19,7 +18,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.models.Config;
-import main.utils.Console;
 import main.utils.FXResizeHelper;
 import main.utils.Utils;
 import main.utils.WindowStyle;
@@ -70,9 +68,7 @@ public class ControllerSettings {
 			currentStage.setScene(new Scene(fxml));
 			currentStage.setHeight(prefHeight);
 			currentStage.setWidth(prefWidth);
-			Console.print(fxml.getStyleClass().toString(), "");
 			new FXResizeHelper(currentStage, 5, 5);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -85,15 +81,9 @@ public class ControllerSettings {
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
-			title.setText("Orario Settimanale");
+			title.setText("Settings - Orario Settimanale");
 			backButton.setPrefWidth(40);
 			backButton.setVisible(true);
-
-			AnchorPane subcontentpane = (AnchorPane) contentPane.getScene().lookup("#subContentPane");
-			AnchorPane.setBottomAnchor(subcontentpane, 0.0);
-			AnchorPane.setTopAnchor(subcontentpane, 0.0);
-			AnchorPane.setLeftAnchor(subcontentpane, 0.0);
-			AnchorPane.setRightAnchor(subcontentpane, 0.0);
 
 			Stage stage = (Stage) pop.getScene().getWindow();
 			stage.setMinHeight(Config.getDouble("config", "prefHeightOS"));
@@ -115,8 +105,29 @@ public class ControllerSettings {
 
 	@FXML
 	void openMaterie(MouseEvent event) {
-		Utils.loadWindow("materieFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
-				null, null);
+		/*Utils.loadWindow("materieFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
+				null, null);*/
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "materieFXML").toURL());
+			AnchorPane osPane = fxmlLoader.load();
+			((ControllerMaterie)fxmlLoader.getController()).setIfFromOS(false);
+			contentPane.getChildren().removeAll();
+			contentPane.getChildren().setAll(osPane);
+			title.setText("Settings - Materie");
+			backButton.setPrefWidth(40);
+			backButton.setVisible(true);
+
+			Stage stage = (Stage) pop.getScene().getWindow();
+			stage.setMinHeight(700);
+			stage.setMinWidth(700);
+			stage.setHeight(700);
+			stage.setWidth(700);
+			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
+			new FadeInUp(contentPane).play();
+			mainPane.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML

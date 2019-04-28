@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
-<?import com.jfoenix.controls.JFXColorPicker?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.HBox?>
 
-<HBox fx:id="materiaBox" alignment="CENTER" prefHeight="70.0" prefWidth="630.0" spacing="20.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMateriaBox">
+<HBox fx:id="materiaBox" alignment="CENTER" prefHeight="70.0" prefWidth="630.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMateriaBox">
    <children>
-      <Label fx:id="idMateria" prefHeight="23.0" prefWidth="40.0" />
+      <Label fx:id="idMateria" prefHeight="0.0" prefWidth="0.0" visible="false" />
       <JFXTextField fx:id="nomeMateria" prefHeight="23.0" prefWidth="399.0" promptText="nome materia..." />
-      <JFXColorPicker fx:id="coloreMateria" />
+      <ColorPicker fx:id="coloreMateria" prefHeight="23.0" prefWidth="120.0" />
       <JFXButton onMouseClicked="#deleteMateria" prefHeight="20.0" prefWidth="20.0" text="">
          <graphic>
             <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">

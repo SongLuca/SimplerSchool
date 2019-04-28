@@ -1,10 +1,10 @@
 package main.controllers;
 
-import com.jfoenix.controls.JFXColorPicker;
 import com.jfoenix.controls.JFXTextField;
-
+import animatefx.animation.FadeOutRight;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
+import javafx.scene.control.ColorPicker;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -18,7 +18,7 @@ public class ControllerMateriaBox {
 	private JFXTextField nomeMateria;
 
 	@FXML
-	private JFXColorPicker coloreMateria;
+	private ColorPicker coloreMateria;
 
 	public void initialize() {
 	}
@@ -26,6 +26,7 @@ public class ControllerMateriaBox {
 	@FXML
 	public void deleteMateria(MouseEvent event) {
 		VBox mBox = (VBox) ((Node) event.getSource()).getScene().lookup("#materieBox");
+		new FadeOutRight(materiaBox).play();
 		mBox.getChildren().remove(materiaBox);
 	}
 
