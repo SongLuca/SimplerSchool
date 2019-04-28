@@ -3,7 +3,7 @@ package main.application.models;
 import java.util.Properties;
 
 public class Config {
-	public static Properties config;
+	public static Properties config; 
 	public static Properties userConfig;
 	
 	public static double getDouble(String configName, String key) {

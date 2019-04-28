@@ -26,6 +26,7 @@ import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Config;
 import main.application.models.Materia;
+import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.application.models.Utente;
@@ -370,6 +371,7 @@ public class DataBaseHandler {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, m.getId());
 			stmt.execute();
+			updateOrariS(m);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -377,7 +379,7 @@ public class DataBaseHandler {
 		}
 		return false;
 	}
-
+	
 	public boolean runUpdateMateriaQuery(Materia m, Connection conn) {
 		String query = "UPDATE MATERIA SET NOME = ?, COLOR = ? WHERE MATERIA_ID = ?";
 		try {
@@ -452,14 +454,21 @@ public class DataBaseHandler {
 
 	public boolean insertOSQuery(OrarioSettimanale os, Connection conn) {
 		Console.print("Inserting orariosettimanale" + os.getId(), "db");
-		String query = "INSERT INTO ORARIOSETTIMANALE(OS_ID, NOME, FILE_PATH, USER_ID) VALUES(?,?,?,?)";
+		String query = "INSERT INTO ORARIOSETTIMANALE(NOME, FILE_PATH, USER_ID) VALUES(?,?,?)";
 		try {
-			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setInt(1, os.getId());
-			stmt.setString(2, os.getNomeOrario());
-			stmt.setString(3, os.getStoredPath());
-			stmt.setInt(4, Main.utente.getUserid());
+			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+			stmt.setString(1, os.getNomeOrario());
+			stmt.setString(2, os.getStoredPath());
+			stmt.setInt(3, Main.utente.getUserid());
 			stmt.execute();
+			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
+				if (generatedKeys.next())
+					os.setId(generatedKeys.getInt(1));
+				else
+					throw new SQLException("Creating os failed, no ID obtained.");
+			}
+			os.toXML();
+			getOSQuery();
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -480,6 +489,8 @@ public class DataBaseHandler {
 			if (recordUpdated != 1)
 				throw new IllegalArgumentException("error! multiple record have been updated!");
 			Console.print(recordUpdated + " record has been updated!", "db");
+			os.toXML();
+			getOSQuery();
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -497,6 +508,7 @@ public class DataBaseHandler {
 			stmt.setInt(2, Main.utente.getUserid());
 			stmt.execute();
 			removeOSXmlFile(os);
+			getOSQuery();
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -795,6 +807,15 @@ public class DataBaseHandler {
 		return utente;
 	}
 
+	public boolean updateOrariS(Materia m) {
+		boolean value = false;
+		for(int key : orariS.keySet()) {
+			if(orariS.get(key).removeMateriaAndUpdate(m.getId()+""))
+				value = true;
+		}
+		return value;
+	}
+	
 	public String toStringResultSet(ResultSet rs) {
 		ResultSetMetaData rsmd;
 		String toString = "";

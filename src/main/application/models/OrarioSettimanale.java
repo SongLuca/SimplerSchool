@@ -24,18 +24,17 @@ public class OrarioSettimanale {
 	
 	public OrarioSettimanale() {
 		this.stato = "fresh";
-		settimana = new LinkedHashMap<String, LinkedHashMap<String, String>>();
-		settimana.put("lunedi", initGiornoHashMap());
-		settimana.put("martedi", initGiornoHashMap());
-		settimana.put("mercoledi", initGiornoHashMap());
-		settimana.put("giovedi", initGiornoHashMap());
-		settimana.put("venerdi", initGiornoHashMap());
-		settimana.put("sabato", initGiornoHashMap());
+		initMaps();
 	}
 	
 	public OrarioSettimanale(String nomeOrario) {
 		this.stato = "fresh";
 		this.nomeOrario = nomeOrario;
+		this.storedPath = "users/" + Main.utente.getUserid()+"/orariosettimanale/"+ this.nomeOrario+".xml";
+		initMaps();
+	}
+	
+	public void initMaps() {
 		settimana = new LinkedHashMap<String, LinkedHashMap<String, String>>();
 		settimana.put("lunedi", initGiornoHashMap());
 		settimana.put("martedi", initGiornoHashMap());
@@ -47,16 +46,16 @@ public class OrarioSettimanale {
 	
 	public LinkedHashMap<String, String> initGiornoHashMap() {
 		LinkedHashMap<String, String> giorno = new LinkedHashMap<String, String>();
-		giorno.put("1ora", "null");
-		giorno.put("2ora", "null");
-		giorno.put("3ora", "null");
-		giorno.put("4ora", "null");
-		giorno.put("5ora", "null");
-		giorno.put("6ora", "null");
-		giorno.put("7ora", "null");
-		giorno.put("8ora", "null");
-		giorno.put("9ora", "null");
-		giorno.put("10ora", "null");
+		giorno.put("1ora", "");
+		giorno.put("2ora", "");
+		giorno.put("3ora", "");
+		giorno.put("4ora", "");
+		giorno.put("5ora", "");
+		giorno.put("6ora", "");
+		giorno.put("7ora", "");
+		giorno.put("8ora", "");
+		giorno.put("9ora", "");
+		giorno.put("10ora", "");
 		return giorno;
 	}
 
@@ -132,8 +131,7 @@ public class OrarioSettimanale {
 			File filePath = new File(Config.getString("config", "databaseFolder") + "/users/" + Main.utente.getUserid() + "/orariosettimanale/");
 			if(!filePath.exists())
 				filePath.mkdirs();
-			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filePath.getAbsolutePath() + "/" + this.id + ".xml")));
-			storedPath = "users/" + Main.utente.getUserid()+"/orariosettimanale/"+ this.id+".xml";
+			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filePath.getAbsolutePath() + "/" + this.nomeOrario + ".xml")));
 			encoder.writeObject(settimana);
 			encoder.close();
 		} catch (FileNotFoundException e) {
@@ -172,7 +170,7 @@ public class OrarioSettimanale {
 		for(String giorno : settimana.keySet()) {
 			for(String ora : settimana.get(giorno).keySet()) {
 				if(settimana.get(giorno).get(ora).equals(materia)) {
-					settimana.get(giorno).put(ora, "null");
+					settimana.get(giorno).put(ora, "");
 					if(!stato.equals("insert"));
 					stato = "update";
 				}
@@ -188,6 +186,21 @@ public class OrarioSettimanale {
 	public boolean validateMateriaByGiorno(int day, String materia) {
 		String giorno = this.getGiornoByCol(day);
 		return settimana.get(giorno).containsValue(materia);
+	}
+	
+	public boolean removeMateriaAndUpdate(String idMateria) {
+		boolean update = false;
+		for(String giorno : settimana.keySet()) {
+			for(String ora : settimana.get(giorno).keySet()) {
+				if(settimana.get(giorno).get(ora).equals(idMateria)) {
+					settimana.get(giorno).put(ora, "");
+					update = true;
+				}
+			}
+		}
+		if(update)
+			toXML();
+		return update;
 	}
 	
 	public String getGiornoByCol(int col) {

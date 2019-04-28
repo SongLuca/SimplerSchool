@@ -324,10 +324,11 @@ public class ControllerMain {
 			if (selectedOS != null) {
 				Console.print(selectedOS + " selected", "Gui");
 				os = getOSbyName(selectedOS);
-				Config.userConfig.setProperty("selectedOrarioSettimanale", selectedOS);
+				Config.userConfig.setProperty(Main.utente.getUsername()+"-selectedOrarioSettimanale", selectedOS);
 				Utils.saveProperties(Config.userConfig, "userconfig", true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
+					Console.print("daycol: "+dayCol, "");
 					fuseSubjects(calendarGrid, dayCol);
 				}
 			}
@@ -379,7 +380,7 @@ public class ControllerMain {
 	public void updateOSPicker() {
 		Console.print("Updating OS picker", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
-		String selectedOrariS = Config.getString("userconfig", "selectedOrarioSettimanale");
+		String selectedOrariS = Config.getString("userconfig", Main.utente.getUsername()+"-selectedOrarioSettimanale");
 		orarioSPicker.getItems().clear();
 		for (int key : orariS.keySet()) {
 			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
@@ -388,9 +389,7 @@ public class ControllerMain {
 				os = getOSbyName(selectedOrariS);
 				MetaData.os = os;
 			}
-
 		}
-
 	}
 
 	public OrarioSettimanale getOSbyName(String nome) {
@@ -401,17 +400,17 @@ public class ControllerMain {
 		return null;
 	}
 
-	public Materia getMateriaByNome(String nome) {
+	public Materia getMateriaById(String id) {
 		ArrayList<Materia> materie = DataBaseHandler.getInstance().getMaterie();
 		for (Materia m : materie) {
-			if (m.getNome().equals(nome))
+			if (m.getId() == Integer.parseInt(id))
 				return m;
 		}
 		return null;
 	}
 
-	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
-		Materia m = getMateriaByNome(nomeMateria);
+	public void addVBoxToCell(GridPane osGrid, String idMateria, int row, int col, int rowSpan) {
+		Materia m = getMateriaById(idMateria);
 		VBox pane = new VBox();
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color:" + m.getColore() + ";");
@@ -445,7 +444,7 @@ public class ControllerMain {
 		String materiaPrec = "";
 		for (String ora : giorno.keySet()) {
 			if (count == 0) {
-				if (!giorno.get(ora).equals("null"))
+				if (!giorno.get(ora).equals(""))
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
 					VBox vPane = new VBox();
@@ -453,14 +452,14 @@ public class ControllerMain {
 				}
 			}
 			if (count != 0) {
-				if (!giorno.get(ora).equals("null") && giorno.get(ora).equals(materiaPrec)) {
+				if (!giorno.get(ora).equals("") && giorno.get(ora).equals(materiaPrec)) {
 					length++;
 					if (length == 1)
 						startPos = count;
 				} else {
 					if (length != 1) {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
-						if (giorno.get(ora).equals("null")) {
+						if (giorno.get(ora).equals("")) {
 							VBox vPane = new VBox();
 							osGrid.add(vPane, col, count);
 						} else
@@ -468,7 +467,7 @@ public class ControllerMain {
 					} else {
 						length = 1;
 						startPos = count;
-						if (!giorno.get(ora).equals("null"))
+						if (!giorno.get(ora).equals(""))
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
 							VBox vPane = new VBox();

@@ -39,20 +39,20 @@ public class ControllerAddSubject {
 	void save(MouseEvent event) {
 		String ora = (MetaData.sub_row+1) + "ora";
 		String giorno = Utils.numToDay(MetaData.sub_col);
-		if(!materiaBox.getValue().equals("null")) {
+		if(!materiaBox.getValue().equals("")) {
 			Materia m = getMateriaByNome(materiaBox.getValue());
-			Console.print("Os: " + MetaData.os.getNomeOrario() + " adding " + m.getNome() + " to " + ora + " at " + giorno, "app");
-			MetaData.os.addMateria(ora, giorno, m.getNome());
+			Console.print("Os: " + MetaData.os.getNomeOrario() + " adding " + m.getNome()+m.getId() + " to " + ora + " at " + giorno, "app");
+			MetaData.os.addMateria(ora, giorno, m.getId()+"");
 		}
 		else {
-			MetaData.os.addMateria(ora, giorno, "null");
+			MetaData.os.addMateria(ora, giorno, "");
 		}
 		fuseSubjects(MetaData.OrarioSGrid, MetaData.sub_col);
 		cancel(event);
 	}
 	
-	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
-		Materia m = getMateriaByNome(nomeMateria);
+	public void addVBoxToCell(GridPane osGrid, String idMateria, int row, int col, int rowSpan) {
+		Materia m = getMateriaById(idMateria);
 		VBox pane = new VBox();
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color:" + m.getColore() + ";");
@@ -79,7 +79,7 @@ public class ControllerAddSubject {
 		String materiaPrec = "";
 		for(String ora : giorno.keySet()) {
 			if(count == 0) {
-				if(!giorno.get(ora).equals("null"))
+				if(!giorno.get(ora).equals(""))
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
 					VBox vPane = new VBox();
@@ -91,7 +91,7 @@ public class ControllerAddSubject {
 				}
 			}
 			if(count != 0) {
-				if(!giorno.get(ora).equals("null") && giorno.get(ora).equals(materiaPrec)) {
+				if(!giorno.get(ora).equals("") && giorno.get(ora).equals(materiaPrec)) {
 					length ++;
 					if(length == 1)
 						startPos = count;
@@ -99,7 +99,7 @@ public class ControllerAddSubject {
 				else {
 					if(length != 1) {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
-						if(giorno.get(ora).equals("null")) {
+						if(giorno.get(ora).equals("")) {
 							VBox vPane = new VBox();
 							vPane.getStyleClass().add("calendar_pane");
 							vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -113,7 +113,7 @@ public class ControllerAddSubject {
 					else {
 						length = 1;
 						startPos = count;
-						if(!giorno.get(ora).equals("null"))
+						if(!giorno.get(ora).equals(""))
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
 							VBox vPane = new VBox();
@@ -141,9 +141,18 @@ public class ControllerAddSubject {
 		return null;
 	}
 	
+	public Materia getMateriaById(String id) {
+		for(Materia m : materie) {
+			if(m.getId() == Integer.parseInt(id))
+				return m;
+		}
+		
+		return null;
+	}
+	
 	public void initComboBoxes() {
-		materiaBox.getItems().add("null");
-		if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals("null"))
+		materiaBox.getItems().add("");
+		if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals(""))
 			materiaBox.getSelectionModel().selectFirst();
 		for(Materia m : materie) {
 			materiaBox.getItems().add(m.getNome());

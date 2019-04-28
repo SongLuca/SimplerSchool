@@ -39,6 +39,7 @@ public class ControllerAddOS {
 				Console.print("nuovo orario settimanale creato : "+nomeOS, "app");
 				((ControllerOrarioS) MetaData.controller).initCalendar(nomeOS);
 				((ControllerOrarioS) MetaData.controller).setOSButtonVisible(true);
+				((ControllerOrarioS) MetaData.controller).setTitle("Settings - Orario Settimanale: "+nomeOS);
 				cancel(event);
 			}
 			else {

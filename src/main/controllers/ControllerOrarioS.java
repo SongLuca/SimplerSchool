@@ -94,7 +94,8 @@ public class ControllerOrarioS {
 			calendarioPane.requestFocus();
 			if(cd.getResult()) { 
 				initOSCalendarGrid();
-				os = new OrarioSettimanale(os.getNomeOrario());
+				os.initMaps();
+				updateOSTask("saved", false);
 				MetaData.os = this.os;
 				MetaData.os.toString();
 			}
@@ -141,8 +142,6 @@ public class ControllerOrarioS {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				subContentPane.setEffect(Effect.blur());
-				if(!os.getStato().equals("fresh"))
-					os.toXML();
 				return DataBaseHandler.getInstance().updateOSTable(os);
 			}
 		};
@@ -158,7 +157,11 @@ public class ControllerOrarioS {
 			loading.setVisible(false);
 			subContentPane.setEffect(null);
 			if (updateOSTask.getValue()) {
-				DataBaseHandler.getInstance().getOSQuery();
+				orariS = DataBaseHandler.getInstance().getOS();
+				if(!os.getStato().equals("fresh")) {
+					os = this.getOSByNome(os.getNomeOrario());
+					MetaData.os = os;
+				}
 				if(refreshList)
 					initOSList();
 				MetaData.cm.updateOSPicker();
@@ -166,6 +169,11 @@ public class ControllerOrarioS {
 			}
 		});
 		new Thread(updateOSTask).start();
+	}
+	
+	public void setTitle(String title) {
+		Label titolo = (Label)calendarioPane.getScene().lookup("#title");
+		titolo.setText(title);
 	}
 	
 	public void initOSList() {
@@ -179,8 +187,7 @@ public class ControllerOrarioS {
 				ControllerOrarioSBox c = fxmlLoader.<ControllerOrarioSBox>getController();
 				c.setNome(orariS.get(key).getNomeOrario());
 				c.setOpenAction(e->{
-					Label titolo = (Label)calendarioPane.getScene().lookup("#title");
-					titolo.setText(titolo.getText()+": "+orariS.get(key).getNomeOrario());
+					setTitle("Settings - Orario Settimanale: "+orariS.get(key).getNomeOrario());
 					loadCalendar(orariS.get(key).getNomeOrario());
 					setOSButtonVisible(true);
 				});
@@ -237,12 +244,6 @@ public class ControllerOrarioS {
 		rootCalendar.setVisible(true);
 		new FadeIn(rootCalendar).play();
 		os = new OrarioSettimanale(nomeOS);
-		int id = 100;
-		for(int key : orariS.keySet()) {
-			if(key == id)
-				id++;
-		}
-		os.setId(id);
 		os.setStato("insert");
 		MetaData.os = this.os;
 		MetaData.OrarioSGrid = calendarGrid;
@@ -261,6 +262,7 @@ public class ControllerOrarioS {
 		Console.print("Rerendering calendario","gui");
 		initOSCalendarGrid();
 		materie = DataBaseHandler.getInstance().getMaterie();
+		Console.print(os.toString(), "");
 		this.os = MetaData.os;
 		for (String giornoK : os.getSettimana().keySet()) {
 			int dayCol = os.getColByGiorno(giornoK);
@@ -268,10 +270,10 @@ public class ControllerOrarioS {
 		}
 	}
 
-	public Materia getMateriaByNome(String nome) {
+	public Materia getMateriaById(String id) {
 		materie = DataBaseHandler.getInstance().getMaterie();
 		for (Materia m : materie) {
-			if (m.getNome().equals(nome))
+			if (m.getId() == Integer.parseInt(id))
 				return m;
 		}
 		return null;
@@ -285,8 +287,8 @@ public class ControllerOrarioS {
 		return null;
 	}
 	
-	public void addVBoxToCell(GridPane osGrid, String nomeMateria, int row, int col, int rowSpan) {
-		Materia m = getMateriaByNome(nomeMateria);
+	public void addVBoxToCell(GridPane osGrid, String idMateria, int row, int col, int rowSpan) {
+		Materia m = getMateriaById(idMateria);
 		VBox pane = new VBox();
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color:" + m.getColore() + ";");
@@ -313,7 +315,7 @@ public class ControllerOrarioS {
 		String materiaPrec = "";
 		for (String ora : giorno.keySet()) {
 			if (count == 0) {
-				if (!giorno.get(ora).equals("null"))
+				if (!giorno.get(ora).equals(""))
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
 					VBox vPane = new VBox();
@@ -325,14 +327,14 @@ public class ControllerOrarioS {
 				}
 			}
 			if (count != 0) {
-				if (!giorno.get(ora).equals("null") && giorno.get(ora).equals(materiaPrec)) {
+				if (!giorno.get(ora).equals("") && giorno.get(ora).equals(materiaPrec)) {
 					length++;
 					if (length == 1)
 						startPos = count;
 				} else {
 					if (length != 1) {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
-						if (giorno.get(ora).equals("null")) {
+						if (giorno.get(ora).equals("")) {
 							VBox vPane = new VBox();
 							vPane.getStyleClass().add("calendar_pane");
 							vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
@@ -344,7 +346,7 @@ public class ControllerOrarioS {
 					} else {
 						length = 1;
 						startPos = count;
-						if (!giorno.get(ora).equals("null"))
+						if (!giorno.get(ora).equals(""))
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
 							VBox vPane = new VBox();

@@ -24,8 +24,10 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import main.application.models.Config;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.Effect;
 import main.utils.Utils;
 import main.utils.WindowStyle;
@@ -138,6 +140,9 @@ public class ControllerRegister {
 			loading.setVisible(false);
 			registerPane.setEffect(null);
 			if (registerTask.getValue()) {
+				Console.print(u.getUsername(), "");
+				Config.userConfig.setProperty(u.getUsername()+"-selectedOrarioSettimanale", "");
+				Utils.saveProperties(Config.userConfig, "userconfig", true);
 				openRegCompleted(event);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());

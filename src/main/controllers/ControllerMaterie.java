@@ -111,7 +111,7 @@ public class ControllerMaterie {
 			}
 		}
 		
-		if (modificato) {
+		if (modificato || !toRemove.isEmpty()) {
 			if(!toRemove.isEmpty()) {
 				for(int idM : toRemove) {
 					getMaterieById(idM).setStato("delete");
@@ -195,6 +195,7 @@ public class ControllerMaterie {
 		updateMaterieTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
 			if (updateMaterieTask.getValue()) {
+				MetaData.cm.updateOSPicker();
 				materie = DataBaseHandler.getInstance().getMaterie();
 				initMaterieBox();
 			} else {
@@ -225,5 +226,5 @@ public class ControllerMaterie {
 			addMateria(m);
 		}
 	}
-
+	
 }

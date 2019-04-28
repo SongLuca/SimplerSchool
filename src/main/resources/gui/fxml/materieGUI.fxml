@@ -10,7 +10,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="subContentPane" prefHeight="587.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMaterie">
+<AnchorPane fx:id="subContentPane" prefHeight="640.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMaterie">
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="14.0" prefHeight="38.0" prefWidth="630.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
@@ -49,6 +49,7 @@
          </content>
       </ScrollPane>
       <JFXSpinner fx:id="loading" layoutX="285.0" layoutY="200.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
-      <Label layoutX="20.0" layoutY="566.0" prefHeight="30.0" text="*Subject with empty will be removed" />
+      <Label layoutX="20.0" layoutY="566.0" prefHeight="30.0" prefWidth="479.0" text="*Subject without name will be removed" />
+      <Label layoutX="20.0" layoutY="596.0" prefHeight="30.0" prefWidth="610.0" text="*Remove or rename subjects here will also affect subjects in the weekly schedule" />
    </children>
 </AnchorPane>

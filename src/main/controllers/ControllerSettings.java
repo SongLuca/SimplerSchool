@@ -105,8 +105,6 @@ public class ControllerSettings {
 
 	@FXML
 	void openMaterie(MouseEvent event) {
-		/*Utils.loadWindow("materieFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(), false,
-				null, null);*/
 		try {
 			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "materieFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
