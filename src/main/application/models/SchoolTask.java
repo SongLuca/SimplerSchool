@@ -6,6 +6,7 @@ import java.util.Objects;
 
 public class SchoolTask {
 	private int idTask;
+	private int idMateria;
 	private LocalDate data ;
 	private String tipo;
 	private String comment;
@@ -16,8 +17,9 @@ public class SchoolTask {
 		
 	}
 	
-	public SchoolTask(int idTask,LocalDate data, String tipo, String materia, String comment) {
+	public SchoolTask(int idTask, int idMateria,LocalDate data, String tipo, String materia, String comment) {
 		this.idTask = idTask;
+		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
 		this.comment = comment;
@@ -25,7 +27,8 @@ public class SchoolTask {
 		this.allegati = new LinkedHashMap<String,Allegato>();
 	}
 	
-	public SchoolTask(LocalDate data, String tipo, String materia, String comment, LinkedHashMap<String,Allegato> allegati) {
+	public SchoolTask(int idMateria, LocalDate data, String tipo, String materia, String comment, LinkedHashMap<String,Allegato> allegati) {
+		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
 		this.comment = comment;
@@ -33,7 +36,8 @@ public class SchoolTask {
 		this.allegati = allegati;
 	}
 
-	public SchoolTask(LocalDate data, String tipo, String materia, String comment) {
+	public SchoolTask(int idMateria, LocalDate data, String tipo, String materia, String comment) {
+		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
 		this.comment = comment;
@@ -47,6 +51,14 @@ public class SchoolTask {
 		allegati.put(a.getFile().getName(),a);
 	}
 	
+	public int getIdMateria() {
+		return idMateria;
+	}
+
+	public void setIdMateria(int idMateria) {
+		this.idMateria = idMateria;
+	}
+
 	public String getMateria() {
 		return materia;
 	}
@@ -121,9 +133,9 @@ public class SchoolTask {
 	public String toString() {
 		if(allegati != null)
 			return "Task id: " + idTask +" data: " + data + " tipo: " 
-					+ tipo + " materia: " + materia + " commento: " + comment + " allegati: " + allegati.toString();
+					+ tipo + " materia: " + materia + "(" + idMateria + ") commento: " + comment + " allegati: " + allegati.toString();
 		else
 			return "Task id: " + idTask +" data: " + data + " tipo: " 
-					+ tipo + " materia: " + materia + " commento: " + comment + " nessun file allegato";
+					+ tipo + " materia: " + materia + "(" + idMateria + ") commento: " + comment + " nessun file allegato";
 	}
 }

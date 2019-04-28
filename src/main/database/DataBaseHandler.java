@@ -26,7 +26,6 @@ import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Config;
 import main.application.models.Materia;
-import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.application.models.Utente;

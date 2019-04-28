@@ -88,7 +88,7 @@ public class ControllerInsertTask {
 	
 	private String mode;
 	
-	private int idTask;
+	private int idTask, idMateria;
 	
 	private SchoolTask editTask;
 	
@@ -173,6 +173,7 @@ public class ControllerInsertTask {
 		for(Materia m: materie) {
 			materiaBox.getItems().add(m.getNome());
 		}
+		
 		datePicker.setValue(LocalDate.now());
 		
 		tipoBox.getItems().addAll("Compito","Verifica","Interrogazione","Allegato file");

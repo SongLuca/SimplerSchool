@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
@@ -17,6 +18,7 @@ import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
@@ -70,6 +72,7 @@ public class ControllerMaterie {
 	}
 	
 	public void apply() {
+		HashSet<String> nomi = new HashSet<String>();
 		for (Node component : materieBox.getChildren()) {
 			if (component instanceof HBox) {
 				HBox matBox = (HBox) component;
@@ -77,36 +80,45 @@ public class ControllerMaterie {
 				JFXTextField nomeField = (JFXTextField) matBox.lookup("#nomeMateria");
 				String id = idLbl.getText();
 				String nomeM = nomeField.getText();
-				if(id.isEmpty() && !nomeM.trim().isEmpty()) {  // se id e' vuoto e nome non e'vuoto -> la materia e' insert
-					ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
-					String hexColor = Utils.toRGBCode(colore.getValue());
-					Materia m = new Materia();
-					m.setNome(nomeM);
-					m.setColore(hexColor);
-					m.setStato("insert");
-					// aggiungere alla lista
-					materie.add(m);
-					modificato = true;
+				if(nomi.add(nomeM) == false) {
+					StackPane root = (StackPane) subContentPane.getScene().lookup("#rootStack");
+					AnchorPane pane = (AnchorPane) subContentPane.getScene().lookup("#rootPane");
+					Utils.popUpDialog(root, pane, "Message", "Duplicate names!");
+					materie = DataBaseHandler.getInstance().getMaterie();
+					modificato = false;
 				}
-				else if(!id.isEmpty() && nomeM.trim().isEmpty()) {  // se id non e' vuoto e il nome e' vuoto -> la materia e' delete
-					int idM = Integer.parseInt(id);
-					getMaterieById(idM).setStato("delete");
-					modificato = true;
-				}
-				else if(id.isEmpty() && nomeM.trim().isEmpty()) {
-					emptyBoxList.add(matBox);
-				}
-				else if(!id.isEmpty()){
-					int idM = Integer.parseInt(id);
-					ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
-					String hexColor = Utils.toRGBCode(colore.getValue());
-					Materia m = getMaterieById(idM);
-					if(!m.getColore().equals(hexColor) || !m.getNome().equals(nomeM)) {
+				else {
+					if(id.isEmpty() && !nomeM.trim().isEmpty()) {  // se id e' vuoto e nome non e'vuoto -> la materia e' insert
+						ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
+						String hexColor = Utils.toRGBCode(colore.getValue());
+						Materia m = new Materia();
 						m.setNome(nomeM);
 						m.setColore(hexColor);
-						m.setStato("update");	
+						m.setStato("insert");
+						// aggiungere alla lista
+						materie.add(m);
+						modificato = true;
 					}
-					modificato = true;
+					else if(!id.isEmpty() && nomeM.trim().isEmpty()) {  // se id non e' vuoto e il nome e' vuoto -> la materia e' delete
+						int idM = Integer.parseInt(id);
+						getMaterieById(idM).setStato("delete");
+						modificato = true;
+					}
+					else if(id.isEmpty() && nomeM.trim().isEmpty()) {
+						emptyBoxList.add(matBox);
+					}
+					else if(!id.isEmpty()){
+						int idM = Integer.parseInt(id);
+						ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
+						String hexColor = Utils.toRGBCode(colore.getValue());
+						Materia m = getMaterieById(idM);
+						if(!m.getColore().equals(hexColor) || !m.getNome().equals(nomeM)) {
+							m.setNome(nomeM);
+							m.setColore(hexColor);
+							m.setStato("update");	
+						}
+						modificato = true;
+					}
 				}
 			}
 		}
@@ -178,6 +190,8 @@ public class ControllerMaterie {
 
 
 	public void updateMaterieInDB() { // un attivita in background per aggiornare tutte le materie nel db
+		StackPane root = (StackPane) subContentPane.getScene().lookup("#rootStack");
+		AnchorPane pane = (AnchorPane) subContentPane.getScene().lookup("#rootPane");
 		Task<Boolean> updateMaterieTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
@@ -195,6 +209,7 @@ public class ControllerMaterie {
 		updateMaterieTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
 			if (updateMaterieTask.getValue()) {
+				Utils.popUpDialog(root, pane, "Message", "Changes saved");
 				MetaData.cm.updateOSPicker();
 				materie = DataBaseHandler.getInstance().getMaterie();
 				initMaterieBox();

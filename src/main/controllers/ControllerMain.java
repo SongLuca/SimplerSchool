@@ -328,7 +328,6 @@ public class ControllerMain {
 				Utils.saveProperties(Config.userConfig, "userconfig", true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
-					Console.print("daycol: "+dayCol, "");
 					fuseSubjects(calendarGrid, dayCol);
 				}
 			}
