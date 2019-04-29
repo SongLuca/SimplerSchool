@@ -62,7 +62,6 @@ public class ControllerOreDetails {
 	private LocalDate data;
 	
 	public void initialize() {
-		attivita = DataBaseHandler.getInstance().getAttivita();
 		MetaData.cod = this;
 		setMateria(MetaData.materiaSelected);
 		initTitleBox();
@@ -72,7 +71,11 @@ public class ControllerOreDetails {
 	public void setMateria(String materia) {
 		this.materia = materia;
 	}
-
+	
+	public String getMateria() {
+		return materia;
+	}
+	
 	public void setTitle(String title) {
 		this.title.setText(title);
 	}
@@ -86,6 +89,7 @@ public class ControllerOreDetails {
 	}
 	
 	public void populatePanes() {
+		attivita = DataBaseHandler.getInstance().getAttivita();
 		if (attivita != null) {
 			Console.print("Populating details pane", "gui");
 			this.compitiCount = 0;
@@ -96,12 +100,13 @@ public class ControllerOreDetails {
 			interrBox.getChildren().clear();
 			allegatoBox.getChildren().clear();
 			for (SchoolTask task : attivita) {
-				if (task.getMateria().equalsIgnoreCase(materia)) {
+				Console.print(task.getMateriaNome()+materia, "");
+				if (task.getMateriaNome().equalsIgnoreCase(materia)) {
 					if (task.getTipo().equalsIgnoreCase("Compito")) {
 						compitiCount++;
 						attivitaBoxController c = loadTaskBox(compitiBox, compitiCount);
 						c.setIdTask(task.getIdTask());
-						c.setMateria(task.getMateria());
+						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
 					}
 
@@ -109,7 +114,7 @@ public class ControllerOreDetails {
 						verificheCount++;
 						attivitaBoxController c = loadTaskBox(verificheBox, verificheCount);
 						c.setIdTask(task.getIdTask());
-						c.setMateria(task.getMateria());
+						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
 					}
 
@@ -117,7 +122,7 @@ public class ControllerOreDetails {
 						interrCount++;
 						attivitaBoxController c = loadTaskBox(interrBox, interrCount);
 						c.setIdTask(task.getIdTask());
-						c.setMateria(task.getMateria());
+						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
 					}
 
@@ -125,14 +130,14 @@ public class ControllerOreDetails {
 						allegatoCount++;
 						attivitaBoxController c = loadTaskBox(allegatoBox, allegatoCount);
 						c.setIdTask(task.getIdTask());
-						c.setMateria(task.getMateria());
+						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
 					}
 				}
 			}
 		}
 	}
-
+	
 	public attivitaBoxController loadTaskBox(VBox pane, int count) {
 		try {
 			URL fxmlURL = new File(Config.getString("config", "attivitaBoxFXML")).toURI().toURL();

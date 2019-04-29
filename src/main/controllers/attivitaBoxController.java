@@ -63,7 +63,7 @@ public class attivitaBoxController {
 	}
 
 	public void setAllInfo(SchoolTask task) {
-		materiaLbl.setText("Materia: " + task.getMateria());
+		materiaLbl.setText("Materia: " + task.getMateriaNome());
 		comment.setText(task.getComment());
 	}
 

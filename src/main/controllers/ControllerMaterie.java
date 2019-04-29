@@ -211,6 +211,7 @@ public class ControllerMaterie {
 			if (updateMaterieTask.getValue()) {
 				Utils.popUpDialog(root, pane, "Message", "Changes saved");
 				MetaData.cm.updateOSPicker();
+				MetaData.cm.loadNoteBoard();
 				materie = DataBaseHandler.getInstance().getMaterie();
 				initMaterieBox();
 			} else {

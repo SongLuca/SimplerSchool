@@ -201,7 +201,7 @@ public class ControllerMain {
 			String interrogazione = "Interrogazione:\n";
 			for (SchoolTask task : attivita) {
 				if (task.getTipo().equalsIgnoreCase("Verifica")) {
-					verifica += "\tMateria: " + task.getMateria()+"\n";
+					verifica += "\tMateria: " + task.getMateriaNome()+"\n";
 					verifica += "\tData: " + task.getData()+"\n";
 					if(task.getComment().length() != 0)
 						verifica += "\tCommento: " + task.getComment()+"\n";
@@ -211,7 +211,7 @@ public class ControllerMain {
 					verifica += "\t-----------------\n";
 				}
 				if (task.getTipo().equalsIgnoreCase("Compito")) {
-					compito += "\tMateria: " + task.getMateria()+"\n";
+					compito += "\tMateria: " + task.getMateriaNome()+"\n";
 					compito += "\tData: " + task.getData()+"\n";
 					if(task.getComment().length() != 0)
 						compito += "\tCommento: " + task.getComment()+"\n";
@@ -222,7 +222,7 @@ public class ControllerMain {
 				}
 
 				if (task.getTipo().equalsIgnoreCase("interrogazione")) {
-					interrogazione += "\tMateria: " + task.getMateria()+"\n";
+					interrogazione += "\tMateria: " + task.getMateriaNome()+"\n";
 					interrogazione += "\tData: " + task.getData()+"\n";	
 					if(task.getComment().length() != 0)
 						interrogazione += "\tCommento: " + task.getComment()+"\n";

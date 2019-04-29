@@ -183,9 +183,9 @@ public class OrarioSettimanale {
 		return settimana.get(giorno);
 	}
 	
-	public boolean validateMateriaByGiorno(int day, String materia) {
+	public boolean validateMateriaByGiorno(int day, int materia) {
 		String giorno = this.getGiornoByCol(day);
-		return settimana.get(giorno).containsValue(materia);
+		return settimana.get(giorno).containsValue(materia+"");
 	}
 	
 	public boolean removeMateriaAndUpdate(String idMateria) {

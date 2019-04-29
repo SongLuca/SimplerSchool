@@ -88,7 +88,7 @@ public class ControllerInsertTask {
 	
 	private String mode;
 	
-	private int idTask, idMateria;
+	private int idTask;
 	
 	private SchoolTask editTask;
 	
@@ -147,7 +147,7 @@ public class ControllerInsertTask {
 			editTask = DataBaseHandler.getInstance().getAttivita(idTask);
 			datePicker.setValue(editTask.getData());
 			tipoBox.getSelectionModel().select(editTask.getTipo());
-			materiaBox.getSelectionModel().select(editTask.getMateria());
+			materiaBox.getSelectionModel().select(editTask.getMateriaNome());
 			commento.setText(editTask.getComment());
 			if(editTask.hasAllegato()) {
 				fileListView.getItems().clear();
@@ -254,45 +254,43 @@ public class ControllerInsertTask {
 	@FXML
 	public void insert() {
 		if(mode.equalsIgnoreCase("insert")) {
-			if(validateInputs()) {
+			String nomeM = materiaBox.getSelectionModel().getSelectedItem();
+			int idMateria = getMateriaIdByName(nomeM);
+			if(validateInputs(idMateria)) {
 				if (fileListView.getItems().size() > 0) {
-					insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), allegati));
+					insertTask(new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							commento.getText(), allegati));
 				} else {
-					insertTask(new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							materiaBox.getSelectionModel().getSelectedItem(),commento.getText()));
+					insertTask(new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							commento.getText()));
 				}
 			}
 		}
+		
 		else if(mode.contains("edit")) {
-			if(validateInputs()) {
+			String nomeM = materiaBox.getSelectionModel().getSelectedItem();
+			int idMateria = getMateriaIdByName(nomeM);
+			if(validateInputs(idMateria)) {
 				SchoolTask newTask;
 				if (fileListView.getItems().size() > 0) {
-					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							materiaBox.getSelectionModel().getSelectedItem(),commento.getText(), allegati);
+					newTask = new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							commento.getText(), allegati);
 				} else {
-					newTask = new SchoolTask(datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							materiaBox.getSelectionModel().getSelectedItem(),commento.getText());
+					newTask = new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
+							commento.getText());
 				}
 				newTask.setIdTask(idTask);
-				Console.print("new: "+newTask.getAllegati().toString(), "");
-				Console.print("edit: "+editTask.getAllegati().toString(), "");
 				if(!newTask.equals(editTask)) {
 					updateTask(newTask,
 							getAddedAllegati(newTask.getAllegati(), editTask.getAllegati()),
 							getRemoveAllegati(newTask.getAllegati(), editTask.getAllegati()));
 				}
-				else {
-					
-					Console.print("uguale", "");
-				}
-					
 			}
 		}
 		
 	}
 	
-	public boolean validateInputs() {
+	public boolean validateInputs(int idMateria) {
 		if(tipoBox.getSelectionModel().getSelectedItem() == null) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Sceglie il tipo dell'attivita!");
 			return false;
@@ -314,7 +312,7 @@ public class ControllerInsertTask {
 			return false;
 		}
 		
-		if(!validateDateMateria()) {
+		if(!validateDateMateria(idMateria)) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", materiaBox.getValue() + " non ce in questo giorno!");
 			return false;
 		}
@@ -322,10 +320,18 @@ public class ControllerInsertTask {
 		return true;
 	}
 
-	public boolean validateDateMateria() {
+	public boolean validateDateMateria(int idMateria) {
 		int day = datePicker.getValue().getDayOfWeek().getValue();
 		OrarioSettimanale os = MetaData.os;
-		return os.validateMateriaByGiorno(day-1, materiaBox.getValue());
+		return os.validateMateriaByGiorno(day-1, idMateria);
+	}
+	
+	public int getMateriaIdByName(String nome) {
+		for(Materia m : materie) {
+			if(m.getNome().equals(nome))
+				return m.getId();
+		}
+		return 0;
 	}
 	
 	public void insertTask(SchoolTask task) {
@@ -397,6 +403,8 @@ public class ControllerInsertTask {
 			if (updateTask.getValue()) {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "Task has been updated!");
 				loadEditTask();
+				if(!task.getMateriaNome().equals(MetaData.cod.getMateria()))
+					MetaData.cod.populatePanes();
 				this.boxController.setAllInfo(editTask);
 				MetaData.cm.loadNoteBoard();
 			} else {
