@@ -113,7 +113,7 @@
                               </HBox>
                            </graphic>
                         </JFXButton>
-                        <JFXButton prefHeight="70.0" prefWidth="200.0">
+                        <JFXButton onMouseClicked="#openProfile" prefHeight="70.0" prefWidth="200.0">
                            <graphic>
                               <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
                                  <children>

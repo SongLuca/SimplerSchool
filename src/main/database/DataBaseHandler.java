@@ -271,9 +271,11 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	public void updateUtenteQuery(Utente u, Connection conn) {
+	public boolean updateUtenteQuery(Utente u, Connection conn) {
 		Console.print("Updating user", "db");
 		String query = "UPDATE UTENTE SET SCUOLA = ?, NOME = ?, COGNOME = ?, AVATAR_PATH = ? WHERE USER_ID = ?";
+		if(conn == null)
+			conn = openConn();
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, u.getScuola());
@@ -285,9 +287,11 @@ public class DataBaseHandler {
 			if (recordUpdated != 1)
 				throw new IllegalArgumentException("error! multiple record have been updated!");
 			Console.print(recordUpdated + " record has been updated!", "db");
+			return true;
 		} catch (SQLException e) {
 			this.setMsg("Failed to update the user table! Check query and connection");
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			return false;
 		}
 
 	}
@@ -806,6 +810,12 @@ public class DataBaseHandler {
 		return utente;
 	}
 
+	public File getAvatarFile(Utente u) {
+		File avatar = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
+		return avatar;
+	}
+	
+	
 	public boolean updateOrariS(Materia m) {
 		boolean value = false;
 		for(int key : orariS.keySet()) {

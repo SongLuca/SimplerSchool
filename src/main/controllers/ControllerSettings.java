@@ -128,8 +128,27 @@ public class ControllerSettings {
 	}
 
 	@FXML
-	void openProfilo(MouseEvent event) {
+	void openProfile(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "profiloFXML").toURL());
+			AnchorPane osPane = fxmlLoader.load();
+			contentPane.getChildren().removeAll();
+			contentPane.getChildren().setAll(osPane);
+			title.setText("Settings - Profilo");
+			backButton.setPrefWidth(40);
+			backButton.setVisible(true);
 
+			Stage stage = (Stage) pop.getScene().getWindow();
+			stage.setMinHeight(600);
+			stage.setMinWidth(600);
+			stage.setHeight(600);
+			stage.setWidth(600);
+			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
+			new FadeInUp(contentPane).play();
+			mainPane.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	/*********** Custom Window title bar ************/

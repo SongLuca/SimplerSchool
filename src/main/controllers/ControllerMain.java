@@ -263,7 +263,8 @@ public class ControllerMain {
 
 	public void initProfilePane() {
 		Utente u = Main.utente;
-		File avatarFile = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
+		DataBaseHandler.getInstance().getAvatarFile(u);
+		File avatarFile = DataBaseHandler.getInstance().getAvatarFile(u);
 		if (!avatarFile.exists())
 			Console.print("Error!!! Profile avatar file not found", "fileio");
 		else {
