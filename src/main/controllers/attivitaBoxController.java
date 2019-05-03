@@ -28,7 +28,10 @@ import main.utils.Utils;
 public class attivitaBoxController {
 	@FXML
 	private Label materiaLbl;
-
+	
+	@FXML
+	private Label votoLbl;
+	
 	@FXML
 	private JFXTextArea comment;
 
@@ -66,7 +69,12 @@ public class attivitaBoxController {
 		materiaLbl.setText("Materia: " + task.getMateriaNome());
 		comment.setText(task.getComment());
 	}
-
+	
+	public void setVoto(String voto) {
+		votoLbl.setVisible(true);
+		votoLbl.setText("Voto: " + voto);
+	}
+	
 	@FXML
 	void edit(MouseEvent e) {
 		Console.print("Opening edit task " + idTask + " window", "gui");

@@ -100,7 +100,6 @@ public class ControllerOreDetails {
 			interrBox.getChildren().clear();
 			allegatoBox.getChildren().clear();
 			for (SchoolTask task : attivita) {
-				Console.print(task.getMateriaNome()+materia, "");
 				if (task.getMateriaNome().equalsIgnoreCase(materia)) {
 					if (task.getTipo().equalsIgnoreCase("Compito")) {
 						compitiCount++;
@@ -116,6 +115,7 @@ public class ControllerOreDetails {
 						c.setIdTask(task.getIdTask());
 						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
+						c.setVoto((task.getVoto()>-1) ? task.getVoto()+"" : "Nessun voto");
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Interrogazione")) {
@@ -124,6 +124,7 @@ public class ControllerOreDetails {
 						c.setIdTask(task.getIdTask());
 						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
+						c.setVoto((task.getVoto()>-1) ? task.getVoto()+"" : "Nessun voto");
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Allegato file")) {

@@ -6,6 +6,7 @@
 <?import com.jfoenix.controls.JFXListView?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextArea?>
+<?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
@@ -69,6 +70,15 @@
                            <children>
                               <Label prefHeight="30.0" prefWidth="40.0" text="Tipo" />
                               <JFXComboBox fx:id="tipoBox" prefHeight="23.0" prefWidth="180.0" />
+                              <HBox fx:id="votoBox" alignment="CENTER" prefHeight="49.0" prefWidth="300.0" spacing="10.0">
+                                 <children>
+                                    <Label prefHeight="30.0" prefWidth="45.0" text="Voto" />
+                                    <JFXTextField fx:id="votoField" />
+                                 </children>
+                                 <padding>
+                                    <Insets left="50.0" />
+                                 </padding>
+                              </HBox>
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">

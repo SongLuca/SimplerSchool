@@ -77,31 +77,21 @@ public class ControllerProfile {
 	void save(MouseEvent event) {
 		Utente newUser = new Utente(user.getUserid(), user.getUsername());
 		String app = nomeField.getText();
-		if (!app.trim().equals(""))
-			newUser.setNome(app);
-		else
-			newUser.setNome(null);
+		newUser.setNome((app.trim().equals("")) ? null : app);
 
 		app = cognomeField.getText();
-		if (!app.trim().equals(""))
-			newUser.setCognome(app);
-		else
-			newUser.setCognome(null);
+		newUser.setCognome((app.trim().equals("")) ? null : app);
 
 		app = scuolField.getText();
-		if (!app.trim().equals(""))
-			newUser.setScuola(app);
-		else
-			newUser.setScuola(null);
+		newUser.setScuola((app.trim().equals("")) ? null : app);
 
-		if (avatarFile != null)
-			newUser.setAvatar_path("users/" + newUser.getUserid() + "/" + avatarFile.getName());
-		else
-			newUser.setAvatar_path(user.getAvatar_path());
+		newUser.setAvatar_path((avatarFile != null) ? 
+				"users/" + newUser.getUserid() + "/" + avatarFile.getName() : user.getAvatar_path());
 
 		if (!user.equals(newUser)) {
 			updateUserTask(newUser);
 		}
+			
 	}
 
 	public void updateUserTask(Utente u) {

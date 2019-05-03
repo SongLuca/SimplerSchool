@@ -102,7 +102,12 @@ public class ControllerSettings {
 	void openDocenti(MouseEvent event) {
 
 	}
+	
+	@FXML
+	void openAbout(MouseEvent event) {
 
+	}
+	
 	@FXML
 	void openMaterie(MouseEvent event) {
 		try {

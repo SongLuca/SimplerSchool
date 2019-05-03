@@ -203,11 +203,14 @@ public class ControllerMain {
 				if (task.getTipo().equalsIgnoreCase("Verifica")) {
 					verifica += "\tMateria: " + task.getMateriaNome()+"\n";
 					verifica += "\tData: " + task.getData()+"\n";
+					if(task.getVoto() > -1)
+						verifica += "\tVoto: " + task.getVoto()+"\n";
+					else
+						verifica += "\tVoto: nessun voto\n";
 					if(task.getComment().length() != 0)
 						verifica += "\tCommento: " + task.getComment()+"\n";
-					else {
+					else
 						verifica += "\tCommento: nessun commento\n";
-					}
 					verifica += "\t-----------------\n";
 				}
 				if (task.getTipo().equalsIgnoreCase("Compito")) {
@@ -215,20 +218,22 @@ public class ControllerMain {
 					compito += "\tData: " + task.getData()+"\n";
 					if(task.getComment().length() != 0)
 						compito += "\tCommento: " + task.getComment()+"\n";
-					else {
+					else
 						compito += "\tCommento: nessun commento\n";
-					}
 					compito += "\t-----------------\n";
 				}
 
 				if (task.getTipo().equalsIgnoreCase("interrogazione")) {
 					interrogazione += "\tMateria: " + task.getMateriaNome()+"\n";
 					interrogazione += "\tData: " + task.getData()+"\n";	
+					if(task.getVoto() > -1)
+						interrogazione += "\tVoto: " + task.getVoto()+"\n";
+					else
+						interrogazione += "\tVoto: nessun voto\n";
 					if(task.getComment().length() != 0)
 						interrogazione += "\tCommento: " + task.getComment()+"\n";
-					else {
+					else
 						interrogazione += "\tCommento: nessun commento\n";
-					}
 					interrogazione += "\t-----------------\n";
 				}
 				

@@ -12,34 +12,38 @@ public class SchoolTask {
 	private int idMateria;
 	private LocalDate data ;
 	private String tipo;
+	private int voto;
 	private String comment;
 	private LinkedHashMap<String,Allegato> allegati;
 	
 	public SchoolTask(){
-		
+		voto = -1;
 	}
 	
-	public SchoolTask(int idTask, int idMateria, LocalDate data, String tipo, String comment) {
+	public SchoolTask(int idTask, int idMateria, LocalDate data, String tipo, int voto, String comment) {
 		this.idTask = idTask;
 		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
+		this.voto = voto;
 		this.comment = comment;
 		this.allegati = new LinkedHashMap<String,Allegato>();
 	}
 	
-	public SchoolTask(int idMateria, LocalDate data, String tipo, String comment, LinkedHashMap<String,Allegato> allegati) {
+	public SchoolTask(int idMateria, LocalDate data, String tipo, int voto, String comment, LinkedHashMap<String,Allegato> allegati) {
 		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
+		this.voto = voto;
 		this.comment = comment;
 		this.allegati = allegati;
 	}
 
-	public SchoolTask(int idMateria, LocalDate data, String tipo, String comment) {
+	public SchoolTask(int idMateria, LocalDate data, String tipo, int voto,  String comment) {
 		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
+		this.voto = voto;
 		this.comment = comment;
 		this.allegati = new LinkedHashMap<String,Allegato>();
 	}
@@ -90,6 +94,14 @@ public class SchoolTask {
 		this.comment = comment;
 	}
 	
+	public int getVoto() {
+		return voto;
+	}
+
+	public void setVoto(int voto) {
+		this.voto = voto;
+	}
+
 	public String getMateriaNome() {
 		ArrayList<Materia> materie = DataBaseHandler.getInstance().getMaterie();
 		for(Materia m : materie) {
@@ -124,6 +136,7 @@ public class SchoolTask {
         
         return Objects.equals(this.data, task.data)
                 && Objects.equals(this.tipo, task.tipo)
+                && Objects.equals(this.voto, task.voto)
                 && Objects.equals(this.idMateria, task.idMateria)
                 && Objects.equals(this.comment, task.comment)
                 && Objects.equals(this.allegati.keySet(), task.allegati.keySet());
@@ -133,9 +146,9 @@ public class SchoolTask {
 	public String toString() {
 		if(allegati != null)
 			return "Task id: " + idTask +" data: " + data + " tipo: " 
-					+ tipo + " materia: " + getMateriaNome() + "(" + idMateria + ") commento: " + comment + " allegati: " + allegati.toString();
+					+ tipo + " materia: " + getMateriaNome() + "(" + idMateria + ") voto: "+ voto +" commento: " + comment + " allegati: " + allegati.toString();
 		else
 			return "Task id: " + idTask +" data: " + data + " tipo: " 
-					+ tipo + " materia: " + getMateriaNome() + "(" + idMateria + ") commento: " + comment + " nessun file allegato";
+					+ tipo + " materia: " + getMateriaNome() + "(" + idMateria + ") voto: "+ voto +" commento: " + comment + " nessun file allegato";
 	}
 }

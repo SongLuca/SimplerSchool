@@ -542,7 +542,7 @@ public class DataBaseHandler {
 
 	public boolean insertTaskQuery(SchoolTask task) {
 		Console.print("Inserting task", "db");
-		String query = "INSERT INTO TASK(TIPO,MATERIA_ID,TASK_DATA, COMMENTO, USER_ID) VALUES(?,?,?,?,?)";
+		String query = "INSERT INTO TASK(TIPO,MATERIA_ID,TASK_DATA, COMMENTO, USER_ID, VOTO) VALUES(?,?,?,?,?,?)";
 		Connection conn = openConn();
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -551,6 +551,7 @@ public class DataBaseHandler {
 			stmt.setDate(3, java.sql.Date.valueOf(task.getData()));
 			stmt.setString(4, task.getComment());
 			stmt.setInt(5, Main.utente.getUserid());
+			stmt.setInt(6, task.getVoto());
 			stmt.execute();
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 				if (generatedKeys.next())
@@ -589,7 +590,7 @@ public class DataBaseHandler {
 
 	public boolean updateTaskQuery(SchoolTask task, List<Allegato> added, List<Allegato> removed) {
 		Console.print("Updating task " + task.getIdTask(), "db");
-		String query = "UPDATE TASK SET TASK_DATA = ?, MATERIA_ID = ?, TIPO = ?, COMMENTO = ? WHERE TASK_ID = ? AND USER_ID =?";
+		String query = "UPDATE TASK SET TASK_DATA = ?, MATERIA_ID = ?, TIPO = ?, COMMENTO = ?, VOTO = ? WHERE TASK_ID = ? AND USER_ID =?";
 		Connection conn = openConn();
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
@@ -597,8 +598,9 @@ public class DataBaseHandler {
 			stmt.setInt(2, task.getIdMateria());
 			stmt.setString(3, task.getTipo());
 			stmt.setString(4, task.getComment());
-			stmt.setInt(5, task.getIdTask());
-			stmt.setInt(6, Main.utente.getUserid());
+			stmt.setInt(5, task.getVoto());
+			stmt.setInt(6, task.getIdTask());
+			stmt.setInt(7, Main.utente.getUserid());
 			int recordUpdated = stmt.executeUpdate();
 			if (recordUpdated != 1)
 				throw new IllegalArgumentException("error! multiple record have been updated!");
@@ -728,7 +730,7 @@ public class DataBaseHandler {
 		try {
 			while (rs.next()) {
 				task = new SchoolTask(rs.getInt("TASK_ID"), rs.getInt("MATERIA_ID"), rs.getDate("TASK_DATA").toLocalDate(), rs.getString("TIPO"),
-						rs.getString("COMMENTO"));
+						rs.getInt("VOTO"), rs.getString("COMMENTO"));
 				ResultSet files = getAllegatoByTask(task.getIdTask());
 				while (files.next()) {
 					String path = files.getString("file_path");
