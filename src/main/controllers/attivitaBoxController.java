@@ -36,9 +36,6 @@ public class attivitaBoxController {
 	private JFXTextArea comment;
 
 	@FXML
-	private TitledPane titlePane;
-
-	@FXML
 	private Pane contentPane;
 
 	@FXML
@@ -73,6 +70,10 @@ public class attivitaBoxController {
 	public void setVoto(String voto) {
 		votoLbl.setVisible(true);
 		votoLbl.setText("Voto: " + voto);
+	}
+	
+	public void markAsDone() {
+		Box.getStyleClass().add("withScore-titled-pane");
 	}
 	
 	@FXML

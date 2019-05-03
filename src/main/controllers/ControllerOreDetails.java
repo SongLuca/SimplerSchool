@@ -116,6 +116,8 @@ public class ControllerOreDetails {
 						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
 						c.setVoto((task.getVoto()>-1) ? task.getVoto()+"" : "Nessun voto");
+						if(task.getVoto()>-1)
+							c.markAsDone();
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Interrogazione")) {
@@ -125,6 +127,8 @@ public class ControllerOreDetails {
 						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
 						c.setVoto((task.getVoto()>-1) ? task.getVoto()+"" : "Nessun voto");
+						if(task.getVoto()>-1)
+							c.markAsDone();
 					}
 
 					if (task.getTipo().equalsIgnoreCase("Allegato file")) {
