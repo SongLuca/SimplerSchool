@@ -6,12 +6,16 @@
  * 
  * BLU MERDA DEL CALENDARIO: #4163ad;
  * 
- * 
+ * #498E88 blu strano
+ * #2F2F2F nero chiaro
+ * #292929 nero scuro
+ * #3F3F3F nero selezionato
  * 
  * */
 *{
-	-custom-primary: #19bd9a;
-	-custom-secondary: cyan;
+	-custom-primary: white;
+	-custom-secondary: #84eaff;
+	-custom-third: #2F2F2F;
 	-custom-hover-primary: white;
 	-custom-hover-secondary:white;
 }
@@ -102,7 +106,7 @@
 	-fx-background-color :  gray;
 }
 .settingsPane{
-	-fx-background-color:  #28C8AC;
+	-fx-background-color:  -custom-primary;
 }
 
 .windows{
@@ -117,6 +121,8 @@
 #mainPane {
     -fx-effect: dropshadow(gaussian, rgb(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0);
     -fx-background-color: transparent;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-color: black;
 }
 
 .tab-header-background{
