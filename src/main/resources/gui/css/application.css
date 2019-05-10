@@ -14,15 +14,30 @@
  * */
 *{
 	-custom-primary: white;
-	-custom-secondary: #84eaff;
+	-custom-secondary: #2d3e50;
 	-custom-third: #2F2F2F;
 	-custom-hover-primary: white;
 	-custom-hover-secondary:white;
+	-custom-fourth:#3b5168;
+	-custom-grigino: #e2e2e2;
 }
 
 /*Background */
 .backgroundPane{
-	-fx-background-color: -custom-primary;	
+	-fx-background-color: -custom-secondary;	
+}
+.secondaryPane{
+	-fx-background-color: -custom-primary;
+}
+
+#actionPane{
+	-fx-border-width: 2;
+	-fx-border-color: -custom-grigino;
+}
+
+#notePane{
+	-fx-border-width:0,0,0,2;
+	-fx-border-color: -custom-grigino;
 }
 
 /****************************************************************************************/
@@ -74,15 +89,25 @@
 	-fx-background-color: -custom-primary;
 }
 
+.backgroundActionPane{
+	-fx-background-color: -custom-primary;
+	-fx-background-radius: 10;
+}
 
+.titleBox{
+	 -fx-background-color: -custom-secondary;
+}
 .weekday-header {
     -fx-font: bold 17px "System";
     -fx-font-style: normal;
-    -fx-background-color:  -custom-secondary;
+    -fx-background-color:  -custom-fourth;
     -fx-border-style: solid;
     -fx-border-insets: 1;
     -fx-border-width: .2;
     -fx-border-color: white;
+}
+.weekday-header > .label{
+	-fx-text-fill: white;
 }
 
 .shadowPane{
@@ -91,7 +116,9 @@
 .calendarPane{
 	-fx-background-color: white;
 }
-
+.note-board{
+	-fx-background-color: -custom-grigino;
+}
 .calendar_pane:hover{
 	-fx-effect: dropshadow(gaussian , purple, 10, 0.9, 0, 0)
 }
@@ -109,14 +136,6 @@
 	-fx-background-color:  -custom-primary;
 }
 
-.windows{
-	
-}
-
-.root {
-    -fx-effect: dropshadow(gaussian, rgb(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0);
-    -fx-background-color: transparent;
-}
 
 #mainPane {
     -fx-effect: dropshadow(gaussian, rgb(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0);

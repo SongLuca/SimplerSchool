@@ -25,11 +25,152 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="1350.0" style="-fx-background-color: TRANSPARENT;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane prefWidth="1350.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
-      <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" stylesheets="@../css/application.css" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
+      <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" AnchorPane.bottomAnchor="667.0" AnchorPane.leftAnchor="3.0" AnchorPane.rightAnchor="3.0" AnchorPane.topAnchor="3.0">
+            <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" styleClass="secondaryPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+               <top>
+                  <AnchorPane>
+                     <children>
+                       <AnchorPane id="actionPane" layoutX="-6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="888.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                                       <children>
+                                          <HBox alignment="CENTER" layoutX="47.0" layoutY="66.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
+                                             <children>
+                                                <Label prefHeight="30.0" text="Data: ">
+                                                   <font>
+                                                      <Font size="14.0" />
+                                                   </font>
+                                                </Label>
+                                                <JFXDatePicker fx:id="datePicker" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER" layoutX="47.0" layoutY="109.0" prefHeight="45.0" prefWidth="260.0" spacing="10.0">
+                                             <children>
+                                                <JFXButton fx:id="lastWeekBtn" prefHeight="30.0" text="Last week" />
+                                                <JFXButton fx:id="thisWeekBtn" prefHeight="30.0" text="This week" />
+                                                <JFXButton fx:id="nextWeekBtn" prefHeight="30.0" text="Next week" />
+                                             </children>
+                                          </HBox>
+                                          <HBox alignment="CENTER_LEFT" layoutX="342.0" layoutY="58.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
+                                             <children>
+                                                <Label prefHeight="30.0" text="Orario settimanale" />
+                                                <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
+                                             </children>
+                                          </HBox>
+                                          <JFXButton layoutX="422.0" layoutY="119.0" onMouseClicked="#insertTask" prefHeight="23.0" prefWidth="128.0" text="Insert Task" />
+                              <Pane layoutX="991.0" layoutY="13.0" prefHeight="154.0" prefWidth="255.0" styleClass="backgroundActionPane">
+                                 <effect>
+                                    <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
+                                 </effect>
+                                 <children>
+                                    <Pane layoutX="27.0" layoutY="12.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane">
+                                       <children>
+                                          <Circle fx:id="avatar" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
+                                          <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
+                                             <children>
+                                                <Label fx:id="nomeLbl" prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
+                                                <Label fx:id="cognomeLbl" prefHeight="30.0" prefWidth="120.0" text="Zheng" />
+                                                <Label fx:id="scuolaLbl" prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                             </children>
+                                          </VBox>
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </Pane>
+                                       </children>
+                                    </AnchorPane>
+                     </children>
+                  </AnchorPane>
+               </top>
+               <bottom>
+                  <Pane prefHeight="30.0" prefWidth="1130.0" />
+               </bottom>
+               <center>
+                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
+                     <children>
+                        <VBox fx:id="oreHeader" layoutY="36.0" prefHeight="471.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
+                        <VBox layoutX="34.0" prefHeight="507.0" prefWidth="869.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <children>
+                              <HBox fx:id="weekdayHeader" minHeight="60.0" prefHeight="36.0" prefWidth="902.0" />
+                              <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
+                                <columnConstraints>
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                                <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  	<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  	<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                  	<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                </rowConstraints>
+                              </GridPane>
+                           </children>
+                        </VBox>
+                     </children>
+                     <BorderPane.margin>
+                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
+                     </BorderPane.margin>
+                  </AnchorPane>
+               </center>
+               <right>
+                  <AnchorPane id="notePane" prefHeight="457.0" prefWidth="291.0" BorderPane.alignment="CENTER">
+                     <children>
+                        <Label prefHeight="30.0" prefWidth="250.0" text="NoteBoard of the week" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                        <JFXTextArea fx:id="noteBoard" styleClass=".note-board" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+                     </children>
+                     <padding>
+                        <Insets bottom="10.0" right="20.0" />
+                     </padding>
+                  </AnchorPane>
+               </right>
+            </BorderPane>
+            <Pane fx:id="menuShadowPane" layoutX="10.0" layoutY="34.0" opacity="0.5" prefHeight="666.0" prefWidth="60.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0">
+               <effect>
+                  <Shadow blurType="GAUSSIAN" height="0.0" radius="4.75" />
+               </effect>
+            </Pane>
+            <Pane maxHeight="30.0" minHeight="30.0" opacity="0.5" prefHeight="30.0" prefWidth="342.0" styleClass="shadowPane" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+               <effect>
+                  <Shadow />
+               </effect>
+            </Pane>
+            <AnchorPane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
+               <children>
+                  <VBox fx:id="menuVBox" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
+                     <children>
+                        <Label prefHeight="420.0" prefWidth="70.0" />
+                        <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton id="menuSettingsButton" fx:id="settingsButton" onMouseClicked="#openSettingsWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                        <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
+                     </children>
+                  </VBox>
+               </children>
+            </AnchorPane>
+            <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="33.0" />
+            <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" maxHeight="30.0" maxWidth="765.0" minHeight="30.0" prefHeight="30.0" prefWidth="765.0" styleClass="titleBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                      <children>
@@ -82,138 +223,9 @@
                   </HBox>
                </children>
             </HBox>
-            <BorderPane layoutX="69.0" prefHeight="700.0" prefWidth="1131.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="33.0">
-               <top>
-                  <AnchorPane>
-                     <children>
-                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="888.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="243.0" AnchorPane.topAnchor="0.0">
-                                       <children>
-                                          <HBox alignment="CENTER" layoutX="14.0" layoutY="14.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
-                                             <children>
-                                                <Label prefHeight="30.0" text="Data: ">
-                                                   <font>
-                                                      <Font size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <JFXDatePicker fx:id="datePicker" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER" layoutX="14.0" layoutY="51.0" prefHeight="45.0" prefWidth="260.0" spacing="10.0">
-                                             <children>
-                                                <JFXButton fx:id="lastWeekBtn" prefHeight="30.0" text="Last week" />
-                                                <JFXButton fx:id="thisWeekBtn" prefHeight="30.0" text="This week" />
-                                                <JFXButton fx:id="nextWeekBtn" prefHeight="30.0" text="Next week" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" layoutX="307.0" layoutY="1.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
-                                             <children>
-                                                <Label prefHeight="30.0" text="Orario settimanale" />
-                                                <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
-                                             </children>
-                                          </HBox>
-                                          <JFXButton layoutX="342.0" layoutY="62.0" onMouseClicked="#insertTask" prefHeight="23.0" prefWidth="128.0" text="Insert Task" />
-                                       </children>
-                                    </AnchorPane>
-                        <Pane layoutX="972.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" BorderPane.alignment="CENTER">
-                           <children>
-                              <Circle fx:id="avatar" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
-                              <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
-                                 <children>
-                                    <Label fx:id="nomeLbl" prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
-                                    <Label fx:id="cognomeLbl" prefHeight="30.0" prefWidth="120.0" text="Zheng" />
-                                    <Label fx:id="scuolaLbl" prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </Pane>
-                     </children>
-                  </AnchorPane>
-               </top>
-               <bottom>
-                  <Pane prefHeight="30.0" prefWidth="1130.0" />
-               </bottom>
-               <center>
-                  <AnchorPane prefHeight="200.0" prefWidth="200.0">
-                     <children>
-                        <VBox fx:id="oreHeader" layoutY="36.0" prefHeight="471.0" prefWidth="35.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="60.0" />
-                        <VBox layoutX="34.0" prefHeight="507.0" prefWidth="869.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="34.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                           <children>
-                              <HBox fx:id="weekdayHeader" minHeight="60.0" prefHeight="36.0" prefWidth="902.0" />
-                              <GridPane fx:id="calendarGrid" gridLinesVisible="true" prefHeight="495.0" prefWidth="888.0" styleClass="calendarPane" VBox.vgrow="ALWAYS">
-                                <columnConstraints>
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
-                                </columnConstraints>
-                                <rowConstraints>
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  	<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  	<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                  	<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
-                                </rowConstraints>
-                              </GridPane>
-                           </children>
-                        </VBox>
-                     </children>
-                     <BorderPane.margin>
-                        <Insets bottom="20.0" left="40.0" right="40.0" top="20.0" />
-                     </BorderPane.margin>
-                  </AnchorPane>
-               </center>
-               <right>
-                  <AnchorPane prefHeight="457.0" prefWidth="291.0" BorderPane.alignment="CENTER">
-                     <children>
-                        <Label prefHeight="30.0" prefWidth="250.0" text="NoteBoard of the week" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
-                        <JFXTextArea fx:id="noteBoard" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
-                     </children>
-                     <padding>
-                        <Insets bottom="10.0" right="20.0" />
-                     </padding>
-                  </AnchorPane>
-               </right>
-            </BorderPane>
-            <Pane fx:id="menuShadowPane" layoutX="10.0" layoutY="34.0" prefHeight="666.0" prefWidth="60.0" styleClass="shadowPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="34.0">
-               <effect>
-                  <Shadow blurType="GAUSSIAN" height="0.0" radius="4.75" />
-               </effect>
-            </Pane>
-            <AnchorPane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="33.0">
-               <children>
-                  <VBox fx:id="menuVBox" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
-                     <children>
-                        <Label prefHeight="420.0" prefWidth="70.0" />
-                        <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton id="menuSettingsButton" fx:id="settingsButton" onMouseClicked="#openSettingsWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                        <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
-                           <font>
-                              <Font size="24.0" />
-                           </font>
-                        </JFXButton>
-                     </children>
-                  </VBox>
-               </children>
-            </AnchorPane>
-            <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="33.0" />
          </children>
          <effect>
-            <DropShadow />
+            <DropShadow blurType="GAUSSIAN" height="35.0" radius="17.0" spread="0.03" width="35.0" />
          </effect>
       </AnchorPane>
       <StackPane fx:id="rootStack" prefHeight="700.0" prefWidth="1200.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
