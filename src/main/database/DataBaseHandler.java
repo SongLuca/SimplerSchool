@@ -25,6 +25,7 @@ import java.sql.PreparedStatement;
 import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Config;
+import main.application.models.Docente;
 import main.application.models.Materia;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
@@ -43,6 +44,7 @@ public class DataBaseHandler {
 	private String msg;
 	private String passHash;
 	private ArrayList<Materia> materie;
+	private ArrayList<Docente> docenti;
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	private ArrayList<SchoolTask> attivita;
 	static String mySqlConnClass = "com.mysql.jdbc.Driver";
@@ -69,6 +71,10 @@ public class DataBaseHandler {
 
 	public ArrayList<SchoolTask> getAttivita() {
 		return attivita;
+	}
+	
+	public ArrayList<Docente> getDocenti() {
+		return docenti;
 	}
 
 	public SchoolTask getAttivita(int idTask) {
@@ -137,6 +143,7 @@ public class DataBaseHandler {
 	public void preLoadUserData() { // prende tutti i dati dal db prima di entrare nel main
 		Console.print("---Preloading all user data---", "app");
 		runGetMaterieQuery();
+		getDocentiQuery();
 		getOSQuery();
 		getAttivitaS(LocalDate.now());
 		Console.print("--------------------------------", "app");
@@ -345,6 +352,7 @@ public class DataBaseHandler {
 		for (Materia m : materie) {
 			switch (m.getStato()) {
 			case "insert": // inserimento della nuova materia
+				Console.print(m.getId()+"", "");
 				Console.print("Inserting materia " + m.getNome(), "db");
 				runInsertMateriaQuery(m, conn);
 				break;
@@ -405,13 +413,12 @@ public class DataBaseHandler {
 	}
 
 	public boolean runInsertMateriaQuery(Materia m, Connection conn) {
-		String query = "INSERT INTO MATERIA (MATERIA_ID, NOME, COLOR, USER_ID) VALUES(?,?,?,?)";
+		String query = "INSERT INTO MATERIA (NOME, COLOR, USER_ID) VALUES(?,?,?)";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
-			stmt.setInt(1, m.getId());
-			stmt.setString(2, m.getNome());
-			stmt.setString(3, m.getColore());
-			stmt.setInt(4, Main.utente.getUserid());
+			stmt.setString(1, m.getNome());
+			stmt.setString(2, m.getColore());
+			stmt.setInt(3, Main.utente.getUserid());
 			stmt.execute();
 			return true;
 		} catch (SQLException e) {
@@ -421,6 +428,110 @@ public class DataBaseHandler {
 		return false;
 	}
 
+	public boolean getDocentiQuery() {
+		Console.print("Getting docenti", "db");
+		String query = "SELECT * FROM DOCENTE WHERE USER_ID = ?";
+		Connection conn = openConn();
+		ResultSet rs = null;
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, Main.utente.getUserid());
+			rs = stmt.executeQuery();
+			return rsToDocenti(rs);
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+	
+	public boolean updateDocenteTable(ArrayList<Docente> docenti) {
+		Console.print("Update docente table", "db");
+		Connection conn = openConn();
+		for (Docente d : docenti) {
+			switch (d.getStato()) {
+			case "insert": // inserimento della nuova materia
+				Console.print("Inserting docente " + d.getNome() + " " + d.getCognome(), "db");
+				runInsertDocenteQuery(d, conn);
+				break;
+			case "update": // aggiornamento della materia modificata
+				Console.print("updating docente " + d.getNome() + " " + d.getCognome(), "db");
+				runUpdateDocenteQuery(d, conn);
+				break;
+			case "delete": // cancellamento della materia
+				Console.print("deleting docente " + d.getNome() + " " + d.getCognome(), "db");
+				runDeleteDocenteQuery(d, conn); 
+				break;
+			case "fresh":
+				// non fare niente...
+				break;
+			default:
+				throw new IllegalArgumentException("Stato invalido nella docente " + d.getIdDocente());
+			}
+		}
+		getDocentiQuery();
+		this.closeConn(conn);
+		return true;
+	}
+
+	public boolean runDeleteDocenteQuery(Docente d, Connection conn) {
+		String query = "DELETE FROM DOCENTE WHERE prof_id= ? and user_id = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, d.getIdDocente());
+			stmt.setInt(2, Main.utente.getUserid());
+			stmt.execute();
+			//delete selected docente for each subejct in os 
+			
+			
+			
+			//
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+	
+	public boolean runUpdateDocenteQuery(Docente d, Connection conn) {
+		String query = "UPDATE DOCENTE SET NOME = ?, COGNOME = ? WHERE PROF_ID = ? AND USER_ID = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, d.getNome());
+			stmt.setString(2, d.getCognome());
+			stmt.setInt(3, d.getIdDocente());
+			stmt.setInt(4, Main.utente.getUserid());
+			int recourdUpdated = stmt.executeUpdate();
+			if (recourdUpdated == 1)
+				return true;
+			else {
+				Console.print(recourdUpdated + " records have been updated!", "db");
+				return false;
+			}
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+
+	public boolean runInsertDocenteQuery(Docente d, Connection conn) {
+		String query = "INSERT INTO DOCENTE (NOME, COGNOME, USER_ID) VALUES(?,?,?)";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setString(1, d.getNome());
+			stmt.setString(2, d.getCognome());
+			stmt.setInt(3, Main.utente.getUserid());
+			stmt.execute();
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+	
 	public boolean updateOSTable(OrarioSettimanale os) {
 		Console.print("Update orariosettimanale table", "db");
 		Connection conn = openConn();
@@ -793,7 +904,27 @@ public class DataBaseHandler {
 		else
 			return true;
 	}
-
+	
+	public boolean rsToDocenti(ResultSet rs) {
+		docenti = new ArrayList<Docente>();
+		Docente d;
+		try {
+			while (rs.next()) {
+				d = new Docente();
+				d.setIdDocente(rs.getInt("prof_id"));
+				d.setNome(rs.getString("nome"));
+				d.setCognome(rs.getString("cognome"));
+				docenti.add(d);
+			}
+		} catch (SQLException e) {
+			Console.print("Failed to retrive resultset" + e.getMessage(), "db");
+		}
+		if (docenti.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
 	public Utente RsToUtente(ResultSet rs) {
 		Utente utente = new Utente();
 		try {

@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane fx:id="subContentPane" prefHeight="640.0" prefWidth="650.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerDocenti">
+   <children>
+      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="14.0" prefHeight="38.0" prefWidth="630.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
+         <children>
+            <JFXButton contentDisplay="TOP" onMouseClicked="#newDocente" prefHeight="45.0" prefWidth="45.0" text="New...">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/new.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton contentDisplay="TOP" onMouseClicked="#apply" prefHeight="45.0" prefWidth="45.0" text="Save">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/save.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+            <JFXButton contentDisplay="TOP" onMouseClicked="#clear" prefHeight="45.0" prefWidth="45.0" text="Clear...">
+               <graphic>
+                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../images/clear.png" />
+                     </image>
+                  </ImageView>
+               </graphic>
+            </JFXButton>
+         </children>
+      </HBox>
+      <ScrollPane hbarPolicy="NEVER" layoutY="102.0" pannable="true" prefHeight="460.0" prefWidth="610.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="102.0">
+         <content>
+            <VBox fx:id="docentiBox" alignment="TOP_CENTER" prefHeight="450.0" prefWidth="620.0" spacing="3.0" />
+         </content>
+      </ScrollPane>
+      <JFXSpinner fx:id="loading" layoutX="285.0" layoutY="200.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
+      <Label layoutX="20.0" layoutY="566.0" prefHeight="30.0" prefWidth="479.0" text="*Docente with nome and cognome both empty will be removed" />
+      <Label layoutX="20.0" layoutY="596.0" prefHeight="30.0" prefWidth="610.0" text="*" />
+   </children>
+</AnchorPane>

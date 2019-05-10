@@ -28,8 +28,8 @@ import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
 import main.utils.Console;
+import main.utils.Effect;
 import main.utils.Utils;
-import main.utils.WindowStyle;
 
 public class ControllerMaterie {
 
@@ -112,17 +112,16 @@ public class ControllerMaterie {
 						ColorPicker colore = (ColorPicker) matBox.lookup("#coloreMateria");
 						String hexColor = Utils.toRGBCode(colore.getValue());
 						Materia m = getMaterieById(idM);
-						if(!m.getColore().equals(hexColor) || !m.getNome().equals(nomeM)) {
+						if(!m.equals(new Materia(idM,nomeM,hexColor))) {
 							m.setNome(nomeM);
 							m.setColore(hexColor);
 							m.setStato("update");	
+							modificato = true;
 						}
-						modificato = true;
 					}
 				}
 			}
 		}
-		
 		if (modificato || !toRemove.isEmpty()) {
 			if(!toRemove.isEmpty()) {
 				for(int idM : toRemove) {
@@ -150,11 +149,6 @@ public class ControllerMaterie {
 		return null;
 	}
 	
-	
-	public void exit() {
-		WindowStyle.close((Stage) materieBox.getScene().getWindow());
-	}
-	
 	@FXML
 	public void clear() {
 		if(!materie.isEmpty()) {
@@ -173,19 +167,17 @@ public class ControllerMaterie {
 	public void newMateria() { // aggiunge un nuovo materiabox con nome = "" e colore = ffffff
 		HBox box = loadMateriaBox();
 		Label idLbl = (Label) box.lookup("#idMateria");
-		//materie.put(id, new Materia(id));
 		idLbl.setText("");
 	}
 
 	public void addMateria(Materia m) { // aggiunge i materiabox a seconda di materia dato passato in parametro
 		HBox box = loadMateriaBox();
-		box.setId(box.getId() + m.getId());
 		JFXTextField nome = (JFXTextField) box.lookup("#nomeMateria");
 		ColorPicker colore = (ColorPicker) box.lookup("#coloreMateria");
 		Label idLbl = (Label) box.lookup("#idMateria");
 		nome.setText(m.getNome());
 		colore.setValue(Color.valueOf(m.getColore()));
-		idLbl.setText("" + m.getId());
+		idLbl.setText(String.valueOf(m.getId()));
 	}
 
 
@@ -196,18 +188,21 @@ public class ControllerMaterie {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
+				subContentPane.setEffect(Effect.blur());
 				return DataBaseHandler.getInstance().updateMateriaTable(materie);
 			}
 		};
 
 		updateMaterieTask.setOnFailed(event -> {
 			loading.setVisible(false);
+			subContentPane.setEffect(null);
 			Utils.errorMsg("Failed to get Materie from db");
 			updateMaterieTask.getException().printStackTrace();
 		});
 
 		updateMaterieTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
+			subContentPane.setEffect(null);
 			if (updateMaterieTask.getValue()) {
 				Utils.popUpDialog(root, pane, "Message", "Changes saved");
 				MetaData.cm.updateOSPicker();

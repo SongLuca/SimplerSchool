@@ -1,5 +1,7 @@
 package main.application.models;
 
+import java.util.Objects;
+
 import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 
 public class Materia extends RecursiveTreeObject<Materia> {
@@ -18,7 +20,13 @@ public class Materia extends RecursiveTreeObject<Materia> {
 		this.colore = "#FFFFFF";
 		this.stato = "insert";
 	}
-
+	
+	public Materia(int id, String nome, String colore) {
+		this.id = id;
+		this.nome = nome;
+		this.colore = colore;
+	}
+	
 	public Materia(int id, String nome, String colore, String stato) {
 		this.id = id;
 		this.nome = nome;
@@ -57,7 +65,20 @@ public class Materia extends RecursiveTreeObject<Materia> {
 	public void setColore(String colore) {
 		this.colore = colore;
 	}
-
+	
+	public boolean equals(Materia m) {
+		if (this == m) {
+            return true;
+        }
+        if (m == null || getClass() != m.getClass()) {
+            return false;
+        }
+        
+        return Objects.equals(this.id, m.id)
+        		&& Objects.equals(this.nome, m.nome)
+                && Objects.equals(this.colore, m.colore);
+	}
+	
 	@Override
 	public String toString() {
 		return "Materia [id=" + id + ", nome=" + nome + ", colore=" + colore + ", stato=" + stato + "]";

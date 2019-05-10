@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.HBox?>
+
+<HBox fx:id="docenteBox" alignment="CENTER" prefHeight="70.0" prefWidth="630.0" spacing="20.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerDocenteBox">
+   <children>
+      <JFXTextField fx:id="nomeField" prefHeight="23.0" prefWidth="200.0" promptText="nome..." />
+      <JFXTextField fx:id="cognomeField" prefHeight="23.0" prefWidth="200.0" promptText="cognome..." />
+      <JFXButton onMouseClicked="#delete" prefHeight="20.0" prefWidth="20.0" text="">
+         <graphic>
+            <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../../images/delete.png" />
+               </image>
+            </ImageView>
+         </graphic>
+         <HBox.margin>
+            <Insets left="80.0" />
+         </HBox.margin>
+      </JFXButton>
+      <Label fx:id="idDocente" maxHeight="0.0" maxWidth="0.0" minHeight="0.0" minWidth="0.0" prefHeight="0.0" prefWidth="0.0" visible="false" />
+   </children>
+</HBox>

@@ -100,7 +100,26 @@ public class ControllerSettings {
 
 	@FXML
 	void openDocenti(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "docentiFXML").toURL());
+			AnchorPane osPane = fxmlLoader.load();
+			contentPane.getChildren().removeAll();
+			contentPane.getChildren().setAll(osPane);
+			title.setText("Settings - Docenti");
+			backButton.setPrefWidth(40);
+			backButton.setVisible(true);
 
+			Stage stage = (Stage) pop.getScene().getWindow();
+			stage.setMinHeight(700);
+			stage.setMinWidth(700);
+			stage.setHeight(700);
+			stage.setWidth(700);
+			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
+			new FadeInUp(contentPane).play();
+			mainPane.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	@FXML
