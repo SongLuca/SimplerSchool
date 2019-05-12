@@ -256,7 +256,7 @@ public class ControllerAddSubject {
 
 	public void initialize() {
 		materie = DataBaseHandler.getInstance().getMaterie();
-		insegna = DataBaseHandler.getInstance().getInsegna();
+		insegna = DataBaseHandler.getInstance().getNewInsegna();
 		docenti = DataBaseHandler.getInstance().getDocenti();
 		modificato = false;
 		initComboBoxes();

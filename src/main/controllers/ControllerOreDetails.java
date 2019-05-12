@@ -20,6 +20,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import main.application.models.Config;
+import main.application.models.Docente;
+import main.application.models.Insegna;
+import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
@@ -47,6 +50,9 @@ public class ControllerOreDetails {
 	@FXML
     private JFXTabPane tabPane;
 	
+	@FXML
+    private VBox infoVBox;
+
 	private ArrayList<SchoolTask> attivita;
 
 	private int compitiCount;
@@ -65,6 +71,7 @@ public class ControllerOreDetails {
 		MetaData.cod = this;
 		setMateria(MetaData.materiaSelected);
 		initTitleBox();
+		initInfoBox();
 		populatePanes();
 	}
 
@@ -86,6 +93,43 @@ public class ControllerOreDetails {
 	
 	public void reloadAttivita() {
 		attivita = DataBaseHandler.getInstance().getAttivita();
+	}
+	
+	public Materia getMateriaByNome() {
+		ArrayList<Materia> materie = DataBaseHandler.getInstance().getMaterie();
+		for(Materia m : materie) {
+			if(m.getNome().equals(materia))
+				return m;
+		}
+		return null;
+	}
+	
+	public Docente getDocenteById(int idD) {
+		ArrayList<Docente> docenti = DataBaseHandler.getInstance().getDocenti();
+		for(Docente d : docenti) {
+			if(d.getIdDocente() == idD)
+				return d;
+		}
+		return null;
+	}
+	
+	public void initInfoBox() {
+		ArrayList<Insegna> insegna = DataBaseHandler.getInstance().getInsegna();
+		boolean ceDocente = false;
+		for(Insegna i : insegna) {
+			if(i.getMateriaId() == getMateriaByNome().getId()) {
+				Docente d = getDocenteById(i.getProfId());
+				Label lbl = new Label("Docente: " + d.getNomeCognome());
+				lbl.setPrefHeight(20);
+				infoVBox.getChildren().add(lbl);
+				ceDocente = true;
+			}
+		}
+		if(!ceDocente) {
+			Label lbl = new Label("Non ce nessun docente");
+			lbl.setPrefHeight(20);
+			infoVBox.getChildren().add(lbl);
+		}
 	}
 	
 	public void populatePanes() {

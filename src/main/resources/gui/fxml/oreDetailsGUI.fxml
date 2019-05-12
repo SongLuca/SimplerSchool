@@ -48,7 +48,7 @@
                   </HBox>
                </children>
             </HBox>
-            <JFXTabPane fx:id="tabPane" layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <JFXTabPane fx:id="tabPane" layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
                <tabs>
                   <Tab text="Compiti">
                     <content>
@@ -56,7 +56,7 @@
                            <children>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                  <content>
-                                    <VBox fx:id="compitiBox" prefHeight="480.0" prefWidth="585.0" />
+                                    <VBox fx:id="compitiBox" prefHeight="425.0" prefWidth="575.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -69,7 +69,7 @@
                            <children>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
                                  <content>
-                                    <VBox fx:id="verificheBox" prefHeight="480.0" prefWidth="585.0" />
+                                    <VBox fx:id="verificheBox" prefHeight="425.0" prefWidth="575.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -82,7 +82,7 @@
                            <children>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
                                  <content>
-                                    <VBox fx:id="interrBox" prefHeight="480.0" prefWidth="585.0" />
+                                    <VBox fx:id="interrBox" prefHeight="425.0" prefWidth="575.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -95,7 +95,7 @@
                            <children>
                               <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
                                  <content>
-                                    <VBox fx:id="allegatoBox" prefHeight="480.0" prefWidth="585.0" />
+                                    <VBox fx:id="allegatoBox" prefHeight="425.0" prefWidth="575.0" />
                                  </content>
                               </ScrollPane>
                            </children>
@@ -119,6 +119,7 @@
                   <Insets right="50.0" />
                </padding>
             </HBox>
+            <VBox fx:id="infoVBox" prefHeight="50.0" prefWidth="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0" />
          </children>
       </AnchorPane>
       <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />

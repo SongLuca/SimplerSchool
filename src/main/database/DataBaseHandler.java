@@ -79,10 +79,14 @@ public class DataBaseHandler {
 		return docenti;
 	}
 	
-	public ArrayList<Insegna> getInsegna() {
+	public ArrayList<Insegna> getNewInsegna() {
 		return new ArrayList<Insegna>(insegna);
 	}
-
+	
+	public ArrayList<Insegna> getInsegna() {
+		return insegna;
+	}
+	
 	public SchoolTask getAttivita(int idTask) {
 		if (attivita == null)
 			return null;
