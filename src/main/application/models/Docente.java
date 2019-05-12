@@ -62,6 +62,10 @@ public class Docente {
 		this.stato = stato;
 	}
 	
+	public String getNomeCognome() {
+		return this.nome+" "+this.cognome;
+	}
+	
 	public boolean equals(Docente d) {
 		if (this == d) {
             return true;

@@ -31,12 +31,12 @@
 }
 
 #actionPane{
-	-fx-border-width: 2;
+	-fx-border-width: 0 0 2 0;
 	-fx-border-color: -custom-grigino;
 }
 
 #notePane{
-	-fx-border-width:0,0,0,2;
+	-fx-border-width: 0 0 0 2;
 	-fx-border-color: -custom-grigino;
 }
 

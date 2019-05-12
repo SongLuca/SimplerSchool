@@ -29,6 +29,7 @@ import javafx.stage.Stage;
 import main.application.customGUI.ConfirmDialog;
 import main.application.customGUI.TextFieldDialog;
 import main.application.models.Config;
+import main.application.models.Insegna;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
@@ -81,13 +82,19 @@ public class ControllerOrarioS {
 	
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	
+	private ArrayList<Insegna> insegna;
+	
+	private boolean updateInsegna;
+	
 	public void initialize() {
 		setOSButtonVisible(false);
 		initOSList();
+		updateInsegna = false;
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
 		AnchorPane.setRightAnchor(subContentPane, 0.0);
+		MetaData.cos = this;
 		clearButton.setOnMouseClicked(e -> {
 			Stage owner = (Stage)calendarioPane.getScene().getWindow();
 			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
@@ -134,6 +141,11 @@ public class ControllerOrarioS {
 		});
 	}
 	
+	public void setInsegna(ArrayList<Insegna> insegna) {
+		this.insegna = insegna;
+		updateInsegna = true;
+	}
+	
 	public void updateOSTask(String doneMsg, boolean refreshList) {
 		StackPane root = (StackPane) calendarGrid.getScene().lookup("#rootStack");
 		AnchorPane pane = (AnchorPane) calendarGrid.getScene().lookup("#rootPane");
@@ -142,7 +154,11 @@ public class ControllerOrarioS {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				subContentPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().updateOSTable(os);
+				if(!updateInsegna)
+					return DataBaseHandler.getInstance().updateOSTable(os);
+				else
+					return DataBaseHandler.getInstance().updateOSTable(os) &&
+							DataBaseHandler.getInstance().updateInsegnaTable(insegna);
 			}
 		};
 
@@ -262,7 +278,6 @@ public class ControllerOrarioS {
 		Console.print("Rerendering calendario","gui");
 		initOSCalendarGrid();
 		materie = DataBaseHandler.getInstance().getMaterie();
-		Console.print(os.toString(), "");
 		this.os = MetaData.os;
 		for (String giornoK : os.getSettimana().keySet()) {
 			int dayCol = os.getColByGiorno(giornoK);

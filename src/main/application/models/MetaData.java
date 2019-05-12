@@ -4,6 +4,7 @@ import javafx.scene.layout.GridPane;
 import main.controllers.ControllerDocenti;
 import main.controllers.ControllerMain;
 import main.controllers.ControllerMaterie;
+import main.controllers.ControllerOrarioS;
 import main.controllers.ControllerOreDetails;
 
 public class MetaData {
@@ -19,4 +20,5 @@ public class MetaData {
 	public static ControllerOreDetails cod;
 	public static ControllerMaterie cmat;
 	public static ControllerDocenti cd;
+	public static ControllerOrarioS cos;
 }

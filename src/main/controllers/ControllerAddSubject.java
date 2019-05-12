@@ -10,6 +10,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.application.models.Docente;
+import main.application.models.Insegna;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
@@ -26,8 +28,16 @@ public class ControllerAddSubject {
 
 	@FXML
 	private JFXComboBox<String> prof2Box;
-	
+
 	private ArrayList<Materia> materie;
+
+	private ArrayList<Insegna> insegna;
+
+	private ArrayList<Docente> docenti;
+
+	private Insegna copy1, copy2;
+	
+	private boolean modificato;
 	
 	@FXML
 	void cancel(MouseEvent event) {
@@ -37,20 +47,46 @@ public class ControllerAddSubject {
 
 	@FXML
 	void save(MouseEvent event) {
-		String ora = (MetaData.sub_row+1) + "ora";
+		String ora = (MetaData.sub_row + 1) + "ora";
 		String giorno = Utils.numToDay(MetaData.sub_col);
-		if(!materiaBox.getValue().equals("")) {
+		if (!materiaBox.getValue().equals("")) {
 			Materia m = getMateriaByNome(materiaBox.getValue());
-			Console.print("Os: " + MetaData.os.getNomeOrario() + " adding " + m.getNome()+m.getId() + " to " + ora + " at " + giorno, "app");
-			MetaData.os.addMateria(ora, giorno, m.getId()+"");
-		}
-		else {
+			MetaData.os.addMateria(ora, giorno, m.getId() + "");
+			checkProfBoxes(profBox, copy1, m.getId());
+			checkProfBoxes(prof2Box, copy2, m.getId());
+			Console.print(insegna.toString(), "");
+		} else {
 			MetaData.os.addMateria(ora, giorno, "");
 		}
 		fuseSubjects(MetaData.OrarioSGrid, MetaData.sub_col);
+		if(modificato)
+			MetaData.cos.setInsegna(insegna);
 		cancel(event);
 	}
 	
+	public void checkProfBoxes(JFXComboBox<String> box, Insegna copy, int idM) {
+		if(copy == null && !box.getValue().equals("")) { // se non esiste copy1 e il combobox non e' vuoto allora insert
+			Docente d = getDocenteByNomeCognome(box.getValue());
+			insegna.add(new Insegna(idM, d.getIdDocente(), "insert"));
+			modificato = true;
+		}
+		else if(copy != null) {  
+			if(box.getValue().equals("")) {// se il valore del combobox e' allora cancella la copy1
+				insegna.get(insegna.indexOf(copy)).setStato("delete");
+				modificato = true;
+			}
+			else { 
+				Insegna updateIn = insegna.get(insegna.indexOf(copy));
+				Docente d = getDocenteByNomeCognome(box.getValue());
+				if(updateIn.getProfId() != d.getIdDocente()) {
+					updateIn.setStato("delete");
+					insegna.add(new Insegna(idM, d.getIdDocente(), "insert"));
+					modificato = true;
+				}
+			}
+		}
+	}
+
 	public void addVBoxToCell(GridPane osGrid, String idMateria, int row, int col, int rowSpan) {
 		Materia m = getMateriaById(idMateria);
 		VBox pane = new VBox();
@@ -64,22 +100,22 @@ public class ControllerAddSubject {
 		pane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 			((ControllerOrarioS) MetaData.controller).addMateria(pane);
 		});
-		if(rowSpan != 1) 
+		if (rowSpan != 1)
 			osGrid.add(pane, col, row, 1, rowSpan);
 		else
 			osGrid.add(pane, col, row);
 	}
-	
-	public void fuseSubjects (GridPane osGrid, int col) {
+
+	public void fuseSubjects(GridPane osGrid, int col) {
 		LinkedHashMap<String, String> giorno = MetaData.os.getOrarioGiorno(col);
 		osGrid.getChildren().removeIf(node -> (node instanceof VBox) && GridPane.getColumnIndex(node) == col);
 		int count = 0;
 		int length = 1;
 		int startPos = 0;
 		String materiaPrec = "";
-		for(String ora : giorno.keySet()) {
-			if(count == 0) {
-				if(!giorno.get(ora).equals(""))
+		for (String ora : giorno.keySet()) {
+			if (count == 0) {
+				if (!giorno.get(ora).equals(""))
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
 					VBox vPane = new VBox();
@@ -90,30 +126,27 @@ public class ControllerAddSubject {
 					osGrid.add(vPane, col, count);
 				}
 			}
-			if(count != 0) {
-				if(!giorno.get(ora).equals("") && giorno.get(ora).equals(materiaPrec)) {
-					length ++;
-					if(length == 1)
+			if (count != 0) {
+				if (!giorno.get(ora).equals("") && giorno.get(ora).equals(materiaPrec)) {
+					length++;
+					if (length == 1)
 						startPos = count;
-				}
-				else {
-					if(length != 1) {
+				} else {
+					if (length != 1) {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
-						if(giorno.get(ora).equals("")) {
+						if (giorno.get(ora).equals("")) {
 							VBox vPane = new VBox();
 							vPane.getStyleClass().add("calendar_pane");
 							vPane.addEventHandler(MouseEvent.MOUSE_CLICKED, (e) -> {
 								((ControllerOrarioS) MetaData.controller).addMateria(vPane);
 							});
 							osGrid.add(vPane, col, count);
-						}
-						else
+						} else
 							addVBoxToCell(osGrid, giorno.get(ora), count, col, 1);
-					}
-					else {
+					} else {
 						length = 1;
 						startPos = count;
-						if(!giorno.get(ora).equals(""))
+						if (!giorno.get(ora).equals(""))
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
 							VBox vPane = new VBox();
@@ -132,37 +165,93 @@ public class ControllerAddSubject {
 			count++;
 		}
 	}
-	
+
 	public Materia getMateriaByNome(String nome) {
-		for(Materia m : materie) {
-			if(m.getNome().equals(nome))
+		for (Materia m : materie) {
+			if (m.getNome().equals(nome))
 				return m;
 		}
 		return null;
 	}
-	
+
 	public Materia getMateriaById(String id) {
-		for(Materia m : materie) {
-			if(m.getId() == Integer.parseInt(id))
+		for (Materia m : materie) {
+			if (m.getId() == Integer.parseInt(id))
 				return m;
 		}
-		
+
 		return null;
 	}
-	
+
+	public Docente getDocenteById(int id) {
+		for (Docente d : docenti) {
+			if (d.getIdDocente() == id)
+				return d;
+		}
+
+		return null;
+	}
+
+	public Docente getDocenteByNomeCognome(String nomeCognome) {
+		for (Docente d : docenti) {
+			if (d.getNomeCognome().equals(nomeCognome))
+				return d;
+		}
+		return null;
+	}
+
 	public void initComboBoxes() {
 		materiaBox.getItems().add("");
-		if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals(""))
-			materiaBox.getSelectionModel().selectFirst();
-		for(Materia m : materie) {
+		profBox.getItems().add("");
+		prof2Box.getItems().add("");
+		materiaBox.getSelectionModel().selectFirst();
+		profBox.getSelectionModel().selectFirst();
+		prof2Box.getSelectionModel().selectFirst();
+
+		String currMateria = MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col);
+		int idM = Integer.parseInt(currMateria);
+
+		for (Materia m : materie) { // popolare il combobox di materie
 			materiaBox.getItems().add(m.getNome());
-			if(MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col).equals(m.getNome()))
-				materiaBox.getSelectionModel().select(m.getNome());
 		}
+
+		for (Docente d : docenti) { // popolare il combobox di docenti
+			profBox.getItems().add(d.getNome() + " " + d.getCognome());
+			prof2Box.getItems().add(d.getNome() + " " + d.getCognome());
+		}
+
+		if (!currMateria.equals(""))
+			materiaBox.getSelectionModel().select(getMateriaById(currMateria).getNome());
+
+		for (Insegna i : insegna) {
+			if (i.getMateriaId() == Integer.parseInt(currMateria)) {
+				if (profBox.getValue().equals(""))
+					profBox.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+				else
+					prof2Box.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+			}
+		}
+
+		copy1 = (profBox.getValue().equals("")) ? null
+				: new Insegna(idM, getDocenteByNomeCognome(profBox.getValue()).getIdDocente(),"fresh");
+		copy2 = (prof2Box.getValue().equals("")) ? null
+				: new Insegna(idM, getDocenteByNomeCognome(prof2Box.getValue()).getIdDocente(),"fresh");
+
+		if (copy1 == null)
+			Console.print("copy1 is null", "");
+		else
+			Console.print("copy1: " + copy1.toString(), "");
+		if (copy2 == null)
+			Console.print("copy2 is null", "");
+		else
+			Console.print("copy2: " + copy2.toString(), "");
 	}
-	
+
 	public void initialize() {
 		materie = DataBaseHandler.getInstance().getMaterie();
+		insegna = DataBaseHandler.getInstance().getInsegna();
+		docenti = DataBaseHandler.getInstance().getDocenti();
+		modificato = false;
 		initComboBoxes();
 	}
 }

@@ -25,7 +25,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefWidth="1350.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane prefWidth="1350.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -35,49 +35,72 @@
                      <children>
                        <AnchorPane id="actionPane" layoutX="-6.0" minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="888.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-6.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                                        <children>
-                                          <HBox alignment="CENTER" layoutX="47.0" layoutY="66.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
-                                             <children>
-                                                <Label prefHeight="30.0" text="Data: ">
-                                                   <font>
-                                                      <Font size="14.0" />
-                                                   </font>
-                                                </Label>
-                                                <JFXDatePicker fx:id="datePicker" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER" layoutX="47.0" layoutY="109.0" prefHeight="45.0" prefWidth="260.0" spacing="10.0">
-                                             <children>
-                                                <JFXButton fx:id="lastWeekBtn" prefHeight="30.0" text="Last week" />
-                                                <JFXButton fx:id="thisWeekBtn" prefHeight="30.0" text="This week" />
-                                                <JFXButton fx:id="nextWeekBtn" prefHeight="30.0" text="Next week" />
-                                             </children>
-                                          </HBox>
-                                          <HBox alignment="CENTER_LEFT" layoutX="342.0" layoutY="58.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
-                                             <children>
-                                                <Label prefHeight="30.0" text="Orario settimanale" />
-                                                <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
-                                             </children>
-                                          </HBox>
-                                          <JFXButton layoutX="422.0" layoutY="119.0" onMouseClicked="#insertTask" prefHeight="23.0" prefWidth="128.0" text="Insert Task" />
-                              <Pane layoutX="991.0" layoutY="13.0" prefHeight="154.0" prefWidth="255.0" styleClass="backgroundActionPane">
-                                 <effect>
-                                    <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
-                                 </effect>
+                              <HBox prefHeight="180.0" prefWidth="1282.0" spacing="30.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0">
                                  <children>
-                                    <Pane layoutX="27.0" layoutY="12.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane">
+                                    <Pane prefHeight="154.0" prefWidth="286.0" styleClass="backgroundActionPane">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
+                                       </effect>
                                        <children>
-                                          <Circle fx:id="avatar" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
-                                          <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
+                                                      <HBox alignment="CENTER" layoutX="14.0" layoutY="33.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
+                                                         <children>
+                                                            <Label prefHeight="30.0" text="Data: ">
+                                                               <font>
+                                                                  <Font size="14.0" />
+                                                               </font>
+                                                            </Label>
+                                                            <JFXDatePicker fx:id="datePicker" />
+                                                         </children>
+                                                      </HBox>
+                                                      <HBox alignment="CENTER" layoutX="14.0" layoutY="76.0" prefHeight="45.0" prefWidth="260.0" spacing="10.0">
+                                                         <children>
+                                                            <JFXButton fx:id="lastWeekBtn" prefHeight="30.0" text="Last week" />
+                                                            <JFXButton fx:id="thisWeekBtn" prefHeight="30.0" text="This week" />
+                                                            <JFXButton fx:id="nextWeekBtn" prefHeight="30.0" text="Next week" />
+                                                         </children>
+                                                      </HBox>
+                                       </children>
+                                    </Pane>
+                                    <Pane prefHeight="154.0" prefWidth="299.0" styleClass="backgroundActionPane">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
+                                       </effect>
+                                       <children>
+                                                      <HBox alignment="CENTER_LEFT" layoutX="6.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
+                                                         <children>
+                                                            <Label prefHeight="30.0" text="Orario settimanale" />
+                                                            <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
+                                                         </children>
+                                                      </HBox>
+                                                      <JFXButton layoutX="14.0" layoutY="54.0" onMouseClicked="#insertTask" prefHeight="23.0" prefWidth="128.0" text="Insert Task" />
+                                       </children>
+                                    </Pane>
+                                    <Pane prefHeight="154.0" prefWidth="255.0" styleClass="backgroundActionPane">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
+                                       </effect>
+                                    </Pane>
+                                    <Pane prefHeight="154.0" prefWidth="255.0" styleClass="backgroundActionPane">
+                                       <effect>
+                                          <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
+                                       </effect>
+                                       <children>
+                                          <Pane layoutX="27.0" layoutY="12.0" minHeight="120.0" prefHeight="130.0" prefWidth="228.0" styleClass="menuProfilePane">
                                              <children>
-                                                <Label fx:id="nomeLbl" prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
-                                                <Label fx:id="cognomeLbl" prefHeight="30.0" prefWidth="120.0" text="Zheng" />
-                                                <Label fx:id="scuolaLbl" prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                                <Circle fx:id="avatar" fill="DODGERBLUE" layoutX="59.0" layoutY="59.0" radius="45.0" stroke="BLACK" strokeType="INSIDE" />
+                                                <VBox alignment="CENTER" layoutX="117.0" layoutY="5.0" prefHeight="120.0" prefWidth="112.0">
+                                                   <children>
+                                                      <Label fx:id="nomeLbl" prefHeight="30.0" prefWidth="120.0" text="Matteo" textAlignment="CENTER" wrapText="true" />
+                                                      <Label fx:id="cognomeLbl" prefHeight="30.0" prefWidth="120.0" text="Zheng" />
+                                                      <Label fx:id="scuolaLbl" prefHeight="30.0" prefWidth="120.0" text="Tullio Buzzi" textAlignment="CENTER" textOverrun="CLIP" wrapText="true" />
+                                                   </children>
+                                                </VBox>
                                              </children>
-                                          </VBox>
+                                          </Pane>
                                        </children>
                                     </Pane>
                                  </children>
-                              </Pane>
+                              </HBox>
                                        </children>
                                     </AnchorPane>
                      </children>

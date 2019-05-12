@@ -66,7 +66,6 @@ public class ControllerDocenti {
 	
 	public void initDocentiBox() {
 		docentiBox.getChildren().clear();
-		Console.print(docenti.toString(), "");
 		for(Docente d : docenti) {
 			addDocente(d);
 		}

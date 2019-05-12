@@ -26,6 +26,7 @@ import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Config;
 import main.application.models.Docente;
+import main.application.models.Insegna;
 import main.application.models.Materia;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
@@ -47,6 +48,7 @@ public class DataBaseHandler {
 	private ArrayList<Docente> docenti;
 	private HashMap<Integer, OrarioSettimanale> orariS;
 	private ArrayList<SchoolTask> attivita;
+	private ArrayList<Insegna> insegna;
 	static String mySqlConnClass = "com.mysql.jdbc.Driver";
 	private String defaultAvatar = "default/defaultAvatar.jpg";
 
@@ -75,6 +77,10 @@ public class DataBaseHandler {
 	
 	public ArrayList<Docente> getDocenti() {
 		return docenti;
+	}
+	
+	public ArrayList<Insegna> getInsegna() {
+		return insegna;
 	}
 
 	public SchoolTask getAttivita(int idTask) {
@@ -144,6 +150,7 @@ public class DataBaseHandler {
 		Console.print("---Preloading all user data---", "app");
 		runGetMaterieQuery();
 		getDocentiQuery();
+		getInsegnaQuery();
 		getOSQuery();
 		getAttivitaS(LocalDate.now());
 		Console.print("--------------------------------", "app");
@@ -531,6 +538,72 @@ public class DataBaseHandler {
 		}
 		return false;
 	}
+
+	
+	public boolean getInsegnaQuery() {
+		Console.print("Getting insegna(docenti-materie)", "db");
+		String query = "SELECT * FROM INSEGNA WHERE USER_ID = ?";
+		Connection conn = openConn();
+		ResultSet rs = null;
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, Main.utente.getUserid());
+			rs = stmt.executeQuery();
+			return rsToInsegna(rs);
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+	
+	public boolean updateInsegnaTable(ArrayList<Insegna> insegnaN) {
+		Console.print("Update insegna table", "db");
+		Connection conn = openConn();
+		for(Insegna i : insegnaN) {
+			switch (i.getStato()) {
+			case "insert":
+				return runInsertInsegnaQuery(i, conn);
+			case "delete":
+				return runDeleteInsegnaQuery(i, conn);
+			case "fresh":
+				break;
+			}
+		}
+		return false;
+	}
+	
+	public boolean runDeleteInsegnaQuery(Insegna i, Connection conn) {
+		String query = "DELETE FROM INSEGNA WHERE prof_id= ? and materia_id = ? and user_id = ?";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, i.getProfId());
+			stmt.setInt(2, i.getMateriaId());
+			stmt.setInt(3, Main.utente.getUserid());
+			stmt.execute();
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+
+	public boolean runInsertInsegnaQuery(Insegna i, Connection conn) {
+		String query = "INSERT INTO INSEGNA (PROF_ID, MATERIA_ID, USER_ID) VALUES(?,?,?)";
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, i.getProfId());
+			stmt.setInt(2, i.getMateriaId());
+			stmt.setInt(3, Main.utente.getUserid());
+			stmt.execute();
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
 	
 	public boolean updateOSTable(OrarioSettimanale os) {
 		Console.print("Update orariosettimanale table", "db");
@@ -643,7 +716,8 @@ public class DataBaseHandler {
 			stmt.setDate(1, Date.valueOf(data));
 			stmt.setInt(2, Main.utente.getUserid());
 			rs = stmt.executeQuery();
-			return rsToAttivita(rs);
+			rsToAttivita(rs);
+			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
 			this.setMsg("Can not connect to the SQL database!");
@@ -835,7 +909,7 @@ public class DataBaseHandler {
 			Console.print(xml.getAbsolutePath() + " doesnt exist", "fileio");
 	}
 
-	public boolean rsToAttivita(ResultSet rs) {
+	public void rsToAttivita(ResultSet rs) {
 		attivita = new ArrayList<SchoolTask>();
 		SchoolTask task;
 		try {
@@ -856,10 +930,6 @@ public class DataBaseHandler {
 		} catch (SQLException e) {
 			Console.print("Failed to retrive resultset" + e.getMessage(), "db");
 		}
-		if (attivita.isEmpty())
-			return false;
-		else
-			return true;
 	}
 
 	public boolean rsToOS(ResultSet rs) {
@@ -925,6 +995,23 @@ public class DataBaseHandler {
 			return true;
 	}
 	
+	public boolean rsToInsegna(ResultSet rs) {
+		insegna = new ArrayList<Insegna>();
+		Insegna i;
+		try {
+			while (rs.next()) {
+				i = new Insegna(rs.getInt("materia_id"), rs.getInt("prof_id"), "fresh");
+				insegna.add(i);
+			}
+		} catch (SQLException e) {
+			Console.print("Failed to retrive resultset" + e.getMessage(), "db");
+		}
+		if (insegna.isEmpty())
+			return false;
+		else
+			return true;
+	}
+	
 	public Utente RsToUtente(ResultSet rs) {
 		Utente utente = new Utente();
 		try {
@@ -947,7 +1034,6 @@ public class DataBaseHandler {
 		File avatar = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
 		return avatar;
 	}
-	
 	
 	public boolean updateOrariS(Materia m) {
 		boolean value = false;

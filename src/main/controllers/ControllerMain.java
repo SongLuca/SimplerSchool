@@ -370,12 +370,8 @@ public class ControllerMain {
 			if (changeWeekTask.getValue()) {
 				loadNoteBoard();
 			} else {
-				if(DataBaseHandler.getInstance().getMsg() == null)
-					loadNoteBoard();
-				else {
-					Utils.popUpDialog(rootStack, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
-					rootPane.setDisable(false);
-				}
+				Utils.popUpDialog(rootStack, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				rootPane.setDisable(false);
 			}
 		});
 
