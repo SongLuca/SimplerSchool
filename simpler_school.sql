@@ -19,7 +19,7 @@ CREATE TABLE DOCENTE(
 	nome varchar(50) DEFAULT NULL,
 	cognome varchar(50) DEFAULT NULL,
 	user_id int not null,
-	FOREIGN KEY (user_id) REFERENCES utente(user_id)
+	FOREIGN KEY (user_id) REFERENCES utente(user_id) ON DELETE CASCADE
 )AUTO_INCREMENT=10000;
 
 CREATE TABLE MATERIA(
@@ -29,17 +29,27 @@ CREATE TABLE MATERIA(
 	user_id int NOT NULL,
 	prof_id int DEFAULT NULL,
 	prof2_id int DEFAULT NULL,
-	FOREIGN KEY (user_id) REFERENCES utente(user_id),
+	FOREIGN KEY (user_id) REFERENCES utente(user_id) ON DELETE CASCADE,
 	FOREIGN KEY (prof_id) REFERENCES DOCENTE(prof_id),
 	FOREIGN KEY (prof2_id) REFERENCES DOCENTE(prof_id)
 )AUTO_INCREMENT=1000;
+
+CREATE TABLE INSEGNA(
+	prof_id int not null,
+	materia_id int not null,
+	user_id int not null,
+	FOREIGN KEY (prof_id) REFERENCES DOCENTE(prof_id) ON DELETE CASCADE,
+	FOREIGN KEY (materia_id) REFERENCES MATERIA(materia_id) ON DELETE CASCADE,
+	FOREIGN KEY (user_id) REFERENCES utente(user_id) ON DELETE CASCADE,
+	PRIMARY KEY(prof_id,materia_id)
+)
 
 CREATE TABLE ORARIOSETTIMANALE(
 	os_id int not null AUTO_INCREMENT PRIMARY KEY,
 	nome varchar(50) not null,
 	file_path varchar(255) not null,
 	user_id int not null,
-	FOREIGN KEY (user_id) REFERENCES utente(user_id)
+	FOREIGN KEY (user_id) REFERENCES utente(user_id) ON DELETE CASCADE
 )AUTO_INCREMENT=100;
 
 CREATE TABLE TASK(
@@ -50,7 +60,7 @@ CREATE TABLE TASK(
 	COMMENTO varchar(255) not null,
 	user_id int not null,
 	voto int,
-	FOREIGN KEY (user_id) REFERENCES utente(user_id),
+	FOREIGN KEY (user_id) REFERENCES utente(user_id) ON DELETE CASCADE,
 	FOREIGN KEY (MATERIA_ID) REFERENCES materia(materia_id)
 )AUTO_INCREMENT=100;
 
@@ -60,12 +70,3 @@ CREATE TABLE ALLEGATO(
 	TASK_ID int not null,
 	FOREIGN KEY (TASK_ID) REFERENCES TASK(TASK_ID) ON DELETE CASCADE
 )AUTO_INCREMENT=100;
-
-CREATE TABLE VOTO(
-	USER_ID int not null,
-	TASK_ID int not null,
-	VOTO INT NOT NULL,
-	PRIMARY KEY (USER_ID, TASK_ID),
-    FOREIGN KEY (user_id) REFERENCES utente(user_id),
-    FOREIGN KEY (TASK_ID) REFERENCES TASK(TASK_ID)
-)
