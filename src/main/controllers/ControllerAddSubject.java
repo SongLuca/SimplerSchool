@@ -15,7 +15,6 @@ import main.application.models.Insegna;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
-import main.utils.Console;
 import main.utils.Utils;
 
 public class ControllerAddSubject {
@@ -36,9 +35,9 @@ public class ControllerAddSubject {
 	private ArrayList<Docente> docenti;
 
 	private Insegna copy1, copy2;
-	
+
 	private boolean modificato;
-	
+
 	@FXML
 	void cancel(MouseEvent event) {
 		Stage stage = (Stage) materiaBox.getScene().getWindow();
@@ -54,37 +53,34 @@ public class ControllerAddSubject {
 			MetaData.os.addMateria(ora, giorno, m.getId() + "");
 			checkProfBoxes(profBox, copy1, m.getId());
 			checkProfBoxes(prof2Box, copy2, m.getId());
-			Console.print(insegna.toString(), "");
 		} else {
 			MetaData.os.addMateria(ora, giorno, "");
 		}
 		fuseSubjects(MetaData.OrarioSGrid, MetaData.sub_col);
-		if(modificato)
+		if (modificato)
 			MetaData.cos.setInsegna(insegna);
 		cancel(event);
 	}
-	
+
 	public void checkProfBoxes(JFXComboBox<String> box, Insegna copy, int idM) {
-		if(copy == null && !box.getValue().equals("")) { // se non esiste copy1 e il combobox non e' vuoto allora insert
-			Docente d = getDocenteByNomeCognome(box.getValue());
+		Docente d = getDocenteByNomeCognome(box.getValue());
+		if (copy == null && !box.getValue().equals("")) {
 			insegna.add(new Insegna(idM, d.getIdDocente(), "insert"));
 			modificato = true;
-		}
-		else if(copy != null) {  
-			if(box.getValue().equals("")) {// se il valore del combobox e' allora cancella la copy1
+		} else if (copy != null) {
+			if (box.getValue().equals("")) {
 				insegna.get(insegna.indexOf(copy)).setStato("delete");
 				modificato = true;
-			}
-			else { 
+			} else {
 				Insegna updateIn = insegna.get(insegna.indexOf(copy));
-				Docente d = getDocenteByNomeCognome(box.getValue());
-				if(updateIn.getProfId() != d.getIdDocente()) {
+				if (updateIn.getProfId() != d.getIdDocente()) {
 					updateIn.setStato("delete");
 					insegna.add(new Insegna(idM, d.getIdDocente(), "insert"));
 					modificato = true;
 				}
 			}
 		}
+
 	}
 
 	public void addVBoxToCell(GridPane osGrid, String idMateria, int row, int col, int rowSpan) {
@@ -207,9 +203,28 @@ public class ControllerAddSubject {
 		materiaBox.getSelectionModel().selectFirst();
 		profBox.getSelectionModel().selectFirst();
 		prof2Box.getSelectionModel().selectFirst();
-
 		String currMateria = MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col);
-		int idM = Integer.parseInt(currMateria);
+		materiaBox.setOnAction(e->{
+			profBox.getSelectionModel().selectFirst();
+			prof2Box.getSelectionModel().selectFirst();
+			int idM = (materiaBox.getValue().equals("")) ? 0 : getMateriaByNome(materiaBox.getValue()).getId();
+			if (idM > 0) {
+				for (Insegna i : insegna) {
+					if (i.getMateriaId() == idM) {
+						if (profBox.getValue().equals(""))
+							profBox.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+						else
+							prof2Box.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+					}
+				}
+				copy1 = (profBox.getValue().equals("")) ? null
+						: new Insegna(idM, getDocenteByNomeCognome(profBox.getValue()).getIdDocente(), "fresh");
+				copy2 = (prof2Box.getValue().equals("")) ? null
+						: new Insegna(idM, getDocenteByNomeCognome(prof2Box.getValue()).getIdDocente(), "fresh");
+			}
+		});
+		
+		int idM = (currMateria.equals("")) ? 0 : Integer.parseInt(currMateria);
 
 		for (Materia m : materie) { // popolare il combobox di materie
 			materiaBox.getItems().add(m.getNome());
@@ -223,28 +238,20 @@ public class ControllerAddSubject {
 		if (!currMateria.equals(""))
 			materiaBox.getSelectionModel().select(getMateriaById(currMateria).getNome());
 
-		for (Insegna i : insegna) {
-			if (i.getMateriaId() == Integer.parseInt(currMateria)) {
-				if (profBox.getValue().equals(""))
-					profBox.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
-				else
-					prof2Box.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+		if (idM > 0) {
+			for (Insegna i : insegna) {
+				if (i.getMateriaId() == idM) {
+					if (profBox.getValue().equals(""))
+						profBox.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+					else
+						prof2Box.getSelectionModel().select(getDocenteById(i.getProfId()).getNomeCognome());
+				}
 			}
+			copy1 = (profBox.getValue().equals("")) ? null
+					: new Insegna(idM, getDocenteByNomeCognome(profBox.getValue()).getIdDocente(), "fresh");
+			copy2 = (prof2Box.getValue().equals("")) ? null
+					: new Insegna(idM, getDocenteByNomeCognome(prof2Box.getValue()).getIdDocente(), "fresh");
 		}
-
-		copy1 = (profBox.getValue().equals("")) ? null
-				: new Insegna(idM, getDocenteByNomeCognome(profBox.getValue()).getIdDocente(),"fresh");
-		copy2 = (prof2Box.getValue().equals("")) ? null
-				: new Insegna(idM, getDocenteByNomeCognome(prof2Box.getValue()).getIdDocente(),"fresh");
-
-		if (copy1 == null)
-			Console.print("copy1 is null", "");
-		else
-			Console.print("copy1: " + copy1.toString(), "");
-		if (copy2 == null)
-			Console.print("copy2 is null", "");
-		else
-			Console.print("copy2: " + copy2.toString(), "");
 	}
 
 	public void initialize() {

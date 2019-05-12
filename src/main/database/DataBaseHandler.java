@@ -80,7 +80,7 @@ public class DataBaseHandler {
 	}
 	
 	public ArrayList<Insegna> getInsegna() {
-		return insegna;
+		return new ArrayList<Insegna>(insegna);
 	}
 
 	public SchoolTask getAttivita(int idTask) {
@@ -539,7 +539,6 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	
 	public boolean getInsegnaQuery() {
 		Console.print("Getting insegna(docenti-materie)", "db");
 		String query = "SELECT * FROM INSEGNA WHERE USER_ID = ?";
@@ -560,17 +559,25 @@ public class DataBaseHandler {
 	public boolean updateInsegnaTable(ArrayList<Insegna> insegnaN) {
 		Console.print("Update insegna table", "db");
 		Connection conn = openConn();
+		boolean reload = false;
 		for(Insegna i : insegnaN) {
 			switch (i.getStato()) {
 			case "insert":
-				return runInsertInsegnaQuery(i, conn);
+				reload = true;
+				runInsertInsegnaQuery(i, conn);
+				break;
 			case "delete":
-				return runDeleteInsegnaQuery(i, conn);
+				reload = true;
+				runDeleteInsegnaQuery(i, conn);
+				break;
 			case "fresh":
 				break;
 			}
 		}
-		return false;
+		if(reload)
+			getInsegnaQuery();
+
+		return true;
 	}
 	
 	public boolean runDeleteInsegnaQuery(Insegna i, Connection conn) {

@@ -90,6 +90,7 @@ public class ControllerOrarioS {
 		setOSButtonVisible(false);
 		initOSList();
 		updateInsegna = false;
+		insegna = new ArrayList<Insegna>();
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
