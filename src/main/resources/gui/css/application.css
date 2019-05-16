@@ -166,3 +166,11 @@
 	-fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
 	-fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
 }
+
+.popup {
+    -fx-background-color: cornsilk;
+    -fx-padding: 10;
+    -fx-border-color: black; 
+    -fx-border-width: 5;
+    -fx-font-size: 16;
+}

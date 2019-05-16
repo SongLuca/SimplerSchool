@@ -35,8 +35,10 @@ public class ControllerAddSubject {
 	private ArrayList<Docente> docenti;
 
 	private Insegna copy1, copy2;
-
-	private boolean modificato;
+	
+	private String materia;
+	
+	private boolean insegnaMod, materiaMod;
 
 	@FXML
 	void cancel(MouseEvent event) {
@@ -53,12 +55,17 @@ public class ControllerAddSubject {
 			MetaData.os.addMateria(ora, giorno, m.getId() + "");
 			checkProfBoxes(profBox, copy1, m.getId());
 			checkProfBoxes(prof2Box, copy2, m.getId());
+			if(!materiaBox.getValue().equals(materia))
+				materiaMod = true;
 		} else {
+			materiaMod = true;
 			MetaData.os.addMateria(ora, giorno, "");
 		}
-		fuseSubjects(MetaData.OrarioSGrid, MetaData.sub_col);
-		if (modificato)
+		if(insegnaMod)
 			MetaData.cos.setInsegna(insegna);
+		if(materiaMod || insegnaMod)
+			MetaData.cos.updateOSTask("saved", true);
+		
 		cancel(event);
 	}
 
@@ -66,17 +73,17 @@ public class ControllerAddSubject {
 		Docente d = getDocenteByNomeCognome(box.getValue());
 		if (copy == null && !box.getValue().equals("")) {
 			insegna.add(new Insegna(idM, d.getIdDocente(), "insert"));
-			modificato = true;
+			insegnaMod = true;
 		} else if (copy != null) {
 			if (box.getValue().equals("")) {
 				insegna.get(insegna.indexOf(copy)).setStato("delete");
-				modificato = true;
+				insegnaMod = true;
 			} else {
 				Insegna updateIn = insegna.get(insegna.indexOf(copy));
 				if (updateIn.getProfId() != d.getIdDocente()) {
 					updateIn.setStato("delete");
 					insegna.add(new Insegna(idM, d.getIdDocente(), "insert"));
-					modificato = true;
+					insegnaMod = true;
 				}
 			}
 		}
@@ -234,9 +241,12 @@ public class ControllerAddSubject {
 			profBox.getItems().add(d.getNome() + " " + d.getCognome());
 			prof2Box.getItems().add(d.getNome() + " " + d.getCognome());
 		}
-
-		if (!currMateria.equals(""))
+		
+		materia = currMateria;
+		if (!currMateria.equals("")) {
 			materiaBox.getSelectionModel().select(getMateriaById(currMateria).getNome());
+			
+		}	
 
 		if (idM > 0) {
 			for (Insegna i : insegna) {
@@ -258,7 +268,7 @@ public class ControllerAddSubject {
 		materie = DataBaseHandler.getInstance().getMaterie();
 		insegna = DataBaseHandler.getInstance().getNewInsegna();
 		docenti = DataBaseHandler.getInstance().getDocenti();
-		modificato = false;
+		insegnaMod = false;
 		initComboBoxes();
 	}
 }

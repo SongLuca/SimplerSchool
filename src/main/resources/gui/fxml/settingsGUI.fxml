@@ -39,7 +39,7 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Label fx:id="title" prefHeight="28.0" prefWidth="529.0" text=" Settings">
+                        <Label fx:id="title" prefHeight="28.0" prefWidth="500.0" text=" Settings">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>

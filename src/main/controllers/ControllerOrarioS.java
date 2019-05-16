@@ -86,16 +86,18 @@ public class ControllerOrarioS {
 	
 	private boolean updateInsegna;
 	
+	private int clickedCol;
+	
 	public void initialize() {
 		setOSButtonVisible(false);
 		initOSList();
 		updateInsegna = false;
-		insegna = new ArrayList<Insegna>();
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
 		AnchorPane.setRightAnchor(subContentPane, 0.0);
 		MetaData.cos = this;
+		
 		clearButton.setOnMouseClicked(e -> {
 			Stage owner = (Stage)calendarioPane.getScene().getWindow();
 			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
@@ -136,15 +138,19 @@ public class ControllerOrarioS {
 				}
 			}
 		});
-		
-		saveButton.setOnMouseClicked(e -> {
+		saveButton.setDisable(false);
+	/*	saveButton.setOnMouseClicked(e -> {
 			updateOSTask("saved", false);
-		});
+		});*/
 	}
 	
 	public void setInsegna(ArrayList<Insegna> insegna) {
 		this.insegna = insegna;
 		updateInsegna = true;
+	}
+	
+	public ArrayList<Insegna> getInsegna(){
+		return insegna;
 	}
 	
 	public void updateOSTask(String doneMsg, boolean refreshList) {
@@ -175,6 +181,8 @@ public class ControllerOrarioS {
 			subContentPane.setEffect(null);
 			if (updateOSTask.getValue()) {
 				orariS = DataBaseHandler.getInstance().getOS();
+				fuseSubjects(calendarGrid,clickedCol);
+				insegna = null;
 				if(!os.getStato().equals("fresh")) {
 					os = this.getOSByNome(os.getNomeOrario());
 					MetaData.os = os;
@@ -182,7 +190,9 @@ public class ControllerOrarioS {
 				if(refreshList)
 					initOSList();
 				MetaData.cm.updateOSPicker();
-				Utils.popUpDialog(root, pane, "Message", doneMsg);
+				Utils.makeText(subContentPane, "Change saved", 3500, 500, 500);
+			//	Utils.showPopupMessage("saved", (Stage)root.getScene().getWindow());
+			//	Utils.popUpDialog(root, pane, "Message", doneMsg);
 			}
 		});
 		new Thread(updateOSTask).start();
@@ -448,6 +458,7 @@ public class ControllerOrarioS {
 		MetaData.controller = this;
 		MetaData.sub_row = GridPane.getRowIndex(vPane);
 		MetaData.sub_col = GridPane.getColumnIndex(vPane);
+		clickedCol = MetaData.sub_col;
 		Utils.loadNoTitleWindow("addSubjectFXML", null, false, null, null);
 	}
 

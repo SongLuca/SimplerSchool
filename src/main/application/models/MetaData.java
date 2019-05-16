@@ -1,5 +1,7 @@
 package main.application.models;
 
+import java.util.ArrayList;
+
 import javafx.scene.layout.GridPane;
 import main.controllers.ControllerDocenti;
 import main.controllers.ControllerMain;
@@ -21,4 +23,6 @@ public class MetaData {
 	public static ControllerMaterie cmat;
 	public static ControllerDocenti cd;
 	public static ControllerOrarioS cos;
+	public static ArrayList<Insegna> insegnaModified;
+	
 }
