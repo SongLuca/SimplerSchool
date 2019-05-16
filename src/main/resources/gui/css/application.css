@@ -147,6 +147,13 @@
 .tab-header-background{
  	 -fx-background-color: -custom-secondary;
  }
+ .tab-selected-line {
+     -fx-background-color: -custom-primary;
+}
+.tab-header-area .jfx-rippler{
+    -fx-rippler-fill:firebrick;
+    -fx-cursor:hand;
+}
 
 .withScore-titled-pane > .title 
 {
