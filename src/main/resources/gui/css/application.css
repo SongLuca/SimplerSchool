@@ -84,6 +84,10 @@
 }
 
 /****************************************************************************************/
+.contentPane{
+	-fx-background-color: -custom-primary;
+}
+
 
 #topPane{
 	-fx-background-color: -custom-primary;

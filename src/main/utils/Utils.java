@@ -125,7 +125,6 @@ public class Utils {
 			if(title != null)
 				stage.setTitle(title);
 			stage.show();
-		
 			root.requestFocus();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -156,7 +155,6 @@ public class Utils {
 			if(title != null)
 				stage.setTitle(title);
 			stage.show();
-		
 			root.requestFocus();
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -184,7 +182,6 @@ public class Utils {
 				stage.setTitle(title);
 			stage.show();
 			root.requestFocus();
-			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
