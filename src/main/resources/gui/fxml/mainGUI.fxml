@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXCheckBox?>
 <?import com.jfoenix.controls.JFXComboBox?>
 <?import com.jfoenix.controls.JFXDatePicker?>
 <?import com.jfoenix.controls.JFXHamburger?>
+<?import com.jfoenix.controls.JFXRadioButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import javafx.geometry.Insets?>
@@ -24,7 +26,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -86,7 +88,13 @@
                                     <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
                                  </effect>
                                  <children>
-                                    <Label layoutX="27.0" layoutY="14.0" prefHeight="30.0" prefWidth="207.0" text="Note board filter option.,..." />
+                                    <Label layoutX="27.0" layoutY="6.0" prefHeight="18.0" prefWidth="207.0" text="Board filter" />
+                                    <JFXCheckBox fx:id="checkInt" layoutX="27.0" layoutY="32.0" text="Interrogazioni" />
+                                    <JFXCheckBox fx:id="checkComp" layoutX="27.0" layoutY="59.0" text="Compiti per casa" />
+                                    <JFXCheckBox fx:id="checkVer" layoutX="27.0" layoutY="85.0" prefHeight="18.0" prefWidth="90.0" text="Verifiche" />
+                                    <JFXRadioButton fx:id="radioOggi" layoutX="171.0" layoutY="33.0" text="Oggi" />
+                                    <JFXRadioButton fx:id="radioSett" layoutX="171.0" layoutY="60.0" text="Settimana" />
+                                    <JFXRadioButton fx:id="radioSucc" layoutX="171.0" layoutY="86.0" text="Successivi" />
                                  </children>
                               </Pane>
                               <Label contentDisplay="CENTER" prefHeight="45.0" prefWidth="150.0" text="NoteBoard of the week" />

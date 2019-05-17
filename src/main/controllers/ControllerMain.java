@@ -8,9 +8,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXDatePicker;
 import com.jfoenix.controls.JFXHamburger;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
@@ -19,6 +21,8 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -28,6 +32,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -138,10 +143,30 @@ public class ControllerMain {
 	
 	@FXML
 	private JFXSpinner loading;
+	
+	@FXML
+    private JFXCheckBox checkInt;
+
+    @FXML
+    private JFXCheckBox checkComp;
+
+    @FXML
+    private JFXCheckBox checkVer;
+
+    @FXML
+    private JFXRadioButton radioOggi;
+
+    @FXML
+    private JFXRadioButton radioSett;
+
+    @FXML
+    private JFXRadioButton radioSucc;
 
 	private HashMap<Integer, OrarioSettimanale> orariS;
 
 	private OrarioSettimanale os;
+	
+	private ToggleGroup radiosGroup;
 
 	private double prefHeight = 800, prefWidth = 1400;
 
@@ -184,58 +209,110 @@ public class ControllerMain {
 		initOrarioHeader();
 		initCalendarGrid();
 		initProfilePane();
+		initNoteboardFilters();
 		loadNoteBoard();
 		MetaData.cm = this;
 	}
 
+	public void initNoteboardFilters() {
+		checkVer.setSelected(true);
+		checkInt.setSelected(true);
+		checkComp.setSelected(true);
+		checkVer.setOnAction(e->{
+			loadNoteBoard();
+		});
+		checkInt.setOnAction(e->{
+			loadNoteBoard();
+		});
+		checkComp.setOnAction(e->{
+			loadNoteBoard();
+		});
+		
+		radiosGroup = new ToggleGroup();
+		radioOggi.setUserData("oggi");
+		radioSett.setUserData("settimana");
+		radioSucc.setUserData("successivi");
+		radioOggi.setToggleGroup(radiosGroup);
+		radioSett.setToggleGroup(radiosGroup);
+		radioSucc.setToggleGroup(radiosGroup);
+		radioSett.setSelected(true);
+		
+		radioOggi.setOnAction(e->{
+			loadNoteBoard();
+		});
+		radioSett.setOnAction(e->{
+			loadNoteBoard();
+		});
+		radioSucc.setOnAction(e->{
+			loadNoteBoard();
+		});
+		
+	}
+	
 	public void loadNoteBoard() {
 		Console.print("Loading note board", "gui");
 		noteBoard.clear();
+		int attivitaCount = 0;
 		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
 		if (attivita == null || attivita.size() == 0) {
 			noteBoard.setText("Nessuna attivita in questa settimana");
 		} else {
-			noteBoard.setText(attivita.size() + " attivita:\n");
+			boolean compiti = checkComp.isSelected(),
+			verifiche = checkVer.isSelected(),
+			interrogazioni = checkInt.isSelected();
 			String verifica = "Verifica:\n";
 			String compito = "Compito:\n";
 			String interrogazione = "Interrogazione:\n";
 			for (SchoolTask task : attivita) {
-				if (task.getTipo().equalsIgnoreCase("Verifica")) {
-					verifica += "\tMateria: " + task.getMateriaNome()+"\n";
-					verifica += "\tData: " + task.getData()+"\n";
-					if(task.getVoto() > -1)
-						verifica += "\tVoto: " + task.getVoto()+"\n";
-					else
-						verifica += "\tVoto: nessun voto\n";
-					if(task.getComment().length() != 0)
-						verifica += "\tCommento: " + task.getComment()+"\n";
-					else
-						verifica += "\tCommento: nessun commento\n";
-					verifica += "\t-----------------\n";
+				switch(radiosGroup.getSelectedToggle().getUserData().toString()) {
+					case "oggi":
+						if(task.getData().isEqual(LocalDate.now())) {
+							if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+								verifica += printVerifiche(task);
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+								compito += printCompiti(task);
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+								interrogazione += printInterrogazioni(task);
+								attivitaCount++;
+							}
+						}
+						break;
+					case "settimana":
+						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+							verifica += printVerifiche(task);
+							attivitaCount++;
+						}
+						if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+							compito += printCompiti(task);
+							attivitaCount++;
+						}
+						if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+							interrogazione += printInterrogazioni(task);
+							attivitaCount++;
+						}
+						break;
+					case "successivi":
+						if(task.getData().isAfter(LocalDate.now()) || task.getData().isEqual(LocalDate.now())) {
+							if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+								verifica += printVerifiche(task);
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+								compito += printCompiti(task);
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+								interrogazione += printInterrogazioni(task);
+								attivitaCount++;
+							}
+						}
+						break;
 				}
-				if (task.getTipo().equalsIgnoreCase("Compito")) {
-					compito += "\tMateria: " + task.getMateriaNome()+"\n";
-					compito += "\tData: " + task.getData()+"\n";
-					if(task.getComment().length() != 0)
-						compito += "\tCommento: " + task.getComment()+"\n";
-					else
-						compito += "\tCommento: nessun commento\n";
-					compito += "\t-----------------\n";
-				}
-
-				if (task.getTipo().equalsIgnoreCase("interrogazione")) {
-					interrogazione += "\tMateria: " + task.getMateriaNome()+"\n";
-					interrogazione += "\tData: " + task.getData()+"\n";	
-					if(task.getVoto() > -1)
-						interrogazione += "\tVoto: " + task.getVoto()+"\n";
-					else
-						interrogazione += "\tVoto: nessun voto\n";
-					if(task.getComment().length() != 0)
-						interrogazione += "\tCommento: " + task.getComment()+"\n";
-					else
-						interrogazione += "\tCommento: nessun commento\n";
-					interrogazione += "\t-----------------\n";
-				}
+				
 				
 			}
 
@@ -249,12 +326,59 @@ public class ControllerMain {
 			if (interrogazione.equals("Interrogazione:\n")) {
 				interrogazione = "Nessuna interrogazione\n";
 			}
-		
-			noteBoard.appendText(verifica);
-			noteBoard.appendText(compito);
-			noteBoard.appendText(interrogazione);
+			noteBoard.setText(attivitaCount + " attivita:\n");
+			if(verifiche)
+				noteBoard.appendText(verifica);
+			if(compiti)
+				noteBoard.appendText(compito);
+			if(interrogazioni)
+				noteBoard.appendText(interrogazione);
 		}
 		noteBoard.positionCaret(0);
+	}
+	
+	public String printCompiti(SchoolTask task) {
+		String compito = "";
+		compito += "\tMateria: " + task.getMateriaNome()+"\n";
+		compito += "\tData: " + task.getData()+"\n";
+		if(task.getComment().length() != 0)
+			compito += "\tCommento: " + task.getComment()+"\n";
+		else
+			compito += "\tCommento: nessun commento\n";
+		compito += "\t-----------------\n";
+		return compito;
+	}
+	
+	public String printVerifiche(SchoolTask task) {
+		String verifica="";
+		verifica += "\tMateria: " + task.getMateriaNome()+"\n";
+		verifica += "\tData: " + task.getData()+"\n";
+		if(task.getVoto() > -1)
+			verifica += "\tVoto: " + task.getVoto()+"\n";
+		else
+			verifica += "\tVoto: nessun voto\n";
+		if(task.getComment().length() != 0)
+			verifica += "\tCommento: " + task.getComment()+"\n";
+		else
+			verifica += "\tCommento: nessun commento\n";
+		verifica += "\t-----------------\n";
+		return verifica;
+	}
+	
+	public String printInterrogazioni(SchoolTask task) {
+		String interrogazione = "";
+		interrogazione += "\tMateria: " + task.getMateriaNome()+"\n";
+		interrogazione += "\tData: " + task.getData()+"\n";	
+		if(task.getVoto() > -1)
+			interrogazione += "\tVoto: " + task.getVoto()+"\n";
+		else
+			interrogazione += "\tVoto: nessun voto\n";
+		if(task.getComment().length() != 0)
+			interrogazione += "\tCommento: " + task.getComment()+"\n";
+		else
+			interrogazione += "\tCommento: nessun commento\n";
+		interrogazione += "\t-----------------\n";
+		return interrogazione;
 	}
 
 	@FXML
