@@ -510,7 +510,6 @@ public class ControllerMain {
 			if (orariS.get(key).getNomeOrario().equals(selectedOrariS)) {
 				orarioSPicker.getSelectionModel().select(selectedOrariS);
 				os = getOSbyName(selectedOrariS);
-				MetaData.os = os;
 			}
 		}
 	}
