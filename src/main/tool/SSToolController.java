@@ -32,6 +32,8 @@ import main.utils.Utils;
 
 public class SSToolController {
 	private final String NEW_LINE ="\n";
+	private final String CHECK="✔ ";
+	private final String CROSS="✖ ";
 	private final int INTERVAL = 500;
 	@FXML
 	private AnchorPane contentPane;
@@ -73,8 +75,15 @@ public class SSToolController {
 	
 	@FXML
 	public void skip() {
-		((Stage) contentPane.getScene().getWindow()).close();
-		Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+		Stage stage = (Stage) contentPane.getScene().getWindow();
+		if(stage.getOwner() != null) {
+			stage.close();
+		}
+		else {
+			stage.close();
+			Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+		}
+		
 	}
 	
 	@FXML
@@ -154,24 +163,24 @@ public class SSToolController {
 					}).collect(Collectors.toList());
 					
 					if(result.size() == 0)
-						log.appendText("Table "+tables.get(i).getNome()+" OK"+NEW_LINE);
+						log.appendText(CHECK+"Table "+tables.get(i).getNome()+NEW_LINE);
 					else {
-						log.appendText("Table "+tables.get(i).getNome()+" missing column "+ result +NEW_LINE);
+						log.appendText(CROSS+"Table "+tables.get(i).getNome()+" missing column "+ result +NEW_LINE);
 						valid = false;
 					}
 						
 				}	catch (SQLException e) {
-					log.appendText("SQL error: " + e.getMessage()+NEW_LINE);
+					log.appendText(CROSS+"SQL error: " + e.getMessage()+NEW_LINE);
 					valid = false;
 				}
 				Thread.sleep(INTERVAL);
 			}
 			conn.close();
 			if(valid) {
-				log.appendText("Database structure OK"+NEW_LINE);
+				log.appendText(CHECK+"Database structure"+NEW_LINE);
 			}
 			else {
-				log.appendText("Database structure is invalid! "
+				log.appendText(CROSS+"Database structure is invalid! "
 						+ "Please recreate database using simpler_school.sql in the project folder"+NEW_LINE);
 			}
 		} catch (SQLException | ClassNotFoundException e) {
@@ -201,9 +210,9 @@ public class SSToolController {
 			String db = dbFolderPath.getText();
 			dbFolder = new File(db.substring(0,db.lastIndexOf("xampp")+5));
 			if(dbFolder.exists())
-				log.appendText("Xampp folder OK"+NEW_LINE);
+				log.appendText(CHECK+"Xampp folder"+NEW_LINE);
 			else {
-				log.appendText("Folder does not exist"+NEW_LINE);
+				log.appendText(CROSS+"Folder does not exist"+NEW_LINE);
 				return false;
 			}
 		}
@@ -220,27 +229,27 @@ public class SSToolController {
 			dbDefaultAvatar = new File(dbFolder.getAbsolutePath()+"/htdocs/Simpler_School/default/defaultAvatar.jpg");
 			if(!userFolder.exists()) {
 				userFolder.mkdirs();
-				log.appendText("default folder created"+NEW_LINE);
+				log.appendText("default folder missing. Created new one."+NEW_LINE);
 				change = true;
 			}
 			else
-				log.appendText("default folder OK"+NEW_LINE);
+				log.appendText(CHECK+"default folder"+NEW_LINE);
 			if(!defaultFolder.exists()) {
 				defaultFolder.mkdirs();
-				log.appendText("user folder created"+NEW_LINE);
+				log.appendText("user folder missing. Created new one."+NEW_LINE);
 				change = true;
 			}
 			else
-				log.appendText("user folder OK"+NEW_LINE);
+				log.appendText(CHECK+"user folder"+NEW_LINE);
 			
 			if(!dbDefaultAvatar.exists()) {
 				FileUtils.copyFile(defaultAvatar, dbDefaultAvatar);
-				log.appendText("copied defaultAvatar.jpg to default folder"+NEW_LINE);
+				log.appendText("defaultAvatar.jpg missing. Created new one."+NEW_LINE);
 				change = true;
 			}
 			else
-				log.appendText("defaultAvatar.jpg OK"+NEW_LINE);	
-			log.appendText("Database folder structure OK"+NEW_LINE);
+				log.appendText(CHECK+"defaultAvatar.jpg"+NEW_LINE);	
+			log.appendText(CHECK+"Database folder structure"+NEW_LINE);
 		} catch (URISyntaxException | IOException e) {
 			e.printStackTrace();
 		}

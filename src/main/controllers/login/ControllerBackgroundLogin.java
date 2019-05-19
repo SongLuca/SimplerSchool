@@ -9,11 +9,13 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.Main;
+import main.tool.SimplerSchoolTool;
 import main.utils.Console;
 import main.utils.Utils;
 import main.utils.WindowStyle;
@@ -23,7 +25,7 @@ public class ControllerBackgroundLogin {
 	private StackPane rootStack;
 	@FXML
 	private AnchorPane rootPane;
-	
+
 	void openLogin() {
 		try {
 			AnchorPane loginPane = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "loginFXML").toURL());
@@ -38,25 +40,30 @@ public class ControllerBackgroundLogin {
 		}
 	}
 
+	@FXML
+	void openTool(MouseEvent event) {
+		new SimplerSchoolTool((Stage)rootPane.getScene().getWindow());
+	}
+
 	public void initialize() {
 		new ZoomIn(rootPane).play();
 		initTitleBox();
 		openLogin();
 	}
-	
+
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;
-	
+
 	@FXML
 	private Label title;
-	
+
 	@FXML
 	private JFXButton titleCloseButton;
-	
+
 	@FXML
 	private ImageView titleCloseImage;
-	
+
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
@@ -71,6 +78,6 @@ public class ControllerBackgroundLogin {
 			Console.print("Terminating application", "app");
 		});
 	}
-	
+
 	/***********************************************/
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 public class SimplerSchoolTool {
@@ -16,6 +17,7 @@ public class SimplerSchoolTool {
 			Scene scene = new Scene(root);
 			if(owner != null)
 				stage.initOwner(owner);
+			stage.initModality(Modality.WINDOW_MODAL);
 			stage.setTitle("SimplerSchoolTool");
 			stage.setResizable(false);
 			stage.setScene(scene);
