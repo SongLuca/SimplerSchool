@@ -47,6 +47,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 import javafx.util.Duration;
+import main.application.Main;
 import main.application.models.Config;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
@@ -55,7 +56,8 @@ import main.application.models.SchoolTask;
 public class Utils {
 	private static String config = "src/main/resources/config/config.properties";
 	private static String userConfig = "src/main/resources/config/userconfig.properties";
-
+	private static String databaseinfo = "src/main/resources/config/databaseinfo.properties";
+	
 	public static Properties readProperties(String configName) {
 		Properties prop = new Properties();
 		String configPath = "";
@@ -65,6 +67,10 @@ public class Utils {
 			break;
 		case "userconfig":
 			configPath = userConfig;
+			break;
+		case "databaseinfo":
+			configPath = databaseinfo;
+			Console.print("read db", "");
 			break;
 		default:
 			Console.print(configName + " - no such properties file found", "config");
@@ -91,6 +97,9 @@ public class Utils {
 		case "userconfig":
 			configPath = userConfig;
 			break;
+		case "databaseinfo":
+			configPath = databaseinfo;
+			break;
 		default:
 			Console.print(configName + " - no such properties file found", "config");
 			break;
@@ -115,7 +124,7 @@ public class Utils {
 		Stage stage = null;
 		FXMLLoader fxmlLoader = null;
 		try {
-			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
 			fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
@@ -146,7 +155,7 @@ public class Utils {
 			String title) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
@@ -177,7 +186,7 @@ public class Utils {
 			String title) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
@@ -204,7 +213,7 @@ public class Utils {
 			double minH) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Config.getString("config", fxmlProp)).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
@@ -324,7 +333,7 @@ public class Utils {
 	public static void makeText(AnchorPane pane, String toastMsg, int toastDelay, int fadeInDelay, int fadeOutDelay) {
 		Label text = new Label(toastMsg);
 		StackPane root = new StackPane(text);
-		ImageView iv = new ImageView(new Image(Utils.getFileURIByPath("config", "doneImagePath").toString()));
+		ImageView iv = new ImageView(new Image(Utils.getFileURIByPath(Main.CONFIG, "doneImagePath").toString()));
 		iv.setFitWidth(15);
 		iv.setFitHeight(15);
 		text.setGraphic(iv);
@@ -384,7 +393,7 @@ public class Utils {
 	}
 
 	public static Background imgToBackground(String imgProp) {
-		Image image = new Image(getFileURIByPath("config", imgProp).toString());
+		Image image = new Image(getFileURIByPath(Main.CONFIG, imgProp).toString());
 		BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
 		BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);

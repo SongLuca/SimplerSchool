@@ -19,6 +19,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.models.Config;
 import main.application.models.Docente;
@@ -84,7 +85,7 @@ public class ControllerDocenti {
 	
 	public HBox loadDocenteBox() {
 		try {
-			URL fxmlURL = new File(Config.getString("config", "docenteBoxFXML")).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, "docenteBoxFXML")).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			HBox box = fxmlLoader.load();
 			docentiBox.getChildren().add(box);

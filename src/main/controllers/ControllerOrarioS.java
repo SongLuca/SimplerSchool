@@ -26,6 +26,7 @@ import javafx.scene.layout.RowConstraints;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.customGUI.TextFieldDialog;
 import main.application.models.Config;
@@ -208,7 +209,7 @@ public class ControllerOrarioS {
 		orariS = DataBaseHandler.getInstance().getOS();
 		for(int key : orariS.keySet()) {
 			try {
-				URL fxmlURL = new File(Config.getString("config", "orarioSBoxFXML")).toURI().toURL();
+				URL fxmlURL = new File(Config.getString(Main.CONFIG, "orarioSBoxFXML")).toURI().toURL();
 				FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 				JFXButton osBox = fxmlLoader.load();
 				ControllerOrarioSBox c = fxmlLoader.<ControllerOrarioSBox>getController();

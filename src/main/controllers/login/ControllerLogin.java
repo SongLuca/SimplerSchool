@@ -51,7 +51,7 @@ public class ControllerLogin {
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
-			AnchorPane register = FXMLLoader.load(Utils.getFileURIByPath("config", "registerFXML").toURL());
+			AnchorPane register = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "registerFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(register, 50, 50, 275, 275);
 			register.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -76,7 +76,7 @@ public class ControllerLogin {
 	@FXML
 	void openRecover(MouseEvent e1) {
 		try {
-			AnchorPane recover = FXMLLoader.load(Utils.getFileURIByPath("config", "passwordRecoverFXML").toURL());
+			AnchorPane recover = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "passwordRecoverFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(recover, 50, 50, 275, 275);
 			recover.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -168,9 +168,9 @@ public class ControllerLogin {
 	}
 	
 	public void initialize() {
-		if(Config.getBoolean("userconfig", "rememberMe")) {
+		if(Config.getBoolean(Main.USERCONFIG, "rememberMe")) {
 			rememberMe.setSelected(true);
-			usernameField.setText(Config.getString("userconfig", "rememberedUser"));
+			usernameField.setText(Config.getString(Main.USERCONFIG, "rememberedUser"));
 		}
 		else {
 			rememberMe.setSelected(false);

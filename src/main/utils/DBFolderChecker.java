@@ -2,11 +2,12 @@ package main.utils;
 
 import java.io.File;
 
+import main.application.Main;
 import main.application.models.Config;
 
 public class DBFolderChecker {
 	public static boolean doCheck() {
-		Utils.confirmMsg("Cartella database corrente: " + Config.getString("config", "databaseFolder") + 
+		Utils.confirmMsg("Cartella database corrente: " + Config.getString(Main.DBINFO, "databaseFolder") + 
 				"\n\nAssicurati che stai usando la cartella database del tuo computer (modifica 'databaseFolder' nel config.properties)");
 		String dbPath = Config.getString("config", "databaseFolder");
 		File dbFolder = new File(dbPath);

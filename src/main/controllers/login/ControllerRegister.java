@@ -24,6 +24,7 @@ import javafx.scene.shape.Circle;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.models.Config;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
@@ -65,7 +66,7 @@ public class ControllerRegister {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath("config", "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "loginFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -157,7 +158,7 @@ public class ControllerRegister {
 	public void openRegCompleted(ActionEvent e1) {
 		try {
 			AnchorPane regCompleted = FXMLLoader
-					.load(Utils.getFileURIByPath("config", "regCompletedFXML").toURL());
+					.load(Utils.getFileURIByPath(Main.CONFIG, "regCompletedFXML").toURL());
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			backgroundLogin.getChildren().add(regCompleted);
@@ -196,7 +197,7 @@ public class ControllerRegister {
 		});
 		avatarPath = "default/defaultAvatar.jpg";
 		profileImage.setFill(
-				new ImagePattern(new Image(Utils.getFileURIByPath("config", "defaultAvatar").toString())));
+				new ImagePattern(new Image(Utils.getFileURIByPath(Main.CONFIG, "defaultAvatar").toString())));
 	}
 
 	/***********************************************/

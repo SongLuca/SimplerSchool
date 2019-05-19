@@ -32,6 +32,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Materia;
 import main.application.models.MetaData;
@@ -500,12 +501,12 @@ public class ControllerInsertTask {
 	public void initTitleBox() {
 
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 

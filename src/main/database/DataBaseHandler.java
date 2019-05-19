@@ -132,8 +132,8 @@ public class DataBaseHandler {
 		Connection conn = null;
 		try {
 			Class.forName(mySqlConnClass);
-			conn = DriverManager.getConnection(Config.getString("config", "databasehost"),
-					Config.getString("config", "usernamesql"), Config.getString("config", "passwordsql"));
+			conn = DriverManager.getConnection(Config.getString(Main.DBINFO, "databasehost"),
+					Config.getString(Main.DBINFO, "usernamesql"), Config.getString(Main.DBINFO, "passwordsql"));
 		} catch (SQLException | ClassNotFoundException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
 			this.setMsg("Can not connect to the SQL database!");
@@ -317,7 +317,7 @@ public class DataBaseHandler {
 	public void uploadAvatarFile(Utente u, Connection conn) {
 		Console.print("Uploading avatar file", "db");
 		File avatar = new File(u.getAvatar_path());
-		File serverAvatar = new File(Config.getString("config", "databaseFolder") + "/users/" + u.getUserid());
+		File serverAvatar = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/users/" + u.getUserid());
 		if (!serverAvatar.exists()) {
 			serverAvatar.mkdirs();
 		}
@@ -819,7 +819,7 @@ public class DataBaseHandler {
 	public void uploadAllegati(SchoolTask task, Connection conn) {
 		Console.print("Uploading allegati to db folder", "db");
 		LinkedHashMap<String, Allegato> files = task.getAllegati();
-		File destFolder = new File(Config.getString("config", "databaseFolder") + "/users/" + Main.utente.getUserid()
+		File destFolder = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/users/" + Main.utente.getUserid()
 				+ "/allegati/" + task.getIdTask() + "/");
 		if (!destFolder.exists())
 			destFolder.mkdirs();
@@ -838,7 +838,7 @@ public class DataBaseHandler {
 	
 	public void uploadAllegati(List<Allegato> allegati, int idTask, Connection conn) {
 		Console.print("Uploading allegati to db folder", "db");
-		File destFolder = new File(Config.getString("config", "databaseFolder") + "/users/" + Main.utente.getUserid()
+		File destFolder = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/users/" + Main.utente.getUserid()
 				+ "/allegati/" + idTask + "/");
 		if (!destFolder.exists())
 			destFolder.mkdirs();
@@ -913,7 +913,7 @@ public class DataBaseHandler {
 	}
 	
 	public void removeOSXmlFile(OrarioSettimanale os) {
-		File xml = new File(Config.getString("config", "databaseFolder") + "/" + os.getStoredPath());
+		File xml = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/" + os.getStoredPath());
 		if (xml.delete())
 			Console.print(xml.getAbsolutePath() + " deleted", "fileio");
 		else
@@ -933,7 +933,7 @@ public class DataBaseHandler {
 					int idTask = files.getInt("task_id");
 					int idAllegato = files.getInt("allegato_id");
 					task.addFile(new Allegato(idAllegato, idTask,
-							new File(Config.getString("config", "databaseFolder") + "/" + path)));
+							new File(Config.getString(Main.DBINFO, "databaseFolder") + "/" + path)));
 				}
 				attivita.add(task);
 			}
@@ -1042,7 +1042,7 @@ public class DataBaseHandler {
 	}
 
 	public File getAvatarFile(Utente u) {
-		File avatar = new File(Config.getString("config", "databaseFolder") + "/" + u.getAvatar_path());
+		File avatar = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/" + u.getAvatar_path());
 		return avatar;
 	}
 	

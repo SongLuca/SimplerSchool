@@ -11,13 +11,14 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.application.Main;
 import main.application.models.Config;
 
 public class ConfirmDialog extends Dialog<Boolean>{
 	
 	public ConfirmDialog(Stage owner, String msg) {
         try {
-        	URL fxmlURL = new File(Config.getString("config", "customDialogFXML")).toURI().toURL();
+        	URL fxmlURL = new File(Config.getString(Main.CONFIG, "customDialogFXML")).toURI().toURL();
             FXMLLoader loader = new FXMLLoader(fxmlURL);
             Parent root = loader.load();
             initModality(Modality.WINDOW_MODAL);

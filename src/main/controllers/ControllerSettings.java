@@ -17,6 +17,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.models.Config;
 import main.utils.FXResizeHelper;
 import main.utils.Utils;
@@ -50,11 +51,11 @@ public class ControllerSettings {
 		initTitleBox();
 		backButton.setVisible(false);
 		backButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath("config", "backHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "backHoverImagePath").toString();
 			backImage.setImage(new Image(img));
 		});
 		backButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath("config", "backImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "backImagePath").toString();
 			backImage.setImage(new Image(img));
 		});
 		new ZoomOut(pop).play();
@@ -63,7 +64,7 @@ public class ControllerSettings {
 	@FXML
 	public void backToSettings() {
 		try {
-			Parent fxml = FXMLLoader.load(Utils.getFileURIByPath("config", "settingsFXML").toURL());
+			Parent fxml = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "settingsFXML").toURL());
 			Stage currentStage = (Stage) pop.getScene().getWindow();
 			currentStage.setScene(new Scene(fxml));
 			currentStage.setHeight(prefHeight);
@@ -77,7 +78,7 @@ public class ControllerSettings {
 	@FXML
 	public void openOrarioSettimanale() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "orarioSettimanaleFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "orarioSettimanaleFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
@@ -86,10 +87,10 @@ public class ControllerSettings {
 			backButton.setVisible(true);
 
 			Stage stage = (Stage) pop.getScene().getWindow();
-			stage.setMinHeight(Config.getDouble("config", "prefHeightOS"));
-			stage.setMinWidth(Config.getDouble("config", "prefWidthOS"));
-			stage.setHeight(Config.getDouble("config", "prefHeightOS"));
-			stage.setWidth(Config.getDouble("config", "prefWidthOS"));
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "prefHeightOS"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "prefWidthOS"));
+			stage.setHeight(Config.getDouble(Main.CONFIG, "prefHeightOS"));
+			stage.setWidth(Config.getDouble(Main.CONFIG, "prefWidthOS"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -101,7 +102,7 @@ public class ControllerSettings {
 	@FXML
 	void openDocenti(MouseEvent event) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "docentiFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "docentiFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
@@ -130,7 +131,7 @@ public class ControllerSettings {
 	@FXML
 	void openMaterie(MouseEvent event) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "materieFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "materieFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
@@ -154,7 +155,7 @@ public class ControllerSettings {
 	@FXML
 	void openProfile(MouseEvent event) {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath("config", "profiloFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "profiloFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
@@ -197,19 +198,19 @@ public class ControllerSettings {
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = Utils.getFileURIByPath("config", "titleMaxmizeHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = Utils.getFileURIByPath("config", "titleMaxmizeImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

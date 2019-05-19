@@ -13,13 +13,14 @@ import javafx.scene.control.Label;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import main.application.Main;
 import main.application.models.Config;
 import main.application.models.OrarioSettimanale;
 
 public class TextFieldDialog extends Dialog<String>{
 	public TextFieldDialog(Stage owner, HashMap<Integer, OrarioSettimanale> orariS, String nomeOriginale, String msg) {
 		try {
-			URL fxmlURL = new File(Config.getString("config", "customTFDialogFXML")).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, "customTFDialogFXML")).toURI().toURL();
 			FXMLLoader loader = new FXMLLoader(fxmlURL);
 			Parent root = loader.load();
 			initModality(Modality.WINDOW_MODAL);

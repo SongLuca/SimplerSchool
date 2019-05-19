@@ -21,8 +21,6 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -505,7 +503,7 @@ public class ControllerMain {
 	public void updateOSPicker() {
 		Console.print("Updating OS picker", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
-		String selectedOrariS = Config.getString("userconfig", Main.utente.getUsername()+"-selectedOrarioSettimanale");
+		String selectedOrariS = Config.getString(Main.USERCONFIG, Main.utente.getUsername()+"-selectedOrarioSettimanale");
 		orarioSPicker.getItems().clear();
 		for (int key : orariS.keySet()) {
 			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
@@ -648,8 +646,8 @@ public class ControllerMain {
 		Console.print("Opening settings window", "gui");
 		Stage settings = Utils.loadWindowS("settingsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(),
 				true, null, null);
-		settings.setMinHeight(Config.getDouble("config", "minHeightSettings"));
-		settings.setMinWidth(Config.getDouble("config", "minWidthSettings"));
+		settings.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
+		settings.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
 		settings.setOnHiding(e -> {
 			WindowStyle.stageDimension(prefWidth, prefHeight);
 		});
@@ -758,27 +756,27 @@ public class ControllerMain {
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = Utils.getFileURIByPath("config", "titleMaxmizeHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = Utils.getFileURIByPath("config", "titleMaxmizeImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseEntered(e1 -> {
-			String img = Utils.getFileURIByPath("config", "titleHideHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleHideHoverImagePath").toString();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseExited(e1 -> {
-			String img = Utils.getFileURIByPath("config", "titleHideImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleHideImagePath").toString();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseClicked(e -> {

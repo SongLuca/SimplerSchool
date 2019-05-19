@@ -19,6 +19,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.models.Config;
 import main.application.models.Docente;
 import main.application.models.Insegna;
@@ -189,7 +190,7 @@ public class ControllerOreDetails {
 	
 	public attivitaBoxController loadTaskBox(VBox pane, int count) {
 		try {
-			URL fxmlURL = new File(Config.getString("config", "attivitaBoxFXML")).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, "attivitaBoxFXML")).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			TitledPane content = fxmlLoader.load();
 			content.setText("N." + count);
@@ -284,11 +285,11 @@ public class ControllerOreDetails {
 
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseHoverImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath("config", "titleCloseImagePath").toString();
+			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

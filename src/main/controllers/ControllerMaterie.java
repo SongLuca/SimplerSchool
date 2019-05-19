@@ -22,6 +22,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.models.Config;
 import main.application.models.Materia;
@@ -218,7 +219,7 @@ public class ControllerMaterie {
 
 	public HBox loadMateriaBox() { // legge il materiabox dal file fxml
 		try {
-			URL fxmlURL = new File(Config.getString("config", "materiaBoxFXML")).toURI().toURL();
+			URL fxmlURL = new File(Config.getString(Main.CONFIG, "materiaBoxFXML")).toURI().toURL();
 			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 			HBox box = fxmlLoader.load();
 			materieBox.getChildren().add(box);

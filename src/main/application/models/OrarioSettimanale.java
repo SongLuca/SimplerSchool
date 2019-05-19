@@ -127,7 +127,7 @@ public class OrarioSettimanale {
 		Console.print("Writing orario "+ this.getNomeOrario() +" into .xml file", "fileio");
 		try {
 			XMLEncoder encoder;
-			File filePath = new File(Config.getString("config", "databaseFolder") + "/users/" + Main.utente.getUserid() + "/orariosettimanale/");
+			File filePath = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/users/" + Main.utente.getUserid() + "/orariosettimanale/");
 			if(!filePath.exists())
 				filePath.mkdirs();
 			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filePath.getAbsolutePath() + "/" + this.nomeOrario + ".xml")));
@@ -144,7 +144,7 @@ public class OrarioSettimanale {
 		Console.print("Reading orario "+ this.getNomeOrario() +" from .xml file", "fileio");
 		try {
 			XMLDecoder decoder;
-			String path = Config.getString("config", "databaseFolder") + "/" + storedPath;
+			String path = Config.getString(Main.DBINFO, "databaseFolder") + "/" + storedPath;
 			decoder = new XMLDecoder(new BufferedInputStream(new FileInputStream(path)));
 			settimana = (LinkedHashMap<String, LinkedHashMap<String, String>>) decoder.readObject();
 			decoder.close();
