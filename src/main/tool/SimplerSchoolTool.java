@@ -9,11 +9,13 @@ import javafx.stage.Stage;
 public class SimplerSchoolTool {
 	private Stage stage;
 
-	public SimplerSchoolTool() {
+	public SimplerSchoolTool(Stage owner) {
 		stage = new Stage();
 		try {
 			Parent root = FXMLLoader.load(getClass().getResource("toolGUI.fxml"));
 			Scene scene = new Scene(root);
+			if(owner != null)
+				stage.initOwner(owner);
 			stage.setTitle("SimplerSchoolTool");
 			stage.setResizable(false);
 			stage.setScene(scene);

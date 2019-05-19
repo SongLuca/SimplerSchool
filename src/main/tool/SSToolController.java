@@ -25,13 +25,14 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
+import javafx.stage.Stage;
 import main.application.Main;
 import main.application.models.Config;
 import main.utils.Utils;
 
 public class SSToolController {
 	private final String NEW_LINE ="\n";
-	private final int INTERVAL = 300;
+	private final int INTERVAL = 500;
 	@FXML
 	private AnchorPane contentPane;
 	
@@ -43,6 +44,9 @@ public class SSToolController {
 	
 	@FXML
 	private Button startBtn;
+	
+	@FXML
+	private Button skipBtn;
 	
     @FXML
     private TextArea log;
@@ -68,11 +72,18 @@ public class SSToolController {
 	}
 	
 	@FXML
+	public void skip() {
+		((Stage) contentPane.getScene().getWindow()).close();
+		Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+	}
+	
+	@FXML
 	public void start() {
 		Task<Boolean> loginValidateTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				startBtn.setDisable(true);
+				skipBtn.setDisable(true);
 				idleBox.setVisible(false);
 				workingBox.setVisible(true);
 				log.appendText("------Start checking------\n");
@@ -82,6 +93,7 @@ public class SSToolController {
 
 		loginValidateTask.setOnFailed(event -> {
 			startBtn.setDisable(false);
+			skipBtn.setDisable(false);
 			idleBox.setVisible(true);
 			workingBox.setVisible(false);
 			log.appendText("rip");
@@ -90,6 +102,7 @@ public class SSToolController {
 
 		loginValidateTask.setOnSucceeded(event -> {
 			startBtn.setDisable(false);
+			skipBtn.setDisable(false);
 			idleBox.setVisible(true);
 			workingBox.setVisible(false);
 			if (loginValidateTask.getValue()) {
@@ -102,7 +115,7 @@ public class SSToolController {
 	
 	public boolean startCheck() throws InterruptedException {
 		if(checkIfDBFolderExists()) {
-			if(checkDBFolderStructure()) {
+			if(!checkDBFolderStructure()) {
 				updateDBInfo();
 				checkDBStructure();
 			}
@@ -155,7 +168,7 @@ public class SSToolController {
 			}
 			conn.close();
 			if(valid) {
-				log.appendText("Database structure OK");
+				log.appendText("Database structure OK"+NEW_LINE);
 			}
 			else {
 				log.appendText("Database structure is invalid! "
