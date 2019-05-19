@@ -24,8 +24,8 @@ public class Main extends Application {
 			Config.config = Utils.readProperties(CONFIG);
 			Config.userConfig = Utils.readProperties(USERCONFIG);	
 			Config.databaseinfo = Utils.readProperties(DBINFO);
-			//new SimplerSchoolTool();
-			Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
+			new SimplerSchoolTool();
+			//Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 		/*	if(DBFolderChecker.doCheck())		
 				Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 			else

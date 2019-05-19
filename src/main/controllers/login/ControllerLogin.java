@@ -145,7 +145,7 @@ public class ControllerLogin {
 					Config.userConfig.setProperty("rememberMe", "false");
 					Config.userConfig.setProperty("rememberedUser", "");
 				}
-				Utils.saveProperties(Config.userConfig, "userconfig", true);
+				Utils.saveProperties(Config.userConfig, Main.USERCONFIG, true);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loginPane.setDisable(false);
