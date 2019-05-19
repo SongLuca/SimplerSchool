@@ -24,7 +24,7 @@
             </HBox>
             <HBox alignment="CENTER" prefHeight="36.0" prefWidth="380.0">
                <children>
-                  <Button fx:id="startBtn" mnemonicParsing="false" onMouseClicked="#startCheck" text="Start " />
+                  <Button fx:id="startBtn" mnemonicParsing="false" onMouseClicked="#start" text="Start " />
                </children>
             </HBox>
             <Label text="Log:" />
