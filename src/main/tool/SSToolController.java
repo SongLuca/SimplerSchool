@@ -18,7 +18,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.DirectoryChooser;
+import main.application.Main;
 import main.application.models.Config;
+import main.utils.Console;
 
 public class SSToolController {
 	private final String NEW_LINE ="\n";
@@ -45,16 +47,16 @@ public class SSToolController {
     
 	private File dbFolder;
 	
-	
 	public void initialize() {
 		initComponents();
 		dbFolder = (dbFolderPath.getText().isEmpty()) ? null : new File(dbFolderPath.getText());
 	}
 	
 	public void initComponents() {
-		String db = Config.getString("config", "databaseFolder");
+		String db = Config.getString(Main.DBINFO, "databaseFolder");
+		Console.print(db,"");
 		dbFolder = new File(db.substring(0,db.lastIndexOf("xampp")+6));
-		dbFolderPath.setText(Config.getString("config", "databaseFolder"));
+		dbFolderPath.setText(Config.getString(Main.DBINFO, "databaseFolder"));
 	}
 	
 	@FXML
@@ -63,23 +65,25 @@ public class SSToolController {
 		idleBox.setVisible(false);
 		workingBox.setVisible(true);
 		log.appendText("------Start checking------\n");
-		checkIfDBFolderExists();
-		checkDBFolderStructure();
+		if(checkIfDBFolderExists())
+			checkDBFolderStructure();
 		log.appendText("------ End checking ------\n");
 		startBtn.setDisable(false);
 		idleBox.setVisible(true);
 		workingBox.setVisible(false);
 	}
 	
-	public void checkIfDBFolderExists() {
+	public boolean checkIfDBFolderExists() {
 		if(!dbFolderPath.getText().contains("xampp")) {
 			log.appendText("Invalid folder path (must be the xampp root path)\n");
+			return false;
 		}
 		else {
 			String db = dbFolderPath.getText();
 			dbFolder = new File(db.substring(0,db.lastIndexOf("xampp")+5));
 			log.appendText("Xampp folder OK"+NEW_LINE);
 		}
+		return true;
 	}
 	
 	public void checkDBFolderStructure() {
@@ -95,7 +99,6 @@ public class SSToolController {
 			}
 			else
 				log.appendText("default folder OK"+NEW_LINE);
-			
 			if(!defaultFolder.exists()) {
 				defaultFolder.mkdirs();
 				log.appendText("user folder created"+NEW_LINE);
