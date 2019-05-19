@@ -26,6 +26,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -757,6 +758,7 @@ public class ControllerMain {
 		titleCloseButton.setOnMouseEntered(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
+			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleCloseButton.setOnMouseExited(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
@@ -765,6 +767,7 @@ public class ControllerMain {
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
+			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeImagePath").toString();
@@ -773,6 +776,7 @@ public class ControllerMain {
 		titleHideButton.setOnMouseEntered(e1 -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleHideHoverImagePath").toString();
 			titleHideImage.setImage(new Image(img));
+			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleHideButton.setOnMouseExited(e1 -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleHideImagePath").toString();

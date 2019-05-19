@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXButton;
 import animatefx.animation.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -200,6 +201,7 @@ public class ControllerSettings {
 		titleCloseButton.setOnMouseEntered(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
+			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleCloseButton.setOnMouseExited(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
@@ -208,6 +210,7 @@ public class ControllerSettings {
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeHoverImagePath").toString();
 			titleMaxmizeImage.setImage(new Image(img));
+			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeImagePath").toString();

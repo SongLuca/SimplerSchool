@@ -225,10 +225,11 @@ public class Utils {
 			stage.setMinHeight(minH);
 			stage.setWidth(minW);
 			stage.setHeight(minH);
-			HBox titleBox = (HBox) fxmlLoader.getNamespace().get("titleHBox");
-			WindowStyle.allowDrag(titleBox, stage);
+		//	HBox titleBox = (HBox) fxmlLoader.getNamespace().get("titlebar");
+		//	WindowStyle.allowDrag(titleBox, stage);
 			if (resizable)
-				new FXResizeHelper(stage, 5, 5);
+				new FXResizeHelper(stage, 10, 3);
+				//ResizeHelper.addResizeListener(stage);
 			if (appIconPath != null)
 				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
 			if (title != null)

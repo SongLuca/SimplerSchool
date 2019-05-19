@@ -26,10 +26,13 @@ public class WindowStyle {
 		});
 
 		root.setOnMouseDragged((MouseEvent d) -> {
-			// Ensures the stage is not dragged past the taskbar
-			if (d.getScreenY() < (SCREEN_BOUNDS.getMaxY() - 20))
-				stage.setY(d.getScreenY() - offset_XY[1]);
-			stage.setX(d.getScreenX() - offset_XY[0]);
+			//if (d.getSceneY() > 4 ) {
+				// Ensures the stage is not dragged past the taskbar
+				if (d.getScreenY() < (SCREEN_BOUNDS.getMaxY() - 20))
+					stage.setY(d.getScreenY() - offset_XY[1]);
+				stage.setX(d.getScreenX() - offset_XY[0]);
+			//}
+			
 		});
 
 		root.setOnMouseReleased((MouseEvent r) -> {
