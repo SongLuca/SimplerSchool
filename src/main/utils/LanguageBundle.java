@@ -16,7 +16,9 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.concurrent.Callable;
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXRadioButton;
 import com.jfoenix.controls.JFXTextField;
 
 public final class LanguageBundle {
@@ -66,6 +68,13 @@ public final class LanguageBundle {
         label.textProperty().bind(createStringBinding(func));
     }
     
+    public static Label newLabelForValue(Callable<String> func) {
+    	Label label = new Label();
+        label.textProperty().bind(createStringBinding(func));
+        return label;
+    }
+    
+    
     public static void buttonForValue(JFXButton btn, Callable<String> func) {
     	btn.textProperty().bind(createStringBinding(func));
     }
@@ -78,6 +87,13 @@ public final class LanguageBundle {
     	passF.promptTextProperty().bind(createStringBinding(func));
     }
     
+    public static void checkBoxForValue(JFXCheckBox checkB, Callable<String> func) {
+    	checkB.textProperty().bind(createStringBinding(func));
+    }
+    
+    public static void radioButtonForValue(JFXRadioButton radioBtn, Callable<String> func) {
+    	radioBtn.textProperty().bind(createStringBinding(func));
+    }
     public static Button buttonForKey(final String key, final Object... args) {
         Button button = new Button();
         button.textProperty().bind(createStringBinding(key, args));

@@ -4,6 +4,7 @@ import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -60,6 +61,7 @@ import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -69,19 +71,13 @@ public class ControllerMain {
 	private StackPane rootStack;
 
 	@FXML
-	private AnchorPane rootPane;
+	private AnchorPane rootPane, menuPane;
 
 	@FXML
-	private AnchorPane menuPane;
+	private Pane menuShadowPane, gridShadowPane;
 
 	@FXML
-	private Pane menuShadowPane;
-
-	@FXML
-	private Pane gridShadowPane;
-
-	@FXML
-	private VBox menuVBox;
+	private VBox menuVBox, oreHeader;
 
 	@FXML
 	private JFXHamburger hamMenu;
@@ -90,44 +86,29 @@ public class ControllerMain {
 	private HBox weekdayHeader;
 
 	@FXML
-	private VBox oreHeader;
-
-	@FXML
 	private GridPane calendarGrid;
 
 	@FXML
 	private Circle avatar;
 
 	@FXML
-	private Label nomeLbl;
-
+	private Label nomeLbl, cognomeLbl, scuolaLbl, boardFilterLbl;
+	
 	@FXML
-	private Label cognomeLbl;
-
-	@FXML
-	private Label scuolaLbl;
-
+	private Label weekBoardLbl, osLbl, dataLbl;
+	
 	@FXML
 	private JFXTabPane tabPane;
 
 	@FXML
-	private JFXButton settingsButton;
-
+	private JFXButton settingsButton, profileButton, closeButton;
+	
 	@FXML
-	private JFXButton profileButton;
-
+	private JFXButton lastWeekBtn, thisWeekBtn, nextWeekBtn;
+	
 	@FXML
-	private JFXButton closeButton;
-
-	@FXML
-	private JFXButton lastWeekBtn;
-
-	@FXML
-	private JFXButton thisWeekBtn;
-
-	@FXML
-	private JFXButton nextWeekBtn;
-
+	private JFXButton insertTaskBtn;
+	
 	@FXML
 	private TextInputDialog inputSubject;
 
@@ -144,22 +125,10 @@ public class ControllerMain {
 	private JFXSpinner loading;
 	
 	@FXML
-    private JFXCheckBox checkInt;
+    private JFXCheckBox checkInt, checkComp, checkVer;
 
     @FXML
-    private JFXCheckBox checkComp;
-
-    @FXML
-    private JFXCheckBox checkVer;
-
-    @FXML
-    private JFXRadioButton radioOggi;
-
-    @FXML
-    private JFXRadioButton radioSett;
-
-    @FXML
-    private JFXRadioButton radioSucc;
+    private JFXRadioButton radioOggi, radioSett, radioSucc;
 
 	private HashMap<Integer, OrarioSettimanale> orariS;
 
@@ -210,9 +179,30 @@ public class ControllerMain {
 		initProfilePane();
 		initNoteboardFilters();
 		loadNoteBoard();
+		initLangBindings();
 		MetaData.cm = this;
 	}
-
+	
+	public void initLangBindings() {
+		LanguageBundle.checkBoxForValue(checkInt, ()->LanguageBundle.get("checkBInterrogazioni", 0));
+		LanguageBundle.checkBoxForValue(checkComp, ()->LanguageBundle.get("checkBCompitiPerCasa", 0));
+		LanguageBundle.checkBoxForValue(checkVer, ()->LanguageBundle.get("checkBVerifiche", 0));
+		
+		LanguageBundle.radioButtonForValue(radioOggi, ()->LanguageBundle.get("radioBtnOggi", 0));
+		LanguageBundle.radioButtonForValue(radioSett, ()->LanguageBundle.get("radioBtnSettimana", 0));
+		LanguageBundle.radioButtonForValue(radioSucc, ()->LanguageBundle.get("radioBrnSuccssivi", 0));
+		
+		LanguageBundle.labelForValue(boardFilterLbl, ()->LanguageBundle.get("boardFilterLbl", 0));
+		LanguageBundle.labelForValue(weekBoardLbl, ()->LanguageBundle.get("weekBoardLbl", 0));
+		LanguageBundle.labelForValue(osLbl, ()->LanguageBundle.get("osLbl", 0));
+		LanguageBundle.labelForValue(dataLbl, ()->LanguageBundle.get("dataLbl", 0));
+		
+		LanguageBundle.buttonForValue(insertTaskBtn, ()->LanguageBundle.get("insertTaskBtn", 0));
+		LanguageBundle.buttonForValue(lastWeekBtn, ()->LanguageBundle.get("lastWeekBtn", 0));
+		LanguageBundle.buttonForValue(thisWeekBtn, ()->LanguageBundle.get("thisWeekBtn", 0));
+		LanguageBundle.buttonForValue(nextWeekBtn, ()->LanguageBundle.get("nextWeekBtn", 0));
+	}
+	
 	public void initNoteboardFilters() {
 		checkVer.setSelected(true);
 		checkInt.setSelected(true);
@@ -669,9 +659,9 @@ public class ControllerMain {
 	public void initCalendarWeekDayHeader(LocalDate data, boolean clear) {
 		if (clear)
 			weekdayHeader.getChildren().clear();
-		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-LLL");
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd-LLL", LanguageBundle.getLocale());
 		int weekdays = 6;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat" };
+		String[] weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		for (int i = 0; i < weekdays; i++) {
 			VBox box = new VBox();
 			box.setAlignment(Pos.CENTER);
@@ -679,12 +669,12 @@ public class ControllerMain {
 			HBox.setHgrow(box, Priority.ALWAYS);
 			box.setMaxWidth(Double.MAX_VALUE);
 			box.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
-
-			box.getChildren().add(new Label(weekDays[i]));
+			String day = weekDays[i];
+			Label weekDay = LanguageBundle.newLabelForValue(()->LanguageBundle.get(day, 0));
+			box.getChildren().add(weekDay);
 			Label timeLbl = new Label(data.with(DayOfWeek.of(i + 1)).format(dtf));
 			timeLbl.setId("#time");
 			box.getChildren().add(timeLbl);
-
 			weekdayHeader.getChildren().add(box);
 		}
 	}

@@ -38,6 +38,7 @@ public class ControllerConfiguration {
     @FXML
     private Label languageLbl;
     
+    private String selectedLang;
     private List<String> langs = Arrays.asList("English","Italino");
     
     public void initialize() {
@@ -46,12 +47,13 @@ public class ControllerConfiguration {
     }
     
     public void initComponents() {
-    	String selectedLang = Config.getString(Main.USERCONFIG, "selectedLanguage");
+    	selectedLang = Config.getString(Main.USERCONFIG, "selectedLanguage");
     	langComboBox.getItems().addAll(langs);
     	langComboBox.getSelectionModel().select(selectedLang);
     	saveBtn.setOnMouseClicked(e->{
     		String selected = langComboBox.getSelectionModel().getSelectedItem();
     		if(!selected.equals(selectedLang)) {
+    			selectedLang = selected;
     			String lang = selected.substring(0,2);
         		LanguageBundle.setLocale(new Locale(lang));
         		Config.userConfig.setProperty("selectedLanguage", selected);
@@ -63,6 +65,6 @@ public class ControllerConfiguration {
     
     public void initLangBindings() {
     	LanguageBundle.labelForValue(languageLbl, ()->LanguageBundle.get("languageLbl", 0));
-    	LanguageBundle.ButtonForValue(saveBtn, ()->LanguageBundle.get("saveBtn", 0));
+    	LanguageBundle.buttonForValue(saveBtn, ()->LanguageBundle.get("saveBtn", 0));
     }
 }
