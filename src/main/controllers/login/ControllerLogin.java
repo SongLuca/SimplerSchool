@@ -25,6 +25,7 @@ import main.application.Main;
 import main.application.models.Config;
 import main.database.DataBaseHandler;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -32,6 +33,12 @@ public class ControllerLogin {
 	
 	@FXML
 	private Label registerLabel;
+	
+	@FXML
+	private Label notRegLbl;
+	
+	@FXML
+	private Label forgotPassLbl;
 	
 	@FXML
 	private AnchorPane loginPane;
@@ -47,7 +54,7 @@ public class ControllerLogin {
 	
 	@FXML
 	private JFXCheckBox rememberMe;
-
+	
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
@@ -145,7 +152,7 @@ public class ControllerLogin {
 					Config.userConfig.setProperty("rememberMe", "false");
 					Config.userConfig.setProperty("rememberedUser", "");
 				}
-				Utils.saveProperties(Config.userConfig, Main.USERCONFIG, true);
+				Utils.saveProperties(Main.USERCONFIG, true);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loginPane.setDisable(false);
@@ -165,8 +172,17 @@ public class ControllerLogin {
 		});
 		timeline.play();
 	}
+
+	
+	public void initLangBindings() {
+		LanguageBundle.labelForValue(notRegLbl, ()->LanguageBundle.get("notRegLbl", 0));
+		LanguageBundle.labelForValue(registerLabel, ()->LanguageBundle.get("registerLabel", 0));
+		LanguageBundle.labelForValue(forgotPassLbl, ()->LanguageBundle.get("forgotPassLbl", 0));
+		LanguageBundle.textFieldForValue(usernameField, ()->LanguageBundle.get("usernameField", 0));
+	}
 	
 	public void initialize() {
+		initLangBindings();
 		if(Config.getBoolean(Main.USERCONFIG, "rememberMe")) {
 			rememberMe.setSelected(true);
 			usernameField.setText(Config.getString(Main.USERCONFIG, "rememberedUser"));
@@ -176,7 +192,6 @@ public class ControllerLogin {
 		}
 		loading.setVisible(false);
 		passField.setText("12345");
-		
 	}
 
 	/***********************************************/

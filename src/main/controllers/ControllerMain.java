@@ -454,7 +454,7 @@ public class ControllerMain {
 				Console.print(selectedOS + " selected", "Gui");
 				os = getOSbyName(selectedOS);
 				Config.userConfig.setProperty(Main.utente.getUsername()+"-selectedOrarioSettimanale", selectedOS);
-				Utils.saveProperties(Config.userConfig, "userconfig", true);
+				Utils.saveProperties(Main.USERCONFIG, true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
 					fuseSubjects(calendarGrid, dayCol);

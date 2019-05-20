@@ -70,7 +70,6 @@ public class Utils {
 			break;
 		case "databaseinfo":
 			configPath = databaseinfo;
-			Console.print("read db", "");
 			break;
 		default:
 			Console.print(configName + " - no such properties file found", "config");
@@ -87,18 +86,22 @@ public class Utils {
 		return prop;
 	}
 
-	public static void saveProperties(Properties p, String configName, boolean reload) {
+	public static void saveProperties(String configName, boolean reload) {
 		FileOutputStream fos;
 		String configPath = "";
+		Properties p = null;
 		switch (configName) {
 		case "config":
 			configPath = config;
+			p = Config.config;
 			break;
 		case "userconfig":
 			configPath = userConfig;
+			p = Config.userConfig;
 			break;
 		case "databaseinfo":
 			configPath = databaseinfo;
+			p = Config.databaseinfo;
 			break;
 		default:
 			Console.print(configName + " - no such properties file found", "config");

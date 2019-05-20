@@ -197,7 +197,7 @@ public class SSToolController {
 		String completePath = dbFolder.getAbsolutePath()+"/htdocs/Simpler_School";
 		completePath = completePath.replace("\\", "/");
 		Config.databaseinfo.setProperty("databaseFolder", completePath);
-		Utils.saveProperties(Config.databaseinfo, Main.DBINFO, true);
+		Utils.saveProperties(Main.DBINFO, true);
 		log.appendText("databaseinfo.properties updated"+NEW_LINE);
 	}
 	

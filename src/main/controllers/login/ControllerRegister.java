@@ -30,13 +30,14 @@ import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerRegister {
 
 	@FXML
-	private Label registerLabel;
+	private Label registerLabel,loginHereLbl,alreadyRegLbl;
 
 	@FXML
 	private AnchorPane registerPane;
@@ -54,7 +55,7 @@ public class ControllerRegister {
 	private JFXSpinner loading;
 
 	@FXML
-	private JFXButton selectAvatarButton;
+	private JFXButton selectAvatarButton,registerBtn;
 	
 	private String avatarPath;
 	
@@ -143,7 +144,7 @@ public class ControllerRegister {
 			if (registerTask.getValue()) {
 				Console.print(u.getUsername(), "");
 				Config.userConfig.setProperty(u.getUsername()+"-selectedOrarioSettimanale", "");
-				Utils.saveProperties(Config.userConfig, "userconfig", true);
+				Utils.saveProperties(Main.USERCONFIG, true);
 				openRegCompleted(event);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
@@ -188,7 +189,14 @@ public class ControllerRegister {
 		}
 	}
 	
-	
+	public void initLangBindings() {
+		LanguageBundle.labelForValue(alreadyRegLbl, ()->LanguageBundle.get("alreadyRegLbl", 0));
+		LanguageBundle.labelForValue(loginHereLbl, ()->LanguageBundle.get("loginHereLbl", 0));
+		LanguageBundle.textFieldForValue(usernameField, ()->LanguageBundle.get("usernameField", 0));
+		LanguageBundle.passFieldForValue(confirmPassField, ()->LanguageBundle.get("confirmPassField", 0));
+		LanguageBundle.buttonForValue(selectAvatarButton, ()->LanguageBundle.get("selectAvatarButton", 0));
+		LanguageBundle.buttonForValue(registerBtn, ()->LanguageBundle.get("registerBtn", 0));
+	}
 	
 	public void initialize() {
 		loading.setVisible(false);
@@ -198,6 +206,7 @@ public class ControllerRegister {
 		avatarPath = "default/defaultAvatar.jpg";
 		profileImage.setFill(
 				new ImagePattern(new Image(Utils.getFileURIByPath(Main.CONFIG, "defaultAvatar").toString())));
+		initLangBindings();
 	}
 
 	/***********************************************/

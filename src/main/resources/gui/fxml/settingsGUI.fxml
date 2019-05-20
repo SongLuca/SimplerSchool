@@ -178,6 +178,29 @@
                               </HBox>
                            </graphic>
                         </JFXButton>
+                        <JFXButton onMouseClicked="#openConfiguration" prefHeight="70.0" prefWidth="200.0">
+                           <graphic>
+                              <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">
+                                 <children>
+                                    <ImageView fitHeight="90.0" fitWidth="70.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../images/configuration.png" />
+                                       </image>
+                                    </ImageView>
+                                    <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
+                                       <children>
+                                          <Label prefHeight="30.0" prefWidth="140.0" text="Configuration" wrapText="true">
+                                             <font>
+                                                <Font size="16.0" />
+                                             </font>
+                                          </Label>
+                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare le configurazione" textAlignment="CENTER" wrapText="true" />
+                                       </children>
+                                    </VBox>
+                                 </children>
+                              </HBox>
+                           </graphic>
+                        </JFXButton>
                         <JFXButton onMouseClicked="#openAbout" prefHeight="70.0" prefWidth="200.0">
                            <graphic>
                               <HBox alignment="CENTER_LEFT" prefHeight="75.0" prefWidth="217.0">

@@ -13,7 +13,7 @@
 <?import javafx.scene.paint.Stop?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="regCompletedPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegCompleted">
+<AnchorPane fx:id="regCompletedPane" maxHeight="500.0" maxWidth="350.0" prefHeight="500.0" prefWidth="350.0" stylesheets="@../../css/login.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.login.ControllerRegCompleted">
    <children>
       <Pane layoutX="20.0" layoutY="20.0" prefHeight="520.0" prefWidth="370.0" styleClass="backgroundShadow" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <effect>
@@ -29,12 +29,12 @@
                         <Image url="@../../../images/regCompleted.png" />
                      </image>
                   </ImageView>
-                  <Label fx:id="infoLbl" prefHeight="73.0" prefWidth="200.0" text="Your registration is completed now" textAlignment="CENTER" textFill="#8a8a8a" wrapText="true">
+                  <Label fx:id="regCompleteLbl" prefHeight="73.0" prefWidth="200.0" text="Your registration is completed now" textAlignment="CENTER" textFill="#8a8a8a" wrapText="true">
                      <font>
                         <Font size="18.0" />
                      </font>
                   </Label>
-                  <JFXButton minHeight="50.0" minWidth="180.0" onMouseClicked="#openLogin" prefHeight="50.0" prefWidth="254.0" styleClass="actionButton" text="Log in now">
+                  <JFXButton fx:id="logInNowBtn" minHeight="50.0" minWidth="180.0" onMouseClicked="#openLogin" prefHeight="50.0" prefWidth="254.0" styleClass="actionButton" text="Log in now">
                      <ripplerFill>
                         <LinearGradient endX="1.0" endY="1.0">
                            <stops>

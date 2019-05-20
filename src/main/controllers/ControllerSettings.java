@@ -21,6 +21,7 @@ import javafx.stage.Stage;
 import main.application.Main;
 import main.application.models.Config;
 import main.utils.FXResizeHelper;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -79,7 +80,8 @@ public class ControllerSettings {
 	@FXML
 	public void openOrarioSettimanale() {
 		try {
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "orarioSettimanaleFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(
+					Utils.getFileURIByPath(Main.CONFIG, "orarioSettimanaleFXML").toURL());
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
@@ -90,8 +92,6 @@ public class ControllerSettings {
 			Stage stage = (Stage) pop.getScene().getWindow();
 			stage.setMinHeight(Config.getDouble(Main.CONFIG, "prefHeightOS"));
 			stage.setMinWidth(Config.getDouble(Main.CONFIG, "prefWidthOS"));
-			stage.setHeight(Config.getDouble(Main.CONFIG, "prefHeightOS"));
-			stage.setWidth(Config.getDouble(Main.CONFIG, "prefWidthOS"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -114,8 +114,6 @@ public class ControllerSettings {
 			Stage stage = (Stage) pop.getScene().getWindow();
 			stage.setMinHeight(700);
 			stage.setMinWidth(700);
-			stage.setHeight(700);
-			stage.setWidth(700);
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -123,12 +121,12 @@ public class ControllerSettings {
 			e.printStackTrace();
 		}
 	}
-	
+
 	@FXML
 	void openAbout(MouseEvent event) {
 
 	}
-	
+
 	@FXML
 	void openMaterie(MouseEvent event) {
 		try {
@@ -143,8 +141,6 @@ public class ControllerSettings {
 			Stage stage = (Stage) pop.getScene().getWindow();
 			stage.setMinHeight(700);
 			stage.setMinWidth(700);
-			stage.setHeight(700);
-			stage.setWidth(700);
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -167,8 +163,28 @@ public class ControllerSettings {
 			Stage stage = (Stage) pop.getScene().getWindow();
 			stage.setMinHeight(600);
 			stage.setMinWidth(600);
-			stage.setHeight(600);
-			stage.setWidth(600);
+			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
+			new FadeInUp(contentPane).play();
+			mainPane.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@FXML
+	void openConfiguration(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "configurationFXML").toURL());
+			AnchorPane osPane = fxmlLoader.load();
+			contentPane.getChildren().removeAll();
+			contentPane.getChildren().setAll(osPane);
+			LanguageBundle.labelForValue(title, ()->LanguageBundle.get("Settings-Configuration", 0));
+			backButton.setPrefWidth(40);
+			backButton.setVisible(true);
+
+			Stage stage = (Stage) pop.getScene().getWindow();
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "prefHeightOS"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "prefWidthOS"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();

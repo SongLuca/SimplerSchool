@@ -25,7 +25,11 @@ public class ControllerBackgroundLogin {
 	private StackPane rootStack;
 	@FXML
 	private AnchorPane rootPane;
+	@FXML
+    private JFXButton englishBtn;
 
+    @FXML
+    private JFXButton italianBtn;
 	void openLogin() {
 		try {
 			AnchorPane loginPane = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "loginFXML").toURL());
@@ -44,7 +48,7 @@ public class ControllerBackgroundLogin {
 	void openTool(MouseEvent event) {
 		new SimplerSchoolTool((Stage)rootPane.getScene().getWindow());
 	}
-
+	
 	public void initialize() {
 		new ZoomIn(rootPane).play();
 		initTitleBox();

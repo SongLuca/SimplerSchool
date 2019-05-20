@@ -3,6 +3,8 @@ package main.controllers.login;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Arrays;
+
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
@@ -17,6 +19,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.application.Main;
 import main.database.DataBaseHandler;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -39,6 +42,9 @@ public class ControllerPasswordRecover {
 
 	@FXML
 	private JFXPasswordField confirmPassField;
+	
+	@FXML
+    private JFXButton recoverBtn;
 
 	@FXML
 	void openLogin(MouseEvent e1) {
@@ -135,7 +141,16 @@ public class ControllerPasswordRecover {
 		}
 	}
 	
+	public void initLangBindings() {
+		LanguageBundle.labelForValue(backLabel, ()->LanguageBundle.get("backLabel", 0));
+		LanguageBundle.passFieldForValue(passField, ()->LanguageBundle.get("newPassField", 0));
+		LanguageBundle.passFieldForValue(confirmPassField, ()->LanguageBundle.get("confirmPassField", 0));
+		LanguageBundle.textFieldForValue(usernameField, ()->LanguageBundle.get("usernameField", 0));
+		LanguageBundle.buttonForValue(recoverBtn, ()->LanguageBundle.get("recoverBtn", 0));
+	}
+	
 	public void initialize() {
+		initLangBindings();
 		loading.setVisible(false);
 	}
 
