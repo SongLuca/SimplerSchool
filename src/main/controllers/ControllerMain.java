@@ -4,7 +4,6 @@ import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.WeekFields;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
@@ -647,7 +646,7 @@ public class ControllerMain {
 	public void openCloseWindow(MouseEvent event) {
 		Console.print("Opening logout dialog", "gui");
 		Stage owner = (Stage) rootPane.getScene().getWindow();
-		ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure you want to log out?");
+		ConfirmDialog cd = new ConfirmDialog(owner, "exitConfirmLbl");
 		if (cd.getResult()) {
 			Console.print("User " + Main.utente.getUsername() + "[" + Main.utente.getUserid() + "]" + " has logged out",
 					"App");

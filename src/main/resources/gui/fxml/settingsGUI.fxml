@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXMasonryPane?>
+<?import javafx.geometry.Insets?>
 <?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -39,10 +40,13 @@
                               </ImageView>
                            </graphic>
                         </JFXButton>
-                        <Label fx:id="title" prefHeight="28.0" prefWidth="500.0" text=" Settings">
+                        <Label fx:id="windowTitle" prefHeight="28.0" prefWidth="500.0" text=" Settings">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>
+                           <HBox.margin>
+                              <Insets left="5.0" />
+                           </HBox.margin>
                         </Label>
                      </children>
                   </HBox>
@@ -77,7 +81,7 @@
                   <AnchorPane prefHeight="601.0" prefWidth="765.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   <VBox alignment="CENTER" prefHeight="100.0" prefWidth="765.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                      <children>
-                        <Label prefHeight="70.0" prefWidth="200.0" text="Settings">
+                        <Label fx:id="title" alignment="CENTER" prefHeight="70.0" prefWidth="715.0" text="Settings">
                            <font>
                               <Font size="50.0" />
                            </font>
@@ -97,12 +101,12 @@
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="150.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="150.0" text=" Orario scolastico" wrapText="true">
+                                          <Label fx:id="osBtnTitle" prefHeight="30.0" prefWidth="150.0" text=" Orario scolastico" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare gli orari settimanali" textAlignment="CENTER" wrapText="true" />
+                                          <Label fx:id="osBtnInfoLbl" prefHeight="45.0" prefWidth="139.0" text="Modificare gli orari settimanali" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -120,12 +124,12 @@
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
+                                          <Label fx:id="profiloBtnTitle" prefHeight="30.0" prefWidth="140.0" text=" Profilo" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
+                                          <Label fx:id="profiloBtnInfoLbl" prefHeight="45.0" prefWidth="128.0" text="Modificare il tuo profilo" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -143,12 +147,12 @@
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="140.0" text=" Materie" wrapText="true">
+                                          <Label fx:id="materieBtnTitle" prefHeight="30.0" prefWidth="140.0" text=" Materie" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare la lista delle materie" textAlignment="CENTER" wrapText="true" />
+                                          <Label fx:id="materieBtnInfoLbl" prefHeight="45.0" prefWidth="139.0" text="Modificare la lista delle materie" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -166,12 +170,12 @@
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="140.0" text=" Docenti" wrapText="true">
+                                          <Label fx:id="docentiBtnTitle" prefHeight="30.0" prefWidth="140.0" text=" Docenti" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare la lista dei docenti" textAlignment="CENTER" wrapText="true" />
+                                          <Label fx:id="docentiBtnInfoLbl" prefHeight="45.0" prefWidth="139.0" text="Modificare la lista dei docenti" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -189,12 +193,12 @@
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="140.0" text="Configuration" wrapText="true">
+                                          <Label fx:id="configBtnTitle" prefHeight="30.0" prefWidth="140.0" text="Configuration" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="139.0" text="Modificare le configurazione" textAlignment="CENTER" wrapText="true" />
+                                          <Label fx:id="configBtnInfoLbl" prefHeight="45.0" prefWidth="139.0" text="Modificare le configurazione" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>
@@ -212,12 +216,12 @@
                                     </ImageView>
                                     <VBox alignment="CENTER" prefHeight="75.0" prefWidth="140.0">
                                        <children>
-                                          <Label prefHeight="30.0" prefWidth="140.0" text="About" wrapText="true">
+                                          <Label fx:id="aboutBtnTitle" prefHeight="30.0" prefWidth="140.0" text="About" wrapText="true">
                                              <font>
                                                 <Font size="16.0" />
                                              </font>
                                           </Label>
-                                          <Label prefHeight="45.0" prefWidth="139.0" text="About Simpler School" textAlignment="CENTER" wrapText="true" />
+                                          <Label fx:id="aboutBtnInfoLbl" prefHeight="45.0" prefWidth="139.0" text="About Simpler School" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </VBox>
                                  </children>

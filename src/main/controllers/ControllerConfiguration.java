@@ -10,6 +10,8 @@ import com.jfoenix.controls.JFXTextField;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import main.application.Main;
 import main.application.models.Config;
 import main.utils.Console;
@@ -39,6 +41,7 @@ public class ControllerConfiguration {
     private Label languageLbl;
     
     private String selectedLang;
+    
     private List<String> langs = Arrays.asList("English","Italino");
     
     public void initialize() {
@@ -59,8 +62,15 @@ public class ControllerConfiguration {
         		Config.userConfig.setProperty("selectedLanguage", selected);
         		Utils.saveProperties(Main.USERCONFIG, true);
         		Console.print("Change UI language to " + selected, "GUI");
+        		popMsg("Changes have been applied");
     		}
     	});
+    }
+    
+    public void popMsg(String msg) {
+    	StackPane root = (StackPane) votoRangeLbl.getScene().lookup("#rootStack");
+		AnchorPane pane = (AnchorPane) votoRangeLbl.getScene().lookup("#rootPane");
+		Utils.popUpDialog(root, pane, "Message",msg);
     }
     
     public void initLangBindings() {

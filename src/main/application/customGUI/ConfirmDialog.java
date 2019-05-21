@@ -13,6 +13,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.application.Main;
 import main.application.models.Config;
+import main.utils.LanguageBundle;
 
 public class ConfirmDialog extends Dialog<Boolean>{
 	
@@ -28,7 +29,9 @@ public class ConfirmDialog extends Dialog<Boolean>{
             JFXButton yesButton = (JFXButton)root.getScene().lookup("#yesBtn");
             JFXButton noButton = (JFXButton)root.getScene().lookup("#noBtn");
             Label msgLbl = (Label)root.getScene().lookup("#msg");
-            msgLbl.setText(msg);
+            LanguageBundle.labelForValue(msgLbl, ()->LanguageBundle.get(msg, 0));
+            LanguageBundle.buttonForValue(yesButton, ()->LanguageBundle.get("yesBtn", 0));
+            LanguageBundle.buttonForValue(noButton, ()->LanguageBundle.get("noBtn", 0));
             yesButton.setOnMouseClicked(e->{
             	setResult(true);
             });

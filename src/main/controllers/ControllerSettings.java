@@ -26,24 +26,40 @@ import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerSettings {
+
+	@FXML
+	private AnchorPane rootPane, contentPane, mainPane;
+
+	@FXML
+	private StackPane rootStack;
+	
 	@FXML
 	private Pane pop;
 
 	@FXML
+	private Label windowTitle, title;
+	
+	@FXML
+	private Label materieBtnTitle, materieBtnInfoLbl;
+	
+	@FXML
+	private Label osBtnTitle, osBtnInfoLbl;
+	
+	@FXML
+	private Label profiloBtnTitle, profiloBtnInfoLbl;
+	
+	@FXML
+	private Label docentiBtnTitle, docentiBtnInfoLbl;
+	
+	@FXML
+	private Label configBtnTitle, configBtnInfoLbl;
+	
+	@FXML
+	private Label aboutBtnTitle, aboutBtnInfoLbl;
+	
+	@FXML
 	private JFXButton backButton;
-
-	@FXML
-	private AnchorPane rootPane;
-
-	@FXML
-	private StackPane rootStack;
-
-	@FXML
-	private AnchorPane contentPane;
-
-	@FXML
-	private AnchorPane mainPane;
-
+	
 	@FXML
 	private ImageView backImage;
 
@@ -51,6 +67,7 @@ public class ControllerSettings {
 
 	public void initialize() {
 		initTitleBox();
+		initLangBindings();
 		backButton.setVisible(false);
 		backButton.setOnMouseEntered(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "backHoverImagePath").toString();
@@ -63,6 +80,23 @@ public class ControllerSettings {
 		new ZoomOut(pop).play();
 	}
 
+	public void initLangBindings() {
+		LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("settingsTitle", 0));
+		LanguageBundle.labelForValue(title, ()->LanguageBundle.get("settingsTitle", 0));
+		LanguageBundle.labelForValue(materieBtnTitle, ()->LanguageBundle.get("materieBtnTitle", 0));
+		LanguageBundle.labelForValue(materieBtnInfoLbl, ()->LanguageBundle.get("materieBtnInfoLbl", 0));
+		LanguageBundle.labelForValue(osBtnTitle, ()->LanguageBundle.get("osBtnTitle", 0));
+		LanguageBundle.labelForValue(osBtnInfoLbl, ()->LanguageBundle.get("osBtnInfoLbl", 0));
+		LanguageBundle.labelForValue(profiloBtnTitle, ()->LanguageBundle.get("profiloBtnTitle", 0));
+		LanguageBundle.labelForValue(profiloBtnInfoLbl, ()->LanguageBundle.get("profiloBtnInfoLbl", 0));
+		LanguageBundle.labelForValue(docentiBtnTitle, ()->LanguageBundle.get("docentiBtnTitle", 0));
+		LanguageBundle.labelForValue(docentiBtnInfoLbl, ()->LanguageBundle.get("docentiBtnInfoLbl", 0));
+		LanguageBundle.labelForValue(configBtnTitle, ()->LanguageBundle.get("configBtnTitle", 0));
+		LanguageBundle.labelForValue(configBtnInfoLbl, ()->LanguageBundle.get("configBtnInfoLbl", 0));
+		LanguageBundle.labelForValue(aboutBtnTitle, ()->LanguageBundle.get("aboutBtnTitle", 0));
+		LanguageBundle.labelForValue(aboutBtnInfoLbl, ()->LanguageBundle.get("aboutBtnInfoLbl", 0));
+	}
+	
 	@FXML
 	public void backToSettings() {
 		try {
@@ -196,9 +230,6 @@ public class ControllerSettings {
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;
-
-	@FXML
-	private Label title;
 
 	@FXML
 	private JFXButton titleCloseButton;
