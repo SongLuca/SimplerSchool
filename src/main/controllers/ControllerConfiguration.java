@@ -3,11 +3,9 @@ package main.controllers;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
@@ -19,6 +17,10 @@ import main.utils.LanguageBundle;
 import main.utils.Utils;
 
 public class ControllerConfiguration {
+	
+	@FXML
+	private AnchorPane subContentPane;
+	 
 	@FXML
     private JFXButton saveBtn;
 
@@ -45,6 +47,10 @@ public class ControllerConfiguration {
     private List<String> langs = Arrays.asList("English","Italino");
     
     public void initialize() {
+    	AnchorPane.setBottomAnchor(subContentPane, 0.0);
+		AnchorPane.setTopAnchor(subContentPane, 0.0);
+		AnchorPane.setLeftAnchor(subContentPane, 0.0);
+		AnchorPane.setRightAnchor(subContentPane, 0.0);
     	initComponents();
     	initLangBindings();
     }

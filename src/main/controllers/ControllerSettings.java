@@ -146,8 +146,8 @@ public class ControllerSettings {
 			backButton.setVisible(true);
 
 			Stage stage = (Stage) pop.getScene().getWindow();
-			stage.setMinHeight(700);
-			stage.setMinWidth(700);
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -158,7 +158,24 @@ public class ControllerSettings {
 
 	@FXML
 	void openAbout(MouseEvent event) {
+		try {
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "aboutFXML").toURL());
+			AnchorPane osPane = fxmlLoader.load();
+			contentPane.getChildren().removeAll();
+			contentPane.getChildren().setAll(osPane);
+			LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("Settings-About", 0));
+			backButton.setPrefWidth(40);
+			backButton.setVisible(true);
 
+			Stage stage = (Stage) pop.getScene().getWindow();
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
+			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
+			new FadeInUp(contentPane).play();
+			mainPane.requestFocus();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@FXML
@@ -173,8 +190,8 @@ public class ControllerSettings {
 			backButton.setVisible(true);
 
 			Stage stage = (Stage) pop.getScene().getWindow();
-			stage.setMinHeight(700);
-			stage.setMinWidth(700);
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -195,8 +212,8 @@ public class ControllerSettings {
 			backButton.setVisible(true);
 
 			Stage stage = (Stage) pop.getScene().getWindow();
-			stage.setMinHeight(600);
-			stage.setMinWidth(600);
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();
@@ -217,8 +234,8 @@ public class ControllerSettings {
 			backButton.setVisible(true);
 
 			Stage stage = (Stage) pop.getScene().getWindow();
-			stage.setMinHeight(Config.getDouble(Main.CONFIG, "prefHeightOS"));
-			stage.setMinWidth(Config.getDouble(Main.CONFIG, "prefWidthOS"));
+			stage.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
+			stage.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
 			WindowStyle.stageDimension(stage.getMinWidth(), stage.getMinHeight());
 			new FadeInUp(contentPane).play();
 			mainPane.requestFocus();

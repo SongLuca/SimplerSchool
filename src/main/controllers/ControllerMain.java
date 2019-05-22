@@ -641,6 +641,8 @@ public class ControllerMain {
 				true, null, null);
 		settings.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
+		Console.print(settings.getHeight()+"", "");
+		Console.print(settings.getWidth()+"", "");
 		settings.setOnHiding(e -> {
 			WindowStyle.stageDimension(prefWidth, prefHeight);
 		});
