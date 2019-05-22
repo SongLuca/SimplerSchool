@@ -14,7 +14,7 @@
    <children>
       <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="14.0" prefHeight="38.0" prefWidth="630.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
          <children>
-            <JFXButton contentDisplay="TOP" onMouseClicked="#newDocente" prefHeight="45.0" prefWidth="45.0" text="New...">
+            <JFXButton fx:id="newBtn" contentDisplay="TOP" onMouseClicked="#newDocente" prefHeight="45.0" prefWidth="45.0" text="New...">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -23,7 +23,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton contentDisplay="TOP" onMouseClicked="#apply" prefHeight="45.0" prefWidth="45.0" text="Save">
+            <JFXButton fx:id="saveBtn" contentDisplay="TOP" onMouseClicked="#apply" prefHeight="45.0" prefWidth="45.0" text="Save">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -32,7 +32,7 @@
                   </ImageView>
                </graphic>
             </JFXButton>
-            <JFXButton contentDisplay="TOP" onMouseClicked="#clear" prefHeight="45.0" prefWidth="45.0" text="Clear...">
+            <JFXButton fx:id="clearBtn" contentDisplay="TOP" onMouseClicked="#clear" prefHeight="45.0" prefWidth="45.0" text="Clear...">
                <graphic>
                   <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -49,7 +49,7 @@
          </content>
       </ScrollPane>
       <JFXSpinner fx:id="loading" layoutX="285.0" layoutY="200.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
-      <Label layoutX="20.0" layoutY="566.0" prefHeight="30.0" prefWidth="479.0" text="*Docente with nome and cognome both empty will be removed" />
-      <Label layoutX="20.0" layoutY="596.0" prefHeight="30.0" prefWidth="610.0" text="*" />
+      <Label fx:id="hint1Lbl" layoutX="20.0" layoutY="566.0" prefHeight="30.0" prefWidth="610.0" text="*Docente with nome and cognome both empty will be removed" />
+      <Label fx:id="hint2Lbl" layoutX="20.0" layoutY="596.0" prefHeight="30.0" prefWidth="610.0" text="*" />
    </children>
 </AnchorPane>

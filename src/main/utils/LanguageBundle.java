@@ -35,7 +35,9 @@ public final class LanguageBundle {
     public static Locale getDefaultLocale() {
     	String defaultLang = Config.getString(Main.USERCONFIG, "selectedLanguage");
     	String lang = defaultLang.substring(0,2);
-        return new Locale(lang);
+    	Locale l = new Locale(lang);
+    	Locale.setDefault(l);
+        return l;
     }
 
     public static Locale getLocale() {
@@ -73,7 +75,6 @@ public final class LanguageBundle {
         label.textProperty().bind(createStringBinding(func));
         return label;
     }
-    
     
     public static void buttonForValue(JFXButton btn, Callable<String> func) {
     	btn.textProperty().bind(createStringBinding(func));

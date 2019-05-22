@@ -30,6 +30,7 @@ import main.application.models.MetaData;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 
 public class ControllerMaterie {
@@ -38,13 +39,16 @@ public class ControllerMaterie {
 	private AnchorPane subContentPane;
 
 	@FXML
-	private JFXButton addButton;
+	private JFXButton newBtn, saveBtn, clearBtn;
 
 	@FXML
 	private VBox materieBox;
 
 	@FXML
 	private JFXSpinner loading;
+	
+	@FXML
+	private Label hint1Lbl, hint2Lbl;
 
 	private ArrayList<Materia> materie;
 
@@ -62,11 +66,20 @@ public class ControllerMaterie {
 		MetaData.cmat = this;
 		Console.print("Opening materie gui", "gui");
 		initMaterieBox();
+		initLangBindings();
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
 		AnchorPane.setRightAnchor(subContentPane, 0.0);
 	}
+	
+	public void initLangBindings() {
+    	LanguageBundle.buttonForValue(newBtn, ()->LanguageBundle.get("newBtn", 0));
+    	LanguageBundle.buttonForValue(saveBtn, ()->LanguageBundle.get("saveBtn", 0));
+    	LanguageBundle.buttonForValue(clearBtn, ()->LanguageBundle.get("clearBtn", 0));
+    	LanguageBundle.labelForValue(hint1Lbl, ()->LanguageBundle.get("materieHint1Lbl", 0));
+    	LanguageBundle.labelForValue(hint2Lbl, ()->LanguageBundle.get("materieHint2Lbl", 0));
+    }
 	
 	public void addToRemove(int idMateria) {
 		this.toRemove.add(idMateria);
@@ -154,7 +167,7 @@ public class ControllerMaterie {
 	public void clear() {
 		if(!materie.isEmpty()) {
 			Stage owner = (Stage)subContentPane.getScene().getWindow();
-			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
+			ConfirmDialog cd = new ConfirmDialog(owner, "clearConfirmLbl");
 			if(cd.getResult()) { 
 				materieBox.getChildren().removeAll();
 				for(Materia m : materie)

@@ -5,6 +5,8 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import animatefx.animation.FadeIn;
@@ -27,6 +29,7 @@ import main.application.models.MetaData;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 
 public class ControllerDocenti {
@@ -39,6 +42,12 @@ public class ControllerDocenti {
 	@FXML
 	private JFXSpinner loading;
 	
+	@FXML
+	private JFXButton newBtn, saveBtn, clearBtn;
+	
+	@FXML
+	private Label hint1Lbl, hint2Lbl;
+
 	private ArrayList<Docente> docenti;
 	
 	private List<Integer> toRemove;
@@ -55,11 +64,20 @@ public class ControllerDocenti {
 		MetaData.cd = this;
 		Console.print("Opening docente gui", "gui");
 		initDocentiBox();
+		initLangBindings();
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
 		AnchorPane.setRightAnchor(subContentPane, 0.0);
 	}
+	
+	public void initLangBindings() {
+    	LanguageBundle.buttonForValue(newBtn, ()->LanguageBundle.get("newBtn", 0));
+    	LanguageBundle.buttonForValue(saveBtn, ()->LanguageBundle.get("saveBtn", 0));
+    	LanguageBundle.buttonForValue(clearBtn, ()->LanguageBundle.get("clearBtn", 0));
+    	LanguageBundle.labelForValue(hint1Lbl, ()->LanguageBundle.get("docentiHint1Lbl", 0));
+    	LanguageBundle.labelForValue(hint2Lbl, ()->LanguageBundle.get("docentiHint2Lbl", 0));
+    }
 	
 	public void addToRemove(int idDocente) {
 		this.toRemove.add(idDocente);

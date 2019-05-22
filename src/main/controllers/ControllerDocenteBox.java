@@ -9,6 +9,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.application.models.MetaData;
+import main.utils.LanguageBundle;
 
 public class ControllerDocenteBox {
     @FXML
@@ -24,7 +25,8 @@ public class ControllerDocenteBox {
     private Label idDocente;
     
 	public void initialize() {
-		
+		LanguageBundle.textFieldForValue(nomeField, ()->LanguageBundle.get("firstname", 0));
+		LanguageBundle.textFieldForValue(cognomeField, ()->LanguageBundle.get("surname", 0));
 	}
     
     @FXML

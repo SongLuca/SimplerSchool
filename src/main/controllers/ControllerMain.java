@@ -182,6 +182,10 @@ public class ControllerMain {
 		MetaData.cm = this;
 	}
 	
+	public Label getOsLbl() {
+		return osLbl;
+	}
+	
 	public void initLangBindings() {
 		LanguageBundle.checkBoxForValue(checkInt, ()->LanguageBundle.get("checkBInterrogazioni", 0));
 		LanguageBundle.checkBoxForValue(checkComp, ()->LanguageBundle.get("checkBCompitiPerCasa", 0));

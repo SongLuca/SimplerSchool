@@ -119,7 +119,7 @@ public class ControllerSettings {
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
-			title.setText("Settings - Orario Settimanale");
+			LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("Settings-Weekly_Schedules", 0));
 			backButton.setPrefWidth(40);
 			backButton.setVisible(true);
 
@@ -141,7 +141,7 @@ public class ControllerSettings {
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
-			title.setText("Settings - Docenti");
+			LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("Settings-Lecturers", 0));
 			backButton.setPrefWidth(40);
 			backButton.setVisible(true);
 
@@ -168,7 +168,7 @@ public class ControllerSettings {
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
-			title.setText("Settings - Materie");
+			LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("Settings-Subjects", 0));
 			backButton.setPrefWidth(40);
 			backButton.setVisible(true);
 
@@ -190,7 +190,7 @@ public class ControllerSettings {
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
-			title.setText("Settings - Profilo");
+			LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("Settings-Profile", 0));
 			backButton.setPrefWidth(40);
 			backButton.setVisible(true);
 
@@ -212,7 +212,7 @@ public class ControllerSettings {
 			AnchorPane osPane = fxmlLoader.load();
 			contentPane.getChildren().removeAll();
 			contentPane.getChildren().setAll(osPane);
-			LanguageBundle.labelForValue(title, ()->LanguageBundle.get("Settings-Configuration", 0));
+			LanguageBundle.labelForValue(windowTitle, ()->LanguageBundle.get("Settings-Configuration", 0));
 			backButton.setPrefWidth(40);
 			backButton.setVisible(true);
 

@@ -10,6 +10,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import main.application.models.MetaData;
+import main.utils.LanguageBundle;
 
 public class ControllerMateriaBox {
 
@@ -26,7 +27,7 @@ public class ControllerMateriaBox {
     private Label idMateria;
 	
 	public void initialize() {
-		
+		LanguageBundle.textFieldForValue(nomeMateria, ()->LanguageBundle.get("subjectNamePromptText", 0));
 	}
 	
 	@FXML

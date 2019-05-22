@@ -38,6 +38,7 @@ import main.controllers.orariosettimanale.ControllerOrarioSBox;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 
 public class ControllerOrarioS {
@@ -77,6 +78,9 @@ public class ControllerOrarioS {
 	@FXML
     private JFXSpinner loading;
 	
+	@FXML
+	private Label osNameLbl;
+	
 	private OrarioSettimanale os;
 
 	private ArrayList<Materia> materie;
@@ -91,6 +95,7 @@ public class ControllerOrarioS {
 	
 	public void initialize() {
 		setOSButtonVisible(false);
+		initLangBindings();
 		initOSList();
 		updateInsegna = false;
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
@@ -101,7 +106,7 @@ public class ControllerOrarioS {
 		
 		clearButton.setOnMouseClicked(e -> {
 			Stage owner = (Stage)calendarioPane.getScene().getWindow();
-			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
+			ConfirmDialog cd = new ConfirmDialog(owner, "clearConfirmLbl");
 			calendarioPane.requestFocus();
 			if(cd.getResult()) { 
 				initOSCalendarGrid();
@@ -114,11 +119,10 @@ public class ControllerOrarioS {
 
 		backButton.setOnMouseClicked(e -> {
 			MetaData.os = null;
+			osNameLbl.setText("");
 			rootCalendar.setVisible(false);
 			calendarioPane.setVisible(true);
 			setOSButtonVisible(false);
-			Label titolo = (Label)calendarioPane.getScene().lookup("#title");
-			titolo.setText("Settings - Orario Settimanale");
 			initOSList();
 			new FadeIn(calendarioPane).play();
 			subContentPane.requestFocus();
@@ -127,7 +131,7 @@ public class ControllerOrarioS {
 		deleteButton.setOnMouseClicked(e -> {
 			if(!os.getStato().equals("insert")) {
 				Stage owner = (Stage)calendarioPane.getScene().getWindow();
-				ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to delete this?");
+				ConfirmDialog cd = new ConfirmDialog(owner, "deleteConfirmLbl");
 				calendarioPane.requestFocus();
 				if(cd.getResult()) { 
 					os.setStato("delete");
@@ -144,6 +148,12 @@ public class ControllerOrarioS {
 			updateOSTask("saved", false);
 		});*/
 	}
+	
+	public void initLangBindings() {
+    	LanguageBundle.buttonForValue(clearButton, ()->LanguageBundle.get("clearBtn", 0));
+    	LanguageBundle.buttonForValue(backButton, ()->LanguageBundle.get("backBtn", 0));
+    	LanguageBundle.buttonForValue(deleteButton, ()->LanguageBundle.get("deleteBtn", 0));
+    }
 	
 	public void setInsegna(ArrayList<Insegna> insegna) {
 		this.insegna = insegna;
@@ -199,9 +209,9 @@ public class ControllerOrarioS {
 		new Thread(updateOSTask).start();
 	}
 	
-	public void setTitle(String title) {
-		Label titolo = (Label)calendarioPane.getScene().lookup("#title");
-		titolo.setText(title);
+	public void setTitle(String osName) {
+		String osNameLblText = MetaData.cm.getOsLbl().getText()+": "+osName;
+		osNameLbl.setText(osNameLblText);
 	}
 	
 	public void initOSList() {
@@ -215,7 +225,7 @@ public class ControllerOrarioS {
 				ControllerOrarioSBox c = fxmlLoader.<ControllerOrarioSBox>getController();
 				c.setNome(orariS.get(key).getNomeOrario());
 				c.setOpenAction(e->{
-					setTitle("Settings - Orario Settimanale: "+orariS.get(key).getNomeOrario());
+					setTitle(orariS.get(key).getNomeOrario());
 					loadCalendar(orariS.get(key).getNomeOrario());
 					setOSButtonVisible(true);
 				});
@@ -403,7 +413,7 @@ public class ControllerOrarioS {
 	public void initOSCalendarWeekDayHeader() {
 		weekdayHeader.getChildren().clear();
 		int weekdays = 6;
-		String[] weekDays = { "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"};
+		String[] weekDays = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" };
 		for (int i = 0; i < weekdays; i++) {
 			StackPane pane = new StackPane();
 			pane.getStyleClass().add("weekday-header");
@@ -411,7 +421,9 @@ public class ControllerOrarioS {
 			pane.setMaxWidth(Double.MAX_VALUE);
 			pane.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
 			weekdayHeader.getChildren().add(pane);
-			pane.getChildren().add(new Label(weekDays[i]));
+			String day = weekDays[i];
+			Label weekDay = LanguageBundle.newLabelForValue(()->LanguageBundle.get(day, 0));
+			pane.getChildren().add(weekDay);
 		}
 	}
 
