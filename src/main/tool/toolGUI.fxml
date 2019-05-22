@@ -28,7 +28,7 @@
                </children>
             </HBox>
             <Label text="Log:" />
-            <TextArea fx:id="log" prefHeight="344.0" prefWidth="380.0" />
+            <TextArea fx:id="log" editable="false" prefHeight="344.0" prefWidth="380.0" />
             <StackPane prefHeight="36.0" prefWidth="380.0">
                <children>
                   <HBox fx:id="workingBox" alignment="CENTER" maxHeight="30.0" minHeight="30.0" prefHeight="30.0" prefWidth="380.0" visible="false">
