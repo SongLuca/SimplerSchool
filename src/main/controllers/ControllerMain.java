@@ -61,6 +61,7 @@ import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
 import main.utils.LanguageBundle;
+import main.utils.Preferences;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -168,6 +169,8 @@ public class ControllerMain {
 
 	public void initialize() {
 		Console.print("Initializing menu gui", "gui");
+		Preferences.loadPreferences();
+		Console.print(Preferences.showPreferences(), "");
 		orariS = DataBaseHandler.getInstance().getOS();
 		initTitleBox();
 		initHamMenu();

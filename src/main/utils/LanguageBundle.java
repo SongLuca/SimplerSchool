@@ -23,7 +23,7 @@ import com.jfoenix.controls.JFXTextField;
 
 public final class LanguageBundle {
     private static final ObjectProperty<Locale> locale;
-
+    
     static {
         locale = new SimpleObjectProperty<>(getDefaultLocale());
         locale.addListener((observable, oldValue, newValue) -> Locale.setDefault(newValue));
@@ -33,8 +33,7 @@ public final class LanguageBundle {
     }
 
     public static Locale getDefaultLocale() {
-    	String defaultLang = Config.getString(Main.USERCONFIG, "selectedLanguage");
-    	String lang = defaultLang.substring(0,2);
+    	String lang = Preferences.defaultLang.substring(0,2);
     	Locale l = new Locale(lang);
     	Locale.setDefault(l);
         return l;

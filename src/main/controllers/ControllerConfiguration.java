@@ -6,14 +6,20 @@ import java.util.Locale;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
+
+import javafx.beans.binding.Bindings;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 import main.application.Main;
 import main.application.models.Config;
 import main.utils.Console;
 import main.utils.LanguageBundle;
+import main.utils.Preferences;
 import main.utils.Utils;
 
 public class ControllerConfiguration {
@@ -44,7 +50,7 @@ public class ControllerConfiguration {
     
     private String selectedLang;
     
-    private List<String> langs = Arrays.asList("English","Italino");
+    private List<String> langs = Arrays.asList("English","Italiano");
     
     public void initialize() {
     	AnchorPane.setBottomAnchor(subContentPane, 0.0);
@@ -56,9 +62,11 @@ public class ControllerConfiguration {
     }
     
     public void initComponents() {
-    	selectedLang = Config.getString(Main.USERCONFIG, "selectedLanguage");
+    	selectedLang = Preferences.defaultLang;
     	langComboBox.getItems().addAll(langs);
     	langComboBox.getSelectionModel().select(selectedLang);
+    	votoMinField.setText(Preferences.votoMin);
+    	votoMaxField.setText(Preferences.votoMax);
     	saveBtn.setOnMouseClicked(e->{
     		String selected = langComboBox.getSelectionModel().getSelectedItem();
     		if(!selected.equals(selectedLang)) {
@@ -70,7 +78,23 @@ public class ControllerConfiguration {
         		Console.print("Change UI language to " + selected, "GUI");
         		popMsg("Changes have been applied");
     		}
+    		
+    		
     	});
+    	
+    	votoMinField.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+		    	detectOnChange();
+		    }
+		});
+    	
+    	votoMaxField.textProperty().addListener(new ChangeListener<String>() {
+		    @Override
+		    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
+		    	detectOnChange();
+		    }
+		});
     }
     
     public void popMsg(String msg) {
@@ -83,4 +107,32 @@ public class ControllerConfiguration {
     	LanguageBundle.labelForValue(languageLbl, ()->LanguageBundle.get("languageLbl", 0));
     	LanguageBundle.buttonForValue(saveBtn, ()->LanguageBundle.get("saveBtn", 0));
     }
+    
+    public void checkVotoRange() {
+    	int votoMin = Integer.parseInt(votoMinField.getText());
+    	int votoMax = Integer.parseInt(votoMaxField.getText());
+    	
+    	if(votoMin >= votoMax) {
+    	
+    	}
+    }
+    
+    public void detectOnChange() {
+    	if(!votoMinField.getText().isEmpty() && !votoMaxField.getText().isEmpty()) {
+    		if(Integer.parseInt(votoMinField.getText())  > Integer.parseInt(votoMaxField.getText())) {
+	    		votoMinField.setStyle("-jfx-focus-color: red; -jfx-unfocus-color: red");
+	    		votoMaxField.setStyle("-jfx-focus-color: red; -jfx-unfocus-color: red");
+	    	}
+	    	else {
+	    		votoMinField.setStyle("");
+	    		votoMaxField.setStyle("");
+	    	}
+    	}
+    }
+    
+   
+    
+    
+    
+    
 }
