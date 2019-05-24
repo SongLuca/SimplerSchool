@@ -93,22 +93,22 @@ public class ControllerMain {
 
 	@FXML
 	private Label nomeLbl, cognomeLbl, scuolaLbl, boardFilterLbl;
-	
+
 	@FXML
 	private Label weekBoardLbl, osLbl, dataLbl;
-	
+
 	@FXML
 	private JFXTabPane tabPane;
 
 	@FXML
 	private JFXButton settingsButton, profileButton, closeButton;
-	
+
 	@FXML
 	private JFXButton lastWeekBtn, thisWeekBtn, nextWeekBtn;
-	
+
 	@FXML
 	private JFXButton insertTaskBtn;
-	
+
 	@FXML
 	private TextInputDialog inputSubject;
 
@@ -120,20 +120,20 @@ public class ControllerMain {
 
 	@FXML
 	private JFXTextArea noteBoard;
-	
+
 	@FXML
 	private JFXSpinner loading;
-	
-	@FXML
-    private JFXCheckBox checkInt, checkComp, checkVer;
 
-    @FXML
-    private JFXRadioButton radioOggi, radioSett, radioSucc;
+	@FXML
+	private JFXCheckBox checkInt, checkComp, checkVer;
+
+	@FXML
+	private JFXRadioButton radioOggi, radioSett, radioSucc;
 
 	private HashMap<Integer, OrarioSettimanale> orariS;
 
 	private OrarioSettimanale os;
-	
+
 	private ToggleGroup radiosGroup;
 
 	private double prefHeight = 800, prefWidth = 1400;
@@ -184,45 +184,49 @@ public class ControllerMain {
 		initLangBindings();
 		MetaData.cm = this;
 	}
-	
+
+	public OrarioSettimanale getOs() {
+		return os;
+	}
+
 	public Label getOsLbl() {
 		return osLbl;
 	}
-	
+
 	public void initLangBindings() {
-		LanguageBundle.checkBoxForValue(checkInt, ()->LanguageBundle.get("checkBInterrogazioni", 0));
-		LanguageBundle.checkBoxForValue(checkComp, ()->LanguageBundle.get("checkBCompitiPerCasa", 0));
-		LanguageBundle.checkBoxForValue(checkVer, ()->LanguageBundle.get("checkBVerifiche", 0));
-		
-		LanguageBundle.radioButtonForValue(radioOggi, ()->LanguageBundle.get("radioBtnOggi", 0));
-		LanguageBundle.radioButtonForValue(radioSett, ()->LanguageBundle.get("radioBtnSettimana", 0));
-		LanguageBundle.radioButtonForValue(radioSucc, ()->LanguageBundle.get("radioBrnSuccssivi", 0));
-		
-		LanguageBundle.labelForValue(boardFilterLbl, ()->LanguageBundle.get("boardFilterLbl", 0));
-		LanguageBundle.labelForValue(weekBoardLbl, ()->LanguageBundle.get("weekBoardLbl", 0));
-		LanguageBundle.labelForValue(osLbl, ()->LanguageBundle.get("osLbl", 0));
-		LanguageBundle.labelForValue(dataLbl, ()->LanguageBundle.get("dataLbl", 0));
-		
-		LanguageBundle.buttonForValue(insertTaskBtn, ()->LanguageBundle.get("insertTaskBtn", 0));
-		LanguageBundle.buttonForValue(lastWeekBtn, ()->LanguageBundle.get("lastWeekBtn", 0));
-		LanguageBundle.buttonForValue(thisWeekBtn, ()->LanguageBundle.get("thisWeekBtn", 0));
-		LanguageBundle.buttonForValue(nextWeekBtn, ()->LanguageBundle.get("nextWeekBtn", 0));
+		LanguageBundle.checkBoxForValue(checkInt, () -> LanguageBundle.get("checkBInterrogazioni", 0));
+		LanguageBundle.checkBoxForValue(checkComp, () -> LanguageBundle.get("checkBCompitiPerCasa", 0));
+		LanguageBundle.checkBoxForValue(checkVer, () -> LanguageBundle.get("checkBVerifiche", 0));
+
+		LanguageBundle.radioButtonForValue(radioOggi, () -> LanguageBundle.get("radioBtnOggi", 0));
+		LanguageBundle.radioButtonForValue(radioSett, () -> LanguageBundle.get("radioBtnSettimana", 0));
+		LanguageBundle.radioButtonForValue(radioSucc, () -> LanguageBundle.get("radioBrnSuccssivi", 0));
+
+		LanguageBundle.labelForValue(boardFilterLbl, () -> LanguageBundle.get("boardFilterLbl", 0));
+		LanguageBundle.labelForValue(weekBoardLbl, () -> LanguageBundle.get("weekBoardLbl", 0));
+		LanguageBundle.labelForValue(osLbl, () -> LanguageBundle.get("osLbl", 0));
+		LanguageBundle.labelForValue(dataLbl, () -> LanguageBundle.get("dataLbl", 0));
+
+		LanguageBundle.buttonForValue(insertTaskBtn, () -> LanguageBundle.get("insertTaskBtn", 0));
+		LanguageBundle.buttonForValue(lastWeekBtn, () -> LanguageBundle.get("lastWeekBtn", 0));
+		LanguageBundle.buttonForValue(thisWeekBtn, () -> LanguageBundle.get("thisWeekBtn", 0));
+		LanguageBundle.buttonForValue(nextWeekBtn, () -> LanguageBundle.get("nextWeekBtn", 0));
 	}
-	
+
 	public void initNoteboardFilters() {
 		checkVer.setSelected(true);
 		checkInt.setSelected(true);
 		checkComp.setSelected(true);
-		checkVer.setOnAction(e->{
+		checkVer.setOnAction(e -> {
 			loadNoteBoard();
 		});
-		checkInt.setOnAction(e->{
+		checkInt.setOnAction(e -> {
 			loadNoteBoard();
 		});
-		checkComp.setOnAction(e->{
+		checkComp.setOnAction(e -> {
 			loadNoteBoard();
 		});
-		
+
 		radiosGroup = new ToggleGroup();
 		radioOggi.setUserData("oggi");
 		radioSett.setUserData("settimana");
@@ -231,52 +235,37 @@ public class ControllerMain {
 		radioSett.setToggleGroup(radiosGroup);
 		radioSucc.setToggleGroup(radiosGroup);
 		radioSett.setSelected(true);
-		
-		radioOggi.setOnAction(e->{
+
+		radioOggi.setOnAction(e -> {
 			loadNoteBoard();
 		});
-		radioSett.setOnAction(e->{
+		radioSett.setOnAction(e -> {
 			loadNoteBoard();
 		});
-		radioSucc.setOnAction(e->{
+		radioSucc.setOnAction(e -> {
 			loadNoteBoard();
 		});
-		
+
 	}
-	
+
 	public void loadNoteBoard() {
 		Console.print("Loading note board", "gui");
 		noteBoard.clear();
 		int attivitaCount = 0;
 		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
-		if (attivita == null || attivita.size() == 0) {
+		if (attivitaIsEmpty(attivita)) {
 			noteBoard.setText("Nessuna attivita in questa settimana");
 		} else {
-			boolean compiti = checkComp.isSelected(),
-			verifiche = checkVer.isSelected(),
-			interrogazioni = checkInt.isSelected();
-			String verifica = "Verifica:\n";
-			String compito = "Compito:\n";
-			String interrogazione = "Interrogazione:\n";
+			boolean compiti = checkComp.isSelected(), 
+					verifiche = checkVer.isSelected(),
+					interrogazioni = checkInt.isSelected();
+			String verifica = "Verifica:\n",
+					compito = "Compito:\n", 
+					interrogazione = "Interrogazione:\n";
 			for (SchoolTask task : attivita) {
-				switch(radiosGroup.getSelectedToggle().getUserData().toString()) {
-					case "oggi":
-						if(task.getData().isEqual(LocalDate.now())) {
-							if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
-								verifica += printVerifiche(task);
-								attivitaCount++;
-							}
-							if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
-								compito += printCompiti(task);
-								attivitaCount++;
-							}
-							if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
-								interrogazione += printInterrogazioni(task);
-								attivitaCount++;
-							}
-						}
-						break;
-					case "settimana":
+				switch (radiosGroup.getSelectedToggle().getUserData().toString()) {
+				case "oggi":
+					if (task.getData().isEqual(LocalDate.now())) {
 						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 							verifica += printVerifiche(task);
 							attivitaCount++;
@@ -289,26 +278,39 @@ public class ControllerMain {
 							interrogazione += printInterrogazioni(task);
 							attivitaCount++;
 						}
-						break;
-					case "successivi":
-						if(task.getData().isAfter(LocalDate.now()) || task.getData().isEqual(LocalDate.now())) {
-							if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
-								verifica += printVerifiche(task);
-								attivitaCount++;
-							}
-							if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
-								compito += printCompiti(task);
-								attivitaCount++;
-							}
-							if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
-								interrogazione += printInterrogazioni(task);
-								attivitaCount++;
-							}
+					}
+					break;
+				case "settimana":
+					if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+						verifica += printVerifiche(task);
+						attivitaCount++;
+					}
+					if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+						compito += printCompiti(task);
+						attivitaCount++;
+					}
+					if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+						interrogazione += printInterrogazioni(task);
+						attivitaCount++;
+					}
+					break;
+				case "successivi":
+					if (task.getData().isAfter(LocalDate.now()) || task.getData().isEqual(LocalDate.now())) {
+						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+							verifica += printVerifiche(task);
+							attivitaCount++;
 						}
-						break;
+						if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+							compito += printCompiti(task);
+							attivitaCount++;
+						}
+						if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+							interrogazione += printInterrogazioni(task);
+							attivitaCount++;
+						}
+					}
+					break;
 				}
-				
-				
 			}
 
 			if (verifica.equals("Verifica:\n")) {
@@ -322,64 +324,75 @@ public class ControllerMain {
 				interrogazione = "Nessuna interrogazione\n";
 			}
 			noteBoard.setText(attivitaCount + " attivita:\n");
-			if(verifiche)
+			if (verifiche)
 				noteBoard.appendText(verifica);
-			if(compiti)
+			if (compiti)
 				noteBoard.appendText(compito);
-			if(interrogazioni)
+			if (interrogazioni)
 				noteBoard.appendText(interrogazione);
 		}
+		noteBoard.appendText(LanguageBundle.get("configBtnInfoLbl"));
 		noteBoard.positionCaret(0);
 	}
-	
+
 	public String printCompiti(SchoolTask task) {
 		String compito = "";
-		compito += "\tMateria: " + task.getMateriaNome()+"\n";
-		compito += "\tData: " + task.getData()+"\n";
-		if(task.getComment().length() != 0)
-			compito += "\tCommento: " + task.getComment()+"\n";
+		compito += "\tMateria: " + task.getMateriaNome() + "\n";
+		compito += "\tData: " + task.getData() + "\n";
+		if (task.getComment().length() != 0)
+			compito += "\tCommento: " + task.getComment() + "\n";
 		else
 			compito += "\tCommento: nessun commento\n";
-		compito += "\t-----------------\n";
+		compito += "\t----------------------\n";
 		return compito;
 	}
-	
+
 	public String printVerifiche(SchoolTask task) {
-		String verifica="";
-		verifica += "\tMateria: " + task.getMateriaNome()+"\n";
-		verifica += "\tData: " + task.getData()+"\n";
-		if(task.getVoto() > -1)
-			verifica += "\tVoto: " + task.getVoto()+"\n";
+		String verifica = "";
+		verifica += "\tMateria: " + task.getMateriaNome() + "\n";
+		verifica += "\tData: " + task.getData() + "\n";
+		if (task.getVoto() > -1)
+			verifica += "\tVoto: " + task.getVoto() + "\n";
 		else
 			verifica += "\tVoto: nessun voto\n";
-		if(task.getComment().length() != 0)
-			verifica += "\tCommento: " + task.getComment()+"\n";
+		if (task.getComment().length() != 0)
+			verifica += "\tCommento: " + task.getComment() + "\n";
 		else
 			verifica += "\tCommento: nessun commento\n";
-		verifica += "\t-----------------\n";
+		verifica += "\t----------------------\n";
 		return verifica;
 	}
-	
+
 	public String printInterrogazioni(SchoolTask task) {
 		String interrogazione = "";
-		interrogazione += "\tMateria: " + task.getMateriaNome()+"\n";
-		interrogazione += "\tData: " + task.getData()+"\n";	
-		if(task.getVoto() > -1)
-			interrogazione += "\tVoto: " + task.getVoto()+"\n";
+		interrogazione += "\tMateria: " + task.getMateriaNome() + "\n";
+		interrogazione += "\tData: " + task.getData() + "\n";
+		if (task.getVoto() > -1)
+			interrogazione += "\tVoto: " + task.getVoto() + "\n";
 		else
 			interrogazione += "\tVoto: nessun voto\n";
-		if(task.getComment().length() != 0)
-			interrogazione += "\tCommento: " + task.getComment()+"\n";
+		if (task.getComment().length() != 0)
+			interrogazione += "\tCommento: " + task.getComment() + "\n";
 		else
 			interrogazione += "\tCommento: nessun commento\n";
-		interrogazione += "\t-----------------\n";
+		interrogazione += "\t----------------------\n";
 		return interrogazione;
+	}
+
+	public boolean attivitaIsEmpty(ArrayList<SchoolTask> attivita) {
+		int allegatiCount = 0;
+		for (SchoolTask task : attivita) {
+			if (task.getTipo().equalsIgnoreCase("Allegato file")) {
+				allegatiCount++;
+			}
+		}
+		return allegatiCount == attivita.size();
 	}
 
 	@FXML
 	public void insertTask(MouseEvent e) {
 		Console.print("Opening insert window", "gui");
-		ControllerInsertTask cit = (ControllerInsertTask)Utils.loadWindow("insertTaskFXML", 
+		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
 		cit.setTitle("Inserimento attivita");
 		cit.setMode("insert");
@@ -432,7 +445,7 @@ public class ControllerMain {
 				datePicker.setValue(today);
 				Console.print("Jumping to current week " + today, "Gui");
 				changeWeek(datePicker.getValue());
-				
+
 			}
 		});
 
@@ -449,7 +462,7 @@ public class ControllerMain {
 			if (selectedOS != null) {
 				Console.print(selectedOS + " selected", "Gui");
 				os = getOSbyName(selectedOS);
-				Config.userConfig.setProperty(Main.utente.getUsername()+"-selectedOrarioSettimanale", selectedOS);
+				Config.userConfig.setProperty(Main.utente.getUsername() + "-selectedOrarioSettimanale", selectedOS);
 				Utils.saveProperties(Main.USERCONFIG, true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
@@ -466,7 +479,7 @@ public class ControllerMain {
 		}
 
 	}
-	
+
 	public void changeWeek(LocalDate data) {
 		Task<Boolean> changeWeekTask = new Task<Boolean>() {
 			@Override
@@ -496,11 +509,12 @@ public class ControllerMain {
 
 		new Thread(changeWeekTask).start();
 	}
-	
+
 	public void updateOSPicker() {
 		Console.print("Updating OS picker", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
-		String selectedOrariS = Config.getString(Main.USERCONFIG, Main.utente.getUsername()+"-selectedOrarioSettimanale");
+		String selectedOrariS = Config.getString(Main.USERCONFIG,
+				Main.utente.getUsername() + "-selectedOrarioSettimanale");
 		orarioSPicker.getItems().clear();
 		for (int key : orariS.keySet()) {
 			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
@@ -544,7 +558,7 @@ public class ControllerMain {
 		details.setBackground(Utils.imgToBackground("detailsImagePath"));
 		details.setOnAction(e -> {
 			LocalDate data = LocalDate.now().with(DayOfWeek.of(col + 1));
-			openDetailsWindow(e,m.getNome(), data);
+			openDetailsWindow(e, m.getNome(), data);
 		});
 		bPane.getChildren().add(details);
 		if (rowSpan != 1)
@@ -610,7 +624,7 @@ public class ControllerMain {
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
 		Console.print("Opening details window " + materia, "gui");
 		MetaData.materiaSelected = materia;
-		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML", 
+		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML",
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
 		cod.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
 		cod.setDate(data);
@@ -618,7 +632,7 @@ public class ControllerMain {
 
 	public void hamMenuAnimation(Pane pane, double width, boolean expand) {
 		hamMenu.setDisable(true);
-		if(!expand) {
+		if (!expand) {
 			settingsButton.setText("");
 			profileButton.setText("");
 			closeButton.setText("");
@@ -644,8 +658,8 @@ public class ControllerMain {
 				true, null, null);
 		settings.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
 		settings.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
-		Console.print(settings.getHeight()+"", "");
-		Console.print(settings.getWidth()+"", "");
+		Console.print(settings.getHeight() + "", "");
+		Console.print(settings.getWidth() + "", "");
 		settings.setOnHiding(e -> {
 			WindowStyle.stageDimension(prefWidth, prefHeight);
 		});
@@ -678,7 +692,7 @@ public class ControllerMain {
 			box.setMaxWidth(Double.MAX_VALUE);
 			box.setMinWidth(weekdayHeader.getPrefWidth() / weekdays);
 			String day = weekDays[i];
-			Label weekDay = LanguageBundle.newLabelForValue(()->LanguageBundle.get(day, 0));
+			Label weekDay = LanguageBundle.newLabelForValue(() -> LanguageBundle.get(day, 0));
 			box.getChildren().add(weekDay);
 			Label timeLbl = new Label(data.with(DayOfWeek.of(i + 1)).format(dtf));
 			timeLbl.setId("#time");
@@ -725,7 +739,7 @@ public class ControllerMain {
 	public LocalDate getSelectedDate() {
 		return datePicker.getValue();
 	}
-	
+
 	/*********** Custom Window title bar ************/
 	@FXML
 	private HBox titleHBox;

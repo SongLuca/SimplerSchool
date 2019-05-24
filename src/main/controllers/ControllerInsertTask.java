@@ -14,7 +14,6 @@ import com.jfoenix.controls.JFXListView;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.controls.JFXTextField;
-
 import animatefx.animation.FadeIn;
 import animatefx.animation.FadeOut;
 import javafx.beans.value.ChangeListener;
@@ -36,7 +35,6 @@ import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Materia;
 import main.application.models.MetaData;
-import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
@@ -367,8 +365,7 @@ public class ControllerInsertTask {
 
 	public boolean validateDateMateria(int idMateria) {
 		int day = datePicker.getValue().getDayOfWeek().getValue();
-		OrarioSettimanale os = MetaData.os;
-		return os.validateMateriaByGiorno(day-1, idMateria);
+		return MetaData.cm.getOs().validateMateriaByGiorno(day-1, idMateria);
 	}
 	
 	public int getMateriaIdByName(String nome) {

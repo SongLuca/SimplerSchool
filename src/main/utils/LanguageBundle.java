@@ -5,9 +5,6 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import main.application.Main;
-import main.application.models.Config;
-
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +53,12 @@ public final class LanguageBundle {
         ResourceBundle bundle = ResourceBundle.getBundle("main.resources.languages.lang", getLocale());
         return MessageFormat.format(bundle.getString(key), args);
     }
-
+    
+    public static String get(final String key) {
+        ResourceBundle bundle = ResourceBundle.getBundle("main.resources.languages.lang", getLocale());
+        return MessageFormat.format(bundle.getString(key), locale);
+    }
+    
     public static StringBinding createStringBinding(final String key, Object... args) {
         return Bindings.createStringBinding(() -> get(key, args), locale);
     }

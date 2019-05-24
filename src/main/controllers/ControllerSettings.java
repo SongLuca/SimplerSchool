@@ -58,6 +58,9 @@ public class ControllerSettings {
 	private Label aboutBtnTitle, aboutBtnInfoLbl;
 	
 	@FXML
+	private Label statisticsBtnTitle,  statisticsBtnInfoLbl;
+	
+	@FXML
 	private JFXButton backButton;
 	
 	@FXML
@@ -95,6 +98,8 @@ public class ControllerSettings {
 		LanguageBundle.labelForValue(configBtnInfoLbl, ()->LanguageBundle.get("configBtnInfoLbl", 0));
 		LanguageBundle.labelForValue(aboutBtnTitle, ()->LanguageBundle.get("aboutBtnTitle", 0));
 		LanguageBundle.labelForValue(aboutBtnInfoLbl, ()->LanguageBundle.get("aboutBtnInfoLbl", 0));
+		LanguageBundle.labelForValue(statisticsBtnTitle, ()->LanguageBundle.get("statisticsBtnTitle", 0));
+		LanguageBundle.labelForValue(statisticsBtnInfoLbl, ()->LanguageBundle.get("statisticsBtnInfoLbl", 0));
 	}
 	
 	@FXML
@@ -221,7 +226,12 @@ public class ControllerSettings {
 			e.printStackTrace();
 		}
 	}
-
+	
+	@FXML
+	void openStatistics(MouseEvent event) {
+		
+	}
+	
 	@FXML
 	void openConfiguration(MouseEvent event) {
 		try {

@@ -6,15 +6,12 @@ import java.util.Locale;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import com.jfoenix.controls.JFXTextField;
-
-import javafx.beans.binding.Bindings;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import main.application.Main;
 import main.application.models.Config;
 import main.utils.Console;
@@ -48,11 +45,12 @@ public class ControllerConfiguration {
     @FXML
     private Label languageLbl;
     
-    private String selectedLang;
-    
     private List<String> langs = Arrays.asList("English","Italiano");
     
+    private boolean votoRangeCheck;
+    
     public void initialize() {
+    	votoRangeCheck = true;
     	AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
@@ -62,24 +60,26 @@ public class ControllerConfiguration {
     }
     
     public void initComponents() {
-    	selectedLang = Preferences.defaultLang;
     	langComboBox.getItems().addAll(langs);
-    	langComboBox.getSelectionModel().select(selectedLang);
+    	langComboBox.getSelectionModel().select(Preferences.defaultLang);
     	votoMinField.setText(Preferences.votoMin);
     	votoMaxField.setText(Preferences.votoMax);
     	saveBtn.setOnMouseClicked(e->{
-    		String selected = langComboBox.getSelectionModel().getSelectedItem();
-    		if(!selected.equals(selectedLang)) {
-    			selectedLang = selected;
-    			String lang = selected.substring(0,2);
-        		LanguageBundle.setLocale(new Locale(lang));
-        		Config.userConfig.setProperty("selectedLanguage", selected);
-        		Utils.saveProperties(Main.USERCONFIG, true);
-        		Console.print("Change UI language to " + selected, "GUI");
-        		popMsg("Changes have been applied");
+    		if(votoRangeCheck) {
+    			String selected = langComboBox.getSelectionModel().getSelectedItem();
+        		if(!selected.equals(Preferences.defaultLang)) {
+        			Preferences.defaultLang = selected;
+        			String lang = selected.substring(0,2);
+            		LanguageBundle.setLocale(new Locale(lang));
+            		Config.userConfig.setProperty("selectedLanguage", selected);
+            		Utils.saveProperties(Main.USERCONFIG, true);
+            		Console.print("Change UI language to " + selected, "GUI");
+            		popMsg("Changes have been applied");
+        		}
     		}
-    		
-    		
+    		else {
+    			popMsg("votoRangeCheck");
+    		}
     	});
     	
     	votoMinField.textProperty().addListener(new ChangeListener<String>() {
@@ -122,10 +122,12 @@ public class ControllerConfiguration {
     		if(Integer.parseInt(votoMinField.getText())  > Integer.parseInt(votoMaxField.getText())) {
 	    		votoMinField.setStyle("-jfx-focus-color: red; -jfx-unfocus-color: red");
 	    		votoMaxField.setStyle("-jfx-focus-color: red; -jfx-unfocus-color: red");
+	    		votoRangeCheck = false;
 	    	}
 	    	else {
 	    		votoMinField.setStyle("");
 	    		votoMaxField.setStyle("");
+	    		votoRangeCheck = true;
 	    	}
     	}
     }

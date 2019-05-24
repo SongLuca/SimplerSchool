@@ -9,6 +9,7 @@ import main.utils.Utils;
 
 public class Main extends Application {
 	public static Utente utente;
+	public static String selectedOsName;
 	public final static String CONFIG = "config";
 	public final static String DBINFO = "databaseinfo";
 	public final static String USERCONFIG = "userconfig";
