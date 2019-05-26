@@ -193,7 +193,7 @@ public class ControllerInsertTask {
 		
 		datePicker.setValue(LocalDate.now());
 		
-		tipoBox.getItems().addAll("Compito","Verifica","Interrogazione","Allegato file");
+		tipoBox.getItems().addAll("Compiti per casa","Verifica","Interrogazione","Allegato file");
 		
 		tipoBox.setOnAction(e->{
 			

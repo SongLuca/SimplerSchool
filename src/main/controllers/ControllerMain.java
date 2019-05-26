@@ -254,28 +254,34 @@ public class ControllerMain {
 		int attivitaCount = 0;
 		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
 		if (attivitaIsEmpty(attivita)) {
-			noteBoard.setText("Nessuna attivita in questa settimana");
+			noteBoard.setText(LanguageBundle.get("noAttivita"));
 		} else {
 			boolean compiti = checkComp.isSelected(), 
 					verifiche = checkVer.isSelected(),
-					interrogazioni = checkInt.isSelected();
-			String verifica = "Verifica:\n",
-					compito = "Compito:\n", 
-					interrogazione = "Interrogazione:\n";
+					interrogazioni = checkInt.isSelected(),
+					ceCompiti = false,
+					ceVerifiche = false,
+					ceInterrogazioni = false;
+			String verifica = LanguageBundle.get("verifica")+":\n",
+					compito = LanguageBundle.get("compitiPerCasa")+":\n", 
+					interrogazione = LanguageBundle.get("interrogazione")+":\n";
 			for (SchoolTask task : attivita) {
 				switch (radiosGroup.getSelectedToggle().getUserData().toString()) {
 				case "oggi":
 					if (task.getData().isEqual(LocalDate.now())) {
 						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 							verifica += printVerifiche(task);
+							ceVerifiche = true;
 							attivitaCount++;
 						}
-						if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+						if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
 							compito += printCompiti(task);
+							ceCompiti = true;
 							attivitaCount++;
 						}
 						if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
 							interrogazione += printInterrogazioni(task);
+							ceInterrogazioni = true;
 							attivitaCount++;
 						}
 					}
@@ -283,14 +289,17 @@ public class ControllerMain {
 				case "settimana":
 					if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 						verifica += printVerifiche(task);
+						ceVerifiche = true;
 						attivitaCount++;
 					}
-					if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
+					if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
 						compito += printCompiti(task);
+						ceCompiti = true;
 						attivitaCount++;
 					}
 					if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
 						interrogazione += printInterrogazioni(task);
+						ceInterrogazioni = true;
 						attivitaCount++;
 					}
 					break;
@@ -298,14 +307,17 @@ public class ControllerMain {
 					if (task.getData().isAfter(LocalDate.now()) || task.getData().isEqual(LocalDate.now())) {
 						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 							verifica += printVerifiche(task);
+							ceVerifiche = true;
 							attivitaCount++;
 						}
-						if (task.getTipo().equalsIgnoreCase("Compito") && compiti) {
-							compito += printCompiti(task);
+						if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
+							compito += printCompiti(task);	
+							ceCompiti = true;
 							attivitaCount++;
 						}
 						if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
 							interrogazione += printInterrogazioni(task);
+							ceInterrogazioni = true;
 							attivitaCount++;
 						}
 					}
@@ -313,17 +325,17 @@ public class ControllerMain {
 				}
 			}
 
-			if (verifica.equals("Verifica:\n")) {
-				verifica = "Nessuna verifica\n";
+			if (!ceVerifiche) {
+				verifica = LanguageBundle.get("noVerifica")+"\n";
 			}
 
-			if (compito.equals("Compito:\n")) {
-				compito = "Nessun compito\n";
+			if (!ceCompiti) {
+				compito = LanguageBundle.get("noCompitiPerCasa")+"\n";
 			}
-			if (interrogazione.equals("Interrogazione:\n")) {
-				interrogazione = "Nessuna interrogazione\n";
+			if (!ceInterrogazioni) {
+				interrogazione = LanguageBundle.get("noInterrogazione")+"\n";
 			}
-			noteBoard.setText(attivitaCount + " attivita:\n");
+			noteBoard.setText(attivitaCount + " " +LanguageBundle.get("attivita") + ":\n");
 			if (verifiche)
 				noteBoard.appendText(verifica);
 			if (compiti)
@@ -331,50 +343,49 @@ public class ControllerMain {
 			if (interrogazioni)
 				noteBoard.appendText(interrogazione);
 		}
-		noteBoard.appendText(LanguageBundle.get("configBtnInfoLbl"));
 		noteBoard.positionCaret(0);
 	}
 
 	public String printCompiti(SchoolTask task) {
 		String compito = "";
-		compito += "\tMateria: " + task.getMateriaNome() + "\n";
-		compito += "\tData: " + task.getData() + "\n";
+		compito += "\t"+LanguageBundle.get("materia")+": " + task.getMateriaNome() + "\n";
+		compito += "\t"+LanguageBundle.get("data")+": " + task.getData() + "\n";
 		if (task.getComment().length() != 0)
-			compito += "\tCommento: " + task.getComment() + "\n";
+			compito += "\t"+LanguageBundle.get("commento")+": " + task.getComment() + "\n";
 		else
-			compito += "\tCommento: nessun commento\n";
+			compito += "\t"+LanguageBundle.get("noCommento")+"\n";
 		compito += "\t----------------------\n";
 		return compito;
 	}
 
 	public String printVerifiche(SchoolTask task) {
 		String verifica = "";
-		verifica += "\tMateria: " + task.getMateriaNome() + "\n";
-		verifica += "\tData: " + task.getData() + "\n";
+		verifica += "\t"+LanguageBundle.get("materia")+": " + task.getMateriaNome() + "\n";
+		verifica += "\t"+LanguageBundle.get("data")+": " + task.getData() + "\n";
 		if (task.getVoto() > -1)
-			verifica += "\tVoto: " + task.getVoto() + "\n";
+			verifica += "\t"+LanguageBundle.get("voto")+": " + task.getVoto() + "\n";
 		else
-			verifica += "\tVoto: nessun voto\n";
+			verifica += "\t"+LanguageBundle.get("noVoto")+"\n";
 		if (task.getComment().length() != 0)
-			verifica += "\tCommento: " + task.getComment() + "\n";
+			verifica += "\t"+LanguageBundle.get("commento")+": " + task.getComment() + "\n";
 		else
-			verifica += "\tCommento: nessun commento\n";
+			verifica += "\t"+LanguageBundle.get("noCommento")+"\n";
 		verifica += "\t----------------------\n";
 		return verifica;
 	}
 
 	public String printInterrogazioni(SchoolTask task) {
 		String interrogazione = "";
-		interrogazione += "\tMateria: " + task.getMateriaNome() + "\n";
-		interrogazione += "\tData: " + task.getData() + "\n";
+		interrogazione += "\t"+LanguageBundle.get("materia")+": " + task.getMateriaNome() + "\n";
+		interrogazione += "\t"+LanguageBundle.get("data")+": " + task.getData() + "\n";
 		if (task.getVoto() > -1)
-			interrogazione += "\tVoto: " + task.getVoto() + "\n";
+			interrogazione += "\t"+LanguageBundle.get("voto")+": " + task.getVoto() + "\n";
 		else
-			interrogazione += "\tVoto: nessun voto\n";
+			interrogazione += "\t"+LanguageBundle.get("noVoto")+"\n";
 		if (task.getComment().length() != 0)
-			interrogazione += "\tCommento: " + task.getComment() + "\n";
+			interrogazione += "\t"+LanguageBundle.get("commento")+": " + task.getComment() + "\n";
 		else
-			interrogazione += "\tCommento: nessun commento\n";
+			interrogazione += "\t"+LanguageBundle.get("noCommento")+"\n";
 		interrogazione += "\t----------------------\n";
 		return interrogazione;
 	}
@@ -557,7 +568,7 @@ public class ControllerMain {
 		Button details = new Button();
 		details.setBackground(Utils.imgToBackground("detailsImagePath"));
 		details.setOnAction(e -> {
-			LocalDate data = LocalDate.now().with(DayOfWeek.of(col + 1));
+			LocalDate data = datePicker.getValue().with(DayOfWeek.of(col + 1));
 			openDetailsWindow(e, m.getNome(), data);
 		});
 		bPane.getChildren().add(details);
