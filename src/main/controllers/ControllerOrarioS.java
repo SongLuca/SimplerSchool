@@ -113,7 +113,6 @@ public class ControllerOrarioS {
 				os.initMaps();
 				updateOSTask("saved", false);
 				MetaData.os = this.os;
-				MetaData.os.toString();
 			}
 		});
 

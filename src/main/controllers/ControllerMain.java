@@ -29,6 +29,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
 import javafx.scene.control.Button;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
@@ -247,11 +248,33 @@ public class ControllerMain {
 		});
 
 	}
-
+	
+	public void radiosBtnSetDisable(boolean value) {
+		radioOggi.setDisable(value);
+		radioSett.setDisable(value);
+		radioSucc.setDisable(value);
+	}
+	
+	public boolean isThisWeek() {
+		LocalDate selected = datePicker.getValue();
+		LocalDate monday = LocalDate.now().with(DayOfWeek.MONDAY);
+		LocalDate sunday = LocalDate.now().with(DayOfWeek.SUNDAY);
+		if((selected.isAfter(monday) || selected.isEqual(monday)) && (selected.isBefore(sunday) || selected.isEqual(sunday))) {
+			this.radiosBtnSetDisable(false);
+			return true;
+		}
+		else {
+			this.radiosBtnSetDisable(true);
+			return false;
+		}
+			
+	}
+	
 	public void loadNoteBoard() {
 		Console.print("Loading note board", "gui");
 		noteBoard.clear();
 		int attivitaCount = 0;
+		boolean currWeek = isThisWeek();
 		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
 		if (attivitaIsEmpty(attivita)) {
 			noteBoard.setText(LanguageBundle.get("noAttivita"));
@@ -266,27 +289,7 @@ public class ControllerMain {
 					compito = LanguageBundle.get("compitiPerCasa")+":\n", 
 					interrogazione = LanguageBundle.get("interrogazione")+":\n";
 			for (SchoolTask task : attivita) {
-				switch (radiosGroup.getSelectedToggle().getUserData().toString()) {
-				case "oggi":
-					if (task.getData().isEqual(LocalDate.now())) {
-						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
-							verifica += printVerifiche(task);
-							ceVerifiche = true;
-							attivitaCount++;
-						}
-						if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
-							compito += printCompiti(task);
-							ceCompiti = true;
-							attivitaCount++;
-						}
-						if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
-							interrogazione += printInterrogazioni(task);
-							ceInterrogazioni = true;
-							attivitaCount++;
-						}
-					}
-					break;
-				case "settimana":
+				if(!currWeek) {
 					if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 						verifica += printVerifiche(task);
 						ceVerifiche = true;
@@ -302,16 +305,36 @@ public class ControllerMain {
 						ceInterrogazioni = true;
 						attivitaCount++;
 					}
-					break;
-				case "successivi":
-					if (task.getData().isAfter(LocalDate.now()) || task.getData().isEqual(LocalDate.now())) {
+				}
+				else {
+					switch (radiosGroup.getSelectedToggle().getUserData().toString()) {
+					case "oggi":
+						if (task.getData().isEqual(LocalDate.now())) {
+							if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+								verifica += printVerifiche(task);
+								ceVerifiche = true;
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
+								compito += printCompiti(task);
+								ceCompiti = true;
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+								interrogazione += printInterrogazioni(task);
+								ceInterrogazioni = true;
+								attivitaCount++;
+							}
+						}
+						break;
+					case "settimana":
 						if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 							verifica += printVerifiche(task);
 							ceVerifiche = true;
 							attivitaCount++;
 						}
 						if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
-							compito += printCompiti(task);	
+							compito += printCompiti(task);
 							ceCompiti = true;
 							attivitaCount++;
 						}
@@ -320,8 +343,27 @@ public class ControllerMain {
 							ceInterrogazioni = true;
 							attivitaCount++;
 						}
+						break;
+					case "successivi":
+						if (task.getData().isAfter(LocalDate.now()) || task.getData().isEqual(LocalDate.now())) {
+							if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
+								verifica += printVerifiche(task);
+								ceVerifiche = true;
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
+								compito += printCompiti(task);	
+								ceCompiti = true;
+								attivitaCount++;
+							}
+							if (task.getTipo().equalsIgnoreCase("interrogazione") && interrogazioni) {
+								interrogazione += printInterrogazioni(task);
+								ceInterrogazioni = true;
+								attivitaCount++;
+							}
+						}
+						break;
 					}
-					break;
 				}
 			}
 
@@ -437,8 +479,16 @@ public class ControllerMain {
 	public void initTabPane() {
 		updateOSPicker();
 		datePicker.setValue(LocalDate.now());
+		datePicker.setDayCellFactory(picker -> new DateCell() {
+            @Override
+            public void updateItem(LocalDate date, boolean empty) {
+                super.updateItem(date, empty);
+                setDisable(empty || date.getDayOfWeek() == DayOfWeek.SUNDAY);
+            }
+        });
 		datePicker.setOnAction(e -> {
 			initCalendarWeekDayHeader(datePicker.getValue(), true);
+			changeWeek(datePicker.getValue());
 		});
 
 		lastWeekBtn.setOnAction(e -> {
@@ -479,9 +529,10 @@ public class ControllerMain {
 					int dayCol = os.getColByGiorno(giornoK);
 					fuseSubjects(calendarGrid, dayCol);
 				}
+				changeWeek(datePicker.getValue());
 			}
 		});
-
+		
 		if (os != null) {
 			for (String giornoK : os.getSettimana().keySet()) {
 				int dayCol = os.getColByGiorno(giornoK);
@@ -497,7 +548,7 @@ public class ControllerMain {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				rootPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().getAttivitaS(data);
+				return DataBaseHandler.getInstance().getAttivitaS(data,false);
 			}
 		};
 

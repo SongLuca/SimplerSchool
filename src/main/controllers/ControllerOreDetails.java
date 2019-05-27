@@ -146,7 +146,7 @@ public class ControllerOreDetails {
 			allegatoBox.getChildren().clear();
 			for (SchoolTask task : attivita) {
 				if (task.getMateriaNome().equalsIgnoreCase(materia)) {
-					if (task.getTipo().equalsIgnoreCase("Compito")) {
+					if (task.getTipo().equalsIgnoreCase("Compiti per casa")) {
 						compitiCount++;
 						attivitaBoxController c = loadTaskBox(compitiBox, compitiCount);
 						c.setIdTask(task.getIdTask());

@@ -28,6 +28,7 @@ import main.application.models.Config;
 import main.application.models.Docente;
 import main.application.models.Insegna;
 import main.application.models.Materia;
+import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
 import main.application.models.SchoolTask;
 import main.application.models.Utente;
@@ -156,10 +157,18 @@ public class DataBaseHandler {
 		getDocentiQuery();
 		getInsegnaQuery();
 		getOSQuery();
-		getAttivitaS(LocalDate.now());
+		getAttivitaS(LocalDate.now(),true);
 		Console.print("--------------------------------", "app");
 	}
-
+	
+	public int getOsIdByName(String nome) {
+		for(int osId: orariS.keySet()) {
+			if(orariS.get(osId).getNomeOrario().equals(nome))
+				return osId;
+		}
+		return -1;
+	}
+	
 	public boolean runResetPassQuery(String username, char[] password) {
 		Console.print("Reseting passwod", "app");
 		String query = "UPDATE UTENTE SET pass_hash = ? WHERE username = ?";
@@ -715,9 +724,9 @@ public class DataBaseHandler {
 		}
 	}
 
-	public boolean getAttivitaS(LocalDate data) {
+	public boolean getAttivitaS(LocalDate data, boolean readConfig) {
 		Console.print("Getting tasks of this week", "db");
-		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(?, 1) " + "AND USER_ID = ? "
+		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(?, 1) " + "AND USER_ID = ? AND OS_ID = ? "
 		// + "AND TIPO in ('compito','interrogazione','verifica') "
 				+ "order by TASK_DATA, TIPO desc";
 		Connection conn = openConn();
@@ -726,6 +735,13 @@ public class DataBaseHandler {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setDate(1, Date.valueOf(data));
 			stmt.setInt(2, Main.utente.getUserid());
+			if(readConfig) { 
+				stmt.setInt(3, getOsIdByName(Config.getString(Main.USERCONFIG,
+						Main.utente.getUsername() + "-selectedOrarioSettimanale")));
+			}
+			else {
+				stmt.setInt(3, MetaData.cm.getOs().getId());
+			}
 			rs = stmt.executeQuery();
 			rsToAttivita(rs);
 			return true;
@@ -738,7 +754,7 @@ public class DataBaseHandler {
 
 	public boolean insertTaskQuery(SchoolTask task) {
 		Console.print("Inserting task", "db");
-		String query = "INSERT INTO TASK(TIPO,MATERIA_ID,TASK_DATA, COMMENTO, USER_ID, VOTO) VALUES(?,?,?,?,?,?)";
+		String query = "INSERT INTO TASK(TIPO,MATERIA_ID,TASK_DATA, COMMENTO, USER_ID, VOTO, OS_ID) VALUES(?,?,?,?,?,?,?)";
 		Connection conn = openConn();
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
@@ -748,6 +764,7 @@ public class DataBaseHandler {
 			stmt.setString(4, task.getComment());
 			stmt.setInt(5, Main.utente.getUserid());
 			stmt.setInt(6, task.getVoto());
+			stmt.setInt(7, MetaData.cm.getOs().getId());
 			stmt.execute();
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
 				if (generatedKeys.next())
@@ -757,7 +774,7 @@ public class DataBaseHandler {
 			}
 			if (task.hasAllegato())
 				uploadAllegati(task, conn);
-			getAttivitaS(LocalDate.now());
+			getAttivitaS(LocalDate.now(),false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -775,7 +792,7 @@ public class DataBaseHandler {
 			stmt.setInt(1, task.getIdTask());
 			stmt.setInt(2, Main.utente.getUserid());
 			stmt.execute();
-			getAttivitaS(LocalDate.now());
+			getAttivitaS(LocalDate.now(),false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -807,7 +824,7 @@ public class DataBaseHandler {
 			if (!removed.isEmpty()) {
 				removeAllegatiBy(removed, task.getIdTask(), conn);
 			}
-			getAttivitaS(LocalDate.now());
+			getAttivitaS(LocalDate.now(),false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -925,7 +942,7 @@ public class DataBaseHandler {
 		SchoolTask task;
 		try {
 			while (rs.next()) {
-				task = new SchoolTask(rs.getInt("TASK_ID"), rs.getInt("MATERIA_ID"), rs.getDate("TASK_DATA").toLocalDate(), rs.getString("TIPO"),
+				task = new SchoolTask(rs.getInt("TASK_ID"), rs.getInt("MATERIA_ID"), rs.getInt("OS_ID"), rs.getDate("TASK_DATA").toLocalDate(), rs.getString("TIPO"),
 						rs.getInt("VOTO"), rs.getString("COMMENTO"));
 				ResultSet files = getAllegatoByTask(task.getIdTask());
 				while (files.next()) {

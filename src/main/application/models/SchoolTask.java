@@ -10,6 +10,7 @@ import main.database.DataBaseHandler;
 public class SchoolTask {
 	private int idTask;
 	private int idMateria;
+	private int idOs;
 	private LocalDate data ;
 	private String tipo;
 	private int voto;
@@ -20,7 +21,7 @@ public class SchoolTask {
 		voto = -1;
 	}
 	
-	public SchoolTask(int idTask, int idMateria, LocalDate data, String tipo, int voto, String comment) {
+	public SchoolTask(int idTask, int idMateria, int idOs, LocalDate data, String tipo, int voto, String comment) {
 		this.idTask = idTask;
 		this.idMateria = idMateria;
 		this.data = data;
@@ -54,6 +55,14 @@ public class SchoolTask {
 		allegati.put(a.getFile().getName(),a);
 	}
 	
+	public int getIdOs() {
+		return idOs;
+	}
+
+	public void setIdOs(int idOs) {
+		this.idOs = idOs;
+	}
+
 	public int getIdMateria() {
 		return idMateria;
 	}
@@ -145,10 +154,10 @@ public class SchoolTask {
 	@Override
 	public String toString() {
 		if(allegati != null)
-			return "Task id: " + idTask +" data: " + data + " tipo: " 
+			return "Task id: " + idTask + " os id: "+ idOs + " data: " + data + " tipo: " 
 					+ tipo + " materia: " + getMateriaNome() + "(" + idMateria + ") voto: "+ voto +" commento: " + comment + " allegati: " + allegati.toString();
 		else
-			return "Task id: " + idTask +" data: " + data + " tipo: " 
+			return "Task id: " + idTask + " os id: "+ idOs + " data: " + data + " tipo: " 
 					+ tipo + " materia: " + getMateriaNome() + "(" + idMateria + ") voto: "+ voto +" commento: " + comment + " nessun file allegato";
 	}
 }

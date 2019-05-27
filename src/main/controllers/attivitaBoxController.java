@@ -94,11 +94,11 @@ public class attivitaBoxController {
 		Stage owner = (Stage) contentPane.getScene().getWindow();
 		StackPane stack = (StackPane) contentPane.getScene().lookup("#stackPane");
 		AnchorPane anchor = (AnchorPane) contentPane.getScene().lookup("#detailsPane");
-		ConfirmDialog dialog = new ConfirmDialog(owner, "Are you sure to delete this task?");
+		ConfirmDialog dialog = new ConfirmDialog(owner, "deleteConfirmLbl");
 		if (dialog.getResult()) {
 			SchoolTask task = DataBaseHandler.getInstance().getAttivita(idTask);
 			switch (task.getTipo()) {
-			case "Compito":
+			case "Compiti per casa":
 				deleteTask(task, anchor, stack, "compitiBox");
 				break;
 			case "Verifica":
