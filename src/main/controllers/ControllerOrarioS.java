@@ -149,9 +149,9 @@ public class ControllerOrarioS {
 	}
 	
 	public void initLangBindings() {
-    	LanguageBundle.buttonForValue(clearButton, ()->LanguageBundle.get("clearBtn", 0));
-    	LanguageBundle.buttonForValue(backButton, ()->LanguageBundle.get("backBtn", 0));
-    	LanguageBundle.buttonForValue(deleteButton, ()->LanguageBundle.get("deleteBtn", 0));
+		clearButton.setText(LanguageBundle.get("clearBtn"));
+		backButton.setText(LanguageBundle.get("backBtn"));
+		deleteButton.setText(LanguageBundle.get("deleteBtn"));
     }
 	
 	public void setInsegna(ArrayList<Insegna> insegna) {

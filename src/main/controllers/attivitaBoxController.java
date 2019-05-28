@@ -2,6 +2,7 @@ package main.controllers;
 
 import java.util.LinkedHashMap;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextArea;
 import animatefx.animation.FadeOutRight;
@@ -10,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.control.Tooltip;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
@@ -23,15 +25,22 @@ import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 
 public class attivitaBoxController {
 	@FXML
-	private Label materiaLbl;
-	
+	private Label materiaLbl, commentoLbl;
+
 	@FXML
 	private Label votoLbl;
-	
+
+	@FXML
+	private JFXButton  fileBtn, deleteBtn;
+
+	@FXML
+	private JFXButton  editBtn;
+
 	@FXML
 	private JFXTextArea comment;
 
@@ -47,7 +56,15 @@ public class attivitaBoxController {
 	private int idTask;
 
 	public void initialize() {
+		initLangBindings();
+	}
 
+	public void initLangBindings() {
+		materiaLbl.setText(LanguageBundle.get("materia")+": ");
+		commentoLbl.setText(LanguageBundle.get("commento")+": ");
+		fileBtn.setTooltip(new Tooltip(LanguageBundle.get("fileListTooltip")));
+		deleteBtn.setTooltip(new Tooltip(LanguageBundle.get("deleteBtn")));
+		editBtn.setTooltip(new Tooltip(LanguageBundle.get("edit")));
 	}
 
 	public void setIdTask(int idTask) {
@@ -55,7 +72,7 @@ public class attivitaBoxController {
 	}
 
 	public void setMateria(String materia) {
-		materiaLbl.setText("Materia: " + materia);
+		materiaLbl.setText(materiaLbl.getText() + materia);
 	}
 
 	public void setCommento(String commento) {
@@ -63,25 +80,25 @@ public class attivitaBoxController {
 	}
 
 	public void setAllInfo(SchoolTask task) {
-		materiaLbl.setText("Materia: " + task.getMateriaNome());
+		materiaLbl.setText(materiaLbl.getText() + task.getMateriaNome());
 		comment.setText(task.getComment());
 	}
-	
+
 	public void setVoto(String voto) {
 		votoLbl.setVisible(true);
-		votoLbl.setText("Voto: " + voto);
+		votoLbl.setText(LanguageBundle.get("voto")+": "+ voto);
 	}
-	
+
 	public void markAsDone() {
 		Box.getStyleClass().add("withScore-titled-pane");
 	}
-	
+
 	@FXML
 	void edit(MouseEvent e) {
 		Console.print("Opening edit task " + idTask + " window", "gui");
 		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
-		cit.setTitle("Modifica attivita");
+		cit.setTitle(LanguageBundle.get("modificaAttivita"));
 		cit.setMode("edit");
 		cit.setIdTask(idTask);
 		cit.setTaskBoxController(this);
@@ -124,7 +141,7 @@ public class attivitaBoxController {
 		if (allegati.isEmpty()) {
 			StackPane stack = (StackPane) contentPane.getScene().lookup("#stackPane");
 			AnchorPane anchor = (AnchorPane) contentPane.getScene().lookup("#detailsPane");
-			Utils.popUpDialog(stack, anchor, "Message", "There are no files to show");
+			Utils.popUpDialog(stack, anchor, "Message", LanguageBundle.get("noFile"));
 		} else {
 			Console.print("Opening file list view of task " + idTask + " window", "gui");
 			ControllerFileView cfv = (ControllerFileView) Utils.loadWindow("fileViewFXML",
@@ -156,7 +173,7 @@ public class attivitaBoxController {
 			loading.setVisible(false);
 			anchor.setEffect(null);
 			if (deleteTask.getValue()) {
-				Utils.popUpDialog(stack, anchor, "Msg", "Task deleted!");
+				Utils.popUpDialog(stack, anchor, "Msg", LanguageBundle.get("taskDeleteOnSuccess"));
 				VBox box = (VBox) anchor.getScene().lookup("#" + tipoBox);
 				FadeOutRight animation = new FadeOutRight(Box);
 				animation.setOnFinished(e -> {

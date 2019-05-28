@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOreDetails">
+<AnchorPane stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOreDetails">
    <children>
       <AnchorPane fx:id="detailsPane" prefHeight="600.0" prefWidth="600.0">
          <children>
@@ -50,7 +50,7 @@
             </HBox>
             <JFXTabPane fx:id="tabPane" layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
                <tabs>
-                  <Tab text="Compiti">
+                  <Tab fx:id="compitiTab" text="Compiti per casa">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -63,7 +63,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Verifiche">
+                  <Tab fx:id="verificheTab" text="Verifiche">
                     <content>
                       <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -76,7 +76,7 @@
                         </AnchorPane>
                     </content>
                   </Tab>
-                  <Tab text="Interrogazioni">
+                  <Tab fx:id="interrTab" text="Interrogazioni">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -89,7 +89,7 @@
                         </AnchorPane>
                      </content>
                   </Tab>
-                  <Tab text="Allegato file">
+                  <Tab fx:id="allegatiTab" text="Allegati file">
                      <content>
                         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                            <children>
@@ -108,12 +108,12 @@
                <children>
                   <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="457.0">
                      <children>
-                        <JFXButton onMouseClicked="#newTask" prefHeight="30.0" prefWidth="100.0" text="New task..." />
-                        <JFXButton onMouseClicked="#expandAll" prefHeight="30.0" prefWidth="100.0" text="Expand all" />
-                        <JFXButton onMouseClicked="#collapseAll" prefHeight="30.0" prefWidth="100.0" text="Collapse all" />
+                        <JFXButton fx:id="newTaskBtn" onMouseClicked="#newTask" prefHeight="30.0" prefWidth="120.0" text="New task..." />
+                        <JFXButton fx:id="expandBtn" onMouseClicked="#expandAll" prefHeight="30.0" prefWidth="120.0" text="Expand all" />
+                        <JFXButton fx:id="collapseBtn" onMouseClicked="#collapseAll" prefHeight="30.0" prefWidth="120.0" text="Collapse all" />
                      </children>
                   </HBox>
-                  <JFXButton onMouseClicked="#close" prefHeight="30.0" prefWidth="60.0" text="Close" />
+                  <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="30.0" prefWidth="60.0" text="Close" />
                </children>
                <padding>
                   <Insets right="50.0" />

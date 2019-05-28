@@ -23,7 +23,7 @@
                         <Label fx:id="votoLbl" prefHeight="36.0" prefWidth="350.0" text="Voto:" visible="false" />
                      </children>
                   </HBox>
-                  <Label prefHeight="36.0" prefWidth="140.0" text="Commento:" />
+                  <Label fx:id="commentoLbl" prefHeight="36.0" prefWidth="140.0" text="Commento:" />
                   <JFXTextArea fx:id="comment" editable="false" prefHeight="100.0" prefWidth="550.0" />
                </children>
                <padding>
@@ -32,7 +32,7 @@
             </VBox>
             <HBox alignment="BASELINE_RIGHT" layoutX="426.0" layoutY="186.0" prefHeight="30.0" prefWidth="150.0">
                <children>
-                  <JFXButton onMouseClicked="#showFileList" prefHeight="20.0" prefWidth="20.0" text="">
+                  <JFXButton fx:id="fileBtn" onMouseClicked="#showFileList" prefHeight="20.0" prefWidth="20.0" text="">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -41,7 +41,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton onMouseClicked="#edit" prefHeight="20.0" prefWidth="20.0" text="">
+                  <JFXButton fx:id="editBtn" onMouseClicked="#edit" prefHeight="20.0" prefWidth="20.0" text="">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>
@@ -50,7 +50,7 @@
                         </ImageView>
                      </graphic>
                   </JFXButton>
-                  <JFXButton onMouseClicked="#remove" prefHeight="20.0" prefWidth="20.0" text="">
+                  <JFXButton fx:id="deleteBtn" onMouseClicked="#remove" prefHeight="20.0" prefWidth="20.0" text="">
                      <graphic>
                         <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true">
                            <image>

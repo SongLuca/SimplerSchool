@@ -7,6 +7,8 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.Locale;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -195,9 +197,9 @@ public class ControllerMain {
 	}
 
 	public void initLangBindings() {
-		LanguageBundle.checkBoxForValue(checkInt, () -> LanguageBundle.get("checkBInterrogazioni", 0));
-		LanguageBundle.checkBoxForValue(checkComp, () -> LanguageBundle.get("checkBCompitiPerCasa", 0));
-		LanguageBundle.checkBoxForValue(checkVer, () -> LanguageBundle.get("checkBVerifiche", 0));
+		LanguageBundle.checkBoxForValue(checkInt, () -> LanguageBundle.get("interrogazioni", 0));
+		LanguageBundle.checkBoxForValue(checkComp, () -> LanguageBundle.get("compitiPerCasa", 0));
+		LanguageBundle.checkBoxForValue(checkVer, () -> LanguageBundle.get("verifiche", 0));
 
 		LanguageBundle.radioButtonForValue(radioOggi, () -> LanguageBundle.get("radioBtnOggi", 0));
 		LanguageBundle.radioButtonForValue(radioSett, () -> LanguageBundle.get("radioBtnSettimana", 0));
@@ -684,6 +686,8 @@ public class ControllerMain {
 	}
 
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
+		System.out.println(LanguageBundle.getLocale());
+		Locale.setDefault(LanguageBundle.getLocale());
 		Console.print("Opening details window " + materia, "gui");
 		MetaData.materiaSelected = materia;
 		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML",

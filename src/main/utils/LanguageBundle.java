@@ -5,6 +5,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
+
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -96,6 +98,11 @@ public final class LanguageBundle {
     public static void radioButtonForValue(JFXRadioButton radioBtn, Callable<String> func) {
     	radioBtn.textProperty().bind(createStringBinding(func));
     }
+    
+    public static void tabForValue(Tab tab, Callable<String> func) {
+    	tab.textProperty().bind(createStringBinding(func));
+    }
+    
     public static Button buttonForKey(final String key, final Object... args) {
         Button button = new Button();
         button.textProperty().bind(createStringBinding(key, args));

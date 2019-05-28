@@ -25,8 +25,8 @@ public class ControllerDocenteBox {
     private Label idDocente;
     
 	public void initialize() {
-		LanguageBundle.textFieldForValue(nomeField, ()->LanguageBundle.get("firstname", 0));
-		LanguageBundle.textFieldForValue(cognomeField, ()->LanguageBundle.get("surname", 0));
+		nomeField.setPromptText(LanguageBundle.get("firstname"));
+		cognomeField.setPromptText(LanguageBundle.get("surname"));
 	}
     
     @FXML

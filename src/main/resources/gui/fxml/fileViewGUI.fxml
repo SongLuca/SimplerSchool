@@ -32,8 +32,8 @@
                   <JFXListView fx:id="fileListView" prefHeight="350.0" prefWidth="360.0" />
                   <HBox alignment="CENTER_LEFT" prefHeight="44.0" prefWidth="360.0">
                      <children>
-                        <Label prefHeight="15.0" prefWidth="297.0" text="*Double click to open the file" />
-                        <JFXButton onMouseClicked="#close" prefHeight="40.0" prefWidth="60.0" text="Close" />
+                        <Label fx:id="hintLbl" prefHeight="15.0" prefWidth="297.0" text="*Double click to open the file" />
+                        <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="40.0" prefWidth="60.0" text="Close" />
                      </children>
                      <padding>
                         <Insets top="10.0" />

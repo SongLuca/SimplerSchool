@@ -27,7 +27,7 @@ public class ControllerMateriaBox {
     private Label idMateria;
 	
 	public void initialize() {
-		LanguageBundle.textFieldForValue(nomeMateria, ()->LanguageBundle.get("subjectNamePromptText", 0));
+		nomeMateria.setPromptText(LanguageBundle.get("subjectNamePromptText"));
 	}
 	
 	@FXML

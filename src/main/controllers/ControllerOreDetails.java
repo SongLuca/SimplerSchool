@@ -13,6 +13,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
+import javafx.scene.control.Tab;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -28,31 +29,38 @@ import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 import javafx.scene.control.TitledPane;
 
 public class ControllerOreDetails {
 	@FXML
-	private VBox compitiBox;
+	private VBox compitiBox, verificheBox;
 
 	@FXML
-	private VBox verificheBox;
+	private VBox interrBox, allegatoBox;
 
 	@FXML
-	private VBox interrBox;
-
+	private Tab compitiTab, verificheTab;
+	
 	@FXML
-	private VBox allegatoBox;
+	private Tab interrTab, allegatiTab;
+	
+	@FXML
+    private JFXButton newTaskBtn, expandBtn;
 
+    @FXML
+    private JFXButton collapseBtn, closeBtn;
+	
 	@FXML
 	private JFXSpinner loading;
-	
+
 	@FXML
-    private JFXTabPane tabPane;
-	
+	private JFXTabPane tabPane;
+
 	@FXML
-    private VBox infoVBox;
+	private VBox infoVBox;
 
 	private ArrayList<SchoolTask> attivita;
 
@@ -65,74 +73,87 @@ public class ControllerOreDetails {
 	private int allegatoCount;
 
 	private String materia;
-	
+
 	private LocalDate data;
-	
+
 	public void initialize() {
 		MetaData.cod = this;
 		setMateria(MetaData.materiaSelected);
 		initTitleBox();
 		initInfoBox();
 		populatePanes();
+		initLangBindings();
 	}
-
+	
+	public void initLangBindings() {
+		compitiTab.setText(LanguageBundle.get("compitiPerCasa"));
+		verificheTab.setText(LanguageBundle.get("verifiche"));
+		interrTab.setText(LanguageBundle.get("interrogazioni"));
+		allegatiTab.setText(LanguageBundle.get("allegatiFile"));
+		
+		newTaskBtn.setText(LanguageBundle.get("newTask"));
+		closeBtn.setText(LanguageBundle.get("close"));
+		collapseBtn.setText(LanguageBundle.get("collapseAll"));
+		expandBtn.setText(LanguageBundle.get("expandAll"));
+	}
+	
 	public void setMateria(String materia) {
 		this.materia = materia;
 	}
-	
+
 	public String getMateria() {
 		return materia;
 	}
-	
+
 	public void setTitle(String title) {
 		this.title.setText(title);
 	}
-	
+
 	public void setDate(LocalDate data) {
 		this.data = data;
 	}
-	
+
 	public void reloadAttivita() {
 		attivita = DataBaseHandler.getInstance().getAttivita();
 	}
-	
+
 	public Materia getMateriaByNome() {
 		ArrayList<Materia> materie = DataBaseHandler.getInstance().getMaterie();
-		for(Materia m : materie) {
-			if(m.getNome().equals(materia))
+		for (Materia m : materie) {
+			if (m.getNome().equals(materia))
 				return m;
 		}
 		return null;
 	}
-	
+
 	public Docente getDocenteById(int idD) {
 		ArrayList<Docente> docenti = DataBaseHandler.getInstance().getDocenti();
-		for(Docente d : docenti) {
-			if(d.getIdDocente() == idD)
+		for (Docente d : docenti) {
+			if (d.getIdDocente() == idD)
 				return d;
 		}
 		return null;
 	}
-	
+
 	public void initInfoBox() {
 		ArrayList<Insegna> insegna = DataBaseHandler.getInstance().getInsegna();
 		boolean ceDocente = false;
-		for(Insegna i : insegna) {
-			if(i.getMateriaId() == getMateriaByNome().getId()) {
+		for (Insegna i : insegna) {
+			if (i.getMateriaId() == getMateriaByNome().getId()) {
 				Docente d = getDocenteById(i.getProfId());
-				Label lbl = new Label("Docente: " + d.getNomeCognome());
+				Label lbl = new Label(LanguageBundle.get("docente") + ": " + d.getNomeCognome());
 				lbl.setPrefHeight(20);
 				infoVBox.getChildren().add(lbl);
 				ceDocente = true;
 			}
 		}
-		if(!ceDocente) {
-			Label lbl = new Label("Non ce nessun docente");
+		if (!ceDocente) {
+			Label lbl = new Label(LanguageBundle.get("noDocente"));
 			lbl.setPrefHeight(20);
 			infoVBox.getChildren().add(lbl);
 		}
 	}
-	
+
 	public void populatePanes() {
 		attivita = DataBaseHandler.getInstance().getAttivita();
 		if (attivita != null) {
@@ -160,8 +181,8 @@ public class ControllerOreDetails {
 						c.setIdTask(task.getIdTask());
 						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
-						c.setVoto((task.getVoto()>-1) ? task.getVoto()+"" : "Nessun voto");
-						if(task.getVoto()>-1)
+						c.setVoto((task.getVoto() > -1) ? task.getVoto() + "" : LanguageBundle.get("noVoto2"));
+						if (task.getVoto() > -1)
 							c.markAsDone();
 					}
 
@@ -171,8 +192,8 @@ public class ControllerOreDetails {
 						c.setIdTask(task.getIdTask());
 						c.setMateria(task.getMateriaNome());
 						c.setCommento(task.getComment());
-						c.setVoto((task.getVoto()>-1) ? task.getVoto()+"" : "Nessun voto");
-						if(task.getVoto()>-1)
+						c.setVoto((task.getVoto() > -1) ? task.getVoto() + "" : LanguageBundle.get("noVoto2"));
+						if (task.getVoto() > -1)
 							c.markAsDone();
 					}
 
@@ -187,7 +208,7 @@ public class ControllerOreDetails {
 			}
 		}
 	}
-	
+
 	public attivitaBoxController loadTaskBox(VBox pane, int count) {
 		try {
 			URL fxmlURL = new File(Config.getString(Main.CONFIG, "attivitaBoxFXML")).toURI().toURL();
@@ -201,7 +222,7 @@ public class ControllerOreDetails {
 		}
 		return null;
 	}
-	
+
 	public void setExpandTitlePanes(boolean expand, VBox box) {
 		for (Node component : box.getChildren()) {
 			if (component instanceof TitledPane) {
@@ -210,53 +231,45 @@ public class ControllerOreDetails {
 			}
 		}
 	}
-	
+
 	@FXML
 	void collapseAll(MouseEvent event) {
-		switch(tabPane.getSelectionModel().getSelectedItem().getText()) {
-			case "Compiti":
-				setExpandTitlePanes(false,compitiBox);
-				break;
-			case "Verifiche":
-				setExpandTitlePanes(false,verificheBox);
-				break;
-			case "Interrogazioni":
-				setExpandTitlePanes(false,interrBox);
-				break;
-			case "Allegato file":
-				setExpandTitlePanes(false,allegatoBox);
-				break;
-			default:
-				Console.print("Error! undefined tab!", "Error");
-				break;
-		}
+		String tabTitle = tabPane.getSelectionModel().getSelectedItem().getText();
+		if(tabTitle.equals(compitiTab.getText()))
+			setExpandTitlePanes(false, compitiBox);
+		else if(tabTitle.equals(verificheTab.getText()))
+			setExpandTitlePanes(false, verificheBox);
+		else if(tabTitle.equals(interrTab.getText()))
+			setExpandTitlePanes(false, interrBox);
+		else if(tabTitle.equals(allegatiTab.getText()))
+			setExpandTitlePanes(false, allegatoBox);
+		else if(tabTitle.equals(verificheTab.getText()))
+			setExpandTitlePanes(false, verificheBox);
+		else
+			Console.print("Error! undefined tab!", "Error");
 	}
-		
+
 	@FXML
 	void expandAll(MouseEvent event) {
-		switch(tabPane.getSelectionModel().getSelectedItem().getText()) {
-		case "Compiti":
-			setExpandTitlePanes(true,compitiBox);
-			break;
-		case "Verifiche":
-			setExpandTitlePanes(true,verificheBox);
-			break;
-		case "Interrogazioni":
-			setExpandTitlePanes(true,interrBox);
-			break;
-		case "Allegato file":
-			setExpandTitlePanes(true,allegatoBox);
-			break;
-		default:
+		String tabTitle = tabPane.getSelectionModel().getSelectedItem().getText();
+		if(tabTitle.equals(compitiTab.getText()))
+			setExpandTitlePanes(true, compitiBox);
+		else if(tabTitle.equals(verificheTab.getText()))
+			setExpandTitlePanes(true, verificheBox);
+		else if(tabTitle.equals(interrTab.getText()))
+			setExpandTitlePanes(true, interrBox);
+		else if(tabTitle.equals(allegatiTab.getText()))
+			setExpandTitlePanes(true, allegatoBox);
+		else if(tabTitle.equals(verificheTab.getText()))
+			setExpandTitlePanes(true, verificheBox);
+		else
 			Console.print("Error! undefined tab!", "Error");
-			break;
-		}
 	}
 
 	@FXML
 	void newTask(MouseEvent e) {
 		Console.print("Opening insert window materia: " + materia, "gui");
-		ControllerInsertTask cit = (ControllerInsertTask)Utils.loadWindow("insertTaskFXML", 
+		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
 		cit.setTitle("Inserimento attivita");
 		cit.setMode("insert");

@@ -12,6 +12,7 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
+import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
@@ -25,6 +26,7 @@ import javafx.stage.Stage;
 import main.application.Main;
 import main.application.models.Allegato;
 import main.utils.Console;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -37,7 +39,13 @@ public class ControllerFileView {
 
 	@FXML
 	private JFXSpinner loading;
-
+	
+    @FXML
+    private Label hintLbl, title;
+    
+    @FXML
+    private JFXButton closeBtn;
+    
 	@FXML
 	private JFXListView<String> fileListView;
 
@@ -60,8 +68,15 @@ public class ControllerFileView {
 				}
 			}
 		});
+		initLangBindings();
 	}
-
+	
+	public void initLangBindings() {
+		title.setText(LanguageBundle.get("fileList"));
+		hintLbl.setText(LanguageBundle.get("fileViewHint"));
+		closeBtn.setText(LanguageBundle.get("close"));
+	}
+	
 	public void populateListView() {
 		for (String key : allegati.keySet()) {
 			fileListView.getItems().add(key);
@@ -90,6 +105,7 @@ public class ControllerFileView {
 			btnImage.setFitWidth(15);
 			btnImage.setFitHeight(15);
 			btn.setGraphic(btnImage);
+			btn.setTooltip(new Tooltip(LanguageBundle.get("download")));
 			btn.setOnMouseClicked(e->{
 				DirectoryChooser chooser = new DirectoryChooser();
 				chooser.setTitle("Choose a directory to save the file");

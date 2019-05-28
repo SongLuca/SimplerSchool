@@ -74,11 +74,11 @@ public class ControllerMaterie {
 	}
 	
 	public void initLangBindings() {
-    	LanguageBundle.buttonForValue(newBtn, ()->LanguageBundle.get("newBtn", 0));
-    	LanguageBundle.buttonForValue(saveBtn, ()->LanguageBundle.get("saveBtn", 0));
-    	LanguageBundle.buttonForValue(clearBtn, ()->LanguageBundle.get("clearBtn", 0));
-    	LanguageBundle.labelForValue(hint1Lbl, ()->LanguageBundle.get("materieHint1Lbl", 0));
-    	LanguageBundle.labelForValue(hint2Lbl, ()->LanguageBundle.get("materieHint2Lbl", 0));
+		newBtn.setText(LanguageBundle.get("newBtn"));
+		saveBtn.setText(LanguageBundle.get("saveBtn"));
+		clearBtn.setText(LanguageBundle.get("clearBtn"));
+		hint1Lbl.setText(LanguageBundle.get("materieHint1Lbl"));
+		hint2Lbl.setText(LanguageBundle.get("materieHint2Lbl"));
     }
 	
 	public void addToRemove(int idMateria) {
