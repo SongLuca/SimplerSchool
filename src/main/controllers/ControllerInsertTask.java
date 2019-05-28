@@ -39,15 +39,16 @@ import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerInsertTask {
 	@FXML
 	private AnchorPane insertPane;
-	
+
 	@FXML
-    private StackPane stackPane;
+	private StackPane stackPane;
 
 	@FXML
 	private JFXSpinner loading;
@@ -56,11 +57,8 @@ public class ControllerInsertTask {
 	private JFXDatePicker datePicker;
 
 	@FXML
-	private JFXComboBox<String> tipoBox;
-	
-    @FXML
-    private JFXComboBox<String> materiaBox;
-    
+	private JFXComboBox<String> tipoBox, materiaBox;
+
 	@FXML
 	private JFXTextArea commento;
 
@@ -68,186 +66,193 @@ public class ControllerInsertTask {
 	private JFXListView<String> fileListView;
 
 	@FXML
-	private JFXButton removeFilesBtn;
-	
-	@FXML
-	private JFXButton clearFileBtn;
-	
-	@FXML
-	private JFXButton insertBtn;
+	private JFXButton removeFilesBtn, clearFileBtn, oggiBtn;
 
 	@FXML
-	private JFXButton cancelBtn;
-	
+	private JFXButton insertBtn, cancelBtn, addFileBtn;
+
 	@FXML
-	private JFXButton oggiBtn;
-	
+	private Label countLbl, materiaLbl, commentLbl;
+
 	@FXML
-	private Label countLbl;
-	
+	private Label tipoLbl, allegareLbl, votoLbl, dataLbl;
+
 	@FXML
-    private HBox votoBox;
-	
+	private HBox votoBox;
+
 	@FXML
-    private JFXTextField votoField;
-	
+	private JFXTextField votoField;
+
 	private ArrayList<Materia> materie;
-	
-	private LinkedHashMap<String,Allegato> allegati;
-	
+
+	private LinkedHashMap<String, Allegato> allegati;
+
 	private String mode;
-	
+
 	private int idTask;
-	
+
 	private SchoolTask editTask;
-	
+
 	private attivitaBoxController boxController;
-	
+
 	private boolean fixedMateria;
-	
+
 	public void initialize() {
-		allegati = new LinkedHashMap<String,Allegato>();
+		allegati = new LinkedHashMap<String, Allegato>();
 		votoBox.setVisible(false);
-		this.idTask = 0 ;
+		this.idTask = 0;
 		materie = DataBaseHandler.getInstance().getMaterie();
 		fixedMateria = false;
 		initTitleBox();
 		initComponents();
+		initLangBindings();
 	}
-	
+
+	public void initLangBindings() {
+		removeFilesBtn.setText(LanguageBundle.get("remove"));
+		clearFileBtn.setText(LanguageBundle.get("clearBtn"));
+		addFileBtn.setText(LanguageBundle.get("add"));
+		oggiBtn.setText(LanguageBundle.get("oggi"));
+		cancelBtn.setText(LanguageBundle.get("cancel"));
+		insertBtn.setText(LanguageBundle.get("insert"));
+		tipoLbl.setText(LanguageBundle.get("tipo"));
+		allegareLbl.setText(LanguageBundle.get("allegareFile"));
+		votoLbl.setText(LanguageBundle.get("voto"));
+		materiaLbl.setText(LanguageBundle.get("materia"));
+		commentLbl.setText(LanguageBundle.get("commento"));
+		dataLbl.setText(LanguageBundle.get("dataLbl"));
+	}
+
 	public String getMode() {
 		return mode;
 	}
 
 	public void setMode(String mode) {
 		this.mode = mode;
-		if(mode.equalsIgnoreCase("edit"))
+		if (mode.equalsIgnoreCase("edit"))
 			insertBtn.setText("Apply");
 	}
-	
+
 	public void setIdTask(int idTask) {
 		this.idTask = idTask;
 	}
-	
+
 	public void setTitle(String title) {
 		this.title.setText(title);
 	}
-	
+
 	public void setTaskBoxController(attivitaBoxController boxController) {
 		this.boxController = boxController;
 	}
-	
+
 	public void setMateriaBox(String materia) {
 		materiaBox.getSelectionModel().select(materia);
 		materiaBox.setDisable(true);
 	}
-	
+
 	public void setDatePicker(LocalDate date) {
 		datePicker.setValue(date);
 		datePicker.setDisable(true);
 		oggiBtn.setDisable(true);
 	}
-	
+
 	public void fixedMateria() {
 		fixedMateria = true;
 	}
-	
+
 	public boolean loadEditTask() {
-		if(idTask != 0) {
+		if (idTask != 0) {
 			editTask = DataBaseHandler.getInstance().getAttivita(idTask);
 			datePicker.setValue(editTask.getData());
 			tipoBox.getSelectionModel().select(editTask.getTipo());
 			materiaBox.getSelectionModel().select(editTask.getMateriaNome());
 			commento.setText(editTask.getComment());
-			if(editTask.getTipo().equalsIgnoreCase("Verifica")||
-					editTask.getTipo().equalsIgnoreCase("Interrogazione")) {
+			if (editTask.getTipo().equalsIgnoreCase("Verifica")
+					|| editTask.getTipo().equalsIgnoreCase("Interrogazione")) {
 				votoBox.setVisible(true);
-				if(editTask.getVoto()>-1)
-					votoField.setText(editTask.getVoto()+"");
+				if (editTask.getVoto() > -1)
+					votoField.setText(editTask.getVoto() + "");
 			}
-			
-			if(editTask.hasAllegato()) {
+
+			if (editTask.hasAllegato()) {
 				fileListView.getItems().clear();
 				removeFilesBtn.setDisable(false);
 				clearFileBtn.setDisable(false);
-				for(String file : editTask.getAllegati().keySet()) {
+				for (String file : editTask.getAllegati().keySet()) {
 					fileListView.getItems().add(file);
 					allegati.put(file, editTask.getAllegati().get(file));
 				}
 			}
 			return true;
-		}	
+		}
 		return false;
 	}
-	
+
 	public void initComponents() {
 		fileListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-		
+
 		cancelBtn.setOnAction(e -> {
 			cancel();
 		});
-		
-		for(Materia m: materie) {
+
+		for (Materia m : materie) {
 			materiaBox.getItems().add(m.getNome());
 		}
-		
+
 		datePicker.setValue(LocalDate.now());
-		
-		tipoBox.getItems().addAll("Compiti per casa","Verifica","Interrogazione","Allegato file");
-		
-		tipoBox.setOnAction(e->{
-			
-			if(tipoBox.getSelectionModel().getSelectedItem() != null &&
-					(tipoBox.getSelectionModel().getSelectedItem().equals("Verifica") ||
-					tipoBox.getSelectionModel().getSelectedItem().equals("Interrogazione"))){
+
+		tipoBox.getItems().addAll(LanguageBundle.get("compitiPerCasa"), LanguageBundle.get("verifica"),
+				LanguageBundle.get("interrogazione"), LanguageBundle.get("allegatoFile"));
+
+		tipoBox.setOnAction(e -> {
+			if (tipoBox.getSelectionModel().getSelectedItem() != null
+					&& (tipoBox.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("verifica"))
+							|| tipoBox.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("interrogazione")))) {
 				votoBox.setVisible(true);
 				new FadeIn(votoBox).play();
-			}
-			else {
+			} else {
 				new FadeOut(votoBox).play();
 				votoBox.setVisible(false);
 			}
 		});
-		
+
 		commento.textProperty().addListener(new ChangeListener<String>() {
-		    @Override
-		    public void changed(final ObservableValue<? extends String> observable, final String oldValue, final String newValue) {
-		    	if(commento.getText().length() < 200) {
-		    		countLbl.setText("Charcaters: "+ commento.getText().length() +" (max 200)");
-		    		countLbl.setTextFill(Color.GREEN);
-		    	}
-		    	else {
-		    		countLbl.setText("Charcaters: "+ commento.getText().length() +" (max 200)");
-		    		countLbl.setTextFill(Color.RED);
-		    	}
-		    	
-		    }
+			@Override
+			public void changed(final ObservableValue<? extends String> observable, final String oldValue,
+					final String newValue) {
+				if (commento.getText().length() < 200) {
+					countLbl.setText("Charcaters: " + commento.getText().length() + " (max 200)");
+					countLbl.setTextFill(Color.GREEN);
+				} else {
+					countLbl.setText("Charcaters: " + commento.getText().length() + " (max 200)");
+					countLbl.setTextFill(Color.RED);
+				}
+
+			}
 		});
-		
+
 		votoField.textProperty().addListener(new ChangeListener<String>() {
-		    @Override
-		    public void changed(ObservableValue<? extends String> observable, String oldValue, 
-		        String newValue) {
-		        if (!newValue.matches("\\d*")) {
-		        	votoField.setText(newValue.replaceAll("[^\\d]", ""));
-		        }
-		    }
+			@Override
+			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
+				if (!newValue.matches("\\d*")) {
+					votoField.setText(newValue.replaceAll("[^\\d]", ""));
+				}
+			}
 		});
 	}
-	
+
 	public void resetFields() {
-		if(fixedMateria) {
+		if (fixedMateria) {
 			commento.clear();
 			fileListView.getItems().clear();
-		}
-		else {
+		} else {
 			tipoBox.getSelectionModel().clearSelection();
 			materiaBox.getSelectionModel().clearSelection();
 			commento.clear();
 			fileListView.getItems().clear();
 		}
 	}
-	
+
 	@FXML
 	public void setToToday() {
 		datePicker.setValue(LocalDate.now());
@@ -258,15 +263,15 @@ public class ControllerInsertTask {
 		FileChooser fileChooser = new FileChooser();
 		fileChooser.setTitle("Allegare file");
 		List<File> selectedFiles = fileChooser.showOpenMultipleDialog(tipoBox.getScene().getWindow());
-		if(selectedFiles != null) {
+		if (selectedFiles != null) {
 			for (File f : selectedFiles) {
 				removeFilesBtn.setDisable(false);
 				clearFileBtn.setDisable(false);
-				if(!fileListView.getItems().contains(f.getName())) {
+				if (!fileListView.getItems().contains(f.getName())) {
 					fileListView.getItems().add(f.getName());
 					allegati.put(f.getName(), new Allegato(idTask, f));
 				}
-					
+
 			}
 		}
 	}
@@ -283,7 +288,7 @@ public class ControllerInsertTask {
 			}
 		}
 	}
-	
+
 	@FXML
 	public void clear() {
 		fileListView.getItems().clear();
@@ -291,91 +296,104 @@ public class ControllerInsertTask {
 		clearFileBtn.setDisable(true);
 		removeFilesBtn.setDisable(true);
 	}
-	
+
+	public String getTaskTipo() {
+		String tipo = tipoBox.getSelectionModel().getSelectedItem();
+		if (tipo.equals(LanguageBundle.get("compitiPerCasa"))) {
+			return "Compiti per casa";
+		} else if (tipo.equals(LanguageBundle.get("verifica"))) {
+			return "Verifica";
+		} else if (tipo.equals(LanguageBundle.get("interrogazione"))) {
+			return "Interrogazione";
+		} else if (tipo.equals(LanguageBundle.get("allegatoFile"))) {
+			return "Allegato file";
+		}
+		return "error";
+	}
+
 	@FXML
 	public void insert() {
-		if(mode.equalsIgnoreCase("insert")) {
+		if (mode.equalsIgnoreCase("insert")) {
 			String nomeM = materiaBox.getSelectionModel().getSelectedItem();
 			int idMateria = getMateriaIdByName(nomeM);
-			if(validateInputs(idMateria)) {
-				int voto = ((votoField.getText().length()!=0) ? Integer.parseInt(votoField.getText()): -1);
+			if (validateInputs(idMateria)) {
+				int voto = ((votoField.getText().length() != 0) ? Integer.parseInt(votoField.getText()) : -1);
 				if (fileListView.getItems().size() > 0) {
-					insertTask(new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							voto, commento.getText(), allegati));
+					insertTask(new SchoolTask(idMateria, datePicker.getValue(),
+							getTaskTipo(), voto, commento.getText(), allegati));
 				} else {
-					insertTask(new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							voto, commento.getText()));
+					insertTask(new SchoolTask(idMateria, datePicker.getValue(),
+							getTaskTipo(), voto, commento.getText()));
 				}
 			}
 		}
-		
-		else if(mode.contains("edit")) {
+
+		else if (mode.contains("edit")) {
 			String nomeM = materiaBox.getSelectionModel().getSelectedItem();
 			int idMateria = getMateriaIdByName(nomeM);
-			if(validateInputs(idMateria)) {
+			if (validateInputs(idMateria)) {
 				SchoolTask newTask;
-				int voto = ((votoField.getText().length()!=0) ? Integer.parseInt(votoField.getText()): -1);
+				int voto = ((votoField.getText().length() != 0) ? Integer.parseInt(votoField.getText()) : -1);
 				if (fileListView.getItems().size() > 0) {
-					newTask = new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							voto, commento.getText(), allegati);
+					newTask = new SchoolTask(idMateria, datePicker.getValue(),
+							getTaskTipo(), voto, commento.getText(), allegati);
 				} else {
-					newTask = new SchoolTask(idMateria, datePicker.getValue(), tipoBox.getSelectionModel().getSelectedItem(),
-							voto, commento.getText());
+					newTask = new SchoolTask(idMateria, datePicker.getValue(),
+							getTaskTipo(), voto, commento.getText());
 				}
 				newTask.setIdTask(idTask);
-				if(!newTask.equals(editTask)) {
-					updateTask(newTask,
-							getAddedAllegati(newTask.getAllegati(), editTask.getAllegati()),
+				if (!newTask.equals(editTask)) {
+					updateTask(newTask, getAddedAllegati(newTask.getAllegati(), editTask.getAllegati()),
 							getRemoveAllegati(newTask.getAllegati(), editTask.getAllegati()));
 				}
 			}
 		}
-		
+
 	}
-	
+
 	public boolean validateInputs(int idMateria) {
-		if(tipoBox.getSelectionModel().getSelectedItem() == null) {
+		if (tipoBox.getSelectionModel().getSelectedItem() == null) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Sceglie il tipo dell'attivita!");
 			return false;
 		}
-		
-		if(materiaBox.getSelectionModel().getSelectedItem() == null) {
+
+		if (materiaBox.getSelectionModel().getSelectedItem() == null) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Sceglie la materia dell'attivita!");
 			return false;
 		}
-		
-		if(tipoBox.getSelectionModel().getSelectedItem().equals("Allegato file") &&
-				fileListView.getItems().size() == 0) {
+
+		if (tipoBox.getSelectionModel().getSelectedItem().equals("Allegato file")
+				&& fileListView.getItems().size() == 0) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Inserire almeno un file!");
 			return false;
 		}
-		
-		if(commento.getText().length() >= 200) {
+
+		if (commento.getText().length() >= 200) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", "Il commento e' troppo lungo!");
 			return false;
 		}
-		
-		if(!validateDateMateria(idMateria)) {
+
+		if (!validateDateMateria(idMateria)) {
 			Utils.popUpDialog(stackPane, insertPane, "Error", materiaBox.getValue() + " non ce in questo giorno!");
 			return false;
 		}
-		
+
 		return true;
 	}
 
 	public boolean validateDateMateria(int idMateria) {
 		int day = datePicker.getValue().getDayOfWeek().getValue();
-		return MetaData.cm.getOs().validateMateriaByGiorno(day-1, idMateria);
+		return MetaData.cm.getOs().validateMateriaByGiorno(day - 1, idMateria);
 	}
-	
+
 	public int getMateriaIdByName(String nome) {
-		for(Materia m : materie) {
-			if(m.getNome().equals(nome))
+		for (Materia m : materie) {
+			if (m.getNome().equals(nome))
 				return m.getId();
 		}
 		return 0;
 	}
-	
+
 	public void insertTask(SchoolTask task) {
 		Task<Boolean> insertSTTask = new Task<Boolean>() {
 			@Override
@@ -398,18 +416,16 @@ public class ControllerInsertTask {
 			if (insertSTTask.getValue()) {
 				Utils.popUpDialog(stackPane, insertPane, "Message", "New task inserted");
 				resetFields();
-				if(!fixedMateria) {
+				if (!fixedMateria) {
 					LocalDate data = task.getData();
-					if(data.isBefore(MetaData.cm.getSelectedDate().with(DayOfWeek.MONDAY)) || 
-							data.isAfter(MetaData.cm.getSelectedDate().with(DayOfWeek.SUNDAY))) {
+					if (data.isBefore(MetaData.cm.getSelectedDate().with(DayOfWeek.MONDAY))
+							|| data.isAfter(MetaData.cm.getSelectedDate().with(DayOfWeek.SUNDAY))) {
 						Console.print("Input task does not belong to this week", "");
-					}
-					else {
+					} else {
 						Console.print("Input task belongs to this week", "");
 						MetaData.cm.loadNoteBoard();
 					}
-				}
-				else {
+				} else {
 					MetaData.cod.reloadAttivita();
 					MetaData.cod.populatePanes();
 					MetaData.cm.loadNoteBoard();
@@ -422,14 +438,14 @@ public class ControllerInsertTask {
 
 		new Thread(insertSTTask).start();
 	}
-	
+
 	public void updateTask(SchoolTask task, List<Allegato> added, List<Allegato> removed) {
 		Task<Boolean> updateTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				insertPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().updateTaskQuery(task,added,removed);
+				return DataBaseHandler.getInstance().updateTaskQuery(task, added, removed);
 			}
 		};
 
@@ -456,28 +472,29 @@ public class ControllerInsertTask {
 
 		new Thread(updateTask).start();
 	}
-	
-	public List<Allegato> getRemoveAllegati(LinkedHashMap<String,Allegato> newM, LinkedHashMap<String,Allegato> oldM) {
+
+	public List<Allegato> getRemoveAllegati(LinkedHashMap<String, Allegato> newM,
+			LinkedHashMap<String, Allegato> oldM) {
 		List<Allegato> removed = new LinkedList<Allegato>();
-		for(String key : oldM.keySet()) {
-			if(!newM.containsKey(key)) {
+		for (String key : oldM.keySet()) {
+			if (!newM.containsKey(key)) {
 				removed.add(new Allegato(oldM.get(key).getIdAllegato(), idTask, oldM.get(key).getFile()));
 			}
-				
+
 		}
 		return removed;
 	}
-	
-	public List<Allegato> getAddedAllegati(LinkedHashMap<String,Allegato> newM, LinkedHashMap<String,Allegato> oldM) {
+
+	public List<Allegato> getAddedAllegati(LinkedHashMap<String, Allegato> newM, LinkedHashMap<String, Allegato> oldM) {
 		List<Allegato> added = new LinkedList<Allegato>();
-		for(String key : newM.keySet()) {
-			if(!oldM.containsKey(key)) {
+		for (String key : newM.keySet()) {
+			if (!oldM.containsKey(key)) {
 				added.add(new Allegato(idTask, newM.get(key).getFile()));
-			}	
+			}
 		}
 		return added;
 	}
-	
+
 	public void cancel() {
 		WindowStyle.close((Stage) titleHBox.getScene().getWindow());
 	}

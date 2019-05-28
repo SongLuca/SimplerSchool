@@ -14,6 +14,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.application.Main;
 import main.application.models.Config;
+import main.application.models.MetaData;
 import main.utils.Console;
 import main.utils.LanguageBundle;
 import main.utils.Preferences;
@@ -76,6 +77,8 @@ public class ControllerConfiguration {
             		Console.print("Change UI language to " + selected, "GUI");
             		popMsg("Changes have been applied");
         		}
+        		
+        		MetaData.cm.loadNoteBoard();
     		}
     		else {
     			popMsg("votoRangeCheck");

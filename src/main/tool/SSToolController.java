@@ -32,8 +32,8 @@ import main.utils.Utils;
 
 public class SSToolController {
 	private final String NEW_LINE = "\n";
-	private final String CHECK = "✔ ";
-	private final String CROSS = "✖ ";
+	private final String CHECK = "O";
+	private final String CROSS = "X";
 	private final int INTERVAL = 500;
 	@FXML
 	private AnchorPane contentPane;
@@ -142,7 +142,7 @@ public class SSToolController {
 				new dbTable("docente", Arrays.asList("prof_id", "nome", "cognome", "user_id")),
 				new dbTable("allegato", Arrays.asList("ALLEGATO_ID", "file_path", "TASK_ID")),
 				new dbTable("task",
-						Arrays.asList("TASK_ID", "TASK_DATA", "MATERIA_ID", "TIPO", "COMMENTO", "user_id", "voto")),
+						Arrays.asList("TASK_ID", "TASK_DATA", "TIPO", "COMMENTO", "voto", "MATERIA_ID", "user_id", "os_id")),
 				new dbTable("orariosettimanale", Arrays.asList("os_id", "nome", "file_path", "user_id")),
 				new dbTable("utente",
 						Arrays.asList("user_id", "username", "nome", "cognome", "pass_hash", "scuola", "avatar_path")),

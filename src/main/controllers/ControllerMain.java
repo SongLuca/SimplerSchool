@@ -7,8 +7,6 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
-import java.util.Locale;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -287,9 +285,9 @@ public class ControllerMain {
 					ceCompiti = false,
 					ceVerifiche = false,
 					ceInterrogazioni = false;
-			String verifica = LanguageBundle.get("verifica")+":\n",
+			String verifica = LanguageBundle.get("verifiche")+":\n",
 					compito = LanguageBundle.get("compitiPerCasa")+":\n", 
-					interrogazione = LanguageBundle.get("interrogazione")+":\n";
+					interrogazione = LanguageBundle.get("interrogazioni")+":\n";
 			for (SchoolTask task : attivita) {
 				if(!currWeek) {
 					if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
@@ -449,7 +447,7 @@ public class ControllerMain {
 		Console.print("Opening insert window", "gui");
 		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
 				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
-		cit.setTitle("Inserimento attivita");
+		cit.setTitle(LanguageBundle.get("insertTaskTitle"));
 		cit.setMode("insert");
 	}
 
@@ -686,8 +684,6 @@ public class ControllerMain {
 	}
 
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
-		System.out.println(LanguageBundle.getLocale());
-		Locale.setDefault(LanguageBundle.getLocale());
 		Console.print("Opening details window " + materia, "gui");
 		MetaData.materiaSelected = materia;
 		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML",

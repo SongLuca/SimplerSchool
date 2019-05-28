@@ -18,7 +18,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="580.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerInsertTask">
+<AnchorPane prefHeight="580.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerInsertTask">
    <children>
       <AnchorPane fx:id="insertPane" prefHeight="580.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -61,18 +61,18 @@
                      <children>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="40.0" text="Data" />
+                              <Label fx:id="dataLbl" prefHeight="30.0" prefWidth="40.0" text="Data" />
                               <JFXDatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="175.0" />
                               <JFXButton fx:id="oggiBtn" onMouseClicked="#setToToday" prefHeight="23.0" prefWidth="64.0" text="Oggi" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="40.0" text="Tipo" />
+                              <Label fx:id="tipoLbl" prefHeight="30.0" prefWidth="40.0" text="Tipo" />
                               <JFXComboBox fx:id="tipoBox" prefHeight="23.0" prefWidth="180.0" />
                               <HBox fx:id="votoBox" alignment="CENTER" prefHeight="49.0" prefWidth="300.0" spacing="10.0">
                                  <children>
-                                    <Label prefHeight="30.0" prefWidth="45.0" text="Voto" />
+                                    <Label fx:id="votoLbl" prefHeight="30.0" prefWidth="45.0" text="Voto" />
                                     <JFXTextField fx:id="votoField" />
                                  </children>
                                  <padding>
@@ -83,13 +83,13 @@
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="60.0" text="Materia" />
+                              <Label fx:id="materiaLbl" prefHeight="30.0" prefWidth="60.0" text="Materia" />
                               <JFXComboBox fx:id="materiaBox" prefHeight="23.0" prefWidth="180.0" />
                            </children>
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="540.0" text="Commento" />
+                              <Label fx:id="commentLbl" prefHeight="30.0" prefWidth="540.0" text="Commento" />
                               <Label fx:id="countLbl" prefHeight="30.0" prefWidth="308.0" text="Charcaters: 0 (max 200)" />
                            </children>
                         </HBox>
@@ -103,7 +103,7 @@
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="45.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label prefHeight="30.0" prefWidth="397.0" text="Allegare file" />
+                              <Label fx:id="allegareLbl" prefHeight="30.0" prefWidth="397.0" text="Allegare file" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="580.0" spacing="10.0">
@@ -111,7 +111,7 @@
                               <JFXListView fx:id="fileListView" prefHeight="150.0" prefWidth="580.0" />
                               <VBox prefHeight="149.0" prefWidth="171.0">
                                  <children>
-                                    <JFXButton onMouseClicked="#addFiles" prefHeight="30.0" prefWidth="100.0" text="Add" />
+                                    <JFXButton fx:id="addFileBtn" onMouseClicked="#addFiles" prefHeight="30.0" prefWidth="100.0" text="Add" />
                                     <JFXButton fx:id="removeFilesBtn" disable="true" onMouseClicked="#removeFiles" prefHeight="30.0" prefWidth="100.0" text="Remove" />
                                     <JFXButton fx:id="clearFileBtn" disable="true" onMouseClicked="#clear" prefHeight="30.0" prefWidth="100.0" text="Clear" />
                                  </children>
