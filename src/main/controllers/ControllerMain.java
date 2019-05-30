@@ -1,6 +1,8 @@
 package main.controllers;
 
 import java.io.File;
+import java.io.IOException;
+import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -17,6 +19,9 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
+
+import animatefx.animation.FadeIn;
+import animatefx.animation.FadeOut;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -24,6 +29,7 @@ import javafx.animation.Timeline;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
@@ -72,7 +78,7 @@ public class ControllerMain {
 	private StackPane rootStack;
 
 	@FXML
-	private AnchorPane rootPane, menuPane;
+	private AnchorPane contentPane, rootPane, menuPane;
 
 	@FXML
 	private Pane menuShadowPane, gridShadowPane;
@@ -130,7 +136,9 @@ public class ControllerMain {
 
 	@FXML
 	private JFXRadioButton radioOggi, radioSett, radioSucc;
-
+	
+	private AnchorPane statistics;
+	
 	private HashMap<Integer, OrarioSettimanale> orariS;
 
 	private OrarioSettimanale os;
@@ -474,6 +482,24 @@ public class ControllerMain {
 			transition.play();
 		});
 		VBox.setVgrow(menuPane, Priority.ALWAYS);
+		profileButton.setOnMouseClicked(e -> {
+			if(contentPane.isVisible()) {
+				try {
+					URL fxmlURL = new File(Config.getString(Main.CONFIG, "statisticsFXML")).toURI().toURL();
+					FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+					statistics = fxmlLoader.load();
+					rootPane.getChildren().add(statistics);
+					contentPane.setVisible(false);
+				} catch(IOException ex) {
+					ex.printStackTrace();
+				}
+			}
+			else {
+				rootPane.getChildren().remove(statistics);
+				statistics = null;
+				contentPane.setVisible(true);
+			}
+		});
 	}
 
 	public void initTabPane() {
@@ -707,7 +733,7 @@ public class ControllerMain {
 			hamMenu.setDisable(false);
 			if (expand) {
 				settingsButton.setText("Settings");
-				profileButton.setText("Profile");
+				profileButton.setText("Statistics");
 				closeButton.setText("Log out");
 			}
 		});

@@ -25,11 +25,11 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="0.0">
          <children>
-            <AnchorPane layoutX="63.0" layoutY="22.0" styleClass="contentPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <AnchorPane fx:id="contentPane" layoutX="63.0" layoutY="22.0" styleClass="contentPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="69.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
                <children>
                   <AnchorPane layoutX="41.0" layoutY="206.0" prefHeight="571.0" prefWidth="1010.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="306.0" AnchorPane.topAnchor="180.0">
                      <children>

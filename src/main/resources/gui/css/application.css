@@ -62,10 +62,10 @@
 	-fx-text-alignment: right;
 }
 #menuUserButton{
-	-fx-background-image: url('../../images/maleUser.png');
+	-fx-background-image: url('../../images/statistics.png');
 }
 #menuUserButton:hover{
-	-fx-background-image: url('../../images/maleUserHover.png');
+	-fx-background-image: url('../../images/statistics.png');
 }
 #menuSettingsButton{
 	-fx-background-image: url('../../images/settings.png');
