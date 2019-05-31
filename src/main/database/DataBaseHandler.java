@@ -157,7 +157,7 @@ public class DataBaseHandler {
 		getDocentiQuery();
 		getInsegnaQuery();
 		getOSQuery();
-		getAttivitaS(LocalDate.now(),true);
+		getAttivitaSettimanaleQuery(LocalDate.now(),true);
 		Console.print("--------------------------------", "app");
 	}
 	
@@ -723,8 +723,29 @@ public class DataBaseHandler {
 			return false;
 		}
 	}
-
-	public boolean getAttivitaS(LocalDate data, boolean readConfig) {
+	
+	public boolean getAttivitaQuery() {
+		Console.print("Getting all tasks", "db");
+		String query = "SELECT * FROM task WHERE USER_ID = ? AND OS_ID = ? "
+		// + "AND TIPO in ('compito','interrogazione','verifica') "
+				+ "order by TASK_DATA, TIPO desc";
+		Connection conn = openConn();
+		ResultSet rs = null;
+		try {
+			PreparedStatement stmt = conn.prepareStatement(query);
+			stmt.setInt(1, Main.utente.getUserid());
+			stmt.setInt(2, MetaData.cm.getOs().getId());
+			rs = stmt.executeQuery();
+			rsToAttivita(rs);
+			return true;
+		} catch (SQLException e) {
+			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
+			this.setMsg("Can not connect to the SQL database!");
+		}
+		return false;
+	}
+	
+	public boolean getAttivitaSettimanaleQuery(LocalDate data, boolean readConfig) {
 		Console.print("Getting tasks of this week", "db");
 		String query = "SELECT * FROM task WHERE YEARWEEK(TASK_DATA, 1) = YEARWEEK(?, 1) " + "AND USER_ID = ? AND OS_ID = ? "
 		// + "AND TIPO in ('compito','interrogazione','verifica') "
@@ -774,7 +795,7 @@ public class DataBaseHandler {
 			}
 			if (task.hasAllegato())
 				uploadAllegati(task, conn);
-			getAttivitaS(data,false);
+			getAttivitaSettimanaleQuery(data,false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -792,7 +813,7 @@ public class DataBaseHandler {
 			stmt.setInt(1, task.getIdTask());
 			stmt.setInt(2, Main.utente.getUserid());
 			stmt.execute();
-			getAttivitaS(LocalDate.now(),false);
+			getAttivitaSettimanaleQuery(LocalDate.now(),false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -824,7 +845,7 @@ public class DataBaseHandler {
 			if (!removed.isEmpty()) {
 				removeAllegatiBy(removed, task.getIdTask(), conn);
 			}
-			getAttivitaS(LocalDate.now(),false);
+			getAttivitaSettimanaleQuery(LocalDate.now(),false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");

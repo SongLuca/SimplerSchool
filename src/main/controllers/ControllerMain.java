@@ -191,6 +191,18 @@ public class ControllerMain {
 		MetaData.cm = this;
 	}
 
+	public StackPane getRootStack() {
+		return rootStack;
+	}
+
+	public AnchorPane getRootPane() {
+		return rootPane;
+	}
+
+	public JFXSpinner getLoading() {
+		return loading;
+	}
+
 	public OrarioSettimanale getOs() {
 		return os;
 	}
@@ -492,6 +504,7 @@ public class ControllerMain {
 				}
 			}
 			else {
+				changeWeek(datePicker.getValue());
 				rootPane.getChildren().remove(statistics);
 				statistics = null;
 				contentPane.setVisible(true);
@@ -567,7 +580,7 @@ public class ControllerMain {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				rootPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().getAttivitaS(data,false);
+				return DataBaseHandler.getInstance().getAttivitaSettimanaleQuery(data,false);
 			}
 		};
 
