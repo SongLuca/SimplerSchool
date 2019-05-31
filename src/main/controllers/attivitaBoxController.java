@@ -114,6 +114,7 @@ public class attivitaBoxController {
 		ConfirmDialog dialog = new ConfirmDialog(owner, "deleteConfirmLbl");
 		if (dialog.getResult()) {
 			SchoolTask task = DataBaseHandler.getInstance().getAttivita(idTask);
+			System.out.println("ciao "+task.getTipo());
 			switch (task.getTipo()) {
 			case "Compiti per casa":
 				deleteTask(task, anchor, stack, "compitiBox");
