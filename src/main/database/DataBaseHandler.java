@@ -752,7 +752,7 @@ public class DataBaseHandler {
 		return false;
 	}
 
-	public boolean insertTaskQuery(SchoolTask task) {
+	public boolean insertTaskQuery(SchoolTask task, LocalDate data) {
 		Console.print("Inserting task", "db");
 		String query = "INSERT INTO TASK(TIPO,MATERIA_ID,TASK_DATA, COMMENTO, USER_ID, VOTO, OS_ID) VALUES(?,?,?,?,?,?,?)";
 		Connection conn = openConn();
@@ -774,7 +774,7 @@ public class DataBaseHandler {
 			}
 			if (task.hasAllegato())
 				uploadAllegati(task, conn);
-			getAttivitaS(LocalDate.now(),false);
+			getAttivitaS(data,false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");

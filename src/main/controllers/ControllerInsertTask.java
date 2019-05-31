@@ -20,13 +20,18 @@ import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.DragEvent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -72,7 +77,7 @@ public class ControllerInsertTask {
 	private JFXButton insertBtn, cancelBtn, addFileBtn;
 
 	@FXML
-	private Label countLbl, materiaLbl, commentLbl;
+	private Label countLbl, materiaLbl, commentLbl, dragHintLbl;
 
 	@FXML
 	private Label tipoLbl, allegareLbl, votoLbl, dataLbl;
@@ -82,6 +87,9 @@ public class ControllerInsertTask {
 
 	@FXML
 	private JFXTextField votoField;
+
+	@FXML
+	private Pane dragHintPane;
 
 	private ArrayList<Materia> materie;
 
@@ -121,6 +129,7 @@ public class ControllerInsertTask {
 		materiaLbl.setText(LanguageBundle.get("materia"));
 		commentLbl.setText(LanguageBundle.get("commento"));
 		dataLbl.setText(LanguageBundle.get("dataLbl"));
+		dragHintLbl.setText(LanguageBundle.get("dragHintLbl"));
 	}
 
 	public String getMode() {
@@ -190,6 +199,39 @@ public class ControllerInsertTask {
 
 	public void initComponents() {
 		fileListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
+		fileListView.setOnDragOver(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {
+				if (event.getDragboard().hasFiles()) {
+					event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+				}
+				event.consume();
+			}
+		});
+
+		fileListView.setOnDragDropped(new EventHandler<DragEvent>() {
+			@Override
+			public void handle(DragEvent event) {
+				Dragboard db = event.getDragboard();
+				boolean success = false;
+				if (db.hasFiles()) {
+					removeFilesBtn.setDisable(false);
+					clearFileBtn.setDisable(false);
+					for (File f : db.getFiles()) {
+						if(!f.isDirectory()) {
+							if (!fileListView.getItems().contains(f.getName())) {
+								fileListView.getItems().add(f.getName());
+								allegati.put(f.getName(), new Allegato(idTask, f));
+								dragHintPane.setVisible(false);
+							}
+						}
+					}
+					success = true;
+				}
+				event.setDropCompleted(success);
+				event.consume();
+			}
+		});
 
 		cancelBtn.setOnAction(e -> {
 			cancel();
@@ -206,8 +248,8 @@ public class ControllerInsertTask {
 
 		tipoBox.setOnAction(e -> {
 			if (tipoBox.getSelectionModel().getSelectedItem() != null
-					&& (tipoBox.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("verifica"))
-							|| tipoBox.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("interrogazione")))) {
+					&& (tipoBox.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("verifica")) || tipoBox
+							.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("interrogazione")))) {
 				votoBox.setVisible(true);
 				new FadeIn(votoBox).play();
 			} else {
@@ -270,8 +312,8 @@ public class ControllerInsertTask {
 				if (!fileListView.getItems().contains(f.getName())) {
 					fileListView.getItems().add(f.getName());
 					allegati.put(f.getName(), new Allegato(idTask, f));
+					dragHintPane.setVisible(false);
 				}
-
 			}
 		}
 	}
@@ -285,6 +327,7 @@ public class ControllerInsertTask {
 			if (fileListView.getItems().isEmpty()) {
 				removeFilesBtn.setDisable(true);
 				clearFileBtn.setDisable(true);
+				dragHintPane.setVisible(true);
 			}
 		}
 	}
@@ -295,6 +338,7 @@ public class ControllerInsertTask {
 		allegati.clear();
 		clearFileBtn.setDisable(true);
 		removeFilesBtn.setDisable(true);
+		dragHintPane.setVisible(true);
 	}
 
 	public String getTaskTipo() {
@@ -319,11 +363,11 @@ public class ControllerInsertTask {
 			if (validateInputs(idMateria)) {
 				int voto = ((votoField.getText().length() != 0) ? Integer.parseInt(votoField.getText()) : -1);
 				if (fileListView.getItems().size() > 0) {
-					insertTask(new SchoolTask(idMateria, datePicker.getValue(),
-							getTaskTipo(), voto, commento.getText(), allegati));
+					insertTask(new SchoolTask(idMateria, datePicker.getValue(), getTaskTipo(), voto, commento.getText(),
+							allegati));
 				} else {
-					insertTask(new SchoolTask(idMateria, datePicker.getValue(),
-							getTaskTipo(), voto, commento.getText()));
+					insertTask(
+							new SchoolTask(idMateria, datePicker.getValue(), getTaskTipo(), voto, commento.getText()));
 				}
 			}
 		}
@@ -335,11 +379,10 @@ public class ControllerInsertTask {
 				SchoolTask newTask;
 				int voto = ((votoField.getText().length() != 0) ? Integer.parseInt(votoField.getText()) : -1);
 				if (fileListView.getItems().size() > 0) {
-					newTask = new SchoolTask(idMateria, datePicker.getValue(),
-							getTaskTipo(), voto, commento.getText(), allegati);
+					newTask = new SchoolTask(idMateria, datePicker.getValue(), getTaskTipo(), voto, commento.getText(),
+							allegati);
 				} else {
-					newTask = new SchoolTask(idMateria, datePicker.getValue(),
-							getTaskTipo(), voto, commento.getText());
+					newTask = new SchoolTask(idMateria, datePicker.getValue(), getTaskTipo(), voto, commento.getText());
 				}
 				newTask.setIdTask(idTask);
 				if (!newTask.equals(editTask)) {
@@ -400,7 +443,7 @@ public class ControllerInsertTask {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				insertPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().insertTaskQuery(task);
+				return DataBaseHandler.getInstance().insertTaskQuery(task, MetaData.cm.getSelectedDate());
 			}
 		};
 

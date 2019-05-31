@@ -14,11 +14,12 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="580.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerInsertTask">
+<AnchorPane prefHeight="580.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerInsertTask">
    <children>
       <AnchorPane fx:id="insertPane" prefHeight="580.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -103,12 +104,26 @@
                         </HBox>
                         <HBox alignment="BOTTOM_LEFT" prefHeight="45.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <Label fx:id="allegareLbl" prefHeight="30.0" prefWidth="397.0" text="Allegare file" />
+                              <Label fx:id="allegareLbl" prefHeight="30.0" prefWidth="566.0" text="Allegare file" />
                            </children>
                         </HBox>
                         <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="580.0" spacing="10.0">
                            <children>
-                              <JFXListView fx:id="fileListView" prefHeight="150.0" prefWidth="580.0" />
+                              <StackPane prefHeight="149.0" prefWidth="580.0">
+                                 <children>
+                                    <JFXListView fx:id="fileListView" prefHeight="150.0" prefWidth="580.0" />
+                                    <Pane fx:id="dragHintPane" disable="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
+                                       <children>
+                                          <ImageView fitHeight="50.0" fitWidth="45.0" layoutX="216.0" layoutY="40.0" preserveRatio="true">
+                                             <image>
+                                                <Image url="@../../images/folder.png" />
+                                             </image>
+                                          </ImageView>
+                                          <Label fx:id="dragHintLbl" alignment="CENTER" layoutX="166.0" layoutY="95.0" pickOnBounds="false" prefHeight="15.0" prefWidth="159.0" text="Drag files here to upload" />
+                                       </children>
+                                    </Pane>
+                                 </children>
+                              </StackPane>
                               <VBox prefHeight="149.0" prefWidth="171.0">
                                  <children>
                                     <JFXButton fx:id="addFileBtn" onMouseClicked="#addFiles" prefHeight="30.0" prefWidth="100.0" text="Add" />

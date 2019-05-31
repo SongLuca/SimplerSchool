@@ -19,9 +19,6 @@ import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTabPane;
 import com.jfoenix.controls.JFXTextArea;
 import com.jfoenix.transitions.hamburger.HamburgerSlideCloseTransition;
-
-import animatefx.animation.FadeIn;
-import animatefx.animation.FadeOut;
 import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -522,7 +519,6 @@ public class ControllerMain {
 			initCalendarWeekDayHeader(datePicker.getValue().minusWeeks(1), true);
 			datePicker.setValue(lastWeek);
 			Console.print("Jumping to the last week " + lastWeek, "Gui");
-			changeWeek(datePicker.getValue());
 		});
 
 		thisWeekBtn.setOnAction(e -> {
@@ -531,8 +527,6 @@ public class ControllerMain {
 				initCalendarWeekDayHeader(today, true);
 				datePicker.setValue(today);
 				Console.print("Jumping to current week " + today, "Gui");
-				changeWeek(datePicker.getValue());
-
 			}
 		});
 
@@ -541,7 +535,6 @@ public class ControllerMain {
 			initCalendarWeekDayHeader(datePicker.getValue().plusWeeks(1), true);
 			datePicker.setValue(nextWeek);
 			Console.print("Jumping to the next week " + nextWeek, "Gui");
-			changeWeek(datePicker.getValue());
 		});
 
 		orarioSPicker.setOnAction(e -> {
