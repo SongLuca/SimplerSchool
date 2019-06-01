@@ -165,6 +165,10 @@ public class ControllerInsertTask {
 		oggiBtn.setDisable(true);
 	}
 
+	public void setTipoBox(String tipo) {
+		tipoBox.getSelectionModel().select(tipo);
+	}
+	
 	public void fixedMateria() {
 		fixedMateria = true;
 	}

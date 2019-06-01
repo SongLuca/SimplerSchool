@@ -87,9 +87,9 @@ public class ControllerOreDetails {
 	
 	public void initLangBindings() {
 		compitiTab.setText(LanguageBundle.get("compitiPerCasa"));
-		verificheTab.setText(LanguageBundle.get("verifiche"));
-		interrTab.setText(LanguageBundle.get("interrogazioni"));
-		allegatiTab.setText(LanguageBundle.get("allegatiFile"));
+		verificheTab.setText(LanguageBundle.get("verifica"));
+		interrTab.setText(LanguageBundle.get("interrogazione"));
+		allegatiTab.setText(LanguageBundle.get("allegatoFile"));
 		
 		newTaskBtn.setText(LanguageBundle.get("newTask"));
 		closeBtn.setText(LanguageBundle.get("close"));
@@ -275,6 +275,7 @@ public class ControllerOreDetails {
 		cit.setMode("insert");
 		cit.setMateriaBox(materia);
 		cit.setDatePicker(data);
+		cit.setTipoBox(tabPane.getSelectionModel().getSelectedItem().getText());
 		cit.fixedMateria();
 	}
 
