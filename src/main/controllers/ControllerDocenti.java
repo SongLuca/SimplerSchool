@@ -191,7 +191,7 @@ public class ControllerDocenti {
 	void clear(MouseEvent event) {
 		if(!docenti.isEmpty()) {
 			Stage owner = (Stage)subContentPane.getScene().getWindow();
-			ConfirmDialog cd = new ConfirmDialog(owner, "Are you sure to clear this?");
+			ConfirmDialog cd = new ConfirmDialog(owner, "clearConfirmLbl");
 			if(cd.getResult()) { 
 				docentiBox.getChildren().removeAll();
 				for(Docente d : docenti)

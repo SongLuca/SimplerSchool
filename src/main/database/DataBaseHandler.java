@@ -490,6 +490,7 @@ public class DataBaseHandler {
 			}
 		}
 		getDocentiQuery();
+		getInsegnaQuery();
 		this.closeConn(conn);
 		return true;
 	}
@@ -804,7 +805,7 @@ public class DataBaseHandler {
 		}
 	}
 
-	public boolean deleteTaskQuery(SchoolTask task) {
+	public boolean deleteTaskQuery(SchoolTask task, LocalDate data) {
 		Console.print("Deleting task " + task.getIdTask(), "db");
 		String query = "DELETE FROM TASK WHERE TASK_ID = ? AND USER_ID = ?";
 		Connection conn = openConn();
@@ -813,7 +814,7 @@ public class DataBaseHandler {
 			stmt.setInt(1, task.getIdTask());
 			stmt.setInt(2, Main.utente.getUserid());
 			stmt.execute();
-			getAttivitaSettimanaleQuery(LocalDate.now(),false);
+			getAttivitaSettimanaleQuery(data,false);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");

@@ -2,6 +2,7 @@ package main.application.models;
 
 public class MateriaStatistico {
 	private String materia;
+	private int compitiCount;
 	private int verificheCount;
 	private int interrCount;
 	
@@ -9,6 +10,7 @@ public class MateriaStatistico {
 		this.materia = nomeM;
 		verificheCount = 0;
 		interrCount = 0;
+		compitiCount = 0;
 	}
 
 	public String getMateria() {
@@ -17,6 +19,14 @@ public class MateriaStatistico {
 
 	public void setMateria(String materia) {
 		this.materia = materia;
+	}
+
+	public int getCompitiCount() {
+		return compitiCount;
+	}
+
+	public void setCompitiCount(int compitiCount) {
+		this.compitiCount = compitiCount;
 	}
 
 	public int getVerificheCount() {
@@ -46,11 +56,11 @@ public class MateriaStatistico {
 	public boolean isEmpty() {
 		return verificheCount == 0 && interrCount == 0;
 	}
-	
+
 	@Override
 	public String toString() {
-		return "MateriaStatistico [materia=" + materia + ", verificheCount=" + verificheCount + ", interrCount="
-				+ interrCount + "]";
+		return "MateriaStatistico [materia=" + materia + ", compitiCount=" + compitiCount + ", verificheCount="
+				+ verificheCount + ", interrCount=" + interrCount + "]";
 	}
 	
 }

@@ -114,7 +114,6 @@ public class attivitaBoxController {
 		ConfirmDialog dialog = new ConfirmDialog(owner, "deleteConfirmLbl");
 		if (dialog.getResult()) {
 			SchoolTask task = DataBaseHandler.getInstance().getAttivita(idTask);
-			System.out.println("ciao "+task.getTipo());
 			switch (task.getTipo()) {
 			case "Compiti per casa":
 				deleteTask(task, anchor, stack, "compitiBox");
@@ -160,7 +159,7 @@ public class attivitaBoxController {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				anchor.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().deleteTaskQuery(task);
+				return DataBaseHandler.getInstance().deleteTaskQuery(task, MetaData.cm.getSelectedDate());
 			}
 		};
 

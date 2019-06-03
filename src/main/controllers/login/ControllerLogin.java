@@ -135,7 +135,7 @@ public class ControllerLogin {
 		loginValidateTask.setOnFailed(event -> {
 			loading.setVisible(false);
 			loginPane.setDisable(false);
-			loginValidateTask.getException().printStackTrace();
+			loginPane.setEffect(null);
 		});
 
 		loginValidateTask.setOnSucceeded(event -> {

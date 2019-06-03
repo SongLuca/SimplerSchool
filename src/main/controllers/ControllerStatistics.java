@@ -179,9 +179,14 @@ public class ControllerStatistics {
 				break;
 			}
 		}
-		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList(
-				new PieChart.Data("Compiti per casa", compitiCount), new PieChart.Data("Verifica", verificheCount),
-				new PieChart.Data("Interrogazione", interrCount));
+		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
+		if(compitiCount != 0)
+			pieChartData.add(new PieChart.Data("Compiti per casa", compitiCount));
+		if(verificheCount !=0)
+			pieChartData.add(new PieChart.Data("Verifica", verificheCount));
+		if(interrCount !=0)
+			pieChartData.add(new PieChart.Data("Interrogazione", interrCount));
+			
 		pieChart.setTitle("Tipo attivita");
 		pieChart.setData(pieChartData);
 		pieChart.setLabelLineLength(10);
