@@ -143,19 +143,30 @@
                                     <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
                                  </effect>
                                  <children>
-                                                <HBox alignment="CENTER_LEFT" layoutX="6.0" layoutY="14.0" prefHeight="47.0" prefWidth="288.0" spacing="10.0">
+                                                <HBox alignment="CENTER_LEFT" layoutX="12.0" layoutY="14.0" prefHeight="47.0" prefWidth="278.0" spacing="10.0">
                                                    <children>
                                                       <Label fx:id="osLbl" prefHeight="30.0" text="Orario settimanale" />
                                                       <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
                                                    </children>
                                                 </HBox>
-                                                <JFXButton fx:id="insertTaskBtn" alignment="CENTER" layoutX="14.0" layoutY="79.0" onMouseClicked="#insertTask" prefHeight="50.0" prefWidth="128.0" text="Insert Task" textAlignment="CENTER" wrapText="true" />
+                                    <HBox layoutX="14.0" layoutY="79.0" prefHeight="50.0" prefWidth="274.0">
+                                       <children>
+                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" text="add os" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" text="delete os" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" text="clear os" textAlignment="CENTER" wrapText="true" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </Pane>
-                              <Pane prefHeight="154.0" prefWidth="255.0" styleClass="backgroundActionPane">
+                              <Pane prefHeight="158.0" prefWidth="290.0" styleClass="backgroundActionPane">
                                  <effect>
                                     <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
                                  </effect>
+                                 <children>
+                                    <JFXButton layoutX="23.0" layoutY="22.0" prefHeight="30.0" prefWidth="90.0" text="Docente" />
+                                    <JFXButton layoutX="142.0" layoutY="22.0" prefHeight="30.0" prefWidth="90.0" text="Materia" />
+                                                <JFXButton fx:id="insertTaskBtn" alignment="CENTER" layoutX="35.0" layoutY="79.0" onMouseClicked="#insertTask" prefHeight="50.0" prefWidth="128.0" text="Insert Task" textAlignment="CENTER" wrapText="true" />
+                                 </children>
                               </Pane>
                            </children>
                         </HBox>
@@ -175,9 +186,13 @@
             </Pane>
             <AnchorPane id="menuPane" fx:id="menuPane" prefHeight="700.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="30.0">
                <children>
-                  <VBox fx:id="menuVBox" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
+                  <VBox fx:id="menuVBox" alignment="BOTTOM_LEFT" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
                      <children>
-                        <Label prefHeight="420.0" prefWidth="70.0" />
+                        <JFXButton id="menuStatisticButton" fx:id="statisticButton" alignment="CENTER" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                           <font>
+                              <Font size="24.0" />
+                           </font>
+                        </JFXButton>
                         <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
@@ -188,7 +203,7 @@
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                        <JFXButton id="menuCloseButton" fx:id="closeButton" onMouseClicked="#openCloseWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="RED">
                            <font>
                               <Font size="24.0" />
                            </font>
@@ -202,7 +217,7 @@
                <children>
                   <HBox fx:id="titlebar" prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
                      <children>
-                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" text=" Simpler School" textFill="WHITE">
+                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0" styleClass="titleBoxLabel" text=" Simpler School" textFill="#0d0000">
                            <font>
                               <Font name="System Italic" size="16.0" />
                            </font>

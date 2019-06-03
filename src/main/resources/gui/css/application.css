@@ -59,13 +59,19 @@
 	-fx-background-position: 10px 50%;
 	-fx-background-size: 50px;
 	-fx-background-repeat: no-repeat;
-	-fx-text-alignment: right;
+	-fx-padding: 0 0 0 50;
 }
 #menuUserButton{
-	-fx-background-image: url('../../images/statistics.png');
+	-fx-background-image: url('../../images/maleUser.png');
 }
 #menuUserButton:hover{
+	-fx-background-image: url('../../images/maleUserHover.png');
+}
+#menuStatisticButton{
 	-fx-background-image: url('../../images/statistics.png');
+}
+#menuStatisticButton:hover{
+	-fx-background-image: url('../../images/statisticsHover.png');
 }
 #menuSettingsButton{
 	-fx-background-image: url('../../images/settings.png');
@@ -101,6 +107,16 @@
 .titleBox{
 	 -fx-background-color: -custom-secondary;
 }
+
+.titleBoxLabel{
+	 -fx-text-fill: -custom-primary;
+}
+
+.customStageBorder{
+	-fx-border-color: -custom-secondary; 
+	-fx-border-width: 0 5 5 5;
+}
+
 .weekday-header {
     -fx-font: bold 17px "System";
     -fx-font-style: normal;

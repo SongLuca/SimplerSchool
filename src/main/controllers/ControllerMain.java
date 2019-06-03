@@ -56,6 +56,7 @@ import javafx.util.Duration;
 import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.models.Config;
+import main.application.models.CustomStage;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.application.models.OrarioSettimanale;
@@ -105,7 +106,7 @@ public class ControllerMain {
 	private JFXTabPane tabPane;
 
 	@FXML
-	private JFXButton settingsButton, profileButton, closeButton;
+	private JFXButton statisticButton, settingsButton, profileButton, closeButton;
 
 	@FXML
 	private JFXButton lastWeekBtn, thisWeekBtn, nextWeekBtn;
@@ -133,9 +134,9 @@ public class ControllerMain {
 
 	@FXML
 	private JFXRadioButton radioOggi, radioSett, radioSucc;
-	
+
 	private AnchorPane statistics;
-	
+
 	private HashMap<Integer, OrarioSettimanale> orariS;
 
 	private OrarioSettimanale os;
@@ -143,35 +144,6 @@ public class ControllerMain {
 	private ToggleGroup radiosGroup;
 
 	private double prefHeight = 800, prefWidth = 1400;
-
-	@FXML
-	public void hamclicked(MouseEvent event) {
-
-		if (menuPane.getPrefWidth() == 300) {
-			hamMenu.setPrefSize(hamMenu.getPrefWidth() - HAMMENUSIZE, hamMenu.getPrefHeight());
-			hamMenu.setPadding(new Insets(0, 0, 0, 0));
-
-			menuVBox.setPrefSize(menuVBox.getPrefWidth() - HAMMENUSIZE, menuVBox.getPrefHeight());
-			settingsButton.setPrefSize(settingsButton.getPrefWidth() - HAMMENUSIZE, settingsButton.getPrefHeight());
-			profileButton.setPrefSize(profileButton.getPrefWidth() - HAMMENUSIZE, profileButton.getPrefHeight());
-			closeButton.setPrefSize(closeButton.getPrefWidth() - HAMMENUSIZE, closeButton.getPrefHeight());
-
-			hamMenuAnimation(menuPane, menuPane.getPrefWidth() - HAMMENUSIZE, false);
-			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() - HAMMENUSIZE, false);
-		} else if (menuPane.getPrefWidth() == 70) {
-			hamMenu.setPrefSize(hamMenu.getPrefWidth() + HAMMENUSIZE, hamMenu.getPrefHeight());
-			hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
-
-			menuVBox.setPrefSize(menuVBox.getPrefWidth() + HAMMENUSIZE, menuVBox.getPrefHeight());
-			settingsButton.setPrefSize(settingsButton.getPrefWidth() + HAMMENUSIZE, settingsButton.getPrefHeight());
-			profileButton.setPrefSize(profileButton.getPrefWidth() + HAMMENUSIZE, profileButton.getPrefHeight());
-			closeButton.setPrefSize(closeButton.getPrefWidth() + HAMMENUSIZE, closeButton.getPrefHeight());
-
-			hamMenuAnimation(menuPane, menuPane.getPrefWidth() + HAMMENUSIZE, true);
-			hamMenuAnimation(menuShadowPane, menuShadowPane.getPrefWidth() + HAMMENUSIZE, true);
-		}
-		// new Wobble(avatar).play();
-	}
 
 	public void initialize() {
 		Console.print("Initializing menu gui", "gui");
@@ -189,6 +161,60 @@ public class ControllerMain {
 		loadNoteBoard();
 		initLangBindings();
 		MetaData.cm = this;
+	}
+
+	@FXML
+	public void hamclicked(MouseEvent event) {
+		double width = hamMenu.getPrefWidth();
+		double height = hamMenu.getPrefHeight();
+		if (menuPane.getPrefWidth() == 300) {
+			hamMenu.setPrefSize(width - HAMMENUSIZE, height);
+			hamMenu.setPadding(new Insets(0, 0, 0, 0));
+			menuVBox.setPrefSize(width - HAMMENUSIZE, menuVBox.getHeight());
+			for (Node button : menuVBox.getChildren()) {
+				((JFXButton) button).setPrefSize(width - HAMMENUSIZE, height);
+			}
+			hamMenuAnimation(menuPane.getPrefWidth() - HAMMENUSIZE, false);
+		} else if (menuPane.getPrefWidth() == 70) {
+			hamMenu.setPrefSize(width + HAMMENUSIZE, height);
+			hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
+			menuVBox.setPrefSize(width + HAMMENUSIZE, menuVBox.getPrefHeight());
+			for (Node button : menuVBox.getChildren()) {
+				((JFXButton) button).setPrefSize(width + HAMMENUSIZE, height);
+			}
+			hamMenuAnimation(menuPane.getPrefWidth() + HAMMENUSIZE, true);
+		}
+	}
+
+	public void hamMenuAnimation(double width, boolean expand) {
+		hamMenu.setDisable(true);
+		menuPane.setDisable(true);
+		if (!expand) {
+			menuShadowPane.setPrefWidth(menuShadowPane.getPrefWidth() - HAMMENUSIZE);
+			settingsButton.textProperty().unbind();
+			statisticButton.textProperty().unbind();
+			profileButton.textProperty().unbind();
+			
+			settingsButton.setText("");
+			profileButton.setText("");
+			closeButton.setText("");
+			statisticButton.setText("");
+		}
+		Timeline timeline = new Timeline();
+		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200),
+				new KeyValue(menuPane.prefWidthProperty(), width, Interpolator.EASE_BOTH)));
+		timeline.play();
+		timeline.setOnFinished(event -> {
+			hamMenu.setDisable(false);
+			menuPane.setDisable(false);
+			if (expand) {
+				menuShadowPane.setPrefWidth(menuShadowPane.getPrefWidth() + HAMMENUSIZE);
+				LanguageBundle.buttonForValue(statisticButton, () -> LanguageBundle.get("statisticsBtnTitle", 0));
+				LanguageBundle.buttonForValue(settingsButton, () -> LanguageBundle.get("configBtnTitle", 0));
+				LanguageBundle.buttonForValue(profileButton, () -> LanguageBundle.get("profiloBtnTitle", 0));
+				closeButton.setText("Log out");
+			}
+		});
 	}
 
 	public StackPane getRootStack() {
@@ -265,28 +291,28 @@ public class ControllerMain {
 		});
 
 	}
-	
+
 	public void radiosBtnSetDisable(boolean value) {
 		radioOggi.setDisable(value);
 		radioSett.setDisable(value);
 		radioSucc.setDisable(value);
 	}
-	
+
 	public boolean isThisWeek() {
 		LocalDate selected = datePicker.getValue();
 		LocalDate monday = LocalDate.now().with(DayOfWeek.MONDAY);
 		LocalDate sunday = LocalDate.now().with(DayOfWeek.SUNDAY);
-		if((selected.isAfter(monday) || selected.isEqual(monday)) && (selected.isBefore(sunday) || selected.isEqual(sunday))) {
+		if ((selected.isAfter(monday) || selected.isEqual(monday))
+				&& (selected.isBefore(sunday) || selected.isEqual(sunday))) {
 			this.radiosBtnSetDisable(false);
 			return true;
-		}
-		else {
+		} else {
 			this.radiosBtnSetDisable(true);
 			return false;
 		}
-			
+
 	}
-	
+
 	public void loadNoteBoard() {
 		Console.print("Loading note board", "gui");
 		noteBoard.clear();
@@ -296,17 +322,14 @@ public class ControllerMain {
 		if (attivitaIsEmpty(attivita)) {
 			noteBoard.setText(LanguageBundle.get("noAttivita"));
 		} else {
-			boolean compiti = checkComp.isSelected(), 
-					verifiche = checkVer.isSelected(),
-					interrogazioni = checkInt.isSelected(),
-					ceCompiti = false,
-					ceVerifiche = false,
+			boolean compiti = checkComp.isSelected(), verifiche = checkVer.isSelected(),
+					interrogazioni = checkInt.isSelected(), ceCompiti = false, ceVerifiche = false,
 					ceInterrogazioni = false;
-			String verifica = LanguageBundle.get("verifiche")+":\n",
-					compito = LanguageBundle.get("compitiPerCasa")+":\n", 
-					interrogazione = LanguageBundle.get("interrogazioni")+":\n";
+			String verifica = LanguageBundle.get("verifiche") + ":\n",
+					compito = LanguageBundle.get("compitiPerCasa") + ":\n",
+					interrogazione = LanguageBundle.get("interrogazioni") + ":\n";
 			for (SchoolTask task : attivita) {
-				if(!currWeek) {
+				if (!currWeek) {
 					if (task.getTipo().equalsIgnoreCase("Verifica") && verifiche) {
 						verifica += printVerifiche(task);
 						ceVerifiche = true;
@@ -322,8 +345,7 @@ public class ControllerMain {
 						ceInterrogazioni = true;
 						attivitaCount++;
 					}
-				}
-				else {
+				} else {
 					switch (radiosGroup.getSelectedToggle().getUserData().toString()) {
 					case "oggi":
 						if (task.getData().isEqual(LocalDate.now())) {
@@ -369,7 +391,7 @@ public class ControllerMain {
 								attivitaCount++;
 							}
 							if (task.getTipo().equalsIgnoreCase("Compiti per casa") && compiti) {
-								compito += printCompiti(task);	
+								compito += printCompiti(task);
 								ceCompiti = true;
 								attivitaCount++;
 							}
@@ -385,16 +407,16 @@ public class ControllerMain {
 			}
 
 			if (!ceVerifiche) {
-				verifica = LanguageBundle.get("noVerifica")+"\n";
+				verifica = LanguageBundle.get("noVerifica") + "\n";
 			}
 
 			if (!ceCompiti) {
-				compito = LanguageBundle.get("noCompitiPerCasa")+"\n";
+				compito = LanguageBundle.get("noCompitiPerCasa") + "\n";
 			}
 			if (!ceInterrogazioni) {
-				interrogazione = LanguageBundle.get("noInterrogazione")+"\n";
+				interrogazione = LanguageBundle.get("noInterrogazione") + "\n";
 			}
-			noteBoard.setText(attivitaCount + " " +LanguageBundle.get("attivita") + ":\n");
+			noteBoard.setText(attivitaCount + " " + LanguageBundle.get("attivita") + ":\n");
 			if (verifiche)
 				noteBoard.appendText(verifica);
 			if (compiti)
@@ -407,44 +429,44 @@ public class ControllerMain {
 
 	public String printCompiti(SchoolTask task) {
 		String compito = "";
-		compito += "\t"+LanguageBundle.get("materia")+": " + task.getMateriaNome() + "\n";
-		compito += "\t"+LanguageBundle.get("data")+": " + task.getData() + "\n";
+		compito += "\t" + LanguageBundle.get("materia") + ": " + task.getMateriaNome() + "\n";
+		compito += "\t" + LanguageBundle.get("data") + ": " + task.getData() + "\n";
 		if (task.getComment().length() != 0)
-			compito += "\t"+LanguageBundle.get("commento")+": " + task.getComment() + "\n";
+			compito += "\t" + LanguageBundle.get("commento") + ": " + task.getComment() + "\n";
 		else
-			compito += "\t"+LanguageBundle.get("noCommento")+"\n";
+			compito += "\t" + LanguageBundle.get("noCommento") + "\n";
 		compito += "\t----------------------\n";
 		return compito;
 	}
 
 	public String printVerifiche(SchoolTask task) {
 		String verifica = "";
-		verifica += "\t"+LanguageBundle.get("materia")+": " + task.getMateriaNome() + "\n";
-		verifica += "\t"+LanguageBundle.get("data")+": " + task.getData() + "\n";
+		verifica += "\t" + LanguageBundle.get("materia") + ": " + task.getMateriaNome() + "\n";
+		verifica += "\t" + LanguageBundle.get("data") + ": " + task.getData() + "\n";
 		if (task.getVoto() > -1)
-			verifica += "\t"+LanguageBundle.get("voto")+": " + task.getVoto() + "\n";
+			verifica += "\t" + LanguageBundle.get("voto") + ": " + task.getVoto() + "\n";
 		else
-			verifica += "\t"+LanguageBundle.get("noVoto")+"\n";
+			verifica += "\t" + LanguageBundle.get("noVoto") + "\n";
 		if (task.getComment().length() != 0)
-			verifica += "\t"+LanguageBundle.get("commento")+": " + task.getComment() + "\n";
+			verifica += "\t" + LanguageBundle.get("commento") + ": " + task.getComment() + "\n";
 		else
-			verifica += "\t"+LanguageBundle.get("noCommento")+"\n";
+			verifica += "\t" + LanguageBundle.get("noCommento") + "\n";
 		verifica += "\t----------------------\n";
 		return verifica;
 	}
 
 	public String printInterrogazioni(SchoolTask task) {
 		String interrogazione = "";
-		interrogazione += "\t"+LanguageBundle.get("materia")+": " + task.getMateriaNome() + "\n";
-		interrogazione += "\t"+LanguageBundle.get("data")+": " + task.getData() + "\n";
+		interrogazione += "\t" + LanguageBundle.get("materia") + ": " + task.getMateriaNome() + "\n";
+		interrogazione += "\t" + LanguageBundle.get("data") + ": " + task.getData() + "\n";
 		if (task.getVoto() > -1)
-			interrogazione += "\t"+LanguageBundle.get("voto")+": " + task.getVoto() + "\n";
+			interrogazione += "\t" + LanguageBundle.get("voto") + ": " + task.getVoto() + "\n";
 		else
-			interrogazione += "\t"+LanguageBundle.get("noVoto")+"\n";
+			interrogazione += "\t" + LanguageBundle.get("noVoto") + "\n";
 		if (task.getComment().length() != 0)
-			interrogazione += "\t"+LanguageBundle.get("commento")+": " + task.getComment() + "\n";
+			interrogazione += "\t" + LanguageBundle.get("commento") + ": " + task.getComment() + "\n";
 		else
-			interrogazione += "\t"+LanguageBundle.get("noCommento")+"\n";
+			interrogazione += "\t" + LanguageBundle.get("noCommento") + "\n";
 		interrogazione += "\t----------------------\n";
 		return interrogazione;
 	}
@@ -491,23 +513,36 @@ public class ControllerMain {
 			transition.play();
 		});
 		VBox.setVgrow(menuPane, Priority.ALWAYS);
-		profileButton.setOnMouseClicked(e -> {
-			if(contentPane.isVisible()) {
+		statisticButton.setOnMouseClicked(e -> {
+			if (contentPane.isVisible()) {
 				try {
 					URL fxmlURL = new File(Config.getString(Main.CONFIG, "statisticsFXML")).toURI().toURL();
 					FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
 					statistics = fxmlLoader.load();
 					rootPane.getChildren().add(statistics);
 					contentPane.setVisible(false);
-				} catch(IOException ex) {
+				} catch (IOException ex) {
 					ex.printStackTrace();
 				}
-			}
-			else {
+			} else {
 				changeWeek(datePicker.getValue());
 				rootPane.getChildren().remove(statistics);
 				statistics = null;
 				contentPane.setVisible(true);
+			}
+		});
+		profileButton.setOnMouseClicked(e->{
+			try {
+				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "docentiFXML").toURL());
+				AnchorPane contentPane = fxmlLoader.load();
+				window.setContent(contentPane);
+				window.setMinSize(Config.getDouble(Main.CONFIG, "minWidthSettings"), 
+						Config.getDouble(Main.CONFIG, "minHeightSettings"));
+				window.bindTitleLanguage("Settings-Lecturers");
+				window.show();
+			} catch (Exception e1) {
+				e1.printStackTrace();
 			}
 		});
 	}
@@ -516,12 +551,12 @@ public class ControllerMain {
 		updateOSPicker();
 		datePicker.setValue(LocalDate.now());
 		datePicker.setDayCellFactory(picker -> new DateCell() {
-            @Override
-            public void updateItem(LocalDate date, boolean empty) {
-                super.updateItem(date, empty);
-                setDisable(empty || date.getDayOfWeek() == DayOfWeek.SUNDAY);
-            }
-        });
+			@Override
+			public void updateItem(LocalDate date, boolean empty) {
+				super.updateItem(date, empty);
+				setDisable(empty || date.getDayOfWeek() == DayOfWeek.SUNDAY);
+			}
+		});
 		datePicker.setOnAction(e -> {
 			initCalendarWeekDayHeader(datePicker.getValue(), true);
 			changeWeek(datePicker.getValue());
@@ -564,7 +599,7 @@ public class ControllerMain {
 				changeWeek(datePicker.getValue());
 			}
 		});
-		
+
 		if (os != null) {
 			for (String giornoK : os.getSettimana().keySet()) {
 				int dayCol = os.getColByGiorno(giornoK);
@@ -580,7 +615,7 @@ public class ControllerMain {
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				rootPane.setEffect(Effect.blur());
-				return DataBaseHandler.getInstance().getAttivitaSettimanaleQuery(data,false);
+				return DataBaseHandler.getInstance().getAttivitaSettimanaleQuery(data, false);
 			}
 		};
 
@@ -722,27 +757,6 @@ public class ControllerMain {
 				(Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
 		cod.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
 		cod.setDate(data);
-	}
-
-	public void hamMenuAnimation(Pane pane, double width, boolean expand) {
-		hamMenu.setDisable(true);
-		if (!expand) {
-			settingsButton.setText("");
-			profileButton.setText("");
-			closeButton.setText("");
-		}
-		Timeline timeline = new Timeline();
-		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200),
-				new KeyValue(pane.prefWidthProperty(), width, Interpolator.EASE_BOTH)));
-		timeline.play();
-		timeline.setOnFinished(event -> {
-			hamMenu.setDisable(false);
-			if (expand) {
-				settingsButton.setText("Settings");
-				profileButton.setText("Statistics");
-				closeButton.setText("Log out");
-			}
-		});
 	}
 
 	@FXML
