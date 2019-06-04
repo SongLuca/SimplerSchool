@@ -119,7 +119,7 @@
                                     <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
                                  </effect>
                                  <children>
-                                                <HBox alignment="CENTER" layoutX="14.0" layoutY="33.0" prefHeight="30.0" prefWidth="274.0" spacing="10.0">
+                                                <HBox alignment="CENTER" layoutX="2.0" layoutY="33.0" prefHeight="30.0" prefWidth="286.0" spacing="10.0">
                                                    <children>
                                                       <Label fx:id="dataLbl" prefHeight="30.0" text="Data ">
                                                          <font>
@@ -131,9 +131,9 @@
                                                 </HBox>
                                                 <HBox alignment="CENTER" layoutX="14.0" layoutY="76.0" prefHeight="45.0" prefWidth="260.0" spacing="10.0">
                                                    <children>
-                                                      <JFXButton fx:id="lastWeekBtn" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" text="Last week" textAlignment="CENTER" wrapText="true" />
-                                                      <JFXButton fx:id="thisWeekBtn" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" text="This week" textAlignment="CENTER" wrapText="true" />
-                                                      <JFXButton fx:id="nextWeekBtn" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" text="Next week" textAlignment="CENTER" wrapText="true" />
+                                                      <JFXButton fx:id="lastWeekBtn" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" styleClass="customButton" text="Last week" textAlignment="CENTER" wrapText="true" />
+                                                      <JFXButton fx:id="thisWeekBtn" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" styleClass="customButton" text="This week" textAlignment="CENTER" wrapText="true" />
+                                                      <JFXButton fx:id="nextWeekBtn" alignment="CENTER" prefHeight="50.0" prefWidth="80.0" styleClass="customButton" text="Next week" textAlignment="CENTER" wrapText="true" />
                                                    </children>
                                                 </HBox>
                                  </children>
@@ -151,9 +151,9 @@
                                                 </HBox>
                                     <HBox layoutX="14.0" layoutY="79.0" prefHeight="50.0" prefWidth="274.0">
                                        <children>
-                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" text="add os" textAlignment="CENTER" wrapText="true" />
-                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" text="delete os" textAlignment="CENTER" wrapText="true" />
-                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" text="clear os" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" styleClass="customButton" text="add os" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" styleClass="customButton" text="delete os" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton contentDisplay="CENTER" prefHeight="50.0" prefWidth="112.0" styleClass="customButton" text="clear os" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -163,9 +163,9 @@
                                     <DropShadow blurType="GAUSSIAN" radius="12.225" width="29.9" />
                                  </effect>
                                  <children>
-                                    <JFXButton layoutX="23.0" layoutY="22.0" prefHeight="30.0" prefWidth="90.0" text="Docente" />
-                                    <JFXButton layoutX="142.0" layoutY="22.0" prefHeight="30.0" prefWidth="90.0" text="Materia" />
-                                                <JFXButton fx:id="insertTaskBtn" alignment="CENTER" layoutX="35.0" layoutY="79.0" onMouseClicked="#insertTask" prefHeight="50.0" prefWidth="128.0" text="Insert Task" textAlignment="CENTER" wrapText="true" />
+                                    <JFXButton layoutX="23.0" layoutY="22.0" prefHeight="30.0" prefWidth="90.0" styleClass="customButton" text="Docente" />
+                                    <JFXButton layoutX="142.0" layoutY="22.0" prefHeight="30.0" prefWidth="90.0" styleClass="customButton" text="Materia" />
+                                                <JFXButton fx:id="insertTaskBtn" alignment="CENTER" layoutX="35.0" layoutY="79.0" onMouseClicked="#insertTask" prefHeight="50.0" prefWidth="128.0" styleClass="customButton" text="Insert Task" textAlignment="CENTER" wrapText="true" />
                                  </children>
                               </Pane>
                            </children>

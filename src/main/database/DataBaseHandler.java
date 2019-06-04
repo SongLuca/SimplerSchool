@@ -735,7 +735,11 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Main.utente.getUserid());
-			stmt.setInt(2, MetaData.cm.getOs().getId());
+			if(MetaData.cm.getOs() != null)
+				stmt.setInt(2, MetaData.cm.getOs().getId());
+			else{
+				stmt.setInt(2, 0);
+			}
 			rs = stmt.executeQuery();
 			rsToAttivita(rs);
 			return true;
@@ -762,7 +766,11 @@ public class DataBaseHandler {
 						Main.utente.getUsername() + "-selectedOrarioSettimanale")));
 			}
 			else {
-				stmt.setInt(3, MetaData.cm.getOs().getId());
+				if(MetaData.cm.getOs() != null)
+					stmt.setInt(3, MetaData.cm.getOs().getId());
+				else{
+					stmt.setInt(3, 0);
+				}
 			}
 			rs = stmt.executeQuery();
 			rsToAttivita(rs);

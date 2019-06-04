@@ -94,6 +94,12 @@
 	-fx-background-color: -custom-primary;
 }
 
+.customButton{
+	-fx-text-fill: -custom-primary;
+    -fx-background-color: -custom-secondary;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 20px;
+}
 
 #topPane{
 	-fx-background-color: -custom-primary;
