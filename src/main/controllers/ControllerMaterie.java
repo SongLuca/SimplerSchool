@@ -32,6 +32,7 @@ import main.utils.Console;
 import main.utils.Effect;
 import main.utils.LanguageBundle;
 import main.utils.Utils;
+import main.utils.WindowStyle;
 
 public class ControllerMaterie {
 
@@ -39,7 +40,7 @@ public class ControllerMaterie {
 	private AnchorPane subContentPane;
 
 	@FXML
-	private JFXButton newBtn, saveBtn, clearBtn;
+	private JFXButton newBtn, saveBtn, clearBtn, closeBtn;
 
 	@FXML
 	private VBox materieBox;
@@ -79,6 +80,7 @@ public class ControllerMaterie {
 		clearBtn.setText(LanguageBundle.get("clearBtn"));
 		hint1Lbl.setText(LanguageBundle.get("materieHint1Lbl"));
 		hint2Lbl.setText(LanguageBundle.get("materieHint2Lbl"));
+		closeBtn.setText(LanguageBundle.get("close"));
     }
 	
 	public void addToRemove(int idMateria) {
@@ -178,6 +180,11 @@ public class ControllerMaterie {
 	}
 	
 	@FXML
+	public void close() {
+		WindowStyle.close((Stage) subContentPane.getScene().getWindow());
+	}
+	
+	@FXML
 	public void newMateria() { // aggiunge un nuovo materiabox con nome = "" e colore = ffffff
 		HBox box = loadMateriaBox();
 		Label idLbl = (Label) box.lookup("#idMateria");
@@ -196,8 +203,7 @@ public class ControllerMaterie {
 
 
 	public void updateMaterieInDB() { // un attivita in background per aggiornare tutte le materie nel db
-		StackPane root = (StackPane) subContentPane.getScene().lookup("#rootStack");
-		AnchorPane pane = (AnchorPane) subContentPane.getScene().lookup("#rootPane");
+		StackPane root = (StackPane) subContentPane.getScene().lookup("#dialogStack");
 		Task<Boolean> updateMaterieTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
@@ -218,7 +224,7 @@ public class ControllerMaterie {
 			loading.setVisible(false);
 			subContentPane.setEffect(null);
 			if (updateMaterieTask.getValue()) {
-				Utils.popUpDialog(root, pane, "Message", "Changes saved");
+				Utils.popUpDialog(root, subContentPane, LanguageBundle.get("message"),LanguageBundle.get("changesSaved"));
 				MetaData.cm.updateOSPicker();
 				MetaData.cm.loadNoteBoard();
 				materie = DataBaseHandler.getInstance().getMaterie();

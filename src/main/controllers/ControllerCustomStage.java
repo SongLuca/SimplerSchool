@@ -9,6 +9,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.Main;
 import main.utils.Utils;
@@ -16,11 +17,13 @@ import main.utils.WindowStyle;
 
 public class ControllerCustomStage {
 	@FXML
-    private AnchorPane root, content;
-	
+    private AnchorPane contentPane;
+	@FXML
+    private StackPane dialogStack;
 	@FXML
     private Label title;
-
+	@FXML
+    private ImageView icon;
 	public void initialize() {
 		initTitleBox();
 	}
@@ -40,14 +43,14 @@ public class ControllerCustomStage {
 		titleCloseButton.setOnMouseEntered(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
-			root.getScene().setCursor(Cursor.DEFAULT);
+			contentPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleCloseButton.setOnMouseExited(e -> {
 			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) root.getScene().getWindow());
+			WindowStyle.close((Stage) contentPane.getScene().getWindow());
 		});
 	}
 	/***********************************************/

@@ -287,7 +287,7 @@ public class Utils {
 		content.setHeading(new Text(header));
 		content.setBody(new Text(body));
 		JFXDialog dialog = new JFXDialog(root, content, JFXDialog.DialogTransition.TOP);
-		JFXButton button = new JFXButton("Close");
+		JFXButton button = new JFXButton(LanguageBundle.get("close"));
 		button.setOnAction(new EventHandler<ActionEvent>() {
 			@Override
 			public void handle(ActionEvent event) {

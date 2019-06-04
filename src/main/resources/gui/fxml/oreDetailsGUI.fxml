@@ -3,126 +3,79 @@
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTabPane?>
-<?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
 <?import javafx.scene.control.Tab?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
-<?import javafx.scene.text.Font?>
 
-<AnchorPane stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOreDetails">
+<AnchorPane prefHeight="700.0" prefWidth="600.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerOreDetails">
    <children>
-      <AnchorPane fx:id="detailsPane" prefHeight="600.0" prefWidth="600.0">
+      <VBox fx:id="infoVBox" prefHeight="50.0" prefWidth="580.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="5.0" />
+      <JFXTabPane fx:id="tabPane" prefHeight="550.0" prefWidth="580.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="60.0">
+         <tabs>
+            <Tab fx:id="compitiTab" text="Compiti per casa">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="570.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="550.0" prefWidth="570.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox fx:id="compitiBox" alignment="TOP_CENTER" maxWidth="560.0" minWidth="560.0" prefHeight="500.0" prefWidth="560.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="verificheTab" text="Verifiche">
+              <content>
+                <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="570.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="550.0" prefWidth="570.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox fx:id="verificheBox" alignment="TOP_CENTER" maxWidth="560.0" prefHeight="500.0" prefWidth="560.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+              </content>
+            </Tab>
+            <Tab fx:id="interrTab" text="Interrogazioni">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="570.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="550.0" prefWidth="570.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox fx:id="interrBox" alignment="TOP_CENTER" maxWidth="560.0" prefHeight="500.0" prefWidth="560.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+            <Tab fx:id="allegatiTab" text="Allegati file">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="550.0" prefWidth="570.0">
+                     <children>
+                        <ScrollPane hbarPolicy="NEVER" prefHeight="550.0" prefWidth="570.0" AnchorPane.bottomAnchor="-0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                           <content>
+                              <VBox fx:id="allegatoBox" alignment="TOP_CENTER" maxWidth="560.0" prefHeight="500.0" prefWidth="560.0" />
+                           </content>
+                        </ScrollPane>
+                     </children>
+                  </AnchorPane>
+               </content>
+            </Tab>
+         </tabs>
+      </JFXTabPane>
+      <HBox alignment="CENTER_RIGHT" layoutX="14.0" layoutY="381.0" prefHeight="65.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="650.0" AnchorPane.bottomAnchor="570.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-               <children>
-                  <Label fx:id="title" prefHeight="30.0" prefWidth="600.0" text="  ">
-                     <font>
-                        <Font name="System Italic" size="16.0" />
-                     </font>
-                     <padding>
-                        <Insets left="10.0" />
-                     </padding>
-                  </Label>
-                  <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="60.0" text="">
-                           <graphic>
-                              <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/titleClose.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
-                  </HBox>
-               </children>
-            </HBox>
-            <JFXTabPane fx:id="tabPane" layoutX="109.0" layoutY="145.0" prefHeight="116.0" prefWidth="328.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0">
-               <tabs>
-                  <Tab fx:id="compitiTab" text="Compiti per casa">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-                                 <content>
-                                    <VBox fx:id="compitiBox" prefHeight="425.0" prefWidth="575.0" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
-                  <Tab fx:id="verificheTab" text="Verifiche">
-                    <content>
-                      <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
-                                 <content>
-                                    <VBox fx:id="verificheBox" prefHeight="425.0" prefWidth="575.0" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                    </content>
-                  </Tab>
-                  <Tab fx:id="interrTab" text="Interrogazioni">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
-                                 <content>
-                                    <VBox fx:id="interrBox" prefHeight="425.0" prefWidth="575.0" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-                  <Tab fx:id="allegatiTab" text="Allegati file">
-                     <content>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
-                           <children>
-                              <ScrollPane hbarPolicy="NEVER" prefHeight="486.0" prefWidth="600.0">
-                                 <content>
-                                    <VBox fx:id="allegatoBox" prefHeight="425.0" prefWidth="575.0" />
-                                 </content>
-                              </ScrollPane>
-                           </children>
-                        </AnchorPane>
-                     </content>
-                  </Tab>
-               </tabs>
-            </JFXTabPane>
-            <HBox alignment="CENTER_RIGHT" prefHeight="100.0" prefWidth="200.0" spacing="20.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="550.0">
-               <children>
-                  <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="457.0">
-                     <children>
-                        <JFXButton fx:id="newTaskBtn" onMouseClicked="#newTask" prefHeight="30.0" prefWidth="120.0" text="New task..." />
-                        <JFXButton fx:id="expandBtn" onMouseClicked="#expandAll" prefHeight="30.0" prefWidth="120.0" text="Expand all" />
-                        <JFXButton fx:id="collapseBtn" onMouseClicked="#collapseAll" prefHeight="30.0" prefWidth="120.0" text="Collapse all" />
-                     </children>
-                  </HBox>
-                  <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="30.0" prefWidth="60.0" text="Close" />
-               </children>
-               <padding>
-                  <Insets right="50.0" />
-               </padding>
-            </HBox>
-            <VBox fx:id="infoVBox" prefHeight="50.0" prefWidth="580.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="30.0" />
+            <JFXButton fx:id="newTaskBtn" onMouseClicked="#newTask" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="New task..." />
+            <JFXButton fx:id="expandBtn" onMouseClicked="#expandAll" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Expand all" />
+            <JFXButton fx:id="collapseBtn" onMouseClicked="#collapseAll" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Collapse all" />
+            <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Close" />
          </children>
-      </AnchorPane>
-      <StackPane fx:id="stackPane" prefHeight="600.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+      </HBox>
       <JFXSpinner fx:id="loading" layoutX="260.0" layoutY="260.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
    </children>
 </AnchorPane>

@@ -2,6 +2,7 @@
 
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.ColorPicker?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
@@ -23,4 +24,7 @@
          </graphic>
       </JFXButton>
    </children>
+   <padding>
+      <Insets right="20.0" />
+   </padding>
 </HBox>

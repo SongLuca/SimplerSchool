@@ -8,20 +8,19 @@ import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTabPane;
-
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.HBox;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import main.application.Main;
 import main.application.models.Config;
+import main.application.models.CustomStage;
 import main.application.models.Docente;
 import main.application.models.Insegna;
 import main.application.models.Materia;
@@ -79,7 +78,6 @@ public class ControllerOreDetails {
 	public void initialize() {
 		MetaData.cod = this;
 		setMateria(MetaData.materiaSelected);
-		initTitleBox();
 		initInfoBox();
 		populatePanes();
 		initLangBindings();
@@ -103,10 +101,6 @@ public class ControllerOreDetails {
 
 	public String getMateria() {
 		return materia;
-	}
-
-	public void setTitle(String title) {
-		this.title.setText(title);
 	}
 
 	public void setDate(LocalDate data) {
@@ -269,47 +263,33 @@ public class ControllerOreDetails {
 	@FXML
 	void newTask(MouseEvent e) {
 		Console.print("Opening insert window materia: " + materia, "gui");
-		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
-				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
-		cit.setTitle("Inserimento attivita");
-		cit.setMode("insert");
-		cit.setMateriaBox(materia);
-		cit.setDatePicker(data);
-		cit.setTipoBox(tabPane.getSelectionModel().getSelectedItem().getText());
-		cit.fixedMateria();
+		try {
+			CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "insertTaskFXML").toURL());
+			AnchorPane contentPane = fxmlLoader.load();
+			window.setContent(contentPane);
+			window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"), 
+					Config.getDouble(Main.CONFIG, "minHeightInsertTask"));
+			window.bindTitleLanguage("insertTaskTitle");
+			window.setResizable(false);
+			window.setModality(Modality.WINDOW_MODAL);
+			window.setIcon("taskImagePath");
+			ControllerInsertTask cit = (ControllerInsertTask) fxmlLoader.getController();
+			cit.setMode("insert");
+			cit.setMateriaBox(materia);
+			cit.setDatePicker(data);
+			cit.setTipoBox(tabPane.getSelectionModel().getSelectedItem().getText());
+			cit.fixedMateria();
+			window.show();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 	}
 
 	@FXML
 	public void close() {
 		WindowStyle.close((Stage) compitiBox.getScene().getWindow());
 	}
-
-	/*********** Custom Window title bar ************/
-	@FXML
-	private HBox titleHBox;
-
-	@FXML
-	private Label title;
-
-	@FXML
-	private JFXButton titleCloseButton;
-
-	@FXML
-	private ImageView titleCloseImage;
-
-	public void initTitleBox() {
-		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
-			titleCloseImage.setImage(new Image(img));
-		});
-		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
-			titleCloseImage.setImage(new Image(img));
-		});
-		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) titleHBox.getScene().getWindow());
-		});
-	}
-	/***********************************************/
 
 }

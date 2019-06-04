@@ -8,26 +8,23 @@
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane fx:id="root" prefHeight="500.0" prefWidth="500.0" styleClass="customStageBorder" stylesheets="@../css/application.css" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="main.controllers.ControllerCustomStage">
+<AnchorPane fx:id="contentPane" prefHeight="500.0" prefWidth="500.0" styleClass="customStageBorder" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerCustomStage">
    <children>
-      <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" styleClass="titleBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" styleClass="titleBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
-               <children>
-                  <Label fx:id="title" prefHeight="28.0" prefWidth="500.0" styleClass="titleBoxLabel" text=" Settings">
-                     <font>
-                        <Font name="System Italic" size="16.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets left="5.0" />
-                     </HBox.margin>
-                  </Label>
-               </children>
-            </HBox>
-            <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="40.0" text="">
+            <ImageView fx:id="icon" fitHeight="25.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true" />
+            <Label fx:id="title" prefHeight="28.0" prefWidth="5000.0" styleClass="titleBoxLabel" text=" Settings">
+               <font>
+                  <Font name="System Italic" size="16.0" />
+               </font>
+               <HBox.margin>
+                  <Insets left="5.0" />
+               </HBox.margin>
+            </Label>
+            <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="40.0" text="" HBox.hgrow="ALWAYS">
                <graphic>
                   <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
                      <viewport>
@@ -42,5 +39,6 @@
          </children>
       </HBox>
       <AnchorPane fx:id="content" prefHeight="500.0" prefWidth="500.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0" />
+      <StackPane fx:id="dialogStack" layoutX="10.0" layoutY="10.0" prefHeight="651.0" prefWidth="820.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
    </children>
 </AnchorPane>

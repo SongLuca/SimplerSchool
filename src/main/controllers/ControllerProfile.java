@@ -23,26 +23,22 @@ import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
+import main.utils.WindowStyle;
 
 public class ControllerProfile {
 	@FXML
 	private AnchorPane subContentPane;
 
 	@FXML
-	private JFXTextField nomeField;
-
-	@FXML
-	private JFXTextField cognomeField;
-
-	@FXML
-	private JFXTextField scuolField;
+	private JFXTextField nomeField, cognomeField, scuolField;
 
 	@FXML
 	private Circle avatar;
 
 	@FXML
-	private JFXButton editAvatarBtn;
+	private JFXButton editAvatarBtn, saveBtn, closeBtn;
 
 	@FXML
 	private JFXSpinner loading;
@@ -56,6 +52,7 @@ public class ControllerProfile {
 		this.user = Main.utente;
 		editAvatarBtn.setOnAction(e -> selectAvatar());
 		initComponents();
+		initLangBindings();
 		AnchorPane.setBottomAnchor(subContentPane, 0.0);
 		AnchorPane.setTopAnchor(subContentPane, 0.0);
 		AnchorPane.setLeftAnchor(subContentPane, 0.0);
@@ -73,6 +70,12 @@ public class ControllerProfile {
 			scuolField.setText(user.getScuola());
 	}
 
+	public void initLangBindings() {
+		saveBtn.setText(LanguageBundle.get("saveBtn"));
+		editAvatarBtn.setText(LanguageBundle.get("edit"));
+		closeBtn.setText(LanguageBundle.get("close"));
+    }
+	
 	@FXML
 	void save(MouseEvent event) {
 		Utente newUser = new Utente(user.getUserid(), user.getUsername());
@@ -93,10 +96,14 @@ public class ControllerProfile {
 		}
 			
 	}
-
+	
+	@FXML
+	public void close() {
+		WindowStyle.close((Stage) subContentPane.getScene().getWindow());
+	}
+	
 	public void updateUserTask(Utente u) {
-		StackPane root = (StackPane) subContentPane.getScene().lookup("#rootStack");
-		AnchorPane pane = (AnchorPane) subContentPane.getScene().lookup("#rootPane");
+		StackPane root = (StackPane) subContentPane.getScene().lookup("#dialogStack");
 		Task<Boolean> updatTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
@@ -116,11 +123,11 @@ public class ControllerProfile {
 			loading.setVisible(false);
 			subContentPane.setEffect(null);
 			if (updatTask.getValue()) {
-				Utils.popUpDialog(root, pane, "Message","Changes saved successfully");
+				Utils.popUpDialog(root, subContentPane, LanguageBundle.get("message"),LanguageBundle.get("changesSaved"));
 				Main.utente = u;
 				MetaData.cm.initProfilePane();
 			} else {
-				Utils.popUpDialog(root, pane, "Error", DataBaseHandler.getInstance().getMsg());
+				Utils.popUpDialog(root, subContentPane, "Error", DataBaseHandler.getInstance().getMsg());
 				subContentPane.setDisable(false);
 			}
 		});

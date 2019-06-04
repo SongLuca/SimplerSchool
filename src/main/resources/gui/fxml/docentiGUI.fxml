@@ -4,52 +4,27 @@
 <?import com.jfoenix.controls.JFXSpinner?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="subContentPane" prefHeight="640.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerDocenti">
+<AnchorPane fx:id="subContentPane" minWidth="600.0" prefHeight="640.0" prefWidth="600.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerDocenti">
    <children>
-      <HBox alignment="CENTER_LEFT" layoutX="10.0" layoutY="14.0" prefHeight="38.0" prefWidth="630.0" spacing="20.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="10.0">
-         <children>
-            <JFXButton fx:id="newBtn" contentDisplay="TOP" onMouseClicked="#newDocente" prefHeight="45.0" prefWidth="45.0" text="New...">
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/new.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="saveBtn" contentDisplay="TOP" onMouseClicked="#apply" prefHeight="45.0" prefWidth="45.0" text="Save">
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/save.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-            <JFXButton fx:id="clearBtn" contentDisplay="TOP" onMouseClicked="#clear" prefHeight="45.0" prefWidth="45.0" text="Clear...">
-               <graphic>
-                  <ImageView fitHeight="45.0" fitWidth="45.0" pickOnBounds="true" preserveRatio="true">
-                     <image>
-                        <Image url="@../../images/clear.png" />
-                     </image>
-                  </ImageView>
-               </graphic>
-            </JFXButton>
-         </children>
-      </HBox>
-      <ScrollPane hbarPolicy="NEVER" layoutY="102.0" pannable="true" prefHeight="460.0" prefWidth="610.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="102.0">
+      <ScrollPane hbarPolicy="NEVER" layoutX="14.0" layoutY="80.0" pannable="true" prefHeight="450.0" prefWidth="599.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <content>
-            <VBox fx:id="docentiBox" alignment="TOP_CENTER" prefHeight="450.0" prefWidth="620.0" spacing="3.0" />
+            <VBox fx:id="docentiBox" prefHeight="440.0" prefWidth="560.0" spacing="3.0" />
          </content>
       </ScrollPane>
       <JFXSpinner fx:id="loading" layoutX="285.0" layoutY="200.0" prefHeight="80.0" prefWidth="80.0" visible="false" />
-      <Label fx:id="hint1Lbl" layoutX="20.0" layoutY="566.0" prefHeight="30.0" prefWidth="610.0" text="*Docente with nome and cognome both empty will be removed" />
-      <Label fx:id="hint2Lbl" layoutX="20.0" layoutY="596.0" prefHeight="30.0" prefWidth="610.0" text="*" />
+      <Label fx:id="hint1Lbl" layoutX="20.0" layoutY="14.0" prefHeight="30.0" prefWidth="610.0" text="*Docente with nome and cognome both empty will be removed" />
+      <Label fx:id="hint2Lbl" layoutX="20.0" layoutY="44.0" prefHeight="30.0" prefWidth="610.0" text="*" />
+      <HBox alignment="CENTER_RIGHT" layoutX="14.0" layoutY="546.0" prefHeight="65.0" prefWidth="645.0" spacing="5.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="14.0" AnchorPane.rightAnchor="13.0">
+         <children>
+            <JFXButton fx:id="newBtn" onMouseClicked="#newDocente" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="New" />
+            <JFXButton fx:id="clearBtn" onMouseClicked="#clear" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Clear" />
+            <JFXButton fx:id="saveBtn" onMouseClicked="#apply" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Save" />
+            <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Close" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>

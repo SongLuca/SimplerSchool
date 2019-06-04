@@ -12,6 +12,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
+import javafx.stage.Stage;
 import main.application.Main;
 import main.application.models.Config;
 import main.application.models.MetaData;
@@ -19,6 +20,7 @@ import main.utils.Console;
 import main.utils.LanguageBundle;
 import main.utils.Preferences;
 import main.utils.Utils;
+import main.utils.WindowStyle;
 
 public class ControllerConfiguration {
 	
@@ -26,25 +28,16 @@ public class ControllerConfiguration {
 	private AnchorPane subContentPane;
 	 
 	@FXML
-    private JFXButton saveBtn;
+    private JFXButton saveBtn, defaultBtn, closeBtn;
 
     @FXML
-    private JFXButton defaultBtn;
+    private Label votoRangeLbl, languageLbl;
 
     @FXML
-    private Label votoRangeLbl;
-
-    @FXML
-    private JFXTextField votoMinField;
-
-    @FXML
-    private JFXTextField votoMaxField;
+    private JFXTextField votoMinField, votoMaxField;
 
     @FXML
     private JFXComboBox<String> langComboBox;
-
-    @FXML
-    private Label languageLbl;
     
     private List<String> langs = Arrays.asList("English","Italiano");
     
@@ -100,10 +93,14 @@ public class ControllerConfiguration {
 		});
     }
     
+    @FXML
+	public void close() {
+		WindowStyle.close((Stage) subContentPane.getScene().getWindow());
+	}
+    
     public void popMsg(String msg) {
-    	StackPane root = (StackPane) votoRangeLbl.getScene().lookup("#rootStack");
-		AnchorPane pane = (AnchorPane) votoRangeLbl.getScene().lookup("#rootPane");
-		Utils.popUpDialog(root, pane, "Message",msg);
+    	StackPane root = (StackPane) votoRangeLbl.getScene().lookup("#dialogStack");
+    	Utils.popUpDialog(root, subContentPane, LanguageBundle.get("message"),LanguageBundle.get("changesSaved"));
     }
     
     public void initLangBindings() {
@@ -114,7 +111,7 @@ public class ControllerConfiguration {
     public void checkVotoRange() {
     	int votoMin = Integer.parseInt(votoMinField.getText());
     	int votoMax = Integer.parseInt(votoMaxField.getText());
-    	
+ 
     	if(votoMin >= votoMax) {
     	
     	}
@@ -134,10 +131,4 @@ public class ControllerConfiguration {
 	    	}
     	}
     }
-    
-   
-    
-    
-    
-    
 }

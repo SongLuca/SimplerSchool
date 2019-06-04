@@ -15,7 +15,7 @@
 *{
 	-custom-primary: white;
 	-custom-secondary: #2d3e50;
-	-custom-third: #2F2F2F;
+	-custom-third: #28C8AC;
 	-custom-hover-primary: white;
 	-custom-hover-secondary:white;
 	-custom-fourth:#3b5168;
@@ -61,6 +61,12 @@
 	-fx-background-repeat: no-repeat;
 	-fx-padding: 0 0 0 50;
 }
+#menuBackButton{
+	-fx-background-image: url('../../images/back.png');
+}
+#menuBackButton:hover{
+	-fx-background-image: url('../../images/backHover.png');
+}
 #menuUserButton{
 	-fx-background-image: url('../../images/maleUser.png');
 }
@@ -85,6 +91,12 @@
 #menuCloseButton:hover{
 	-fx-background-image: url('../../images/closeHover.png');
 }
+#menuAboutButton{
+	-fx-background-image: url('../../images/about.png');
+}
+#menuAboutButton:hover{
+	-fx-background-image: url('../../images/aboutHover.png');
+}
 #menuPane{
 	-fx-background-color: -custom-secondary;
 }
@@ -94,11 +106,18 @@
 	-fx-background-color: -custom-primary;
 }
 
+.buttonBox{
+	-fx-border-width: 0 2 0 0;
+	 -fx-border-style: segments(5, 5, 0, 0);
+}
+
 .customButton{
 	-fx-text-fill: -custom-primary;
     -fx-background-color: -custom-secondary;
+    -fx-border-width: 2;
     -fx-border-radius: 20px;
-    -fx-background-radius: 20px;
+    -fx-background-radius: 40px;
+    -fx-border-color: -custom-third;
 }
 
 #topPane{

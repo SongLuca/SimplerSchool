@@ -24,8 +24,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.DragEvent;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.TransferMode;
@@ -36,7 +34,6 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import main.application.Main;
 import main.application.models.Allegato;
 import main.application.models.Materia;
 import main.application.models.MetaData;
@@ -50,10 +47,7 @@ import main.utils.WindowStyle;
 
 public class ControllerInsertTask {
 	@FXML
-	private AnchorPane insertPane;
-
-	@FXML
-	private StackPane stackPane;
+	private AnchorPane contentPane;
 
 	@FXML
 	private JFXSpinner loading;
@@ -111,7 +105,6 @@ public class ControllerInsertTask {
 		this.idTask = 0;
 		materie = DataBaseHandler.getInstance().getMaterie();
 		fixedMateria = false;
-		initTitleBox();
 		initComponents();
 		initLangBindings();
 	}
@@ -146,10 +139,6 @@ public class ControllerInsertTask {
 		this.idTask = idTask;
 	}
 
-	public void setTitle(String title) {
-		this.title.setText(title);
-	}
-
 	public void setTaskBoxController(attivitaBoxController boxController) {
 		this.boxController = boxController;
 	}
@@ -177,7 +166,20 @@ public class ControllerInsertTask {
 		if (idTask != 0) {
 			editTask = DataBaseHandler.getInstance().getAttivita(idTask);
 			datePicker.setValue(editTask.getData());
-			tipoBox.getSelectionModel().select(editTask.getTipo());
+			switch(editTask.getTipo()) {
+				case "Compiti per casa":
+					tipoBox.getSelectionModel().select(LanguageBundle.get("compitiPerCasa"));
+					break;
+				case "Verifica":
+					tipoBox.getSelectionModel().select(LanguageBundle.get("verifica"));
+					break;
+				case "Interrogazione":
+					tipoBox.getSelectionModel().select(LanguageBundle.get("interrogazione"));
+					break;
+				case "Allegato file":
+					tipoBox.getSelectionModel().select(LanguageBundle.get("allegatoFile"));
+					break;
+			}
 			materiaBox.getSelectionModel().select(editTask.getMateriaNome());
 			commento.setText(editTask.getComment());
 			if (editTask.getTipo().equalsIgnoreCase("Verifica")
@@ -399,29 +401,30 @@ public class ControllerInsertTask {
 	}
 
 	public boolean validateInputs(int idMateria) {
+		StackPane stackDialog = (StackPane) contentPane.getScene().lookup("#dialogStack");
 		if (tipoBox.getSelectionModel().getSelectedItem() == null) {
-			Utils.popUpDialog(stackPane, insertPane, "Error", "Sceglie il tipo dell'attivita!");
+			Utils.popUpDialog(stackDialog, contentPane, "Error", LanguageBundle.get("insertTaskErrorMsg1"));
 			return false;
 		}
 
 		if (materiaBox.getSelectionModel().getSelectedItem() == null) {
-			Utils.popUpDialog(stackPane, insertPane, "Error", "Sceglie la materia dell'attivita!");
+			Utils.popUpDialog(stackDialog, contentPane, "Error", LanguageBundle.get("insertTaskErrorMsg2"));
 			return false;
 		}
 
-		if (tipoBox.getSelectionModel().getSelectedItem().equals("Allegato file")
+		if (tipoBox.getSelectionModel().getSelectedItem().equals(LanguageBundle.get("allegatoFile"))
 				&& fileListView.getItems().size() == 0) {
-			Utils.popUpDialog(stackPane, insertPane, "Error", "Inserire almeno un file!");
+			Utils.popUpDialog(stackDialog, contentPane, "Error", LanguageBundle.get("insertTaskErrorMsg3"));
 			return false;
 		}
 
 		if (commento.getText().length() >= 200) {
-			Utils.popUpDialog(stackPane, insertPane, "Error", "Il commento e' troppo lungo!");
+			Utils.popUpDialog(stackDialog, contentPane, "Error", LanguageBundle.get("insertTaskErrorMsg4"));
 			return false;
 		}
 
 		if (!validateDateMateria(idMateria)) {
-			Utils.popUpDialog(stackPane, insertPane, "Error", materiaBox.getValue() + " non ce in questo giorno!");
+			Utils.popUpDialog(stackDialog, contentPane, "Error", materiaBox.getValue() + " " + LanguageBundle.get("insertTaskErrorMsg5"));
 			return false;
 		}
 
@@ -442,26 +445,27 @@ public class ControllerInsertTask {
 	}
 
 	public void insertTask(SchoolTask task) {
+		StackPane stackDialog = (StackPane) contentPane.getScene().lookup("#dialogStack");
 		Task<Boolean> insertSTTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
-				insertPane.setEffect(Effect.blur());
+				contentPane.setEffect(Effect.blur());
 				return DataBaseHandler.getInstance().insertTaskQuery(task, MetaData.cm.getSelectedDate());
 			}
 		};
 
 		insertSTTask.setOnFailed(event -> {
 			loading.setVisible(false);
-			insertPane.setDisable(false);
+			contentPane.setDisable(false);
 			insertSTTask.getException().printStackTrace();
 		});
 
 		insertSTTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
-			insertPane.setEffect(null);
+			contentPane.setEffect(null);
 			if (insertSTTask.getValue()) {
-				Utils.popUpDialog(stackPane, insertPane, "Message", "New task inserted");
+				Utils.popUpDialog(stackDialog, contentPane, LanguageBundle.get("message"),LanguageBundle.get("insertSucc"));
 				resetFields();
 				if (!fixedMateria) {
 					LocalDate data = task.getData();
@@ -478,8 +482,8 @@ public class ControllerInsertTask {
 					MetaData.cm.loadNoteBoard();
 				}
 			} else {
-				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
-				insertPane.setDisable(false);
+				Utils.popUpDialog(stackDialog, contentPane, "Error", DataBaseHandler.getInstance().getMsg());
+				contentPane.setDisable(false);
 			}
 		});
 
@@ -487,33 +491,34 @@ public class ControllerInsertTask {
 	}
 
 	public void updateTask(SchoolTask task, List<Allegato> added, List<Allegato> removed) {
+		StackPane stackDialog = (StackPane) contentPane.getScene().lookup("#dialogStack");
 		Task<Boolean> updateTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
-				insertPane.setEffect(Effect.blur());
+				contentPane.setEffect(Effect.blur());
 				return DataBaseHandler.getInstance().updateTaskQuery(task, added, removed);
 			}
 		};
 
 		updateTask.setOnFailed(event -> {
 			loading.setVisible(false);
-			insertPane.setDisable(false);
+			contentPane.setDisable(false);
 			updateTask.getException().printStackTrace();
 		});
 
 		updateTask.setOnSucceeded(event -> {
 			loading.setVisible(false);
-			insertPane.setEffect(null);
+			contentPane.setEffect(null);
 			if (updateTask.getValue()) {
-				Utils.popUpDialog(stackPane, insertPane, "Message", "Task has been updated!");
+				Utils.popUpDialog(stackDialog, contentPane, LanguageBundle.get("message"),LanguageBundle.get("updateSucc"));
 				loadEditTask();
 				MetaData.cod.populatePanes();
 				this.boxController.setAllInfo(editTask);
 				MetaData.cm.loadNoteBoard();
 			} else {
-				Utils.popUpDialog(stackPane, insertPane, "Error", DataBaseHandler.getInstance().getMsg());
-				insertPane.setDisable(false);
+				Utils.popUpDialog(stackDialog, contentPane, "Error", DataBaseHandler.getInstance().getMsg());
+				contentPane.setDisable(false);
 			}
 		});
 
@@ -543,38 +548,7 @@ public class ControllerInsertTask {
 	}
 
 	public void cancel() {
-		WindowStyle.close((Stage) titleHBox.getScene().getWindow());
+		WindowStyle.close((Stage) contentPane.getScene().getWindow());
 	}
-
-	/*********** Custom Window title bar ************/
-	@FXML
-	private HBox titleHBox;
-
-	@FXML
-	private Label title;
-
-	@FXML
-	private JFXButton titleCloseButton;
-
-	@FXML
-	private ImageView titleCloseImage;
-
-	public void initTitleBox() {
-
-		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
-			titleCloseImage.setImage(new Image(img));
-		});
-
-		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
-			titleCloseImage.setImage(new Image(img));
-		});
-
-		titleCloseButton.setOnMouseClicked(e -> {
-			WindowStyle.close((Stage) titleHBox.getScene().getWindow());
-		});
-	}
-	/***********************************************/
 
 }

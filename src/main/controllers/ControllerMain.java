@@ -36,6 +36,7 @@ import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.control.ToggleGroup;
+import javafx.scene.effect.Glow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
@@ -51,6 +52,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.ImagePattern;
 import javafx.scene.shape.Circle;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import main.application.Main;
@@ -106,13 +108,13 @@ public class ControllerMain {
 	private JFXTabPane tabPane;
 
 	@FXML
-	private JFXButton statisticButton, settingsButton, profileButton, closeButton;
+	private JFXButton statisticButton, configButton, profileButton, closeButton;
 
 	@FXML
-	private JFXButton lastWeekBtn, thisWeekBtn, nextWeekBtn;
+	private JFXButton lastWeekBtn, thisWeekBtn, nextWeekBtn, aboutButton;
 
 	@FXML
-	private JFXButton insertTaskBtn;
+	private JFXButton insertTaskBtn, materiaBtn, docenteBtn;
 
 	@FXML
 	private TextInputDialog inputSubject;
@@ -191,14 +193,15 @@ public class ControllerMain {
 		menuPane.setDisable(true);
 		if (!expand) {
 			menuShadowPane.setPrefWidth(menuShadowPane.getPrefWidth() - HAMMENUSIZE);
-			settingsButton.textProperty().unbind();
+			configButton.textProperty().unbind();
 			statisticButton.textProperty().unbind();
 			profileButton.textProperty().unbind();
 			
-			settingsButton.setText("");
+			configButton.setText("");
 			profileButton.setText("");
 			closeButton.setText("");
 			statisticButton.setText("");
+			aboutButton.setText("");
 		}
 		Timeline timeline = new Timeline();
 		timeline.getKeyFrames().add(new KeyFrame(Duration.millis(200),
@@ -210,9 +213,10 @@ public class ControllerMain {
 			if (expand) {
 				menuShadowPane.setPrefWidth(menuShadowPane.getPrefWidth() + HAMMENUSIZE);
 				LanguageBundle.buttonForValue(statisticButton, () -> LanguageBundle.get("statisticsBtnTitle", 0));
-				LanguageBundle.buttonForValue(settingsButton, () -> LanguageBundle.get("configBtnTitle", 0));
+				LanguageBundle.buttonForValue(configButton, () -> LanguageBundle.get("configBtnTitle", 0));
 				LanguageBundle.buttonForValue(profileButton, () -> LanguageBundle.get("profiloBtnTitle", 0));
 				closeButton.setText("Log out");
+				aboutButton.setText("About");
 			}
 		});
 	}
@@ -481,15 +485,6 @@ public class ControllerMain {
 		return allegatiCount == attivita.size();
 	}
 
-	@FXML
-	public void insertTask(MouseEvent e) {
-		Console.print("Opening insert window", "gui");
-		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
-				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
-		cit.setTitle(LanguageBundle.get("insertTaskTitle"));
-		cit.setMode("insert");
-	}
-
 	public void initProfilePane() {
 		Utente u = Main.utente;
 		DataBaseHandler.getInstance().getAvatarFile(u);
@@ -513,6 +508,23 @@ public class ControllerMain {
 			transition.play();
 		});
 		VBox.setVgrow(menuPane, Priority.ALWAYS);
+		configButton.setOnMouseClicked(e->{
+			try {
+				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "configurationFXML").toURL());
+				AnchorPane contentPane = fxmlLoader.load();
+				window.setContent(contentPane);
+				window.setSize(Config.getDouble(Main.CONFIG, "minWidthConfig"), 
+						Config.getDouble(Main.CONFIG, "minHeightConfig"));
+				window.bindTitleLanguage("configBtnTitle");
+				window.setResizable(false);
+				window.setModality(Modality.WINDOW_MODAL);
+				window.setIcon("settingsImagePath");
+				window.show();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
 		statisticButton.setOnMouseClicked(e -> {
 			if (contentPane.isVisible()) {
 				try {
@@ -521,6 +533,7 @@ public class ControllerMain {
 					statistics = fxmlLoader.load();
 					rootPane.getChildren().add(statistics);
 					contentPane.setVisible(false);
+					statisticButton.setId("menuBackButton");
 				} catch (IOException ex) {
 					ex.printStackTrace();
 				}
@@ -529,17 +542,38 @@ public class ControllerMain {
 				rootPane.getChildren().remove(statistics);
 				statistics = null;
 				contentPane.setVisible(true);
+				statisticButton.setId("menuStatisticButton");
 			}
 		});
 		profileButton.setOnMouseClicked(e->{
 			try {
 				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
-				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "docentiFXML").toURL());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "profiloFXML").toURL());
 				AnchorPane contentPane = fxmlLoader.load();
 				window.setContent(contentPane);
-				window.setMinSize(Config.getDouble(Main.CONFIG, "minWidthSettings"), 
-						Config.getDouble(Main.CONFIG, "minHeightSettings"));
-				window.bindTitleLanguage("Settings-Lecturers");
+				window.setSize(Config.getDouble(Main.CONFIG, "minWidthProfilo"), 
+						Config.getDouble(Main.CONFIG, "minHeightProfilo"));
+				window.bindTitleLanguage("profiloBtnTitle");
+				window.setResizable(false);
+				window.setModality(Modality.WINDOW_MODAL);
+				window.setIcon("profileImagePath");
+				window.show();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		aboutButton.setOnMouseClicked(e->{
+			try {
+				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "aboutFXML").toURL());
+				AnchorPane contentPane = fxmlLoader.load();
+				window.setContent(contentPane);
+				window.setSize(Config.getDouble(Main.CONFIG, "minWidthAbout"), 
+						Config.getDouble(Main.CONFIG, "minHeightAbout"));
+				window.bindTitleLanguage("aboutBtnTitle");
+				window.setResizable(false);
+				window.setModality(Modality.WINDOW_MODAL);
+				window.setIcon("aboutImagePath");
 				window.show();
 			} catch (Exception e1) {
 				e1.printStackTrace();
@@ -606,7 +640,63 @@ public class ControllerMain {
 				fuseSubjects(calendarGrid, dayCol);
 			}
 		}
-
+		
+		materiaBtn.setOnMouseClicked(e->{
+			try {
+				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "materieFXML").toURL());
+				AnchorPane contentPane = fxmlLoader.load();
+				window.setContent(contentPane);
+				window.setSize(Config.getDouble(Main.CONFIG, "minWidthMaterie"), 
+						Config.getDouble(Main.CONFIG, "minHeightMaterie"));
+				window.bindTitleLanguage("materieBtnTitle");
+				window.setResizable(false);
+				window.setModality(Modality.WINDOW_MODAL);
+				window.setIcon("subjectImagePath");
+				window.show();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		docenteBtn.setOnMouseClicked(e->{
+			try {
+				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "docentiFXML").toURL());
+				AnchorPane contentPane = fxmlLoader.load();
+				window.setContent(contentPane);
+				window.setSize(Config.getDouble(Main.CONFIG, "minWidthDocenti"), 
+						Config.getDouble(Main.CONFIG, "minHeightDocenti"));
+				window.bindTitleLanguage("docentiBtnTitle");
+				window.setResizable(false);
+				window.setModality(Modality.WINDOW_MODAL);
+				window.setIcon("teacherImagePath");
+				window.show();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		
+		insertTaskBtn.setOnMouseClicked(e->{
+			try {
+				CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+				FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "insertTaskFXML").toURL());
+				AnchorPane contentPane = fxmlLoader.load();
+				window.setContent(contentPane);
+				window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"), 
+						Config.getDouble(Main.CONFIG, "minHeightInsertTask"));
+				window.bindTitleLanguage("insertTaskTitle");
+				window.setResizable(false);
+				window.setModality(Modality.WINDOW_MODAL);
+				window.setIcon("taskImagePath");
+				ControllerInsertTask cit = (ControllerInsertTask) fxmlLoader.getController();
+				cit.setMode("insert");
+				window.show();
+			} catch (Exception e1) {
+				e1.printStackTrace();
+			}
+		});
+		
 	}
 
 	public void changeWeek(LocalDate data) {
@@ -676,6 +766,12 @@ public class ControllerMain {
 		VBox pane = new VBox();
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color:" + m.getColore() + ";");
+		pane.setOnMouseEntered(e->{
+			pane.setEffect(new Glow(1));
+		});
+		pane.setOnMouseExited(e->{
+			pane.setEffect(null);
+		});
 		Label lbl = new Label();
 		lbl.setText(m.getNome());
 		lbl.setId("#nomeM");
@@ -688,6 +784,12 @@ public class ControllerMain {
 		details.setOnAction(e -> {
 			LocalDate data = datePicker.getValue().with(DayOfWeek.of(col + 1));
 			openDetailsWindow(e, m.getNome(), data);
+		});
+		details.setOnMouseEntered(e->{
+			details.setEffect(new Glow(0.5));
+		});
+		details.setOnMouseExited(e->{
+			details.setEffect(null);
 		});
 		bPane.getChildren().add(details);
 		if (rowSpan != 1)
@@ -753,10 +855,24 @@ public class ControllerMain {
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
 		Console.print("Opening details window " + materia, "gui");
 		MetaData.materiaSelected = materia;
-		ControllerOreDetails cod = (ControllerOreDetails) Utils.loadWindow("oreDetailsFXML",
-				(Stage) ((Node) event.getSource()).getScene().getWindow(), false, null, null);
-		cod.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
-		cod.setDate(data);
+		try {
+			CustomStage window = new CustomStage((Stage) ((Node) event.getSource()).getScene().getWindow());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "oreDetailsFXML").toURL());
+			AnchorPane contentPane = fxmlLoader.load();
+			window.setContent(contentPane);
+			window.setSize(Config.getDouble(Main.CONFIG, "minWidthOreDetails"),
+					Config.getDouble(Main.CONFIG, "minHeightOreDetails"));
+			window.setTitle(materia + " - " + data.getDayOfWeek() + " - " + data);
+			window.setResizable(false);
+			window.setModality(Modality.WINDOW_MODAL);
+			window.setIcon("oreDetailsImagePath");
+			ControllerOreDetails cod = (ControllerOreDetails) fxmlLoader.getController();
+			cod.setDate(data);
+			window.show();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		
 	}
 
 	@FXML

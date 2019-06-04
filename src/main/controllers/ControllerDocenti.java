@@ -31,6 +31,7 @@ import main.utils.Console;
 import main.utils.Effect;
 import main.utils.LanguageBundle;
 import main.utils.Utils;
+import main.utils.WindowStyle;
 
 public class ControllerDocenti {
 	@FXML
@@ -43,7 +44,7 @@ public class ControllerDocenti {
 	private JFXSpinner loading;
 	
 	@FXML
-	private JFXButton newBtn, saveBtn, clearBtn;
+	private JFXButton newBtn, saveBtn, clearBtn, closeBtn;
 	
 	@FXML
 	private Label hint1Lbl, hint2Lbl;
@@ -75,6 +76,7 @@ public class ControllerDocenti {
 		newBtn.setText(LanguageBundle.get("newBtn"));
 		saveBtn.setText(LanguageBundle.get("saveBtn"));
 		clearBtn.setText(LanguageBundle.get("clearBtn"));
+		closeBtn.setText(LanguageBundle.get("close"));
 		hint1Lbl.setText(LanguageBundle.get("docentiHint1Lbl"));
 		hint2Lbl.setText(LanguageBundle.get("docentiHint2Lbl"));
     }
@@ -208,9 +210,13 @@ public class ControllerDocenti {
 		idLbl.setText("");
 	}
 	
+	@FXML
+	public void close() {
+		WindowStyle.close((Stage) subContentPane.getScene().getWindow());
+	}
+	
 	public void updateDocentiInDB() { 
-		StackPane root = (StackPane) subContentPane.getScene().lookup("#rootStack");
-		AnchorPane pane = (AnchorPane) subContentPane.getScene().lookup("#rootPane");
+		StackPane root = (StackPane) subContentPane.getScene().lookup("#dialogStack");
 		Task<Boolean> updateDocentiTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
@@ -231,7 +237,7 @@ public class ControllerDocenti {
 			loading.setVisible(false);
 			subContentPane.setEffect(null);
 			if (updateDocentiTask.getValue()) {
-				Utils.popUpDialog(root, pane, "Message", "Changes saved");
+				Utils.popUpDialog(root, subContentPane, LanguageBundle.get("message"),LanguageBundle.get("changesSaved"));
 				MetaData.cm.updateOSPicker();
 				MetaData.cm.loadNoteBoard();
 				docenti = DataBaseHandler.getInstance().getDocenti();

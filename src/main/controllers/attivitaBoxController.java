@@ -8,6 +8,7 @@ import com.jfoenix.controls.JFXTextArea;
 import animatefx.animation.FadeOutRight;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
@@ -17,9 +18,13 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import main.application.Main;
 import main.application.customGUI.ConfirmDialog;
 import main.application.models.Allegato;
+import main.application.models.Config;
+import main.application.models.CustomStage;
 import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
@@ -96,14 +101,27 @@ public class attivitaBoxController {
 	@FXML
 	void edit(MouseEvent e) {
 		Console.print("Opening edit task " + idTask + " window", "gui");
-		ControllerInsertTask cit = (ControllerInsertTask) Utils.loadWindow("insertTaskFXML",
-				(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
-		cit.setTitle(LanguageBundle.get("modificaAttivita"));
-		cit.setMode("edit");
-		cit.setIdTask(idTask);
-		cit.setTaskBoxController(this);
-		if (!cit.loadEditTask())
-			Console.print("Error! Invalid task id!", "ERROR");
+		try {
+			CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "insertTaskFXML").toURL());
+			AnchorPane contentPane = fxmlLoader.load();
+			window.setContent(contentPane);
+			window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"), 
+					Config.getDouble(Main.CONFIG, "minHeightInsertTask"));
+			window.bindTitleLanguage("modificaAttivita");
+			window.setResizable(false);
+			window.setModality(Modality.WINDOW_MODAL);
+			window.setIcon("taskImagePath");
+			ControllerInsertTask cit = (ControllerInsertTask) fxmlLoader.getController();
+			cit.setMode("edit");
+			cit.setIdTask(idTask);
+			cit.setTaskBoxController(this);
+			if (!cit.loadEditTask())
+				Console.print("Error! Invalid task id!", "ERROR");
+			window.show();
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
 	}
 
 	@FXML

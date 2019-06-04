@@ -1,6 +1,7 @@
 package main.utils;
 
 import javafx.geometry.Rectangle2D;
+import javafx.scene.Cursor;
 import javafx.scene.Parent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
@@ -24,10 +25,19 @@ public class WindowStyle {
 		root.setOnMousePressed((MouseEvent p) -> {
 			offset_XY = new double[] { p.getSceneX(), p.getSceneY() };
 		});
-
+		
+		root.setOnMouseEntered(e->{
+			root.getScene().setCursor(Cursor.OPEN_HAND);
+		});
+		
+		root.setOnMouseExited(e->{
+			root.getScene().setCursor(Cursor.DEFAULT);
+		});
+		
 		root.setOnMouseDragged((MouseEvent d) -> {
 			//if (d.getSceneY() > 4 ) {
 				// Ensures the stage is not dragged past the taskbar
+			root.getScene().setCursor(Cursor.CLOSED_HAND);
 				if (d.getScreenY() < (SCREEN_BOUNDS.getMaxY() - 20))
 					stage.setY(d.getScreenY() - offset_XY[1]);
 				stage.setX(d.getScreenX() - offset_XY[0]);
@@ -37,6 +47,7 @@ public class WindowStyle {
 
 		root.setOnMouseReleased((MouseEvent r) -> {
 			// Ensures the stage is not dragged past top of screen
+			root.getScene().setCursor(Cursor.OPEN_HAND);
 			if (stage.getY() < 0.0)
 				stage.setY(0.0);
 		});

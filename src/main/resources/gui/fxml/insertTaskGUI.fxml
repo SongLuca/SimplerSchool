@@ -8,7 +8,6 @@
 <?import com.jfoenix.controls.JFXTextArea?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.geometry.Insets?>
-<?import javafx.geometry.Rectangle2D?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
@@ -19,138 +18,98 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="580.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerInsertTask">
+<AnchorPane fx:id="contentPane" prefHeight="580.0" prefWidth="600.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerInsertTask">
    <children>
-      <AnchorPane fx:id="insertPane" prefHeight="580.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <JFXSpinner fx:id="loading" layoutX="250.0" layoutY="240.0" prefHeight="100.0" prefWidth="100.0" visible="false" />
+      <VBox prefHeight="527.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXSpinner fx:id="loading" prefHeight="80.0" prefWidth="80.0" visible="false" AnchorPane.bottomAnchor="230.0" AnchorPane.leftAnchor="260.0" AnchorPane.rightAnchor="260.0" AnchorPane.topAnchor="230.0" />
-            <HBox fx:id="titleHBox" prefHeight="30.0" prefWidth="650.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
                <children>
-                  <HBox prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">
+                  <Label fx:id="dataLbl" prefHeight="30.0" prefWidth="40.0" text="Data" />
+                  <JFXDatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="175.0" />
+                  <JFXButton fx:id="oggiBtn" onMouseClicked="#setToToday" prefHeight="23.0" prefWidth="64.0" styleClass="customButton" text="Oggi" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
+               <children>
+                  <Label fx:id="tipoLbl" prefHeight="30.0" prefWidth="40.0" text="Tipo" />
+                  <JFXComboBox fx:id="tipoBox" prefHeight="23.0" prefWidth="180.0" />
+                  <HBox fx:id="votoBox" alignment="CENTER" prefHeight="49.0" prefWidth="300.0" spacing="10.0">
                      <children>
-                        <Label fx:id="title" prefHeight="30.0" prefWidth="200.0">
-                           <font>
-                              <Font name="System Italic" size="16.0" />
-                           </font>
-                           <HBox.margin>
-                              <Insets left="10.0" />
-                           </HBox.margin>
-                        </Label>
+                        <Label fx:id="votoLbl" prefHeight="30.0" prefWidth="45.0" text="Voto" />
+                        <JFXTextField fx:id="votoField" />
                      </children>
-                  </HBox>
-                  <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="120.0" HBox.hgrow="ALWAYS">
-                     <children>
-                        <JFXButton id="titleClose" fx:id="titleCloseButton" prefHeight="30.0" prefWidth="60.0" text="">
-                           <graphic>
-                              <ImageView fx:id="titleCloseImage" fitHeight="20.0" fitWidth="25.0" pickOnBounds="true" preserveRatio="true">
-                                 <image>
-                                    <Image url="@../../images/titleClose.png" />
-                                 </image>
-                                 <viewport>
-                                    <Rectangle2D />
-                                 </viewport>
-                              </ImageView>
-                           </graphic>
-                        </JFXButton>
-                     </children>
+                     <padding>
+                        <Insets left="50.0" />
+                     </padding>
                   </HBox>
                </children>
             </HBox>
-            <AnchorPane prefHeight="470.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
+            <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
                <children>
-                  <VBox prefHeight="527.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <Label fx:id="materiaLbl" prefHeight="30.0" prefWidth="60.0" text="Materia" />
+                  <JFXComboBox fx:id="materiaBox" prefHeight="23.0" prefWidth="180.0" />
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="580.0" spacing="10.0">
+               <children>
+                  <Label fx:id="commentLbl" prefHeight="30.0" prefWidth="540.0" text="Commento" />
+                  <Label fx:id="countLbl" prefHeight="30.0" prefWidth="308.0" text="Charcaters: 0 (max 200)" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="580.0" spacing="10.0">
+               <children>
+                  <JFXTextArea fx:id="commento" prefHeight="122.0" prefWidth="570.0">
+                     <font>
+                        <Font size="20.0" />
+                     </font>
+                  </JFXTextArea>
+               </children>
+            </HBox>
+            <HBox alignment="BOTTOM_LEFT" prefHeight="45.0" prefWidth="580.0" spacing="10.0">
+               <children>
+                  <Label fx:id="allegareLbl" prefHeight="30.0" prefWidth="566.0" text="Allegare file" />
+               </children>
+            </HBox>
+            <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="580.0" spacing="10.0">
+               <children>
+                  <StackPane prefHeight="149.0" prefWidth="580.0">
                      <children>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
+                        <JFXListView fx:id="fileListView" prefHeight="150.0" prefWidth="580.0" />
+                        <Pane fx:id="dragHintPane" disable="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
                            <children>
-                              <Label fx:id="dataLbl" prefHeight="30.0" prefWidth="40.0" text="Data" />
-                              <JFXDatePicker fx:id="datePicker" prefHeight="23.0" prefWidth="175.0" />
-                              <JFXButton fx:id="oggiBtn" onMouseClicked="#setToToday" prefHeight="23.0" prefWidth="64.0" text="Oggi" />
+                              <ImageView fitHeight="50.0" fitWidth="45.0" layoutX="216.0" layoutY="40.0" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../../images/folder.png" />
+                                 </image>
+                              </ImageView>
+                              <Label fx:id="dragHintLbl" alignment="CENTER" layoutX="166.0" layoutY="95.0" pickOnBounds="false" prefHeight="15.0" prefWidth="159.0" text="Drag files here to upload" />
                            </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="tipoLbl" prefHeight="30.0" prefWidth="40.0" text="Tipo" />
-                              <JFXComboBox fx:id="tipoBox" prefHeight="23.0" prefWidth="180.0" />
-                              <HBox fx:id="votoBox" alignment="CENTER" prefHeight="49.0" prefWidth="300.0" spacing="10.0">
-                                 <children>
-                                    <Label fx:id="votoLbl" prefHeight="30.0" prefWidth="45.0" text="Voto" />
-                                    <JFXTextField fx:id="votoField" />
-                                 </children>
-                                 <padding>
-                                    <Insets left="50.0" />
-                                 </padding>
-                              </HBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="50.0" prefWidth="580.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="materiaLbl" prefHeight="30.0" prefWidth="60.0" text="Materia" />
-                              <JFXComboBox fx:id="materiaBox" prefHeight="23.0" prefWidth="180.0" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="BOTTOM_LEFT" prefHeight="40.0" prefWidth="580.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="commentLbl" prefHeight="30.0" prefWidth="540.0" text="Commento" />
-                              <Label fx:id="countLbl" prefHeight="30.0" prefWidth="308.0" text="Charcaters: 0 (max 200)" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="122.0" prefWidth="580.0" spacing="10.0">
-                           <children>
-                              <JFXTextArea fx:id="commento" prefHeight="122.0" prefWidth="570.0">
-                                 <font>
-                                    <Font size="20.0" />
-                                 </font></JFXTextArea>
-                           </children>
-                        </HBox>
-                        <HBox alignment="BOTTOM_LEFT" prefHeight="45.0" prefWidth="580.0" spacing="10.0">
-                           <children>
-                              <Label fx:id="allegareLbl" prefHeight="30.0" prefWidth="566.0" text="Allegare file" />
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_LEFT" prefHeight="150.0" prefWidth="580.0" spacing="10.0">
-                           <children>
-                              <StackPane prefHeight="149.0" prefWidth="580.0">
-                                 <children>
-                                    <JFXListView fx:id="fileListView" prefHeight="150.0" prefWidth="580.0" />
-                                    <Pane fx:id="dragHintPane" disable="true" pickOnBounds="false" prefHeight="200.0" prefWidth="200.0">
-                                       <children>
-                                          <ImageView fitHeight="50.0" fitWidth="45.0" layoutX="216.0" layoutY="40.0" preserveRatio="true">
-                                             <image>
-                                                <Image url="@../../images/folder.png" />
-                                             </image>
-                                          </ImageView>
-                                          <Label fx:id="dragHintLbl" alignment="CENTER" layoutX="166.0" layoutY="95.0" pickOnBounds="false" prefHeight="15.0" prefWidth="159.0" text="Drag files here to upload" />
-                                       </children>
-                                    </Pane>
-                                 </children>
-                              </StackPane>
-                              <VBox prefHeight="149.0" prefWidth="171.0">
-                                 <children>
-                                    <JFXButton fx:id="addFileBtn" onMouseClicked="#addFiles" prefHeight="30.0" prefWidth="100.0" text="Add" />
-                                    <JFXButton fx:id="removeFilesBtn" disable="true" onMouseClicked="#removeFiles" prefHeight="30.0" prefWidth="100.0" text="Remove" />
-                                    <JFXButton fx:id="clearFileBtn" disable="true" onMouseClicked="#clear" prefHeight="30.0" prefWidth="100.0" text="Clear" />
-                                 </children>
-                              </VBox>
-                           </children>
-                        </HBox>
-                        <HBox alignment="CENTER_RIGHT" prefHeight="50.0" prefWidth="580.0" spacing="15.0">
-                           <children>
-                              <JFXButton fx:id="insertBtn" onMouseClicked="#insert" prefHeight="30.0" prefWidth="60.0" text="Insert" />
-                              <JFXButton fx:id="cancelBtn" prefHeight="30.0" prefWidth="60.0" text="Cancel" />
-                           </children>
-                           <padding>
-                              <Insets right="50.0" />
-                           </padding>
-                        </HBox>
+                        </Pane>
                      </children>
-                     <padding>
-                        <Insets left="10.0" right="10.0" />
-                     </padding>
+                  </StackPane>
+                  <VBox prefHeight="149.0" prefWidth="171.0" spacing="5.0">
+                     <children>
+                        <JFXButton fx:id="addFileBtn" onMouseClicked="#addFiles" prefHeight="30.0" prefWidth="100.0" styleClass="customButton" text="Add" />
+                        <JFXButton fx:id="removeFilesBtn" disable="true" onMouseClicked="#removeFiles" prefHeight="30.0" prefWidth="100.0" styleClass="customButton" text="Remove" />
+                        <JFXButton fx:id="clearFileBtn" disable="true" onMouseClicked="#clear" prefHeight="30.0" prefWidth="100.0" styleClass="customButton" text="Clear" />
+                     </children>
+                     <HBox.margin>
+                        <Insets right="10.0" />
+                     </HBox.margin>
                   </VBox>
                </children>
-            </AnchorPane>
+            </HBox>
          </children>
-      </AnchorPane>
-      <StackPane fx:id="stackPane" prefHeight="540.0" prefWidth="600.0" visible="false" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+         <padding>
+            <Insets left="10.0" right="10.0" />
+         </padding>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" prefHeight="65.0" prefWidth="580.0" spacing="10.0" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <JFXButton fx:id="insertBtn" onMouseClicked="#insert" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Insert" />
+            <JFXButton fx:id="cancelBtn" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Close" />
+         </children>
+      </HBox>
    </children>
 </AnchorPane>
