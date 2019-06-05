@@ -6,8 +6,9 @@ import java.net.URL;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
-import javafx.scene.control.Dialog;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -15,17 +16,22 @@ import main.application.Main;
 import main.application.models.Config;
 import main.utils.LanguageBundle;
 
-public class ConfirmDialog extends Dialog<Boolean>{
+public class ConfirmDialog{
+	private Stage stage;
+	private boolean result;
 	
 	public ConfirmDialog(Stage owner, String msg) {
         try {
         	URL fxmlURL = new File(Config.getString(Main.CONFIG, "customDialogFXML")).toURI().toURL();
             FXMLLoader loader = new FXMLLoader(fxmlURL);
             Parent root = loader.load();
-            initModality(Modality.WINDOW_MODAL);
-            initStyle(StageStyle.UNDECORATED);
-            initOwner(owner);
-           	getDialogPane().setContent(root);
+            stage = new Stage();
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.initStyle(StageStyle.UNDECORATED);
+            stage.initOwner(owner);
+            Scene scene = new Scene(root);
+    		scene.setFill(Color.TRANSPARENT);
+    		stage.setScene(scene);
             JFXButton yesButton = (JFXButton)root.getScene().lookup("#yesBtn");
             JFXButton noButton = (JFXButton)root.getScene().lookup("#noBtn");
             Label msgLbl = (Label)root.getScene().lookup("#msg");
@@ -33,15 +39,21 @@ public class ConfirmDialog extends Dialog<Boolean>{
             LanguageBundle.buttonForValue(yesButton, ()->LanguageBundle.get("yesBtn", 0));
             LanguageBundle.buttonForValue(noButton, ()->LanguageBundle.get("noBtn", 0));
             yesButton.setOnMouseClicked(e->{
-            	setResult(true);
+            	result=true;
+            	stage.close();
             });
             noButton.setOnMouseClicked(e->{
-            	setResult(false);
+            	result=false;
+            	stage.close();
             });
             root.requestFocus();
-            showAndWait();
+            stage.showAndWait();
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+	
+	public boolean getResult() {
+		return result;
+	}
 }

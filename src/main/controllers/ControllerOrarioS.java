@@ -183,7 +183,6 @@ public class ControllerOrarioS {
 			loading.setVisible(false);
 			subContentPane.setEffect(null);
 			Utils.popUpDialog(root, pane, "Message", "RIP");
-			updateOSTask.getException().printStackTrace();
 		});
 
 		updateOSTask.setOnSucceeded(event -> {

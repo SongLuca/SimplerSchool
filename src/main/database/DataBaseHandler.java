@@ -56,7 +56,7 @@ public class DataBaseHandler {
 	private DataBaseHandler() {
 
 	}
-
+	
 	public static DataBaseHandler getInstance() {
 		if (DataBaseHandler == null)
 			DataBaseHandler = new DataBaseHandler();
@@ -64,6 +64,10 @@ public class DataBaseHandler {
 		return DataBaseHandler;
 	}
 
+	public void resetAttivita() {
+		attivita = new ArrayList<SchoolTask>();
+	}
+	
 	public ArrayList<Materia> getMaterie() {
 		return materie;
 	}
@@ -675,8 +679,8 @@ public class DataBaseHandler {
 				else
 					throw new SQLException("Creating os failed, no ID obtained.");
 			}
-			os.toXML();
-			getOSQuery();
+			os.setStoredPath("users/" + Main.utente.getUserid()+"/orariosettimanale/"+ os.getId()+".xml");
+			updateOSQuery(os, conn);
 			return true;
 		} catch (SQLException e) {
 			Console.print("Can not connect to the SQL database! " + e.getMessage(), "db");
@@ -686,13 +690,14 @@ public class DataBaseHandler {
 	}
 
 	public boolean updateOSQuery(OrarioSettimanale os, Connection conn) {
-		Console.print("updating orariosettimanale" + os.getId(), "db");
-		String query = "UPDATE ORARIOSETTIMANALE SET NOME = ? WHERE OS_ID = ? AND USER_ID =?";
+		Console.print("updating orariosettimanale " + os.getId(), "db");
+		String query = "UPDATE ORARIOSETTIMANALE SET NOME = ?, FILE_PATH =? WHERE OS_ID = ? AND USER_ID =? ";
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setString(1, os.getNomeOrario());
-			stmt.setInt(2, os.getId());
-			stmt.setInt(3, Main.utente.getUserid());
+			stmt.setString(2, os.getStoredPath());
+			stmt.setInt(3, os.getId());
+			stmt.setInt(4, Main.utente.getUserid());
 			int recordUpdated = stmt.executeUpdate();
 			if (recordUpdated != 1)
 				throw new IllegalArgumentException("error! multiple record have been updated!");

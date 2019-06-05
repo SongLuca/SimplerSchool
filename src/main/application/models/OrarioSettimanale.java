@@ -29,7 +29,7 @@ public class OrarioSettimanale {
 	public OrarioSettimanale(String nomeOrario) {
 		this.stato = "fresh";
 		this.nomeOrario = nomeOrario;
-		this.storedPath = "users/" + Main.utente.getUserid()+"/orariosettimanale/"+ this.nomeOrario+".xml";
+		this.storedPath = "";
 		initMaps();
 	}
 	
@@ -130,7 +130,7 @@ public class OrarioSettimanale {
 			File filePath = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/users/" + Main.utente.getUserid() + "/orariosettimanale/");
 			if(!filePath.exists())
 				filePath.mkdirs();
-			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filePath.getAbsolutePath() + "/" + this.nomeOrario + ".xml")));
+			encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream(filePath.getAbsolutePath() + "/" + this.id + ".xml")));
 			encoder.writeObject(settimana);
 			encoder.close();
 		} catch (FileNotFoundException e) {

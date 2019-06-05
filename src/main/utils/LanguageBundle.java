@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleObjectProperty;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.Tooltip;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
@@ -97,6 +98,12 @@ public final class LanguageBundle {
     
     public static void radioButtonForValue(JFXRadioButton radioBtn, Callable<String> func) {
     	radioBtn.textProperty().bind(createStringBinding(func));
+    }
+    
+    public static void buttonToolTipForValue(JFXButton btn, Callable<String> func) {
+    	Tooltip tt = new Tooltip();
+    	tt.textProperty().bind(createStringBinding(func));
+    	btn.setTooltip(tt);
     }
     
     public static void tabForValue(Tab tab, Callable<String> func) {

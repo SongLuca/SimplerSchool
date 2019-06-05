@@ -102,6 +102,23 @@
 }
 
 /****************************************************************************************/
+#defaultPane{
+	
+}
+
+#defaultPane:hover{
+	-fx-background-image: url('../../images/add2.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 40 40;
+}
+
+#detailButton{
+	-fx-background-image: url('../../images/details.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 15 15;
+}
 .contentPane{
 	-fx-background-color: -custom-primary;
 }
@@ -109,6 +126,11 @@
 .buttonBox{
 	-fx-border-width: 0 2 0 0;
 	 -fx-border-style: segments(5, 5, 0, 0);
+}
+
+.customDialog{
+	-fx-border-color: -custom-third; 
+	-fx-border-width: 5 5 5 5;
 }
 
 .customButton{
@@ -138,10 +160,12 @@
 }
 
 .customStageBorder{
-	-fx-border-color: -custom-secondary; 
+	-fx-border-color: -custom-third; 
 	-fx-border-width: 0 5 5 5;
 }
-
+.customTitleBox{
+	-fx-background-color: -custom-third; 
+}
 .weekday-header {
     -fx-font: bold 17px "System";
     -fx-font-style: normal;

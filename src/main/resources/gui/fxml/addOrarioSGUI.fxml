@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import com.jfoenix.controls.JFXSpinner?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Font?>
+<?import javafx.scene.layout.VBox?>
 
-<AnchorPane prefHeight="150.0" prefWidth="300.0" xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerAddOS">
+<AnchorPane fx:id="subContentPane" prefHeight="150.0" prefWidth="300.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerAddOS">
    <children>
-      <Label fx:id="title" prefHeight="30.0" prefWidth="246.0" text="  Nuovo orario settimanale">
-         <font>
-            <Font name="System Italic" size="14.0" />
-         </font>
-      </Label>
-      <JFXTextField fx:id="nomeField" labelFloat="true" layoutX="40.0" layoutY="40.0" promptText="Nome orario settimanale" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
-      <HBox alignment="CENTER" layoutX="14.0" layoutY="100.0" prefHeight="53.0" prefWidth="300.0" spacing="15.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+      <VBox alignment="CENTER_LEFT" prefHeight="81.0" prefWidth="294.0" spacing="5.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="10.0">
          <children>
-            <JFXButton onMouseClicked="#apply" prefHeight="30.0" prefWidth="80.0" text="Ok" />
-            <JFXButton onMouseClicked="#cancel" prefHeight="30.0" prefWidth="80.0" text="Cancel" />
+            <JFXTextField fx:id="nomeField" labelFloat="true" prefHeight="23.0" prefWidth="108.0" promptText="Nuovo orario settimanale" />
+            <Label fx:id="msgLbl" prefHeight="30.0" prefWidth="195.0" text="error label" textFill="#f80000" />
+         </children>
+      </VBox>
+      <HBox alignment="CENTER_RIGHT" layoutX="39.0" layoutY="83.0" prefHeight="65.0" prefWidth="123.0" spacing="5.0" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
+         <children>
+            <JFXButton fx:id="applyBtn" onMouseClicked="#apply" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Save" />
+            <JFXButton fx:id="closeBtn" onMouseClicked="#cancel" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Close" />
          </children>
       </HBox>
-      <Label fx:id="msgLbl" layoutX="40.0" layoutY="75.0" prefHeight="30.0" prefWidth="195.0" textFill="#f80000" />
+      <JFXSpinner fx:id="loading" layoutX="125.0" layoutY="45.0" visible="false" />
    </children>
 </AnchorPane>

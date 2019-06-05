@@ -1,7 +1,11 @@
 package main.controllers;
+
 import java.util.ArrayList;
+
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXComboBox;
 import javafx.fxml.FXML;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import main.application.models.Docente;
@@ -9,18 +13,19 @@ import main.application.models.Insegna;
 import main.application.models.Materia;
 import main.application.models.MetaData;
 import main.database.DataBaseHandler;
+import main.utils.LanguageBundle;
 import main.utils.Utils;
 
 public class ControllerAddSubject {
 
 	@FXML
-	private JFXComboBox<String> materiaBox;
+	private Label subjectLbl, professorLbl;
 
 	@FXML
-	private JFXComboBox<String> profBox;
-
+	private JFXButton saveBtn, cancelBtn;
+	
 	@FXML
-	private JFXComboBox<String> prof2Box;
+	private JFXComboBox<String> materiaBox, profBox, prof2Box;
 
 	private ArrayList<Materia> materie;
 
@@ -29,10 +34,44 @@ public class ControllerAddSubject {
 	private ArrayList<Docente> docenti;
 
 	private Insegna copy1, copy2;
-	
+
 	private String materia;
-	
+
+	private int col, row;
+
 	private boolean insegnaMod, materiaMod;
+	
+	public void initialize() {
+		materie = DataBaseHandler.getInstance().getMaterie();
+		insegna = DataBaseHandler.getInstance().getNewInsegna();
+		docenti = DataBaseHandler.getInstance().getDocenti();
+		materia = "";
+		insegnaMod = false;
+		initLangBindings();
+	}
+	
+	public void initLangBindings() {
+		subjectLbl.setText(LanguageBundle.get("materia"));
+		professorLbl.setText(LanguageBundle.get("docente"));
+		saveBtn.setText(LanguageBundle.get("saveBtn"));
+		cancelBtn.setText(LanguageBundle.get("cancel"));
+	}
+	
+	public int getCol() {
+		return col;
+	}
+
+	public void setCol(int col) {
+		this.col = col;
+	}
+
+	public int getRow() {
+		return row;
+	}
+
+	public void setRow(int row) {
+		this.row = row;
+	}
 
 	@FXML
 	void cancel(MouseEvent event) {
@@ -42,24 +81,19 @@ public class ControllerAddSubject {
 
 	@FXML
 	void save(MouseEvent event) {
-		String ora = (MetaData.sub_row + 1) + "ora";
-		String giorno = Utils.numToDay(MetaData.sub_col);
+		String ora = (row + 1) + "ora";
+		String giorno = Utils.numToDay(col);
+		if (!materiaBox.getValue().equals(materia))
+			materiaMod = true;
 		if (!materiaBox.getValue().equals("")) {
 			Materia m = getMateriaByNome(materiaBox.getValue());
-			MetaData.os.addMateria(ora, giorno, m.getId() + "");
+			MetaData.cm.getOs().addMateria(ora, giorno, m.getId() + "");
 			checkProfBoxes(profBox, copy1, m.getId());
 			checkProfBoxes(prof2Box, copy2, m.getId());
-			if(!materiaBox.getValue().equals(materia))
-				materiaMod = true;
-		} else {
-			materiaMod = true;
-			MetaData.os.addMateria(ora, giorno, "");
 		}
-		if(insegnaMod)
-			MetaData.cos.setInsegna(insegna);
-		if(materiaMod || insegnaMod)
-			MetaData.cos.updateOSTask("saved", true);
-		
+		if (materiaMod || insegnaMod)
+			MetaData.cm.updateOSInsegnaTask(insegna, LanguageBundle.get("changesSaved"), col, insegnaMod, materiaMod);
+
 		cancel(event);
 	}
 
@@ -125,8 +159,8 @@ public class ControllerAddSubject {
 		materiaBox.getSelectionModel().selectFirst();
 		profBox.getSelectionModel().selectFirst();
 		prof2Box.getSelectionModel().selectFirst();
-		String currMateria = MetaData.os.getMateriaByPos(MetaData.sub_row, MetaData.sub_col);
-		materiaBox.setOnAction(e->{
+		String currMateria = MetaData.cm.getOs().getMateriaByPos(row, col);
+		materiaBox.setOnAction(e -> {
 			profBox.getSelectionModel().selectFirst();
 			prof2Box.getSelectionModel().selectFirst();
 			int idM = (materiaBox.getValue().equals("")) ? 0 : getMateriaByNome(materiaBox.getValue()).getId();
@@ -145,7 +179,7 @@ public class ControllerAddSubject {
 						: new Insegna(idM, getDocenteByNomeCognome(prof2Box.getValue()).getIdDocente(), "fresh");
 			}
 		});
-		
+
 		int idM = (currMateria.equals("")) ? 0 : Integer.parseInt(currMateria);
 
 		for (Materia m : materie) { // popolare il combobox di materie
@@ -156,12 +190,12 @@ public class ControllerAddSubject {
 			profBox.getItems().add(d.getNome() + " " + d.getCognome());
 			prof2Box.getItems().add(d.getNome() + " " + d.getCognome());
 		}
-		
-		materia = currMateria;
+
 		if (!currMateria.equals("")) {
-			materiaBox.getSelectionModel().select(getMateriaById(currMateria).getNome());
-			
-		}	
+			materia = getMateriaById(currMateria).getNome();
+			materiaBox.getSelectionModel().select(materia);
+
+		}
 
 		if (idM > 0) {
 			for (Insegna i : insegna) {
@@ -177,13 +211,5 @@ public class ControllerAddSubject {
 			copy2 = (prof2Box.getValue().equals("")) ? null
 					: new Insegna(idM, getDocenteByNomeCognome(prof2Box.getValue()).getIdDocente(), "fresh");
 		}
-	}
-
-	public void initialize() {
-		materie = DataBaseHandler.getInstance().getMaterie();
-		insegna = DataBaseHandler.getInstance().getNewInsegna();
-		docenti = DataBaseHandler.getInstance().getDocenti();
-		insegnaMod = false;
-		initComboBoxes();
 	}
 }

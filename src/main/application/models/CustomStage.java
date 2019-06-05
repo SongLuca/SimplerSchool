@@ -1,6 +1,7 @@
 package main.application.models;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,7 +22,7 @@ import main.utils.WindowStyle;
 
 public class CustomStage{
 	private Stage stage;
-	private FXMLLoader fxmlLoader;
+	private FXMLLoader fxmlLoader, contentfxmlLoaderm;
 	
 	public CustomStage(Stage owner) throws Exception {
 		URL fxmlURL = new File(Config.getString(Main.CONFIG, "customStageFXML")).toURI().toURL();
@@ -36,6 +37,25 @@ public class CustomStage{
 		HBox titleBox = (HBox) fxmlLoader.getNamespace().get("titleHBox");
 		WindowStyle.allowDrag(titleBox, stage);
 		root.requestFocus();
+	}
+	
+	public void loadContent(String FXMLKey) {
+		try {
+			contentfxmlLoaderm = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, FXMLKey).toURL());
+			AnchorPane contentPane = contentfxmlLoaderm.load();
+			setContent(contentPane);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	}
+	
+	public FXMLLoader getContentfxmlLoaderm() {
+		return contentfxmlLoaderm;
+	}
+
+	public Object getContentController() {
+		return contentfxmlLoaderm.getController();
 	}
 	
 	public void setIcon(String imageKey) {
@@ -54,6 +74,11 @@ public class CustomStage{
 	public void setTitle (String title) {
 		Label windowTitle = (Label) fxmlLoader.getNamespace().get("title");
 		windowTitle.setText(title);
+	}
+	
+	public void setTitle (String key, String extra) {
+		Label windowTitle = (Label) fxmlLoader.getNamespace().get("title");
+		windowTitle.setText(LanguageBundle.get(key)+" "+extra);
 	}
 	
 	public void setMinSize(double width, double height) {
@@ -86,5 +111,8 @@ public class CustomStage{
 		AnchorPane contentPane = (AnchorPane) fxmlLoader.getNamespace().get("content");
 		contentPane.getChildren().add(content);
 	}
-
+	
+	public Object getComponent(String id) {
+		return contentfxmlLoaderm.getNamespace().get(id);
+	}
 }
