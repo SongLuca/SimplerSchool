@@ -21,6 +21,11 @@
 	
 		<copy todir="externalLibs">
 			<fileset dir="C:\Users\Administrator.000\Desktop\SimplerSchool\libraries">
+				<filename name="controlsfx-8.40.15.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Administrator.000\Desktop\SimplerSchool\libraries">
 				<filename name="AnimateFX-1.2.1-sources.jar"/>
 			</fileset>
 		</copy>
@@ -58,6 +63,7 @@
 		<!-- Copy project-libs references -->
 		<copy todir="build/libs">
 			<fileset dir="externalLibs">
+				<include name="controlsfx-8.40.15.jar"/>
 				<include name="mysql-connector-java-5.1.47.jar"/>
 				<include name="commons-io-2.6.jar"/>
 				<include name="AnimateFX-1.2.1-sources.jar"/>
@@ -128,7 +134,7 @@
 			<manifest>
 				<attribute name="Implementation-Vendor" value="ITIS.T.Buzzi.Informatica.5Q"/>
 				<attribute name="Implementation-Title" value="SimplerSchool"/>
-				<attribute name="Implementation-Version" value="1.0"/>
+				<attribute name="Implementation-Version" value="2.0"/>
 				<attribute name="JavaFX-Feature-Proxy" value="None"/>
 			</manifest>
 		</fx:jar>
@@ -142,7 +148,7 @@
 			includeDT="false"
 			offlineAllowed="true"
 			outdir="${basedir}/deploy"
-			outfile="Simpler School" nativeBundles="exe"
+			outfile="Simpler School" nativeBundles="image"
 			updatemode="background" >
 	
 			<fx:platform basedir="${java.home}"/>

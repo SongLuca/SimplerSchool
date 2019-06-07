@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import main.application.Main;
 import main.utils.LanguageBundle;
+import main.utils.Preferences;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -31,11 +32,14 @@ public class CustomStage{
 		stage = new Stage();
 		stage.initStyle(StageStyle.TRANSPARENT);
 		stage.initOwner(owner);
+		String cssUrl = getClass().getResource("/main/resources/gui/css/"+Preferences.theme+".css").toExternalForm();
 		Scene scene = new Scene(root);
+		scene.getStylesheets().add(cssUrl);
 		scene.setFill(Color.TRANSPARENT);
 		stage.setScene(scene);
 		HBox titleBox = (HBox) fxmlLoader.getNamespace().get("titleHBox");
 		WindowStyle.allowDrag(titleBox, stage);
+		MetaData.ccs = fxmlLoader.getController();
 		root.requestFocus();
 	}
 	

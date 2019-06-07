@@ -59,7 +59,7 @@ CREATE TABLE TASK(
 	TASK_DATA DATE NOT NULL,
 	TIPO varchar(50) not null,
 	COMMENTO varchar(255) not null,
-	voto int,
+	voto double,
 	MATERIA_ID int NOT NULL,
 	user_id int not null,
 	os_id int not null,

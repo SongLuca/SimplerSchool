@@ -13,7 +13,7 @@ public class SchoolTask {
 	private int idOs;
 	private LocalDate data ;
 	private String tipo;
-	private int voto;
+	private double voto;
 	private String comment;
 	private LinkedHashMap<String,Allegato> allegati;
 	
@@ -21,7 +21,7 @@ public class SchoolTask {
 		voto = -1;
 	}
 	
-	public SchoolTask(int idTask, int idMateria, int idOs, LocalDate data, String tipo, int voto, String comment) {
+	public SchoolTask(int idTask, int idMateria, int idOs, LocalDate data, String tipo, double voto, String comment) {
 		this.idTask = idTask;
 		this.idMateria = idMateria;
 		this.data = data;
@@ -31,7 +31,7 @@ public class SchoolTask {
 		this.allegati = new LinkedHashMap<String,Allegato>();
 	}
 	
-	public SchoolTask(int idMateria, LocalDate data, String tipo, int voto, String comment, LinkedHashMap<String,Allegato> allegati) {
+	public SchoolTask(int idMateria, LocalDate data, String tipo, double voto, String comment, LinkedHashMap<String,Allegato> allegati) {
 		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
@@ -40,7 +40,7 @@ public class SchoolTask {
 		this.allegati = allegati;
 	}
 
-	public SchoolTask(int idMateria, LocalDate data, String tipo, int voto,  String comment) {
+	public SchoolTask(int idMateria, LocalDate data, String tipo, double voto,  String comment) {
 		this.idMateria = idMateria;
 		this.data = data;
 		this.tipo = tipo;
@@ -103,7 +103,7 @@ public class SchoolTask {
 		this.comment = comment;
 	}
 	
-	public int getVoto() {
+	public double getVoto() {
 		return voto;
 	}
 

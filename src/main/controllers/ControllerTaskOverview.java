@@ -125,7 +125,7 @@ public class ControllerTaskOverview {
 		ArrayList<SchoolTask> allAttivita = DataBaseHandler.getInstance().getAttivita();
 		taskDetail = new ArrayList<TaskDetail>();
 		for (SchoolTask task : allAttivita) {
-			int voto = task.getVoto();
+			Double voto = task.getVoto();
 			String votoS = "";
 			if (voto == -1)
 				votoS = "NaN";

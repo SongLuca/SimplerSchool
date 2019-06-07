@@ -1,0 +1,248 @@
+/* JavaFX CSS - Leave this comment until you have at least create one rule which uses -fx-Property */
+
+/*ThemeColors: Verde Scuro: #2d3e50    | 	Verde Acqua: #19bd9a;
+ * 
+ * Giallo: #FFC950     |  	 Verde Acqua old: #28C8AC
+ * 
+ * BLU MERDA DEL CALENDARIO: #4163ad;
+ * 
+ * #498E88 blu strano
+ * #2F2F2F nero chiaro
+ * #292929 nero scuro
+ * #3F3F3F nero selezionato
+ * 
+ * */
+*{
+	-custom-primary: #CEEAE6;
+	-custom-secondary: #291B4F;
+	-custom-third: #FCD42B;
+	-custom-hover-primary: white;
+	-custom-hover-secondary:white;
+	-custom-fourth:#3b5168;
+	-custom-grigino: #e2e2e2;
+}
+
+/*Background */
+.backgroundPane{
+	-fx-background-color: -custom-secondary;	
+}
+.secondaryPane{
+	-fx-background-color: -custom-primary;
+}
+
+#actionPane{
+	-fx-border-width: 0 0 2 0;
+	-fx-border-color: -custom-grigino;
+}
+
+#notePane{
+	-fx-border-width: 0 0 0 2;
+	-fx-border-color: -custom-grigino;
+}
+
+/****************************************************************************************/
+
+
+/*************************************HamMenu*******************************************/
+
+.hamMenu StackPane{
+	-fx-background-color: white;
+}
+.hamMenu:hover{
+	-fx-background-color: -fx-shadow-highlight-color;
+}
+.menuButton:hover{
+	-fx-background-color: -fx-shadow-highlight-color;
+}
+.menuButton{
+	-fx-background-position: left;
+	-fx-background-position: 10px 50%;
+	-fx-background-size: 50px;
+	-fx-background-repeat: no-repeat;
+	-fx-padding: 0 0 0 50;
+}
+#menuBackButton{
+	-fx-background-image: url('../../images/back.png');
+}
+#menuBackButton:hover{
+	-fx-background-image: url('../../images/backHover.png');
+}
+#menuUserButton{
+	-fx-background-image: url('../../images/maleUser.png');
+}
+#menuUserButton:hover{
+	-fx-background-image: url('../../images/maleUserHover.png');
+}
+#menuStatisticButton{
+	-fx-background-image: url('../../images/statistics.png');
+}
+#menuStatisticButton:hover{
+	-fx-background-image: url('../../images/statisticsHover.png');
+}
+#menuSettingsButton{
+	-fx-background-image: url('../../images/settings.png');
+}
+#menuSettingsButton:hover{
+	-fx-background-image: url('../../images/settingsHover.png');
+}
+#menuCloseButton{
+	-fx-background-image: url('../../images/close.png');
+}
+#menuCloseButton:hover{
+	-fx-background-image: url('../../images/closeHover.png');
+}
+#menuAboutButton{
+	-fx-background-image: url('../../images/about.png');
+}
+#menuAboutButton:hover{
+	-fx-background-image: url('../../images/aboutHover.png');
+}
+#menuPane{
+	-fx-background-color: -custom-secondary;
+}
+
+/****************************************************************************************/
+#defaultPane{
+	
+}
+
+#defaultPane:hover{
+	-fx-background-image: url('../../images/add2.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 40 40;
+}
+
+#detailButton{
+	-fx-background-image: url('../../images/details.png');
+	-fx-background-position: center;
+	-fx-background-repeat: no-repeat;
+	-fx-background-size: 15 15;
+}
+.contentPane{
+	-fx-background-color: -custom-primary;
+}
+
+.buttonBox{
+	-fx-border-width: 0 2 0 0;
+	 -fx-border-style: segments(5, 5, 0, 0);
+}
+
+.customDialog{
+	-fx-border-color: -custom-third; 
+	-fx-border-width: 5 5 5 5;
+}
+
+.customButton{
+	-fx-text-fill: -custom-primary;
+    -fx-background-color: -custom-secondary;
+    -fx-border-width: 2;
+    -fx-border-radius: 20px;
+    -fx-background-radius: 40px;
+    -fx-border-color: -custom-third;
+}
+
+#topPane{
+	-fx-background-color: -custom-primary;
+}
+
+.backgroundActionPane{
+	-fx-background-color: -custom-primary;
+	-fx-background-radius: 10;
+}
+
+.titleBox{
+	 -fx-background-color: -custom-secondary;
+}
+
+.titleBoxLabel{
+	 -fx-text-fill: -custom-primary;
+}
+
+.customStageBorder{
+	-fx-border-color: -custom-third; 
+	-fx-border-width: 0 5 5 5;
+}
+.customTitleBox{
+	-fx-background-color: -custom-third; 
+}
+.weekday-header {
+    -fx-font: bold 17px "System";
+    -fx-font-style: normal;
+    -fx-background-color:  -custom-fourth;
+    -fx-border-style: solid;
+    -fx-border-insets: 1;
+    -fx-border-width: .2;
+    -fx-border-color: white;
+}
+.weekday-header > .label{
+	-fx-text-fill: white;
+}
+
+.shadowPane{
+	-fx-background-color:  black;
+}
+.calendarPane{
+	-fx-background-color: white;
+}
+.note-board{
+	-fx-background-color: -custom-grigino;
+}
+.calendar_pane:hover{
+	-fx-effect: dropshadow(gaussian , purple, 10, 0.9, 0, 0)
+}
+
+#titleClose:hover{
+	-fx-background-color:red;
+}
+#titleBack:hover{
+	-fx-background-color:#849fc9;
+}
+.animationPane{
+	-fx-background-color :  gray;
+}
+.settingsPane{
+	-fx-background-color:  -custom-primary;
+}
+
+
+#mainPane {
+    -fx-effect: dropshadow(gaussian, rgb(0, 0, 0, 0.4), 10, 0.5, 0.0, 0.0);
+    -fx-background-color: transparent;
+    -fx-border-width: 1px 1px 1px 1px;
+    -fx-border-color: black;
+}
+
+.tab-header-background{
+ 	 -fx-background-color: -custom-secondary;
+ }
+ .tab-selected-line {
+     -fx-background-color: -custom-primary;
+}
+.tab-header-area .jfx-rippler{
+    -fx-rippler-fill:firebrick;
+    -fx-cursor:hand;
+}
+
+.withScore-titled-pane > .title 
+{
+	-fx-background-color: -fx-box-border, -fx-inner-border, #42f477;
+	-fx-background-insets: 0, 1, 2;
+	-fx-background-radius: 5 5 0 0, 4 4 0 0, 3 3 0 0;
+	-fx-padding: 0.166667em 0.833333em 0.25em 0.833333em; /* 2 10 3 10 */
+}
+
+.popup {
+    -fx-background-color: cornsilk;
+    -fx-padding: 10;
+    -fx-border-color: black; 
+    -fx-border-width: 5;
+    -fx-font-size: 16;
+}
+
+.jfx-tree-table-view .tree-table-cell {
+    
+}
+.tree-table-row-cell .tree-table-cell {
+     
+}

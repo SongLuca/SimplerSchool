@@ -28,6 +28,9 @@ public class ControllerCustomStage {
 		initTitleBox();
 	}
 	
+	public AnchorPane getContentPane() {
+		return contentPane;
+	}
 	
 	/*********** Custom Window title bar ************/
 	@FXML

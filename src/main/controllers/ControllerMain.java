@@ -35,6 +35,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Cursor;
 import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextInputDialog;
@@ -82,7 +83,7 @@ public class ControllerMain {
 	private StackPane rootStack;
 
 	@FXML
-	private AnchorPane contentPane, rootPane, menuPane;
+	private AnchorPane rootAnchor, contentPane, rootPane, menuPane;
 
 	@FXML
 	private Pane menuShadowPane, gridShadowPane;
@@ -226,8 +227,7 @@ public class ControllerMain {
 				.text(text)
 				.graphic(null)
 				.hideAfter(Duration.seconds(10))
-				.position(Pos.BOTTOM_RIGHT)
-				.onAction(e -> System.out.println("Notification clicked on!"));
+				.position(Pos.BOTTOM_RIGHT);
 		notificationBuidler.showInformation();
 	}
 
@@ -238,7 +238,15 @@ public class ControllerMain {
 	public void setCurrOS(int currOS) {
 		this.currOS = currOS;
 	}
+	
+	public Scene getScene() {
+		return rootStack.getScene();
+	}
 
+	public AnchorPane getRootAnchor() {
+		return rootAnchor;
+	}
+	
 	@FXML
 	public void hamclicked(MouseEvent event) {
 		double width = hamMenu.getPrefWidth();
@@ -970,7 +978,6 @@ public class ControllerMain {
 		window.setResizable(false);
 		window.setModality(Modality.WINDOW_MODAL);
 		window.setIcon("profileImagePath");
-		runNotification();
 		window.show();
 	}
 

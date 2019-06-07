@@ -11,7 +11,7 @@
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane fx:id="contentPane" prefHeight="500.0" prefWidth="500.0" styleClass="customStageBorder" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerCustomStage">
+<AnchorPane fx:id="contentPane" prefHeight="500.0" prefWidth="500.0" styleClass="customStageBorder" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerCustomStage">
    <children>
       <HBox fx:id="titleHBox" alignment="CENTER_LEFT" layoutX="10.0" layoutY="10.0" prefHeight="30.0" prefWidth="765.0" styleClass="customTitleBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>

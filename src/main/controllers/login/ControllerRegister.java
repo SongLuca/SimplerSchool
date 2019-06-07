@@ -25,7 +25,6 @@ import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import main.application.Main;
-import main.application.models.Config;
 import main.application.models.Utente;
 import main.database.DataBaseHandler;
 import main.utils.Console;

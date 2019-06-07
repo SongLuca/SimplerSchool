@@ -79,6 +79,7 @@ public class Utils {
 				prop.setProperty("compitiPerCasaNotifica", "true");
 				prop.setProperty("verificaNotifica", "true");
 				prop.setProperty("interrogazioneNotifica", "true");
+				prop.setProperty("theme", "Theme1");
 				FileOutputStream fos = new FileOutputStream(userCfg);
 				prop.store(fos, null);
 				fos.close();
@@ -265,7 +266,9 @@ public class Utils {
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
 			stage.initStyle(StageStyle.TRANSPARENT);
+			String cssUrl = Utils.class.getResource("/main/resources/gui/css/"+Preferences.theme+".css").toExternalForm();
 			Scene scene = new Scene(root);
+			((AnchorPane) fxmlLoader.getNamespace().get("rootAnchor")).getStylesheets().add(cssUrl);
 			scene.setFill(Color.TRANSPARENT);
 			stage.setScene(scene);
 			stage.setMinWidth(minW);

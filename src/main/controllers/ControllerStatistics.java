@@ -87,7 +87,8 @@ public class ControllerStatistics {
 	public void barChart() {
 		HashMap<String, MateriaStatistico> counts = new HashMap<String, MateriaStatistico>();
 		for (SchoolTask task : attivita) {
-			if (!task.getTipo().equalsIgnoreCase("allegato file")) {
+			if (task.getTipo().equalsIgnoreCase("verifica") ||
+					task.getTipo().equalsIgnoreCase("interrogazione")) {
 				String nomeM = getMateriaNomeById(task.getIdMateria());
 				if (!counts.containsKey(nomeM)) {
 					counts.put(nomeM, new MateriaStatistico(nomeM));
@@ -98,9 +99,6 @@ public class ControllerStatistics {
 					counts.get(nomeM).incrementI();
 				}
 			}
-		}
-		for (String key : counts.keySet()) {
-			System.out.println(counts.get(key).toString());
 		}
 		barChart.setTitle("Interrogazioni e verifiche");
 		barChart.getXAxis().setLabel("Materie");
@@ -132,17 +130,16 @@ public class ControllerStatistics {
 	}
 
 	public void lineChart() {
-		HashMap<String, ArrayList<Integer>> mediaVoti = new HashMap<String, ArrayList<Integer>>();
+		HashMap<String, ArrayList<Double>> mediaVoti = new HashMap<String, ArrayList<Double>>();
 		for (SchoolTask task : attivita) {
-			if (!mediaVoti.containsKey(task.getMateriaNome()))
-				mediaVoti.put(task.getMateriaNome(), new ArrayList<Integer>());
 			if (task.getTipo().equals("Verifica") || task.getTipo().equals("Interrogazione")) {
+				if (!mediaVoti.containsKey(task.getMateriaNome()))
+					mediaVoti.put(task.getMateriaNome(), new ArrayList<Double>());
 				if (task.getVoto() > -1) {
 					mediaVoti.get(task.getMateriaNome()).add(task.getVoto());
 				}
 			}
 		}
-
 		barChart1.setTitle("Media Voti");
 		barChart1.getXAxis().setLabel("Materie");
 		barChart1.getYAxis().setLabel("Media");
@@ -182,7 +179,7 @@ public class ControllerStatistics {
 		}
 	}
 
-	public double calcolaMedia(ArrayList<Integer> media) {
+	public double calcolaMedia(ArrayList<Double> media) {
 		double somma = 0;
 		for (int i = 0; i < media.size(); i++)
 			somma += media.get(i);

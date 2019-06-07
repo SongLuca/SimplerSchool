@@ -7,6 +7,7 @@ public final class Preferences {
     public static String defaultLang;
     public static String votoMin;
     public static String votoMax;
+    public static String theme;
     public static boolean notificaCompiti;
     public static boolean notificaVerifiche;
     public static boolean notificaInterrogazioni;
@@ -33,6 +34,15 @@ public final class Preferences {
     	}
     	else {
     		votoMax = app;
+    	}
+    	app = Config.getString(Main.USERCONFIG, "theme");
+    	if(app == null) {
+    		theme = "Theme1";
+    		Config.userConfig.setProperty("theme", theme);
+       		Utils.saveProperties(Main.USERCONFIG, true);
+    	}
+    	else {
+    		theme = app;
     	}
     	notificaCompiti = Config.getBoolean(Main.USERCONFIG, "compitiPerCasaNotifica");
     	notificaVerifiche = Config.getBoolean(Main.USERCONFIG, "verificaNotifica");

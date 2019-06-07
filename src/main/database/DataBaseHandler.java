@@ -741,10 +741,15 @@ public class DataBaseHandler {
 		try {
 			PreparedStatement stmt = conn.prepareStatement(query);
 			stmt.setInt(1, Main.utente.getUserid());
-			if(MetaData.cm.getOs() != null)
-				stmt.setInt(2, MetaData.cm.getOs().getId());
-			else{
-				stmt.setInt(2, 0);
+			if(MetaData.cm != null) {
+				if(MetaData.cm.getOs() != null)
+					stmt.setInt(2, MetaData.cm.getOs().getId());
+				else{
+					stmt.setInt(2, 0);
+				}
+			}
+			else {
+				stmt.setInt(2, getOsIdByName(Config.getString(Main.USERCONFIG, "selectedOrarioSettimanale")));
 			}
 			rs = stmt.executeQuery();
 			rsToAttivita(rs);
@@ -798,7 +803,7 @@ public class DataBaseHandler {
 			stmt.setDate(3, java.sql.Date.valueOf(task.getData()));
 			stmt.setString(4, task.getComment());
 			stmt.setInt(5, Main.utente.getUserid());
-			stmt.setInt(6, task.getVoto());
+			stmt.setDouble(6, task.getVoto());
 			stmt.setInt(7, MetaData.cm.getOs().getId());
 			stmt.execute();
 			try (ResultSet generatedKeys = stmt.getGeneratedKeys()) {
@@ -846,7 +851,7 @@ public class DataBaseHandler {
 			stmt.setInt(2, task.getIdMateria());
 			stmt.setString(3, task.getTipo());
 			stmt.setString(4, task.getComment());
-			stmt.setInt(5, task.getVoto());
+			stmt.setDouble(5, task.getVoto());
 			stmt.setInt(6, task.getIdTask());
 			stmt.setInt(7, Main.utente.getUserid());
 			int recordUpdated = stmt.executeUpdate();
@@ -932,7 +937,7 @@ public class DataBaseHandler {
 		}
 		return null;
 	}
-
+	
 	public boolean insertAllegatoQuery(String allegato, int taskID, Connection conn) {
 		String query = "INSERT INTO ALLEGATO(file_path, task_id) VALUES(?,?)";
 		try {
@@ -966,8 +971,9 @@ public class DataBaseHandler {
 	
 	public void removeOSXmlFile(OrarioSettimanale os) {
 		File xml = new File(Config.getString(Main.DBINFO, "databaseFolder") + "/" + os.getStoredPath());
-		if (xml.delete())
+		if (xml.delete()) {
 			Console.print(xml.getAbsolutePath() + " deleted", "fileio");
+		}
 		else
 			Console.print(xml.getAbsolutePath() + " doesnt exist", "fileio");
 	}

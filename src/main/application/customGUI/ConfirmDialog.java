@@ -15,6 +15,7 @@ import javafx.stage.StageStyle;
 import main.application.Main;
 import main.application.models.Config;
 import main.utils.LanguageBundle;
+import main.utils.Preferences;
 
 public class ConfirmDialog{
 	private Stage stage;
@@ -29,7 +30,9 @@ public class ConfirmDialog{
             stage.initModality(Modality.APPLICATION_MODAL);
             stage.initStyle(StageStyle.UNDECORATED);
             stage.initOwner(owner);
-            Scene scene = new Scene(root);
+            String cssUrl = getClass().getResource("/main/resources/gui/css/"+Preferences.theme+".css").toExternalForm();
+			Scene scene = new Scene(root);
+			scene.getStylesheets().add(cssUrl);
     		scene.setFill(Color.TRANSPARENT);
     		stage.setScene(scene);
             JFXButton yesButton = (JFXButton)root.getScene().lookup("#yesBtn");

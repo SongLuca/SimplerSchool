@@ -27,7 +27,7 @@
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1400.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
+<AnchorPane fx:id="rootAnchor" prefHeight="800.0" prefWidth="1400.0" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerMain">
    <children>
       <AnchorPane fx:id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="700.0" minWidth="1200.0" prefHeight="700.0" prefWidth="1200.0" styleClass="backgroundPane" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -211,7 +211,7 @@
                   </VBox>
                </children>
             </AnchorPane>
-            <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="33.0" />
+            <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="30.0" />
             <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" maxHeight="30.0" maxWidth="765.0" minHeight="30.0" prefHeight="30.0" prefWidth="765.0" styleClass="titleBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="titlebar" prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">

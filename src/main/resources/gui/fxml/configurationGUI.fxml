@@ -12,6 +12,7 @@
 
 <AnchorPane fx:id="subContentPane" prefHeight="450.0" prefWidth="500.0" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerConfiguration">
    <children>
+      <JFXButton layoutX="300.0" layoutY="137.0" onMouseClicked="#openUserConfigFolder" prefHeight="30.0" prefWidth="150.0" styleClass="customButton" text="User config folder" />
       <Pane disable="true" layoutX="10.0" layoutY="10.0" pickOnBounds="false" prefHeight="333.0" prefWidth="241.0" style="-fx-border-width: 0 2 2 0; -fx-border-color: #e2e2e2;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="250.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
       <Pane disable="true" pickOnBounds="false" prefHeight="333.0" prefWidth="241.0" style="-fx-border-width: 0 2 2 0; -fx-border-color: #e2e2e2;" AnchorPane.bottomAnchor="80.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="250.0" AnchorPane.topAnchor="0.0" />
       <Label fx:id="votoRangeLbl" layoutX="21.0" layoutY="106.0" prefHeight="40.0" text="Voto range" />
@@ -21,7 +22,6 @@
       <Label fx:id="languageLbl" layoutX="21.0" layoutY="46.0" prefHeight="40.0" text="Language" />
       <HBox alignment="CENTER_RIGHT" layoutX="4.0" layoutY="371.0" prefHeight="65.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="4.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <JFXButton fx:id="closeBtn1" onMouseClicked="#close" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Default" />
             <JFXButton fx:id="saveBtn" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Save" />
             <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Close" />
          </children>
@@ -36,5 +36,7 @@
       </VBox>
       <Label fx:id="themeLbl" layoutX="259.0" layoutY="47.0" prefHeight="40.0" prefWidth="100.0" text="Theme selector" />
       <JFXComboBox fx:id="themeBox" layoutX="359.0" layoutY="55.0" prefHeight="23.0" prefWidth="112.0" />
+      <JFXButton fx:id="closeBtn21" layoutX="300.0" layoutY="175.0" onMouseClicked="#openLocalServerFolder" prefHeight="30.0" prefWidth="150.0" styleClass="customButton" text="Local server folder" />
+      <Label fx:id="diskUsageLbl" layoutX="259.0" layoutY="94.0" prefHeight="40.0" prefWidth="217.0" text="Disk usage: " />
    </children>
 </AnchorPane>
