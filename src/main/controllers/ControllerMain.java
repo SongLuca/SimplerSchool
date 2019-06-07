@@ -6,9 +6,11 @@ import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import org.controlsfx.control.Notifications;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXComboBox;
@@ -24,6 +26,7 @@ import javafx.animation.Interpolator;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
+import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -119,7 +122,10 @@ public class ControllerMain {
 
 	@FXML
 	private JFXButton addOSBtn, renameOSBtn, deleteOSBtn, clearOSBtn;
-	
+
+	@FXML
+	private JFXButton taskOverview, filesOverview;
+
 	@FXML
 	private TextInputDialog inputSubject;
 
@@ -144,7 +150,7 @@ public class ControllerMain {
 	private AnchorPane statistics;
 
 	private HashMap<Integer, OrarioSettimanale> orariS;
-	
+
 	private OrarioSettimanale os;
 
 	private ToggleGroup radiosGroup;
@@ -152,7 +158,7 @@ public class ControllerMain {
 	private double prefHeight = 800, prefWidth = 1400;
 
 	private int currOS;
-	
+
 	public void initialize() {
 		Console.print("Initializing menu gui", "gui");
 		Preferences.loadPreferences();
@@ -169,22 +175,69 @@ public class ControllerMain {
 		loadNoteBoard();
 		initLangBindings();
 		MetaData.cm = this;
+		Platform.runLater(new Runnable() {
+            @Override public void run() {
+            	runNotification();
+            }
+        });
 	}
-	
+
+	public void runNotification() {
+		ArrayList<SchoolTask> attivita = DataBaseHandler.getInstance().getAttivita();
+		LocalDate tomorrow = LocalDate.now().plus(1, ChronoUnit.DAYS);
+		int compitiCount = 0, verificheCount = 0 , interrCount = 0;
+		for(SchoolTask task : attivita) {
+			if(task.getData().isEqual(tomorrow)) {
+				if(task.getTipo().equals("Compiti per casa"))
+					compitiCount++;
+				else if(task.getTipo().equals("Verifica"))
+					verificheCount++;
+				else if(task.getTipo().equals("Interrogazione"))
+					interrCount++;
+			}
+		}
+		String text = "";
+		if(Preferences.notificaCompiti) {
+			if(compitiCount > 0) {
+				text+="Ancora da fare " + compitiCount + " compiti per casa per domani\n";
+			} 
+			else {
+				text+="Non hai nessun compiti da finire per domani\n";
+			}
+		}
+		if(Preferences.notificaVerifiche) {
+			if(verificheCount > 0) {
+				text+="Preparare per " + verificheCount + " verifica domani\n";
+			}
+			else {
+				text+="Non hai nessuna verifica domani\n";
+			}
+		}
+		if(Preferences.notificaInterrogazioni) {
+			if(interrCount > 0) {
+				text+="Preparare per " + interrCount + " interrogazione domani\n";
+			}
+			else {
+				text+="Non hai nessuna interrogazione domani\n";
+			}
+		}
+		Notifications notificationBuidler = Notifications.create()
+				.title("Attivita di domani")
+				.text(text)
+				.graphic(null)
+				.hideAfter(Duration.seconds(10))
+				.position(Pos.BOTTOM_LEFT)
+				.onAction(e -> System.out.println("Notification clicked on!"));
+		notificationBuidler.showInformation();
+	}
+
 	public int getCurrOS() {
 		return currOS;
 	}
-	
-	
-
-
 
 	public void setCurrOS(int currOS) {
 		this.currOS = currOS;
 	}
-	
-
-
 
 	@FXML
 	public void hamclicked(MouseEvent event) {
@@ -217,7 +270,7 @@ public class ControllerMain {
 			configButton.textProperty().unbind();
 			statisticButton.textProperty().unbind();
 			profileButton.textProperty().unbind();
-			
+
 			configButton.setText("");
 			profileButton.setText("");
 			closeButton.setText("");
@@ -280,12 +333,14 @@ public class ControllerMain {
 		LanguageBundle.buttonForValue(lastWeekBtn, () -> LanguageBundle.get("lastWeekBtn", 0));
 		LanguageBundle.buttonForValue(thisWeekBtn, () -> LanguageBundle.get("thisWeekBtn", 0));
 		LanguageBundle.buttonForValue(nextWeekBtn, () -> LanguageBundle.get("nextWeekBtn", 0));
-		
+
 		LanguageBundle.buttonForValue(addOSBtn, () -> LanguageBundle.get("add", 0));
 		LanguageBundle.buttonForValue(renameOSBtn, () -> LanguageBundle.get("rename", 0));
 		LanguageBundle.buttonForValue(deleteOSBtn, () -> LanguageBundle.get("deleteBtn", 0));
 		LanguageBundle.buttonForValue(clearOSBtn, () -> LanguageBundle.get("clearBtn", 0));
-		
+		LanguageBundle.buttonForValue(filesOverview, () -> LanguageBundle.get("fileOverviewBtn", 0));
+		LanguageBundle.buttonForValue(taskOverview, () -> LanguageBundle.get("taskOverviewBtn", 0));
+
 		LanguageBundle.buttonToolTipForValue(addOSBtn, () -> LanguageBundle.get("addOSBtnToolTip", 0));
 		LanguageBundle.buttonToolTipForValue(renameOSBtn, () -> LanguageBundle.get("renameOSBtnToolTip", 0));
 		LanguageBundle.buttonToolTipForValue(deleteOSBtn, () -> LanguageBundle.get("deleteOSBtnToolTip", 0));
@@ -539,56 +594,6 @@ public class ControllerMain {
 			transition.play();
 		});
 		VBox.setVgrow(menuPane, Priority.ALWAYS);
-		configButton.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "configurationFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthConfig"), 
-					Config.getDouble(Main.CONFIG, "minHeightConfig"));
-			window.bindTitleLanguage("configBtnTitle");
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("settingsImagePath");
-			window.show();
-		});
-		statisticButton.setOnMouseClicked(e -> {
-			if (contentPane.isVisible()) {
-				try {
-					URL fxmlURL = new File(Config.getString(Main.CONFIG, "statisticsFXML")).toURI().toURL();
-					FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
-					statistics = fxmlLoader.load();
-					rootPane.getChildren().add(statistics);
-					contentPane.setVisible(false);
-					statisticButton.setId("menuBackButton");
-				} catch (IOException ex) {
-					ex.printStackTrace();
-				}
-			} else {
-				changeWeek(datePicker.getValue());
-				rootPane.getChildren().remove(statistics);
-				statistics = null;
-				contentPane.setVisible(true);
-				statisticButton.setId("menuStatisticButton");
-			}
-		});
-		profileButton.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "profiloFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthProfilo"), 
-					Config.getDouble(Main.CONFIG, "minHeightProfilo"));
-			window.bindTitleLanguage("profiloBtnTitle");
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("profileImagePath");
-			window.show();
-		});
-		aboutButton.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "aboutFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthAbout"), 
-					Config.getDouble(Main.CONFIG, "minHeightAbout"));
-			window.bindTitleLanguage("aboutBtnTitle");
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("aboutImagePath");
-			window.show();
-		});
 	}
 
 	public void initTabPane() {
@@ -634,15 +639,14 @@ public class ControllerMain {
 			if (selectedOS != null) {
 				Console.print(selectedOS + " selected", "Gui");
 				os = getOSbyName(selectedOS);
-				Config.userConfig.setProperty(Main.utente.getUsername() + "-selectedOrarioSettimanale", selectedOS);
+				Config.userConfig.setProperty("selectedOrarioSettimanale", selectedOS);
 				Utils.saveProperties(Main.USERCONFIG, true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
 					fuseSubjects(calendarGrid, dayCol);
 				}
 				changeWeek(datePicker.getValue());
-			}
-			else {
+			} else {
 				os = null;
 				emptySelection();
 			}
@@ -654,98 +658,14 @@ public class ControllerMain {
 				fuseSubjects(calendarGrid, dayCol);
 			}
 		}
-		
-		materiaBtn.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "materieFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthMaterie"), 
-					Config.getDouble(Main.CONFIG, "minHeightMaterie"));
-			window.bindTitleLanguage("materieBtnTitle");
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("subjectImagePath");
-			window.show();
-		});
-		
-		docenteBtn.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "docentiFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthDocenti"), 
-					Config.getDouble(Main.CONFIG, "minHeightDocenti"));
-			window.bindTitleLanguage("docentiBtnTitle");
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("teacherImagePath");
-			window.show();
-		});
-		
-		insertTaskBtn.setOnMouseClicked(e->{
-			if(os!=null) {
-				CustomStage window = this.openCustomStage(e, "insertTaskFXML");
-				window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"), 
-						Config.getDouble(Main.CONFIG, "minHeightInsertTask"));
-				window.bindTitleLanguage("insertTaskTitle");
-				window.setResizable(false);
-				window.setModality(Modality.WINDOW_MODAL);
-				window.setIcon("taskImagePath");
-				ControllerInsertTask cit = (ControllerInsertTask) window.getContentController();
-				cit.setMode("insert");
-				window.show();
-			}
-		});
-		
-		addOSBtn.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "addOSFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthNewOS"), 
-					Config.getDouble(Main.CONFIG, "minHeightNewOS"));
-			window.bindTitleLanguage("insertNewOS");
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("newImagePath");
-			window.show();
-		});
-		renameOSBtn.setOnMouseClicked(e->{
-			CustomStage window = this.openCustomStage(e, "addOSFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthNewOS"), 
-					Config.getDouble(Main.CONFIG, "minHeightNewOS"));
-			window.setTitle("rename", os.getNomeOrario());
-			window.setResizable(false);
-			window.setModality(Modality.WINDOW_MODAL);
-			window.setIcon("renameImagePath");
-			ControllerAddOS cao = (ControllerAddOS) window.getContentController();
-			JFXTextField tf = cao.getNomeField();
-			tf.promptTextProperty().unbind();
-			tf.setPromptText(LanguageBundle.get("renameOSPrompt"));
-			tf.setText(os.getNomeOrario());
-			cao.setMode("edit");
-			window.show();
-		});
-		deleteOSBtn.setOnMouseClicked(e->{
-			if(os!=null) {
-				Stage owner = (Stage) rootPane.getScene().getWindow();
-				ConfirmDialog cd = new ConfirmDialog(owner, "deleteConfirmLbl");
-				if (cd.getResult()) {
-					os.setStato("delete");
-					updateOSTask(os.getNomeOrario()+" "+LanguageBundle.get("deleteDone"), true);
-				}
-			}
-		});
-		clearOSBtn.setOnMouseClicked(e->{
-			if(os!=null) {
-				Stage owner = (Stage) rootPane.getScene().getWindow();
-				ConfirmDialog cd = new ConfirmDialog(owner, "clearConfirmLbl");
-				if (cd.getResult()) {
-					
-				}
-			}
-		});
-		
 	}
-	
+
 	public void emptySelection() {
 		calendarGrid.getChildren().retainAll(calendarGrid.getChildren().get(0));
 		DataBaseHandler.getInstance().resetAttivita();
 		loadNoteBoard();
 	}
-	
+
 	public void updateOSTask(String doneMsg, boolean clearSelection) {
 		Task<Boolean> updateOSTask = new Task<Boolean>() {
 			@Override
@@ -759,52 +679,53 @@ public class ControllerMain {
 		updateOSTask.setOnFailed(event -> {
 			loading.setVisible(false);
 			rootPane.setEffect(null);
+			rootPane.setDisable(true);
 			Utils.popUpDialog(rootStack, rootPane, "Message", "RIP");
 			updateOSTask.getException().printStackTrace();
 		});
 
 		updateOSTask.setOnSucceeded(event -> {
-			loading.setVisible(false);
-			rootPane.setEffect(null);
 			if (updateOSTask.getValue()) {
 				orariS = DataBaseHandler.getInstance().getOS();
 				Utils.popUpDialog(rootStack, rootPane, LanguageBundle.get("message"), doneMsg);
 				this.updateOSPicker();
-				if(clearSelection)
+				if (clearSelection)
 					orarioSPicker.getSelectionModel().clearSelection();
 				else {
 					orarioSPicker.getSelectionModel().select(orariS.get(currOS).getNomeOrario());
 				}
-	/*			fuseSubjects(calendarGrid,clickedCol);
-				insegna = null;
-				if(!os.getStato().equals("fresh")) {
-					os = this.getOSByNome(os.getNomeOrario());
-					MetaData.os = os;
-				}
-				if(refreshList)
-					initOSList();
-				MetaData.cm.updateOSPicker();
-				Utils.makeText(subContentPane, "Change saved", 3500, 500, 500);*/
-			//	Utils.showPopupMessage("saved", (Stage)root.getScene().getWindow());
-			//	Utils.popUpDialog(root, pane, "Message", doneMsg);
+				/*
+				 * fuseSubjects(calendarGrid,clickedCol); insegna = null;
+				 * if(!os.getStato().equals("fresh")) { os =
+				 * this.getOSByNome(os.getNomeOrario()); MetaData.os = os; } if(refreshList)
+				 * initOSList(); MetaData.cm.updateOSPicker(); Utils.makeText(subContentPane,
+				 * "Change saved", 3500, 500, 500);
+				 */
+				// Utils.showPopupMessage("saved", (Stage)root.getScene().getWindow());
+				// Utils.popUpDialog(root, pane, "Message", doneMsg);
 			}
+			loading.setVisible(false);
+			rootPane.setEffect(null);
+			rootPane.setDisable(false);
 		});
 		new Thread(updateOSTask).start();
 	}
-	
-	public void updateOSInsegnaTask(ArrayList<Insegna> insegna, String doneMsg, int col, boolean updateInsegna, boolean updateOS) {
+
+	public void updateOSInsegnaTask(ArrayList<Insegna> insegna, String doneMsg, int col, boolean updateInsegna,
+			boolean updateOS) {
 		Task<Boolean> updateOSTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				rootPane.setEffect(Effect.blur());
-				if(updateInsegna && !updateOS)
+				rootPane.setDisable(true);
+				if (updateInsegna && !updateOS)
 					return DataBaseHandler.getInstance().updateInsegnaTable(insegna);
-				else if(!updateInsegna && updateOS)
+				else if (!updateInsegna && updateOS)
 					return DataBaseHandler.getInstance().updateOSTable(os);
-				else if(updateInsegna && updateOS) {
-					return DataBaseHandler.getInstance().updateOSTable(os) &&
-							DataBaseHandler.getInstance().updateInsegnaTable(insegna);
+				else if (updateInsegna && updateOS) {
+					return DataBaseHandler.getInstance().updateOSTable(os)
+							&& DataBaseHandler.getInstance().updateInsegnaTable(insegna);
 				}
 				return false;
 			}
@@ -817,22 +738,23 @@ public class ControllerMain {
 		});
 
 		updateOSTask.setOnSucceeded(event -> {
-			loading.setVisible(false);
-			rootPane.setEffect(null);
 			if (updateOSTask.getValue()) {
 				Utils.popUpDialog(rootStack, rootPane, LanguageBundle.get("message"), doneMsg);
-				if(updateOS) {
+				if (updateOS) {
 					orariS = DataBaseHandler.getInstance().getOS();
-					fuseSubjects(calendarGrid,col);
+					fuseSubjects(calendarGrid, col);
 				}
-					
-			//	Utils.showPopupMessage("saved", (Stage)root.getScene().getWindow());
-			//	Utils.popUpDialog(root, pane, "Message", doneMsg);
+
+				// Utils.showPopupMessage("saved", (Stage)root.getScene().getWindow());
+				// Utils.popUpDialog(root, pane, "Message", doneMsg);
 			}
+			loading.setVisible(false);
+			rootPane.setEffect(null);
+			rootPane.setDisable(false);
 		});
 		new Thread(updateOSTask).start();
 	}
-	
+
 	public CustomStage openCustomStage(MouseEvent e, String FXMLKey) {
 		try {
 			CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
@@ -843,17 +765,18 @@ public class ControllerMain {
 		}
 		return null;
 	}
-	
+
 	public void setOSPicker(String osName) {
 		orarioSPicker.getSelectionModel().select(osName);
 	}
-	
+
 	public void changeWeek(LocalDate data) {
 		Task<Boolean> changeWeekTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
 				loading.setVisible(true);
 				rootPane.setEffect(Effect.blur());
+				rootPane.setDisable(true);
 				return DataBaseHandler.getInstance().getAttivitaSettimanaleQuery(data, false);
 			}
 		};
@@ -865,25 +788,23 @@ public class ControllerMain {
 		});
 
 		changeWeekTask.setOnSucceeded(event -> {
-			loading.setVisible(false);
-			rootPane.setEffect(null);
 			if (changeWeekTask.getValue()) {
 				loadNoteBoard();
 			} else {
 				Utils.popUpDialog(rootStack, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
-				rootPane.setDisable(false);
 			}
+			loading.setVisible(false);
+			rootPane.setEffect(null);
+			rootPane.setDisable(false);
 		});
 
 		new Thread(changeWeekTask).start();
 	}
 
-	
 	public void updateOSPicker() {
 		Console.print("Updating OS picker", "gui");
 		orariS = DataBaseHandler.getInstance().getOS();
-		String selectedOrariS = Config.getString(Main.USERCONFIG,
-				Main.utente.getUsername() + "-selectedOrarioSettimanale");
+		String selectedOrariS = Config.getString(Main.USERCONFIG, "selectedOrarioSettimanale");
 		orarioSPicker.getItems().clear();
 		for (int key : orariS.keySet()) {
 			orarioSPicker.getItems().add(orariS.get(key).getNomeOrario());
@@ -913,14 +834,14 @@ public class ControllerMain {
 
 	public void addVBoxToCell(GridPane osGrid, String idMateria, int row, int col, int rowSpan) {
 		Materia m = getMateriaById(idMateria);
-		VBox pane = defaultCell(col,row);
+		VBox pane = defaultCell(col, row);
 		pane.setId("");
 		pane.setAlignment(Pos.CENTER);
 		pane.setStyle("-fx-background-color:" + m.getColore() + ";");
-		pane.setOnMouseEntered(e->{
+		pane.setOnMouseEntered(e -> {
 			pane.setEffect(new Glow(1));
 		});
-		pane.setOnMouseExited(e->{
+		pane.setOnMouseExited(e -> {
 			pane.setEffect(null);
 		});
 		Label lbl = new Label();
@@ -939,10 +860,10 @@ public class ControllerMain {
 			LocalDate data = datePicker.getValue().with(DayOfWeek.of(col + 1));
 			openDetailsWindow(e, m.getNome(), data);
 		});
-		details.setOnMouseEntered(e->{
+		details.setOnMouseEntered(e -> {
 			details.setEffect(new Glow(0.5));
 		});
-		details.setOnMouseExited(e->{
+		details.setOnMouseExited(e -> {
 			details.setEffect(null);
 		});
 		bPane.getChildren().add(details);
@@ -952,13 +873,13 @@ public class ControllerMain {
 			osGrid.add(pane, col, row);
 
 	}
-	
+
 	public VBox defaultCell(int col, int row) {
 		VBox vPane = new VBox();
 		vPane.setId("defaultPane");
-		vPane.setOnMouseClicked(e->{
+		vPane.setOnMouseClicked(e -> {
 			CustomStage window = this.openCustomStage(e, "addSubjectFXML");
-			window.setSize(Config.getDouble(Main.CONFIG, "minWidthaddSubject"), 
+			window.setSize(Config.getDouble(Main.CONFIG, "minWidthaddSubject"),
 					Config.getDouble(Main.CONFIG, "minHeightaddSubject"));
 			window.bindTitleLanguage("editOra");
 			window.setResizable(false);
@@ -972,7 +893,7 @@ public class ControllerMain {
 		});
 		return vPane;
 	}
-	
+
 	public void fuseSubjects(GridPane osGrid, int col) {
 		LinkedHashMap<String, String> giorno = os.getOrarioGiorno(col);
 		osGrid.getChildren().removeIf(node -> (node instanceof VBox) && GridPane.getColumnIndex(node) == col);
@@ -985,7 +906,7 @@ public class ControllerMain {
 				if (!giorno.get(ora).equals(""))
 					addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 				else {
-					osGrid.add(defaultCell(col,count), col, count);
+					osGrid.add(defaultCell(col, count), col, count);
 				}
 			}
 			if (count != 0) {
@@ -997,7 +918,7 @@ public class ControllerMain {
 					if (length != 1) {
 						addVBoxToCell(osGrid, materiaPrec, startPos, col, length);
 						if (giorno.get(ora).equals("")) {
-							osGrid.add(defaultCell(col,count), col, count);
+							osGrid.add(defaultCell(col, count), col, count);
 						} else
 							addVBoxToCell(osGrid, giorno.get(ora), count, col, 1);
 					} else {
@@ -1006,7 +927,7 @@ public class ControllerMain {
 						if (!giorno.get(ora).equals(""))
 							addVBoxToCell(osGrid, giorno.get(ora), startPos, col, length);
 						else {
-							osGrid.add(defaultCell(col,startPos), col, startPos);
+							osGrid.add(defaultCell(col, startPos), col, startPos);
 						}
 					}
 					length = 1;
@@ -1018,10 +939,182 @@ public class ControllerMain {
 		}
 	}
 
-
 	@FXML
 	public void setOrarioSettimanale(ActionEvent a) {
 		Console.print(orarioSPicker.getSelectionModel().getSelectedItem(), "");
+	}
+
+	@FXML
+	public void renameOS(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "addOSFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthNewOS"), Config.getDouble(Main.CONFIG, "minHeightNewOS"));
+		window.setTitle("rename", os.getNomeOrario());
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("renameImagePath");
+		ControllerAddOS cao = (ControllerAddOS) window.getContentController();
+		JFXTextField tf = cao.getNomeField();
+		tf.promptTextProperty().unbind();
+		tf.setPromptText(LanguageBundle.get("renameOSPrompt"));
+		tf.setText(os.getNomeOrario());
+		cao.setMode("edit");
+		window.show();
+	}
+
+	@FXML
+	public void openProfilo(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "profiloFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthProfilo"),
+				Config.getDouble(Main.CONFIG, "minHeightProfilo"));
+		window.bindTitleLanguage("profiloBtnTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("profileImagePath");
+		runNotification();
+		window.show();
+	}
+
+	@FXML
+	public void openConfiguration(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "configurationFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthConfig"),
+				Config.getDouble(Main.CONFIG, "minHeightConfig"));
+		window.bindTitleLanguage("configBtnTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("settingsImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void openAbout(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "aboutFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthAbout"), Config.getDouble(Main.CONFIG, "minHeightAbout"));
+		window.bindTitleLanguage("aboutBtnTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("aboutImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void openStatistics(MouseEvent e) {
+		if (contentPane.isVisible()) {
+			try {
+				URL fxmlURL = new File(Config.getString(Main.CONFIG, "statisticsFXML")).toURI().toURL();
+				FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+				statistics = fxmlLoader.load();
+				rootPane.getChildren().add(statistics);
+				contentPane.setVisible(false);
+				statisticButton.setId("menuBackButton");
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		} else {
+			changeWeek(datePicker.getValue());
+			rootPane.getChildren().remove(statistics);
+			statistics = null;
+			contentPane.setVisible(true);
+			statisticButton.setId("menuStatisticButton");
+		}
+	}
+
+	@FXML
+	public void addOS(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "addOSFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthNewOS"), Config.getDouble(Main.CONFIG, "minHeightNewOS"));
+		window.bindTitleLanguage("insertNewOS");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("newImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void clearOS(MouseEvent e) {
+		if (os != null) {
+			Stage owner = (Stage) rootPane.getScene().getWindow();
+			ConfirmDialog cd = new ConfirmDialog(owner, "clearConfirmLbl");
+			if (cd.getResult()) {
+
+			}
+		}
+	}
+
+	@FXML
+	public void deleteOS(MouseEvent e) {
+		if (os != null) {
+			Stage owner = (Stage) rootPane.getScene().getWindow();
+			ConfirmDialog cd = new ConfirmDialog(owner, "deleteConfirmLbl");
+			if (cd.getResult()) {
+				os.setStato("delete");
+				updateOSTask(os.getNomeOrario() + " " + LanguageBundle.get("deleteDone"), true);
+			}
+		}
+	}
+
+	@FXML
+	public void openTaskOverview(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "taskOverviewFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthFilesOverview"),
+				Config.getDouble(Main.CONFIG, "minHeightFilesOverview"));
+		window.bindTitleLanguage("taskViewTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("fileListImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void openFilesOverview(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "filesOverviewFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthFilesOverview"),
+				Config.getDouble(Main.CONFIG, "minHeightFilesOverview"));
+		window.bindTitleLanguage("fileViewTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("fileListImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void openMaterie(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "materieFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthMaterie"),
+				Config.getDouble(Main.CONFIG, "minHeightMaterie"));
+		window.bindTitleLanguage("materieBtnTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("subjectImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void openDocenti(MouseEvent e) {
+		CustomStage window = this.openCustomStage(e, "docentiFXML");
+		window.setSize(Config.getDouble(Main.CONFIG, "minWidthDocenti"),
+				Config.getDouble(Main.CONFIG, "minHeightDocenti"));
+		window.bindTitleLanguage("docentiBtnTitle");
+		window.setResizable(false);
+		window.setModality(Modality.WINDOW_MODAL);
+		window.setIcon("teacherImagePath");
+		window.show();
+	}
+
+	@FXML
+	public void openInsertTask(MouseEvent e) {
+		if (os != null) {
+			CustomStage window = this.openCustomStage(e, "insertTaskFXML");
+			window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"),
+					Config.getDouble(Main.CONFIG, "minHeightInsertTask"));
+			window.bindTitleLanguage("insertTaskTitle");
+			window.setResizable(false);
+			window.setModality(Modality.WINDOW_MODAL);
+			window.setIcon("taskImagePath");
+			ControllerInsertTask cit = (ControllerInsertTask) window.getContentController();
+			cit.setMode("insert");
+			window.show();
+		}
 	}
 
 	public void openDetailsWindow(ActionEvent event, String materia, LocalDate data) {
@@ -1040,25 +1133,12 @@ public class ControllerMain {
 			window.setIcon("oreDetailsImagePath");
 			ControllerOreDetails cod = (ControllerOreDetails) fxmlLoader.getController();
 			cod.setDate(data);
+			cod.populatePanes();
 			window.show();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
-		
-	}
 
-	@FXML
-	public void openSettingsWindow(MouseEvent event) {
-		Console.print("Opening settings window", "gui");
-		Stage settings = Utils.loadWindowS("settingsFXML", (Stage) ((Node) event.getSource()).getScene().getWindow(),
-				true, null, null);
-		settings.setMinHeight(Config.getDouble(Main.CONFIG, "minHeightSettings"));
-		settings.setMinWidth(Config.getDouble(Main.CONFIG, "minWidthSettings"));
-		Console.print(settings.getHeight() + "", "");
-		Console.print(settings.getWidth() + "", "");
-		settings.setOnHiding(e -> {
-			WindowStyle.stageDimension(prefWidth, prefHeight);
-		});
 	}
 
 	@FXML

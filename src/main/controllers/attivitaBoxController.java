@@ -159,13 +159,20 @@ public class attivitaBoxController {
 		if (allegati.isEmpty()) {
 			StackPane stack = (StackPane) contentPane.getScene().lookup("#stackPane");
 			AnchorPane anchor = (AnchorPane) contentPane.getScene().lookup("#detailsPane");
-			Utils.popUpDialog(stack, anchor, "Message", LanguageBundle.get("noFile"));
+			Utils.popUpDialog(stack, anchor, LanguageBundle.get("message"), LanguageBundle.get("noFile"));
 		} else {
 			Console.print("Opening file list view of task " + idTask + " window", "gui");
-			ControllerFileView cfv = (ControllerFileView) Utils.loadWindow("fileViewFXML",
-					(Stage) ((Node) e.getSource()).getScene().getWindow(), false, null, null);
+			CustomStage window = MetaData.cm.openCustomStage(e, "fileViewFXML");
+			window.setSize(Config.getDouble(Main.CONFIG, "minWidthFileView"),
+					Config.getDouble(Main.CONFIG, "minHeightFileView"));
+			window.bindTitleLanguage("fileViewTitle");
+			window.setResizable(false);
+			window.setModality(Modality.WINDOW_MODAL);
+			window.setIcon("fileListImagePath");
+			ControllerFileView cfv = (ControllerFileView) window.getContentController();
 			cfv.setFileList(allegati);
 			cfv.populateListView();
+			window.show();
 		}
 
 	}

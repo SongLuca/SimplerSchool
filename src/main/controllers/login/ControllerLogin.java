@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import com.jfoenix.controls.JFXCheckBox;
 import com.jfoenix.controls.JFXPasswordField;
+import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
 import animatefx.animation.*;
 import javafx.animation.KeyFrame;
@@ -16,7 +17,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Label;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
@@ -24,6 +24,7 @@ import javafx.util.Duration;
 import main.application.Main;
 import main.application.models.Config;
 import main.database.DataBaseHandler;
+import main.utils.Console;
 import main.utils.Effect;
 import main.utils.LanguageBundle;
 import main.utils.Utils;
@@ -50,7 +51,7 @@ public class ControllerLogin {
 	private JFXPasswordField passField;
 	
 	@FXML
-	private ImageView loading;
+	private JFXSpinner loading;
 	
 	@FXML
 	private JFXCheckBox rememberMe;
@@ -139,20 +140,20 @@ public class ControllerLogin {
 		});
 
 		loginValidateTask.setOnSucceeded(event -> {
-			loading.setVisible(false);
-			loginPane.setEffect(null);
 			if (loginValidateTask.getValue()) {
+				Console.print("Login successfully", "app");
+				Utils.readUserProperties();
 				DataBaseHandler.getInstance().preLoadUserData();
 				endAnimation(e, root);
 				if(rememberMe.isSelected()) {
-					Config.userConfig.setProperty("rememberMe", "true");
-					Config.userConfig.setProperty("rememberedUser", username);
+					Config.appConfig.setProperty("rememberMe", "true");
+					Config.appConfig.setProperty("rememberedUser", username);
 				}
 				else{
-					Config.userConfig.setProperty("rememberMe", "false");
-					Config.userConfig.setProperty("rememberedUser", "");
+					Config.appConfig.setProperty("rememberMe", "false");
+					Config.appConfig.setProperty("rememberedUser", "");
 				}
-				Utils.saveProperties(Main.USERCONFIG, true);
+				Utils.saveProperties(Main.APPCONFIG, true);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loginPane.setDisable(false);
@@ -167,6 +168,8 @@ public class ControllerLogin {
 		KeyFrame key = new KeyFrame(Duration.millis(1500), new KeyValue(loginPane.opacityProperty(), 0));
 		timeline.getKeyFrames().add(key);
 		timeline.setOnFinished((ae) -> {
+			loading.setVisible(false);
+			loginPane.setEffect(null);
 			WindowStyle.closeByRoot(root);
 			Utils.newWindow("mainFXML", true, "appIconPath", "Simpler School -"+Main.utente.getUserid(),1400,800);
 		});
@@ -183,9 +186,9 @@ public class ControllerLogin {
 	
 	public void initialize() {
 		initLangBindings();
-		if(Config.getBoolean(Main.USERCONFIG, "rememberMe")) {
+		if(Config.getBoolean(Main.APPCONFIG, "rememberMe")) {
 			rememberMe.setSelected(true);
-			usernameField.setText(Config.getString(Main.USERCONFIG, "rememberedUser"));
+			usernameField.setText(Config.getString(Main.APPCONFIG, "rememberedUser"));
 		}
 		else {
 			rememberMe.setSelected(false);

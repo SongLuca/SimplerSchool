@@ -114,22 +114,22 @@
                   </AnchorPane>
                  <AnchorPane id="actionPane" minHeight="0.0" minWidth="0.0" prefHeight="170.0" prefWidth="1026.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="300.0" AnchorPane.topAnchor="5.0">
                                  <children>
-                        <JFXMasonryPane HSpacing="10.0" VSpacing="10.0" cellHeight="50.0" cellWidth="50.0" prefHeight="170.0" prefWidth="1031.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="10.0">
+                        <JFXMasonryPane HSpacing="10.0" VSpacing="10.0" cellHeight="50.0" cellWidth="50.0" prefHeight="170.0" prefWidth="1031.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="5.0" AnchorPane.topAnchor="10.0">
                            <children>
                               <HBox prefHeight="50.0" prefWidth="450.0" styleClass="buttonBox">
                                  <children>
                                     <VBox alignment="CENTER" prefHeight="50.0" prefWidth="160.0">
                                        <children>
                                                       <Label fx:id="osLbl" alignment="CENTER" prefHeight="27.0" prefWidth="150.0" text="Orario settimanale" />
-                                                      <JFXComboBox fx:id="orarioSPicker" editable="true" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
+                                                      <JFXComboBox fx:id="orarioSPicker" onAction="#setOrarioSettimanale" prefHeight="23.0" prefWidth="150.0" />
                                        </children>
                                     </VBox>
                                     <HBox prefHeight="50.0" prefWidth="350.0" spacing="5.0">
                                        <children>
-                                          <JFXButton fx:id="addOSBtn" contentDisplay="CENTER" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Add" textAlignment="CENTER" wrapText="true" />
-                                          <JFXButton fx:id="renameOSBtn" contentDisplay="CENTER" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Rename" textAlignment="CENTER" wrapText="true" />
-                                          <JFXButton fx:id="clearOSBtn" contentDisplay="CENTER" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Clear" textAlignment="CENTER" wrapText="true" />
-                                          <JFXButton fx:id="deleteOSBtn" contentDisplay="CENTER" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Delete" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton fx:id="addOSBtn" contentDisplay="CENTER" onMouseClicked="#addOS" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Add" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton fx:id="renameOSBtn" contentDisplay="CENTER" onMouseClicked="#renameOS" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Rename" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton fx:id="clearOSBtn" contentDisplay="CENTER" onMouseClicked="#clearOS" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Clear" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton fx:id="deleteOSBtn" contentDisplay="CENTER" onMouseClicked="#deleteOS" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Delete" textAlignment="CENTER" wrapText="true" />
                                        </children>
                                     </HBox>
                                  </children>
@@ -142,7 +142,7 @@
                                     <VBox alignment="CENTER" prefHeight="50.0" prefWidth="160.0">
                                        <children>
                                                       <Label fx:id="dataLbl" alignment="CENTER" prefHeight="27.0" prefWidth="150.0" text="Current data" />
-                                                      <JFXDatePicker fx:id="datePicker" prefWidth="150.0" />
+                                                      <JFXDatePicker fx:id="datePicker" editable="false" prefWidth="150.0" />
                                        </children>
                                     </VBox>
                                                 <HBox alignment="CENTER" prefHeight="45.0" prefWidth="260.0" spacing="5.0">
@@ -157,12 +157,11 @@
                                     <Insets right="5.0" />
                                  </padding>
                               </HBox>
-                                          <JFXButton fx:id="insertTaskBtn" alignment="CENTER" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Insert Task" textAlignment="CENTER" wrapText="true" />
-                              <JFXButton fx:id="docenteBtn" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Docente" />
-                              <JFXButton fx:id="materiaBtn" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Materia" />
-                              <JFXButton prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Task overview" textAlignment="CENTER" wrapText="true" />
-                              <JFXButton prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Marks overview" textAlignment="CENTER" wrapText="true" />
-                              <JFXButton prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Attached files overviw" textAlignment="CENTER" wrapText="true" />
+                                          <JFXButton fx:id="insertTaskBtn" alignment="CENTER" onMouseClicked="#openInsertTask" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Insert Task" textAlignment="CENTER" wrapText="true" />
+                              <JFXButton fx:id="docenteBtn" onMouseClicked="#openDocenti" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Docente" />
+                              <JFXButton fx:id="materiaBtn" onMouseClicked="#openMaterie" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Materia" />
+                              <JFXButton fx:id="taskOverview" onMouseClicked="#openTaskOverview" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Task overview" textAlignment="CENTER" wrapText="true" />
+                              <JFXButton fx:id="filesOverview" onMouseClicked="#openFilesOverview" prefHeight="40.0" prefWidth="100.0" styleClass="customButton" text="Attached files overviw" textAlignment="CENTER" wrapText="true" />
                            </children>
                         </JFXMasonryPane>
                                  </children>
@@ -183,22 +182,22 @@
                <children>
                   <VBox fx:id="menuVBox" alignment="BOTTOM_LEFT" layoutY="490.0" prefHeight="630.0" prefWidth="70.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0"> 
                      <children>
-                        <JFXButton id="menuStatisticButton" fx:id="statisticButton" alignment="CENTER" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                        <JFXButton id="menuStatisticButton" fx:id="statisticButton" alignment="CENTER" onMouseClicked="#openStatistics" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton id="menuUserButton" fx:id="profileButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                        <JFXButton id="menuUserButton" fx:id="profileButton" onMouseClicked="#openProfilo" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton id="menuSettingsButton" fx:id="configButton" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                        <JFXButton id="menuSettingsButton" fx:id="configButton" onMouseClicked="#openConfiguration" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>
                         </JFXButton>
-                        <JFXButton id="menuAboutButton" fx:id="aboutButton" onMouseClicked="#openSettingsWindow" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
+                        <JFXButton id="menuAboutButton" fx:id="aboutButton" onMouseClicked="#openAbout" prefHeight="70.0" prefWidth="70.0" styleClass="menuButton" text="" textFill="WHITE">
                            <font>
                               <Font size="24.0" />
                            </font>

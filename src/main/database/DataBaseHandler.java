@@ -155,7 +155,7 @@ public class DataBaseHandler {
 		}
 	}
 
-	public void preLoadUserData() { // prende tutti i dati dal db prima di entrare nel main
+	public boolean preLoadUserData() { // prende tutti i dati dal db prima di entrare nel main
 		Console.print("---Preloading all user data---", "app");
 		runGetMaterieQuery();
 		getDocentiQuery();
@@ -163,6 +163,7 @@ public class DataBaseHandler {
 		getOSQuery();
 		getAttivitaSettimanaleQuery(LocalDate.now(),true);
 		Console.print("--------------------------------", "app");
+		return true;
 	}
 	
 	public int getOsIdByName(String nome) {
@@ -767,8 +768,7 @@ public class DataBaseHandler {
 			stmt.setDate(1, Date.valueOf(data));
 			stmt.setInt(2, Main.utente.getUserid());
 			if(readConfig) { 
-				stmt.setInt(3, getOsIdByName(Config.getString(Main.USERCONFIG,
-						Main.utente.getUsername() + "-selectedOrarioSettimanale")));
+				stmt.setInt(3, getOsIdByName(Config.getString(Main.USERCONFIG, "selectedOrarioSettimanale")));
 			}
 			else {
 				if(MetaData.cm.getOs() != null)

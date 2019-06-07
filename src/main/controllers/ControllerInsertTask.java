@@ -3,6 +3,7 @@ package main.controllers;
 import java.io.File;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -42,6 +43,7 @@ import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.Effect;
 import main.utils.LanguageBundle;
+import main.utils.Preferences;
 import main.utils.Utils;
 import main.utils.WindowStyle;
 
@@ -93,6 +95,8 @@ public class ControllerInsertTask {
 
 	private int idTask;
 
+	private double maxVoto, minVoto;
+	
 	private SchoolTask editTask;
 
 	private attivitaBoxController boxController;
@@ -103,6 +107,8 @@ public class ControllerInsertTask {
 		allegati = new LinkedHashMap<String, Allegato>();
 		votoBox.setVisible(false);
 		this.idTask = 0;
+		this.maxVoto = Double.parseDouble(Preferences.votoMax);
+		this.minVoto = Double.parseDouble(Preferences.votoMin);
 		materie = DataBaseHandler.getInstance().getMaterie();
 		fixedMateria = false;
 		initComponents();
@@ -123,6 +129,7 @@ public class ControllerInsertTask {
 		commentLbl.setText(LanguageBundle.get("commento"));
 		dataLbl.setText(LanguageBundle.get("dataLbl"));
 		dragHintLbl.setText(LanguageBundle.get("dragHintLbl"));
+		votoField.setPromptText(minVoto+" - "+maxVoto);
 	}
 
 	public String getMode() {
@@ -154,7 +161,7 @@ public class ControllerInsertTask {
 		oggiBtn.setDisable(true);
 	}
 
-	public void setTipoBox(String tipo) {
+	public void setTipoBox(int tipo) {
 		tipoBox.getSelectionModel().select(tipo);
 	}
 	
@@ -282,9 +289,23 @@ public class ControllerInsertTask {
 		votoField.textProperty().addListener(new ChangeListener<String>() {
 			@Override
 			public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-				if (!newValue.matches("\\d*")) {
-					votoField.setText(newValue.replaceAll("[^\\d]", ""));
-				}
+				 if (!newValue.matches("\\d{0,7}([\\.]\\d{0,4})?")) {
+					 votoField.setText(oldValue);
+	            }
+				if(!votoField.getText().isEmpty()) {
+					System.out.println(newValue);
+		    		if(Double.parseDouble(votoField.getText()) > maxVoto
+		    				|| Double.parseDouble(votoField.getText()) < minVoto) {
+		    			votoField.setStyle("-jfx-focus-color: red; -jfx-unfocus-color: red");
+		    			votoField.setStyle("-jfx-focus-color: red; -jfx-unfocus-color: red");
+		    			insertBtn.setDisable(true);
+			    	}
+			    	else {
+			    		votoField.setStyle("");
+			    		votoField.setStyle("");
+			    		insertBtn.setDisable(false);
+			    	}
+		    	}
 			}
 		});
 	}
@@ -477,6 +498,9 @@ public class ControllerInsertTask {
 						MetaData.cm.loadNoteBoard();
 					}
 				} else {
+					if(task.getData().isEqual(LocalDate.now().plus(1, ChronoUnit.DAYS))) {
+						MetaData.cm.runNotification();
+					}
 					MetaData.cod.reloadAttivita();
 					MetaData.cod.populatePanes();
 					MetaData.cm.loadNoteBoard();

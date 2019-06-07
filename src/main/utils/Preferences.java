@@ -1,12 +1,5 @@
 package main.utils;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Locale;
-
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import main.application.Main;
 import main.application.models.Config;
 
@@ -14,33 +7,40 @@ public final class Preferences {
     public static String defaultLang;
     public static String votoMin;
     public static String votoMax;
+    public static boolean notificaCompiti;
+    public static boolean notificaVerifiche;
+    public static boolean notificaInterrogazioni;
     
     static {
-    	defaultLang = Config.getString(Main.USERCONFIG, "selectedLanguage") == null ? "Italiano": Config.getString(Main.USERCONFIG, "selectedLanguage");
+    	defaultLang = Config.getString(Main.APPCONFIG, "selectedLanguage") == null ? "Italiano": Config.getString(Main.APPCONFIG, "selectedLanguage");
     }
     
     public static void loadPreferences() {
-    	String app = Config.getString(Main.USERCONFIG, Main.utente.getUsername()+"-votoMin");
+    	String app = Config.getString(Main.USERCONFIG, "votoMin");
     	if(app == null) {
     		votoMin = "0";
-    		Config.userConfig.setProperty(Main.utente.getUsername()+"-votoMin", votoMin);
+    		Config.userConfig.setProperty("votoMin", votoMin);
     		Utils.saveProperties(Main.USERCONFIG, true);
     	}
     	else {
     		votoMin = app; 
     	}
-    	app = Config.getString(Main.USERCONFIG, Main.utente.getUsername()+"-votoMax");
+    	app = Config.getString(Main.USERCONFIG, "votoMax");
     	if(app == null) {
     		votoMax = "10";
-    		Config.userConfig.setProperty(Main.utente.getUsername()+"-votoMax", votoMax);
+    		Config.userConfig.setProperty("votoMax", votoMax);
        		Utils.saveProperties(Main.USERCONFIG, true);
     	}
     	else {
     		votoMax = app;
     	}
+    	notificaCompiti = Config.getBoolean(Main.USERCONFIG, "compitiPerCasaNotifica");
+    	notificaVerifiche = Config.getBoolean(Main.USERCONFIG, "verificaNotifica");
+    	notificaInterrogazioni = Config.getBoolean(Main.USERCONFIG, "interrogazioneNotifica");
     }
  
     public static String showPreferences() {
     	return "Preferences: linguaggio di default = "+defaultLang+" votoMin = "+votoMin+" votoMax = "+votoMax;
     }
+    
 }

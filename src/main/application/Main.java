@@ -12,6 +12,7 @@ public class Main extends Application {
 	public static String selectedOsName;
 	public final static String CONFIG = "config";
 	public final static String DBINFO = "databaseinfo";
+	public final static String APPCONFIG = "appconfig";
 	public final static String USERCONFIG = "userconfig";
 	
 	public static void main(String[] args) {
@@ -22,7 +23,7 @@ public class Main extends Application {
 	public void start(Stage stage){
 			Console.print("Initializing application", "app");
 			Config.config = Utils.readProperties(CONFIG);
-			Config.userConfig = Utils.readProperties(USERCONFIG);	
+			Config.appConfig = Utils.readProperties(APPCONFIG);	
 			Config.databaseinfo = Utils.readProperties(DBINFO);
 			new SimplerSchoolTool(null);
 		//	Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");

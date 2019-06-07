@@ -7,8 +7,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.Properties;
+
+import javax.swing.filechooser.FileSystemView;
+
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
@@ -49,14 +51,47 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 import main.application.Main;
 import main.application.models.Config;
-import main.application.models.MetaData;
-import main.application.models.OrarioSettimanale;
-import main.application.models.SchoolTask;
 
 public class Utils {
 	private static String config = "src/main/resources/config/config.properties";
-	private static String userConfig = "src/main/resources/config/userconfig.properties";
+	private static String appConfig = "src/main/resources/config/appconfig.properties";
 	private static String databaseinfo = "src/main/resources/config/databaseinfo.properties";
+	private static String userconfig;
+	
+	public static void readUserProperties() {
+		String documentPath = FileSystemView.getFileSystemView().getDefaultDirectory().getPath()+
+				"/Simpler_School/users/"+Main.utente.getUserid();
+		File userFolder = new File(documentPath);
+		Properties prop = new Properties();
+		if(!userFolder.exists()) {
+			Console.print("Documents user folder not found. Created new one", "config");
+			userFolder.mkdirs();
+		}
+		try {
+			userconfig = documentPath+"/userconfig.properties";
+			File userCfg = new File(userconfig);
+			if(!userCfg.exists()) {
+				Console.print("userconfig.properties not found. Created new one", "config");
+				userCfg.createNewFile();
+				prop.setProperty("selectedOrarioSettimanale", "");
+				prop.setProperty("votoMax", "");
+				prop.setProperty("votoMin", "");
+				prop.setProperty("compitiPerCasaNotifica", "true");
+				prop.setProperty("verificaNotifica", "true");
+				prop.setProperty("interrogazioneNotifica", "true");
+				FileOutputStream fos = new FileOutputStream(userCfg);
+				prop.store(fos, null);
+				fos.close();
+			}
+			FileInputStream fit = new FileInputStream(userCfg);
+			prop.load(fit);
+			fit.close();
+			Config.userConfig = prop;
+			Console.print(Main.utente.getUserid()+ " userconfig loaded", "config");
+		} catch (Exception e) {
+			Console.print("Exception: " + e, "exception");
+		}
+	}
 	
 	public static Properties readProperties(String configName) {
 		Properties prop = new Properties();
@@ -65,23 +100,28 @@ public class Utils {
 		case "config":
 			configPath = config;
 			break;
-		case "userconfig":
-			configPath = userConfig;
+		case "appconfig":
+			configPath = appConfig;
 			break;
 		case "databaseinfo":
 			configPath = databaseinfo;
+			break;
+		case "userconfig":
+			configPath = userconfig;
 			break;
 		default:
 			Console.print(configName + " - no such properties file found", "config");
 			break;
 		}
-		try {
-			FileInputStream fit = new FileInputStream(configPath);
-			prop.load(fit);
-			fit.close();
-			Console.print(configName + " loaded", "config");
-		} catch (Exception e) {
-			Console.print("Exception: " + e, "exception");
+		if(!configPath.equals("")) {
+			try {
+				FileInputStream fit = new FileInputStream(configPath);
+				prop.load(fit);
+				fit.close();
+				Console.print(configName + " loaded", "config");
+			} catch (Exception e) {
+				Console.print("Exception: " + e, "exception");
+			}
 		}
 		return prop;
 	}
@@ -95,13 +135,17 @@ public class Utils {
 			configPath = config;
 			p = Config.config;
 			break;
-		case "userconfig":
-			configPath = userConfig;
-			p = Config.userConfig;
+		case "appconfig":
+			configPath = appConfig;
+			p = Config.appConfig;
 			break;
 		case "databaseinfo":
 			configPath = databaseinfo;
 			p = Config.databaseinfo;
+			break;
+		case "userconfig":
+			configPath = userconfig;
+			p = Config.userConfig;
 			break;
 		default:
 			Console.print(configName + " - no such properties file found", "config");
@@ -370,17 +414,6 @@ public class Utils {
 			}).start();
 		});
 		fadeInTimeline.play();
-	}
-
-	/*
-	 * Questo metodo serve per controllare e validare le attivita' se la materia di
-	 * un'attivita' viene spostata oppure rimossa nell'orario settimanale tale
-	 * attivita' verra considerata invalida e quindi viene rimossa dal database
-	 */
-	public static boolean checkInvalidTasks(ArrayList<SchoolTask> attivita) {
-		OrarioSettimanale os = MetaData.os;
-		os.toString();
-		return false;
 	}
 
 	public static boolean charArrayContains(char[] chars, char letter) {

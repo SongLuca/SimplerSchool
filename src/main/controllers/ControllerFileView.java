@@ -7,7 +7,6 @@ import java.util.LinkedHashMap;
 import org.apache.commons.io.FileUtils;
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXListView;
-import com.jfoenix.controls.JFXSpinner;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -16,11 +15,9 @@ import javafx.scene.control.Tooltip;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.Priority;
-import javafx.scene.layout.StackPane;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import main.application.Main;
@@ -31,15 +28,6 @@ import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerFileView {
-	@FXML
-	private AnchorPane anchorPane;
-
-	@FXML
-	private StackPane stackPane;
-
-	@FXML
-	private JFXSpinner loading;
-	
     @FXML
     private Label hintLbl, title;
     
@@ -72,7 +60,6 @@ public class ControllerFileView {
 	}
 	
 	public void initLangBindings() {
-		title.setText(LanguageBundle.get("fileList"));
 		hintLbl.setText(LanguageBundle.get("fileViewHint"));
 		closeBtn.setText(LanguageBundle.get("close"));
 	}

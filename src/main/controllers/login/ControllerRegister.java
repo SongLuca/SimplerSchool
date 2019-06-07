@@ -143,8 +143,8 @@ public class ControllerRegister {
 			registerPane.setEffect(null);
 			if (registerTask.getValue()) {
 				Console.print(u.getUsername(), "");
-				Config.userConfig.setProperty(u.getUsername()+"-selectedOrarioSettimanale", "");
-				Utils.saveProperties(Main.USERCONFIG, true);
+				Config.userConfig.setProperty("selectedOrarioSettimanale", "");
+				Utils.saveProperties(Main.APPCONFIG, true);
 				openRegCompleted(event);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());

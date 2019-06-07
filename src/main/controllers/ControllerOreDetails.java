@@ -79,7 +79,6 @@ public class ControllerOreDetails {
 		MetaData.cod = this;
 		setMateria(MetaData.materiaSelected);
 		initInfoBox();
-		populatePanes();
 		initLangBindings();
 	}
 	
@@ -160,7 +159,7 @@ public class ControllerOreDetails {
 			interrBox.getChildren().clear();
 			allegatoBox.getChildren().clear();
 			for (SchoolTask task : attivita) {
-				if (task.getMateriaNome().equalsIgnoreCase(materia)) {
+				if (task.getMateriaNome().equalsIgnoreCase(materia) && task.getData().isEqual(data)) {
 					if (task.getTipo().equalsIgnoreCase("Compiti per casa")) {
 						compitiCount++;
 						attivitaBoxController c = loadTaskBox(compitiBox, compitiCount);
@@ -200,6 +199,14 @@ public class ControllerOreDetails {
 					}
 				}
 			}
+			if(compitiCount>0)
+				compitiTab.setText(LanguageBundle.get("compitiPerCasa") + "("+ compitiCount + ")");
+			if(verificheCount>0)
+				verificheTab.setText(LanguageBundle.get("verifica") + "("+ verificheCount + ")");
+			if(interrCount>0)
+				interrTab.setText(LanguageBundle.get("interrogazione") + "("+ interrCount + ")");
+			if(allegatoCount>0)
+				allegatiTab.setText(LanguageBundle.get("allegatoFile") + "("+ allegatoCount + ")");
 		}
 	}
 
@@ -278,7 +285,7 @@ public class ControllerOreDetails {
 			cit.setMode("insert");
 			cit.setMateriaBox(materia);
 			cit.setDatePicker(data);
-			cit.setTipoBox(tabPane.getSelectionModel().getSelectedItem().getText());
+			cit.setTipoBox(tabPane.getSelectionModel().getSelectedIndex());
 			cit.fixedMateria();
 			window.show();
 		} catch (Exception e1) {

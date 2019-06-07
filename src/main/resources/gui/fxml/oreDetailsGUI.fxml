@@ -70,10 +70,10 @@
       </JFXTabPane>
       <HBox alignment="CENTER_RIGHT" layoutX="14.0" layoutY="381.0" prefHeight="65.0" prefWidth="200.0" spacing="10.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0">
          <children>
-            <JFXButton fx:id="newTaskBtn" onMouseClicked="#newTask" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="New task..." />
-            <JFXButton fx:id="expandBtn" onMouseClicked="#expandAll" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Expand all" />
-            <JFXButton fx:id="collapseBtn" onMouseClicked="#collapseAll" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Collapse all" />
-            <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="50.0" prefWidth="100.0" styleClass="customButton" text="Close" />
+            <JFXButton fx:id="newTaskBtn" onMouseClicked="#newTask" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="New task..." />
+            <JFXButton fx:id="expandBtn" onMouseClicked="#expandAll" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Expand all" />
+            <JFXButton fx:id="collapseBtn" onMouseClicked="#collapseAll" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Collapse all" />
+            <JFXButton fx:id="closeBtn" onMouseClicked="#close" prefHeight="50.0" prefWidth="120.0" styleClass="customButton" text="Close" />
          </children>
       </HBox>
       <JFXSpinner fx:id="loading" layoutX="260.0" layoutY="260.0" prefHeight="80.0" prefWidth="80.0" visible="false" />

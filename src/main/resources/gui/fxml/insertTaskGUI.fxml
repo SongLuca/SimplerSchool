@@ -37,7 +37,7 @@
                   <HBox fx:id="votoBox" alignment="CENTER" prefHeight="49.0" prefWidth="300.0" spacing="10.0">
                      <children>
                         <Label fx:id="votoLbl" prefHeight="30.0" prefWidth="45.0" text="Voto" />
-                        <JFXTextField fx:id="votoField" />
+                        <JFXTextField fx:id="votoField" labelFloat="true" />
                      </children>
                      <padding>
                         <Insets left="50.0" />

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXSpinner?>
+<?import com.jfoenix.controls.JFXTextField?>
+<?import com.jfoenix.controls.JFXTreeTableView?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane fx:id="content" prefHeight="600.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.171" fx:controller="main.controllers.ControllerFilesOverview">
+   <children>
+      <JFXTreeTableView fx:id="filesTableView" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="15.0" AnchorPane.rightAnchor="15.0" AnchorPane.topAnchor="50.0" />
+      <JFXSpinner fx:id="loading" layoutX="250.0" layoutY="250.0" prefHeight="100.0" prefWidth="100.0" visible="false" />
+      <JFXTextField fx:id="searchField" layoutX="438.0" layoutY="14.0" promptText="Search here" />
+      <Label fx:id="fileCount" layoutX="15.0" layoutY="11.0" prefHeight="30.0" prefWidth="343.0" text="Attached files ()" />
+   </children>
+</AnchorPane>
