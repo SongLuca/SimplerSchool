@@ -23,6 +23,7 @@ import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.control.DateCell;
 import javafx.scene.control.Label;
 import javafx.scene.control.SelectionMode;
 import javafx.scene.input.DragEvent;
@@ -253,6 +254,14 @@ public class ControllerInsertTask {
 		for (Materia m : materie) {
 			materiaBox.getItems().add(m.getNome());
 		}
+		
+		datePicker.setDayCellFactory(picker -> new DateCell() {
+			@Override
+			public void updateItem(LocalDate date, boolean empty) {
+				super.updateItem(date, empty);
+				setDisable(empty || date.getDayOfWeek() == DayOfWeek.SUNDAY);
+			}
+		});
 
 		datePicker.setValue(LocalDate.now());
 

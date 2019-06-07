@@ -156,6 +156,8 @@ public class ControllerLogin {
 				Utils.saveProperties(Main.APPCONFIG, true);
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
+				loading.setVisible(false);
+				loginPane.setEffect(null);
 				loginPane.setDisable(false);
 			}
 		});
@@ -194,7 +196,6 @@ public class ControllerLogin {
 			rememberMe.setSelected(false);
 		}
 		loading.setVisible(false);
-		passField.setText("12345");
 	}
 
 	/***********************************************/

@@ -1,44 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.chart.BarChart?>
 <?import javafx.scene.chart.CategoryAxis?>
-<?import javafx.scene.chart.LineChart?>
 <?import javafx.scene.chart.NumberAxis?>
 <?import javafx.scene.chart.PieChart?>
-<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
-<AnchorPane fx:id="contentPane" prefHeight="716.0" prefWidth="1214.0" styleClass="contentPane" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerStatistics">
+<AnchorPane fx:id="contentPane" minHeight="692.0" minWidth="1214.0" prefHeight="358.0" prefWidth="1214.0" styleClass="contentPane" stylesheets="@../css/application.css" xmlns="http://javafx.com/javafx/10.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="main.controllers.ControllerStatistics">
    <children>
-      <LineChart fx:id="lineChart" layoutX="116.0" layoutY="24.0" prefHeight="299.0" prefWidth="427.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </LineChart>
-      <PieChart fx:id="pieChart" layoutX="671.0" layoutY="24.0" prefHeight="289.0" prefWidth="379.0" />
-      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <JFXButton prefHeight="60.0" prefWidth="100.0" text="General" />
-            <JFXButton prefHeight="60.0" prefWidth="100.0" text="Performance" />
-            <JFXButton prefHeight="60.0" prefWidth="100.0" />
-            <JFXButton prefHeight="60.0" prefWidth="100.0" />
-            <JFXButton prefHeight="60.0" prefWidth="100.0" />
-            <Label alignment="CENTER" prefHeight="85.0" prefWidth="127.0" text="Performance" />
+            <HBox prefHeight="346.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="346.0" prefWidth="607.0" style="-fx-border-width: 2 2 2 2; -fx-border-color: #e2e2e2;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <BarChart fx:id="barChart1" prefHeight="342.0" prefWidth="490.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+                           <xAxis>
+                              <CategoryAxis side="BOTTOM" />
+                           </xAxis>
+                           <yAxis>
+                              <NumberAxis side="LEFT" />
+                           </yAxis>
+                        </BarChart>
+                     </children>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="346.0" prefWidth="607.0" style="-fx-border-width: 2 2 2 2; -fx-border-color: #e2e2e2;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <PieChart fx:id="pieChart" prefHeight="289.0" prefWidth="379.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0" />
+                     </children>
+                  </AnchorPane>
+               </children>
+            </HBox>
+            <HBox prefHeight="346.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
+               <children>
+                  <AnchorPane prefHeight="346.0" prefWidth="607.0" style="-fx-border-width: 2 2 2 2; -fx-border-color: #e2e2e2;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <PieChart fx:id="pieChart1" prefHeight="289.0" prefWidth="379.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0" />
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </AnchorPane>
+                  <AnchorPane prefHeight="346.0" prefWidth="607.0" style="-fx-border-width: 2 2 2 2; -fx-border-color: #e2e2e2;" HBox.hgrow="ALWAYS">
+                     <children>
+                        <BarChart fx:id="barChart" prefHeight="342.0" prefWidth="490.0" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="50.0" AnchorPane.rightAnchor="50.0" AnchorPane.topAnchor="20.0">
+                          <xAxis>
+                            <CategoryAxis side="BOTTOM" />
+                          </xAxis>
+                          <yAxis>
+                            <NumberAxis side="LEFT" />
+                          </yAxis>
+                        </BarChart>
+                     </children>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
+                  </AnchorPane>
+               </children>
+            </HBox>
          </children>
       </VBox>
-      <PieChart fx:id="pieChart1" layoutX="164.0" layoutY="343.0" prefHeight="289.0" prefWidth="379.0" />
-      <BarChart fx:id="barChart" layoutX="663.0" layoutY="350.0" prefHeight="342.0" prefWidth="490.0">
-        <xAxis>
-          <CategoryAxis side="BOTTOM" />
-        </xAxis>
-        <yAxis>
-          <NumberAxis side="LEFT" />
-        </yAxis>
-      </BarChart>
    </children>
 </AnchorPane>

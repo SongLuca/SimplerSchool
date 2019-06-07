@@ -226,7 +226,7 @@ public class ControllerMain {
 				.text(text)
 				.graphic(null)
 				.hideAfter(Duration.seconds(10))
-				.position(Pos.BOTTOM_LEFT)
+				.position(Pos.BOTTOM_RIGHT)
 				.onAction(e -> System.out.println("Notification clicked on!"));
 		notificationBuidler.showInformation();
 	}

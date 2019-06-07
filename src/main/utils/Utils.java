@@ -74,8 +74,8 @@ public class Utils {
 				Console.print("userconfig.properties not found. Created new one", "config");
 				userCfg.createNewFile();
 				prop.setProperty("selectedOrarioSettimanale", "");
-				prop.setProperty("votoMax", "");
-				prop.setProperty("votoMin", "");
+				prop.setProperty("votoMax", "10");
+				prop.setProperty("votoMin", "0");
 				prop.setProperty("compitiPerCasaNotifica", "true");
 				prop.setProperty("verificaNotifica", "true");
 				prop.setProperty("interrogazioneNotifica", "true");

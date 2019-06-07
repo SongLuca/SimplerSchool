@@ -10,7 +10,6 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
 import javafx.scene.chart.BarChart;
-import javafx.scene.chart.LineChart;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Tooltip;
@@ -30,11 +29,9 @@ public class ControllerStatistics {
 	@FXML
 	private AnchorPane contentPane;
 	@FXML
-	private LineChart<String, Number> lineChart;
-	@FXML
 	private PieChart pieChart, pieChart1;
 	@FXML
-	private BarChart<String, Number> barChart;
+	private BarChart<String, Number> barChart, barChart1;
 
 	private ArrayList<SchoolTask> attivita;
 	private ArrayList<Materia> materie;
@@ -135,33 +132,61 @@ public class ControllerStatistics {
 	}
 
 	public void lineChart() {
-		ArrayList<Integer> taskCounts = new ArrayList<Integer>();
-		for (int i = 0; i < 12; i++) {
-			taskCounts.add(0);
-		}
+		HashMap<String, ArrayList<Integer>> mediaVoti = new HashMap<String, ArrayList<Integer>>();
 		for (SchoolTask task : attivita) {
-			int month = task.getData().getMonth().getValue() - 1;
-			taskCounts.set(month, taskCounts.get(month) + 1);
+			if (!mediaVoti.containsKey(task.getMateriaNome()))
+				mediaVoti.put(task.getMateriaNome(), new ArrayList<Integer>());
+			if (task.getTipo().equals("Verifica") || task.getTipo().equals("Interrogazione")) {
+				if (task.getVoto() > -1) {
+					mediaVoti.get(task.getMateriaNome()).add(task.getVoto());
+				}
+			}
 		}
-		lineChart.getXAxis().setLabel("Month");
-		lineChart.getXAxis().setAnimated(false);
-		lineChart.getYAxis().setAnimated(false);
-		lineChart.setTitle("iron man died");
-		XYChart.Series<String, Number> series = new XYChart.Series<String, Number>();
-		series.setName("attivita");
-		series.getData().add(new XYChart.Data<String, Number>("Jan", taskCounts.get(0)));
-		series.getData().add(new XYChart.Data<String, Number>("Feb", taskCounts.get(1)));
-		series.getData().add(new XYChart.Data<String, Number>("Mar", taskCounts.get(2)));
-		series.getData().add(new XYChart.Data<String, Number>("Apr", taskCounts.get(3)));
-		series.getData().add(new XYChart.Data<String, Number>("May", taskCounts.get(4)));
-		series.getData().add(new XYChart.Data<String, Number>("Jun", taskCounts.get(5)));
-		series.getData().add(new XYChart.Data<String, Number>("Jul", taskCounts.get(6)));
-		series.getData().add(new XYChart.Data<String, Number>("Aug", taskCounts.get(7)));
-		series.getData().add(new XYChart.Data<String, Number>("Sep", taskCounts.get(8)));
-		series.getData().add(new XYChart.Data<String, Number>("Oct", taskCounts.get(9)));
-		series.getData().add(new XYChart.Data<String, Number>("Nov", taskCounts.get(10)));
-		series.getData().add(new XYChart.Data<String, Number>("Dec", taskCounts.get(11)));
-		lineChart.getData().add(series);
+
+		barChart1.setTitle("Media Voti");
+		barChart1.getXAxis().setLabel("Materie");
+		barChart1.getYAxis().setLabel("Media");
+		barChart1.getXAxis().setAnimated(false);
+		barChart1.getYAxis().setAnimated(false);
+		XYChart.Series<String, Number> media = new XYChart.Series<String, Number>();
+		for (String key : mediaVoti.keySet()) {
+			media.getData().add(new XYChart.Data<String, Number>(key, calcolaMedia(mediaVoti.get(key))));
+		}
+		barChart1.getData().add(media);
+		for (XYChart.Series<String, Number> s : barChart1.getData()) {
+			for (XYChart.Data<String, Number> d : s.getData()) {
+				Tooltip tooltip = new Tooltip();
+				tooltip.setText(d.getYValue() + "");
+				// Adding class on hover
+				d.getNode().setOnMouseEntered(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent me) {
+						if (me.getSource() instanceof Node) {
+							Node sender = (Node) me.getSource();
+							Tooltip.install(sender, tooltip);
+							sender.setEffect(new Glow(0.5));
+						}
+					}
+				});
+				d.getNode().setOnMouseExited(new EventHandler<MouseEvent>() {
+					@Override
+					public void handle(MouseEvent me) {
+						if (me.getSource() instanceof Node) {
+							Node sender = (Node) me.getSource();
+							sender.setEffect(null);
+							tooltip.hide();
+						}
+					}
+				});
+			}
+		}
+	}
+
+	public double calcolaMedia(ArrayList<Integer> media) {
+		double somma = 0;
+		for (int i = 0; i < media.size(); i++)
+			somma += media.get(i);
+		return somma / media.size();
 	}
 
 	public void pieChart() {
@@ -180,13 +205,13 @@ public class ControllerStatistics {
 			}
 		}
 		ObservableList<PieChart.Data> pieChartData = FXCollections.observableArrayList();
-		if(compitiCount != 0)
+		if (compitiCount != 0)
 			pieChartData.add(new PieChart.Data("Compiti per casa", compitiCount));
-		if(verificheCount !=0)
+		if (verificheCount != 0)
 			pieChartData.add(new PieChart.Data("Verifica", verificheCount));
-		if(interrCount !=0)
+		if (interrCount != 0)
 			pieChartData.add(new PieChart.Data("Interrogazione", interrCount));
-			
+
 		pieChart.setTitle("Tipo attivita");
 		pieChart.setData(pieChartData);
 		pieChart.setLabelLineLength(10);
@@ -271,8 +296,8 @@ public class ControllerStatistics {
 			});
 		});
 
-	// pieChart1.setLegendSide(Side.LEFT);
-	// pieChart1.setLabelsVisible(false);
+		// pieChart1.setLegendSide(Side.LEFT);
+		// pieChart1.setLabelsVisible(false);
 	}
 
 	public String getMateriaNomeById(int id) {
