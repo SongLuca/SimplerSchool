@@ -22,9 +22,9 @@ import javafx.stage.DirectoryChooser;
 import javafx.stage.Stage;
 import main.application.Main;
 import main.application.models.Allegato;
+import main.application.models.Config;
 import main.utils.Console;
 import main.utils.LanguageBundle;
-import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerFileView {
@@ -87,7 +87,7 @@ public class ControllerFileView {
 		ImageView btnImage = new ImageView();
 		
 		public customCell() {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "downloadImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "downloadImagePath")).getFile();
 			btnImage.setImage(new Image(img));
 			btnImage.setFitWidth(15);
 			btnImage.setFitHeight(15);

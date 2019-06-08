@@ -41,6 +41,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.text.Text;
 import javafx.stage.DirectoryChooser;
 import main.application.Main;
+import main.application.models.Config;
 import main.application.models.MetaData;
 import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
@@ -247,7 +248,7 @@ public class ControllerFilesOverview {
         DownloadButton(String filePath) {
         	super();
         	ImageView btnImage = new ImageView();
-        	String img = Utils.getFileURIByPath(Main.CONFIG, "downloadImagePath").toString();
+        	String img = getClass().getResource(Config.getString(Main.CONFIG, "downloadImagePath")).toExternalForm();
         	btnImage.setImage(new Image(img));
 			btnImage.setFitWidth(25);
 			btnImage.setFitHeight(25);

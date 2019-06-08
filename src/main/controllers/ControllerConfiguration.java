@@ -80,7 +80,7 @@ public class ControllerConfiguration {
 				String lang = selected.substring(0, 2);
 				LanguageBundle.setLocale(new Locale(lang));
 				Config.appConfig.setProperty("selectedLanguage", selected);
-				Utils.saveProperties(Main.APPCONFIG, true);
+				Utils.saveAppProperties(true);
 				Console.print("Change UI language to " + selected, "GUI");
 			}
 			if(!themeBox.getSelectionModel().getSelectedItem().equals(Preferences.theme)) {
@@ -104,7 +104,7 @@ public class ControllerConfiguration {
 			Config.userConfig.setProperty("compitiPerCasaNotifica", notificaHomework.isSelected() + "");
 			Config.userConfig.setProperty("verificaNotifica", notificaExam.isSelected() + "");
 			Config.userConfig.setProperty("interrogazioneNotifica", notificaOral.isSelected() + "");
-			Utils.saveProperties(Main.USERCONFIG, true);
+			Utils.saveUserProperties(true);
 			Preferences.loadPreferences();
 			Utils.popUpDialog(root, subContentPane, LanguageBundle.get("message"), LanguageBundle.get("changesSaved"));
 			MetaData.cm.loadNoteBoard();

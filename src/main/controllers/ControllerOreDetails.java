@@ -1,8 +1,6 @@
 package main.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import com.jfoenix.controls.JFXButton;
@@ -29,7 +27,6 @@ import main.application.models.SchoolTask;
 import main.database.DataBaseHandler;
 import main.utils.Console;
 import main.utils.LanguageBundle;
-import main.utils.Utils;
 import main.utils.WindowStyle;
 import javafx.scene.control.TitledPane;
 
@@ -212,8 +209,7 @@ public class ControllerOreDetails {
 
 	public attivitaBoxController loadTaskBox(VBox pane, int count) {
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, "attivitaBoxFXML")).toURI().toURL();
-			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "attivitaBoxFXML")));
 			TitledPane content = fxmlLoader.load();
 			content.setText("N." + count);
 			pane.getChildren().add(content);
@@ -272,7 +268,7 @@ public class ControllerOreDetails {
 		Console.print("Opening insert window materia: " + materia, "gui");
 		try {
 			CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "insertTaskFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "insertTaskFXML")));
 			AnchorPane contentPane = fxmlLoader.load();
 			window.setContent(contentPane);
 			window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"), 

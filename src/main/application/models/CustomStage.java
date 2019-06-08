@@ -1,8 +1,5 @@
 package main.application.models;
-
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -18,7 +15,6 @@ import javafx.stage.StageStyle;
 import main.application.Main;
 import main.utils.LanguageBundle;
 import main.utils.Preferences;
-import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class CustomStage{
@@ -26,8 +22,7 @@ public class CustomStage{
 	private FXMLLoader fxmlLoader, contentfxmlLoaderm;
 	
 	public CustomStage(Stage owner) throws Exception {
-		URL fxmlURL = new File(Config.getString(Main.CONFIG, "customStageFXML")).toURI().toURL();
-		fxmlLoader = new FXMLLoader(fxmlURL);
+		fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "customStageFXML")));
 		Parent root = fxmlLoader.load();
 		stage = new Stage();
 		stage.initStyle(StageStyle.TRANSPARENT);
@@ -45,7 +40,7 @@ public class CustomStage{
 	
 	public void loadContent(String FXMLKey) {
 		try {
-			contentfxmlLoaderm = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, FXMLKey).toURL());
+			contentfxmlLoaderm = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, FXMLKey)));
 			AnchorPane contentPane = contentfxmlLoaderm.load();
 			setContent(contentPane);
 		} catch (IOException e) {
@@ -64,7 +59,7 @@ public class CustomStage{
 	
 	public void setIcon(String imageKey) {
 		ImageView icona = (ImageView) fxmlLoader.getNamespace().get("icon");
-		String img = Utils.getFileURIByPath(Main.CONFIG, imageKey).toString();
+		String img = getClass().getResource(Config.getString(Main.CONFIG, imageKey)).toExternalForm();
 		icona.setImage(new Image(img));
 		icona.setFitHeight(25);
 		icona.setFitWidth(25);

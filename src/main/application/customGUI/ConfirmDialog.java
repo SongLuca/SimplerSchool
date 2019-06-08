@@ -1,8 +1,6 @@
 package main.application.customGUI;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import com.jfoenix.controls.JFXButton;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -23,8 +21,7 @@ public class ConfirmDialog{
 	
 	public ConfirmDialog(Stage owner, String msg) {
         try {
-        	URL fxmlURL = new File(Config.getString(Main.CONFIG, "customDialogFXML")).toURI().toURL();
-            FXMLLoader loader = new FXMLLoader(fxmlURL);
+            FXMLLoader loader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "customDialogFXML")));
             Parent root = loader.load();
             stage = new Stage();
             stage.initModality(Modality.APPLICATION_MODAL);

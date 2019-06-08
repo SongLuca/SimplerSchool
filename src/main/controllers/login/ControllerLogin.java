@@ -1,5 +1,6 @@
 package main.controllers.login;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import com.jfoenix.controls.JFXCheckBox;
@@ -59,7 +60,7 @@ public class ControllerLogin {
 	@FXML
 	void openRegister(MouseEvent e1) {
 		try {
-			AnchorPane register = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "registerFXML").toURL());
+			AnchorPane register = FXMLLoader.load(getClass().getResource(Config.getString(Main.CONFIG, "registerFXML")));
 			WindowStyle.setAnchorPaneConstraints(register, 50, 50, 275, 275);
 			register.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -84,7 +85,7 @@ public class ControllerLogin {
 	@FXML
 	void openRecover(MouseEvent e1) {
 		try {
-			AnchorPane recover = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "passwordRecoverFXML").toURL());
+			AnchorPane recover = FXMLLoader.load(getClass().getResource(Config.getString(Main.CONFIG, "passwordRecoverFXML")));
 			WindowStyle.setAnchorPaneConstraints(recover, 50, 50, 275, 275);
 			recover.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -124,6 +125,13 @@ public class ControllerLogin {
 			loginPane.setDisable(false);
 			return false;
 		}
+		
+		File dbFoler = new File(Config.getString(Main.DBINFO, "databaseFolder"));
+		if(!dbFoler.exists()) {
+			Utils.popUpDialog(root, rootPane, "Error", "Could not locate local server folder! Run SSTool to fix the problem");
+			loginPane.setDisable(false);
+			return false;
+		}
 		Task<Boolean> loginValidateTask = new Task<Boolean>() {
 			@Override
 			protected Boolean call() throws Exception {
@@ -153,7 +161,7 @@ public class ControllerLogin {
 					Config.appConfig.setProperty("rememberMe", "false");
 					Config.appConfig.setProperty("rememberedUser", "");
 				}
-				Utils.saveProperties(Main.APPCONFIG, true);
+				Utils.saveAppProperties(true);;
 			} else {
 				Utils.popUpDialog(root, rootPane, "Error", DataBaseHandler.getInstance().getMsg());
 				loading.setVisible(false);

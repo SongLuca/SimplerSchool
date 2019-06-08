@@ -2,9 +2,7 @@ package main.controllers.login;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-
 import com.jfoenix.controls.JFXButton;
-
 import animatefx.animation.ZoomIn;
 import animatefx.animation.ZoomOut;
 import javafx.fxml.FXML;
@@ -14,8 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import main.application.Main;
+import main.application.models.Config;
 import main.utils.LanguageBundle;
-import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerRegCompleted {
@@ -40,7 +38,7 @@ public class ControllerRegCompleted {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(getClass().getResource(Config.getString(Main.CONFIG, "loginFXML")));
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");

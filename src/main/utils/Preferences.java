@@ -21,7 +21,6 @@ public final class Preferences {
     	if(app == null) {
     		votoMin = "0";
     		Config.userConfig.setProperty("votoMin", votoMin);
-    		Utils.saveProperties(Main.USERCONFIG, true);
     	}
     	else {
     		votoMin = app; 
@@ -30,7 +29,6 @@ public final class Preferences {
     	if(app == null) {
     		votoMax = "10";
     		Config.userConfig.setProperty("votoMax", votoMax);
-       		Utils.saveProperties(Main.USERCONFIG, true);
     	}
     	else {
     		votoMax = app;
@@ -39,7 +37,6 @@ public final class Preferences {
     	if(app == null) {
     		theme = "Theme1";
     		Config.userConfig.setProperty("theme", theme);
-       		Utils.saveProperties(Main.USERCONFIG, true);
     	}
     	else {
     		theme = app;

@@ -1,7 +1,6 @@
 package main.controllers;
 
 import com.jfoenix.controls.JFXButton;
-
 import javafx.fxml.FXML;
 import javafx.scene.Cursor;
 import javafx.scene.control.Label;
@@ -12,7 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.Main;
-import main.utils.Utils;
+import main.application.models.Config;
 import main.utils.WindowStyle;
 
 public class ControllerCustomStage {
@@ -44,12 +43,12 @@ public class ControllerCustomStage {
 
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleCloseHoverImagePath")).toExternalForm();
 			titleCloseImage.setImage(new Image(img));
 			contentPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleCloseImagePath")).toExternalForm();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

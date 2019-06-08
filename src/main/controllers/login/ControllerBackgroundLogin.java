@@ -15,9 +15,9 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import main.application.Main;
+import main.application.models.Config;
 import main.tool.SimplerSchoolTool;
 import main.utils.Console;
-import main.utils.Utils;
 import main.utils.WindowStyle;
 
 public class ControllerBackgroundLogin {
@@ -32,7 +32,7 @@ public class ControllerBackgroundLogin {
     private JFXButton italianBtn;
 	void openLogin() {
 		try {
-			AnchorPane loginPane = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "loginFXML").toURL());
+			AnchorPane loginPane = FXMLLoader.load(getClass().getResource(Config.getString(Main.CONFIG, "loginFXML")));
 			WindowStyle.setAnchorPaneConstraints(loginPane, 50, 50, 275, 275);
 			rootPane.getChildren().add(loginPane);
 		} catch (MalformedURLException e) {
@@ -70,11 +70,11 @@ public class ControllerBackgroundLogin {
 
 	public void initTitleBox() {
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleCloseHoverImagePath")).toExternalForm();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleCloseImagePath")).toExternalForm();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleCloseButton.setOnMouseClicked(e -> {

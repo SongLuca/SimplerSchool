@@ -18,6 +18,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import main.application.Main;
+import main.application.models.Config;
 import main.database.DataBaseHandler;
 import main.utils.LanguageBundle;
 import main.utils.Utils;
@@ -49,7 +50,7 @@ public class ControllerPasswordRecover {
 	@FXML
 	void openLogin(MouseEvent e1) {
 		try {
-			AnchorPane login = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "loginFXML").toURL());
+			AnchorPane login = FXMLLoader.load(getClass().getResource(Config.getString(Main.CONFIG, "loginFXML")));
 			WindowStyle.setAnchorPaneConstraints(login, 50, 50, 275, 275);
 			login.setVisible(false);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
@@ -124,7 +125,7 @@ public class ControllerPasswordRecover {
 	
 	public void openRecoverCompleted(MouseEvent e1) {
 		try {
-			AnchorPane regCompleted = FXMLLoader.load(Utils.getFileURIByPath(Main.CONFIG, "regCompletedFXML").toURL());
+			AnchorPane regCompleted = FXMLLoader.load(getClass().getResource(Config.getString(Main.CONFIG, "regCompletedFXML")));
 			WindowStyle.setAnchorPaneConstraints(regCompleted, 50, 50, 275, 275);
 			AnchorPane backgroundLogin = (AnchorPane) ((Node) e1.getSource()).getScene().lookup("#rootPane");
 			Label msgLbl = (Label)regCompleted.lookup("#infoLbl");

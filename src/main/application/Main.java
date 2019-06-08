@@ -1,7 +1,6 @@
 package main.application;
 import javafx.application.Application;
 import javafx.stage.Stage;
-import main.application.models.Config;
 import main.application.models.Utente;
 import main.utils.Console;
 import main.utils.Utils;
@@ -21,9 +20,9 @@ public class Main extends Application {
 	@Override
 	public void start(Stage stage){
 			Console.print("Initializing application", "app");
-			Config.config = Utils.readProperties(CONFIG);
-			Config.appConfig = Utils.readProperties(APPCONFIG);	
-			Config.databaseinfo = Utils.readProperties(DBINFO);
+			Utils.readConfigProperties();
+			Utils.readAppProperties();	
+			Utils.readDBInfoProperties();
 			Utils.loadWindow("backgroundLoginFXML", null, false, "appIconPath", "Simpler School");
 		//	Utils.loadWindow("mainFXML", stage, false, "appIconPath", "appName");
 		//	Utils.loadWindow("materieFXML", null, false, "appIconPath", "Simpler School");

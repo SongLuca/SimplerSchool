@@ -2,7 +2,6 @@ package main.controllers;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -260,8 +259,6 @@ public class ControllerMain {
 			}
 			hamMenuAnimation(menuPane.getPrefWidth() - HAMMENUSIZE, false);
 		} else if (menuPane.getPrefWidth() == 70) {
-			hamMenu.setPrefSize(width + HAMMENUSIZE, height);
-			hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
 			menuVBox.setPrefSize(width + HAMMENUSIZE, menuVBox.getPrefHeight());
 			for (Node button : menuVBox.getChildren()) {
 				((JFXButton) button).setPrefSize(width + HAMMENUSIZE, height);
@@ -299,6 +296,8 @@ public class ControllerMain {
 				LanguageBundle.buttonForValue(profileButton, () -> LanguageBundle.get("profiloBtnTitle", 0));
 				closeButton.setText("Log out");
 				aboutButton.setText("About");
+				hamMenu.setPrefSize(300, 70);
+				hamMenu.setPadding(new Insets(0, HAMMENUSIZE, 0, 0));
 			}
 		});
 	}
@@ -648,7 +647,7 @@ public class ControllerMain {
 				Console.print(selectedOS + " selected", "Gui");
 				os = getOSbyName(selectedOS);
 				Config.userConfig.setProperty("selectedOrarioSettimanale", selectedOS);
-				Utils.saveProperties(Main.USERCONFIG, true);
+				Utils.saveUserProperties(true);
 				for (String giornoK : os.getSettimana().keySet()) {
 					int dayCol = os.getColByGiorno(giornoK);
 					fuseSubjects(calendarGrid, dayCol);
@@ -1008,12 +1007,13 @@ public class ControllerMain {
 	public void openStatistics(MouseEvent e) {
 		if (contentPane.isVisible()) {
 			try {
-				URL fxmlURL = new File(Config.getString(Main.CONFIG, "statisticsFXML")).toURI().toURL();
-				FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+				FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "statisticsFXML")));
 				statistics = fxmlLoader.load();
 				rootPane.getChildren().add(statistics);
 				contentPane.setVisible(false);
 				statisticButton.setId("menuBackButton");
+				menuShadowPane.toFront();
+				menuPane.toFront();
 			} catch (IOException ex) {
 				ex.printStackTrace();
 			}
@@ -1129,7 +1129,7 @@ public class ControllerMain {
 		MetaData.materiaSelected = materia;
 		try {
 			CustomStage window = new CustomStage((Stage) ((Node) event.getSource()).getScene().getWindow());
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "oreDetailsFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "oreDetailsFXML")));
 			AnchorPane contentPane = fxmlLoader.load();
 			window.setContent(contentPane);
 			window.setSize(Config.getDouble(Main.CONFIG, "minWidthOreDetails"),
@@ -1247,34 +1247,34 @@ public class ControllerMain {
 
 	@FXML
 	private ImageView titleHideImage;
-
+	
 	public void initTitleBox() {
 		WindowStyle.stageDimension(prefWidth, prefHeight);
 		titleCloseButton.setOnMouseEntered(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseHoverImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleCloseHoverImagePath")).toExternalForm();
 			titleCloseImage.setImage(new Image(img));
 			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleCloseButton.setOnMouseExited(e -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleCloseImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleCloseImagePath")).toExternalForm();
 			titleCloseImage.setImage(new Image(img));
 		});
 		titleMaxmizeButton.setOnMouseEntered(e1 -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeHoverImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleMaxmizeHoverImagePath")).toExternalForm();
 			titleMaxmizeImage.setImage(new Image(img));
 			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleMaxmizeButton.setOnMouseExited(e1 -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleMaxmizeImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleMaxmizeImagePath")).toExternalForm();
 			titleMaxmizeImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseEntered(e1 -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleHideHoverImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleHideHoverImagePath")).toExternalForm();
 			titleHideImage.setImage(new Image(img));
 			rootPane.getScene().setCursor(Cursor.DEFAULT);
 		});
 		titleHideButton.setOnMouseExited(e1 -> {
-			String img = Utils.getFileURIByPath(Main.CONFIG, "titleHideImagePath").toString();
+			String img = getClass().getResource(Config.getString(Main.CONFIG, "titleHideImagePath")).toExternalForm();
 			titleHideImage.setImage(new Image(img));
 		});
 		titleHideButton.setOnMouseClicked(e -> {

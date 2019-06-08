@@ -1,8 +1,6 @@
 package main.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -238,8 +236,7 @@ public class ControllerMaterie {
 
 	public HBox loadMateriaBox() { // legge il materiabox dal file fxml
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, "materiaBoxFXML")).toURI().toURL();
-			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "materiaBoxFXML")));
 			HBox box = fxmlLoader.load();
 			materieBox.getChildren().add(box);
 			new FadeIn(box).play();

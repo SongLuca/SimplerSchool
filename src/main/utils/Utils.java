@@ -5,18 +5,13 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URL;
+import java.io.InputStream;
+import java.net.URISyntaxException;
 import java.util.Properties;
-
 import javax.swing.filechooser.FileSystemView;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXDialog;
 import com.jfoenix.controls.JFXDialogLayout;
-import javafx.animation.KeyFrame;
-import javafx.animation.KeyValue;
-import javafx.animation.Timeline;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
@@ -25,11 +20,9 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.effect.BoxBlur;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
@@ -48,14 +41,13 @@ import javafx.stage.Popup;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
-import javafx.util.Duration;
 import main.application.Main;
 import main.application.models.Config;
 
 public class Utils {
-	private static String config = "src/main/resources/config/config.properties";
-	private static String appConfig = "src/main/resources/config/appconfig.properties";
-	private static String databaseinfo = "src/main/resources/config/databaseinfo.properties";
+	private static String config = "/main/resources/config/config.properties";
+	private static String appConfig;
+	private static String databaseinfo;
 	private static String userconfig;
 	
 	public static void readUserProperties() {
@@ -94,71 +86,16 @@ public class Utils {
 		}
 	}
 	
-	public static Properties readProperties(String configName) {
-		Properties prop = new Properties();
-		String configPath = "";
-		switch (configName) {
-		case "config":
-			configPath = config;
-			break;
-		case "appconfig":
-			configPath = appConfig;
-			break;
-		case "databaseinfo":
-			configPath = databaseinfo;
-			break;
-		case "userconfig":
-			configPath = userconfig;
-			break;
-		default:
-			Console.print(configName + " - no such properties file found", "config");
-			break;
-		}
-		if(!configPath.equals("")) {
-			try {
-				FileInputStream fit = new FileInputStream(configPath);
-				prop.load(fit);
-				fit.close();
-				Console.print(configName + " loaded", "config");
-			} catch (Exception e) {
-				Console.print("Exception: " + e, "exception");
-			}
-		}
-		return prop;
-	}
-
-	public static void saveProperties(String configName, boolean reload) {
+	public static void saveUserProperties(boolean reload) {
 		FileOutputStream fos;
-		String configPath = "";
-		Properties p = null;
-		switch (configName) {
-		case "config":
-			configPath = config;
-			p = Config.config;
-			break;
-		case "appconfig":
-			configPath = appConfig;
-			p = Config.appConfig;
-			break;
-		case "databaseinfo":
-			configPath = databaseinfo;
-			p = Config.databaseinfo;
-			break;
-		case "userconfig":
-			configPath = userconfig;
-			p = Config.userConfig;
-			break;
-		default:
-			Console.print(configName + " - no such properties file found", "config");
-			break;
-		}
+		Properties p = Config.userConfig;
 		try {
-			fos = new FileOutputStream(configPath);
+			fos = new FileOutputStream(userconfig);
 			p.store(fos, null);
 			fos.close();
-			Console.print(configName + " saved", "config");
+			Console.print("user config saved", "config");
 			if (reload) {
-				readProperties(configName);
+				readUserProperties();
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
@@ -166,14 +103,134 @@ public class Utils {
 			e.printStackTrace();
 		}
 	}
-
+	
+	public static void readAppProperties() {
+		try {
+			Properties prop = new Properties();
+			appConfig = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
+					+"/config/appconfig.properties";
+			File f = new File(appConfig);
+			File cfgFolder = new File(f.getParentFile().getAbsolutePath());
+			if(!cfgFolder.exists()) {
+				cfgFolder.mkdirs();
+			}
+			if(!f.exists()) {
+				f.createNewFile();
+				prop.setProperty("selectedLanguage", "Italiano");
+				prop.setProperty("rememberedUser", "");
+				prop.setProperty("rememberMe", "false");
+				FileOutputStream fos = new FileOutputStream(f);
+				prop.store(fos, null);
+				fos.close();
+			}
+			else {
+				InputStream fit = new FileInputStream(f.getAbsolutePath());
+				prop.load(fit);
+				fit.close();
+			}
+			Config.appConfig = prop;
+			Console.print("app config loaded", "config");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveAppProperties(boolean reload) {
+		FileOutputStream fos;
+		Properties p = Config.appConfig;
+		try {
+			fos = new FileOutputStream(appConfig);
+			p.store(fos, null);
+			fos.close();
+			Console.print("app config saved", "config");
+			if (reload) {
+				readAppProperties();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void readDBInfoProperties() {
+		try {
+			Properties prop = new Properties();
+			databaseinfo = new File(Main.class.getProtectionDomain().getCodeSource().getLocation().toURI()).getParentFile()
+					+"/config/databaseinfo.properties";
+			File f = new File(databaseinfo);
+			File cfgFolder = new File(f.getParentFile().getAbsolutePath());
+			if(!cfgFolder.exists()) {
+				cfgFolder.mkdirs();
+			}
+			if(!f.exists()) {
+				f.createNewFile();
+				prop.setProperty("usernamesql", "admin");
+				prop.setProperty("databasehost", "jdbc:mysql://localhost/simpler_school");
+				prop.setProperty("passwordsql", "8RvrTMUSW2vNvxH");
+				prop.setProperty("databaseFolder", "F:/Software/xampp/htdocs/Simpler_School");
+				FileOutputStream fos = new FileOutputStream(f);
+				prop.store(fos, null);
+				fos.close();
+			}
+			else {
+				InputStream fit = new FileInputStream(f.getAbsolutePath());
+				prop.load(fit);
+				fit.close();
+			}
+			Config.databaseinfo = prop;
+			Console.print("databaseinfo config loaded", "config");
+		} catch (URISyntaxException e) {
+			e.printStackTrace();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void saveDBInfoProperties(boolean reload) {
+		FileOutputStream fos;
+		Properties p = Config.databaseinfo;
+		try {
+			fos = new FileOutputStream(databaseinfo);
+			p.store(fos, null);
+			fos.close();
+			Console.print("daatabaseinfo config saved", "config");
+			if (reload) {
+				readDBInfoProperties();
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public static void readConfigProperties() {
+		Properties prop = new Properties();
+		try {
+			InputStream fit = Utils.class.getResourceAsStream(config);
+			prop.load(fit);
+			fit.close();
+			Config.config = prop;
+			Console.print("config loaded", "config");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public static Object loadWindow(String fxmlProp, Stage primaryStage, boolean resizable, String appIconPath,
 			String title) {
 		Stage stage = null;
 		FXMLLoader fxmlLoader = null;
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
-			fxmlLoader = new FXMLLoader(fxmlURL);
+			//URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
+			fxmlLoader = new FXMLLoader(Utils.class.getResource(Config.getString(Main.CONFIG, fxmlProp)));
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
 			stage.initModality(Modality.WINDOW_MODAL);
@@ -188,7 +245,8 @@ public class Utils {
 			if (resizable)
 				new FXResizeHelper(stage, 5, 5);
 			if (appIconPath != null)
-				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
+				stage.getIcons().add(
+						new Image(Utils.class.getResource(Config.getString(Main.CONFIG, "appIconPath")).toExternalForm()));
 			if (title != null)
 				stage.setTitle(title);
 			stage.show();
@@ -203,8 +261,8 @@ public class Utils {
 			String title) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
-			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+		//	URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource(Config.getString(Main.CONFIG, fxmlProp)));
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
 			stage.initModality(Modality.WINDOW_MODAL);
@@ -219,7 +277,8 @@ public class Utils {
 			if (resizable)
 				new FXResizeHelper(stage, 5, 5);
 			if (appIconPath != null)
-				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
+				stage.getIcons().add(
+						new Image(Utils.class.getResource(Config.getString(Main.CONFIG, "appIconPath")).toExternalForm()));
 			if (title != null)
 				stage.setTitle(title);
 			stage.show();
@@ -234,8 +293,8 @@ public class Utils {
 			String title) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
-			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+		//	URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource(Config.getString(Main.CONFIG, fxmlProp)));
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
 			stage.initModality(Modality.APPLICATION_MODAL);
@@ -246,7 +305,8 @@ public class Utils {
 			if (resizable)
 				new FXResizeHelper(stage, 5, 5);
 			if (appIconPath != null)
-				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
+				stage.getIcons().add(
+						new Image(Utils.class.getResource(Config.getString(Main.CONFIG, "appIconPath")).toExternalForm()));
 			if (title != null)
 				stage.setTitle(title);
 			stage.show();
@@ -261,8 +321,8 @@ public class Utils {
 			double minH) {
 		Stage stage = null;
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
-			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+		//	URL fxmlURL = new File(Config.getString(Main.CONFIG, fxmlProp)).toURI().toURL();
+			FXMLLoader fxmlLoader = new FXMLLoader(Utils.class.getResource(Config.getString(Main.CONFIG, fxmlProp)));
 			Parent root = fxmlLoader.load();
 			stage = new Stage();
 			stage.initStyle(StageStyle.TRANSPARENT);
@@ -281,7 +341,8 @@ public class Utils {
 				new FXResizeHelper(stage, 10, 3);
 				//ResizeHelper.addResizeListener(stage);
 			if (appIconPath != null)
-				stage.getIcons().add(new Image(new File(Config.getString("config", "appIconPath")).toURI().toString()));
+				stage.getIcons().add(
+						new Image(Utils.class.getResource(Config.getString(Main.CONFIG, "appIconPath")).toExternalForm()));
 			if (title != null)
 				stage.setTitle(title);
 			stage.show();
@@ -381,7 +442,7 @@ public class Utils {
 		popup.show(stage);
 	}
 
-	public static void makeText(AnchorPane pane, String toastMsg, int toastDelay, int fadeInDelay, int fadeOutDelay) {
+/*	public static void makeText(AnchorPane pane, String toastMsg, int toastDelay, int fadeInDelay, int fadeOutDelay) {
 		Label text = new Label(toastMsg);
 		StackPane root = new StackPane(text);
 		ImageView iv = new ImageView(new Image(Utils.getFileURIByPath(Main.CONFIG, "doneImagePath").toString()));
@@ -417,7 +478,7 @@ public class Utils {
 			}).start();
 		});
 		fadeInTimeline.play();
-	}
+	}*/
 
 	public static boolean charArrayContains(char[] chars, char letter) {
 		for (char x : chars) {
@@ -428,12 +489,8 @@ public class Utils {
 		return false;
 	}
 
-	public static URI getFileURIByPath(String configName, String path) {
-		return new File(Config.getString(configName, path)).toURI();
-	}
-
 	public static Background imgToBackground(String imgProp) {
-		Image image = new Image(getFileURIByPath(Main.CONFIG, imgProp).toString());
+		Image image = new Image(Utils.class.getResource(Config.getString(Main.CONFIG, imgProp)).getFile());
 		BackgroundSize backgroundSize = new BackgroundSize(100, 100, true, true, true, false);
 		BackgroundImage backgroundImage = new BackgroundImage(image, BackgroundRepeat.REPEAT,
 				BackgroundRepeat.NO_REPEAT, BackgroundPosition.CENTER, backgroundSize);

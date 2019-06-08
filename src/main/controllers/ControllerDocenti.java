@@ -1,11 +1,8 @@
 package main.controllers;
 
-import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
-
 import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXSpinner;
 import com.jfoenix.controls.JFXTextField;
@@ -105,8 +102,7 @@ public class ControllerDocenti {
 	
 	public HBox loadDocenteBox() {
 		try {
-			URL fxmlURL = new File(Config.getString(Main.CONFIG, "docenteBoxFXML")).toURI().toURL();
-			FXMLLoader fxmlLoader = new FXMLLoader(fxmlURL);
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "docenteBoxFXML")));
 			HBox box = fxmlLoader.load();
 			docentiBox.getChildren().add(box);
 			new FadeIn(box).play();

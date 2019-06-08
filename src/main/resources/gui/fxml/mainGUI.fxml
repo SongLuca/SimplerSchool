@@ -209,9 +209,9 @@
                         </JFXButton>
                      </children>
                   </VBox>
+                  <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="0.0" />
                </children>
             </AnchorPane>
-            <JFXHamburger fx:id="hamMenu" onMouseClicked="#hamclicked" prefHeight="70.0" prefWidth="70.0" styleClass="hamMenu" AnchorPane.topAnchor="30.0" />
             <HBox fx:id="titleHBox" layoutX="10.0" layoutY="10.0" maxHeight="30.0" maxWidth="765.0" minHeight="30.0" prefHeight="30.0" prefWidth="765.0" styleClass="titleBox" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
                   <HBox fx:id="titlebar" prefHeight="30.0" prefWidth="703.0" HBox.hgrow="ALWAYS">

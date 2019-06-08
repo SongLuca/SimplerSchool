@@ -103,7 +103,7 @@ public class attivitaBoxController {
 		Console.print("Opening edit task " + idTask + " window", "gui");
 		try {
 			CustomStage window = new CustomStage((Stage) ((Node) e.getSource()).getScene().getWindow());
-			FXMLLoader fxmlLoader = new FXMLLoader(Utils.getFileURIByPath(Main.CONFIG, "insertTaskFXML").toURL());
+			FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(Config.getString(Main.CONFIG, "insertTaskFXML")));
 			AnchorPane contentPane = fxmlLoader.load();
 			window.setContent(contentPane);
 			window.setSize(Config.getDouble(Main.CONFIG, "minWidthInsertTask"), 
