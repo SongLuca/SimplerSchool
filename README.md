@@ -1,15 +1,6 @@
 # SimplerSchool
 TODO LIST<br />
-  implementare funzioni:<br />
-    visualizzazione tutti i voti<br />
-    visualizzazione tutti i file allegati<br />
-    visualizzazione tutte le attivita<br />
-    ...
-    
-    
-  Layout pagina statistica<br />
-  deployment cartella utente<br />
-  deployment in exe<br />
+  GG<br />
   
   
 LIBRERIE:<br />
